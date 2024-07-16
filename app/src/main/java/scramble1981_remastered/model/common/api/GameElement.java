@@ -1,13 +1,16 @@
 package scramble1981_remastered.model.common.api;
 
 import java.awt.image.BufferedImage;
+
+import scramble1981_remastered.model.common.impl.Point2DImpl;
+
 import java.awt.Polygon;
 
 public interface GameElement {
 
-    void updatePosition(Position2D newPosition);
+    void updatePosition(Point2DImpl newPosition);
 
-    Position2D getPosition();
+    Point2DImpl getPosition();
 
     Polygon getHitBox();
 
@@ -16,20 +19,3 @@ public interface GameElement {
     void updateSprite(BufferedImage newSprite);
 
 }
-/*
- * loop[
- * 
- * check next
- * 
- * pos (ora, verso) -> new cord
- * 
- * newcord ->
- * 
- * update pos (setta le cord)
- * ]
- * 
- * 
- * Stati:
- * 
- * - aggiornare posizioni tutti obj a schermo
- */
