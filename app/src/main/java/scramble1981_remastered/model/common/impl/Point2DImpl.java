@@ -1,10 +1,15 @@
 package scramble1981_remastered.model.common.impl;
 
-import java.awt.geom.Point2D;
+import scramble1981_remastered.model.common.api.Point2D;
 
-public class Point2DImpl implements scramble1981_remastered.model.common.api.Point2D {
+public class Point2DImpl implements Point2D {
 
     private int x, y;
+
+    public Point2DImpl(final int x, final int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     @Override
     public int getX() {
@@ -20,6 +25,11 @@ public class Point2DImpl implements scramble1981_remastered.model.common.api.Poi
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void updateLocation(int x, int y) {
+        this.x += x;
+        this.y += y;
     }
 
 }

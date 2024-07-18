@@ -1,22 +1,20 @@
 package scramble1981_remastered.model.common.impl;
 
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import scramble1981_remastered.model.common.api.GameElement;
 
 public class GameElementImpl implements GameElement {
 
-    private Point2DImpl location = new Point2DImpl();
+    private Point2DImpl location;
 
-    private int width, hight;
+    private int width, height;
 
-    public void GameElement(int x, int y, int width, int hight) {
-        this.location.setLocation(x, y);
+    public GameElementImpl(int x, int y, int width, int height) {
+        this.location = new Point2DImpl(x, y);
         this.width = width;
-        this.hight = hight;
+        this.height = height;
     }
 
     @Override
@@ -45,6 +43,18 @@ public class GameElementImpl implements GameElement {
     public void updateSprite(BufferedImage newSprite) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateSprite'");
+    }
+
+    public Point2DImpl getLocation() {
+        return location;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
 }
