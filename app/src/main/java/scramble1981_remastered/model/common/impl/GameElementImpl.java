@@ -1,8 +1,6 @@
 package scramble1981_remastered.model.common.impl;
 
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import scramble1981_remastered.model.common.api.GameElement;
@@ -10,8 +8,9 @@ import scramble1981_remastered.model.common.api.GameElement;
 public class GameElementImpl implements GameElement {
 
     private Point2DImpl location = new Point2DImpl();
-
     private int width, hight;
+    private final Polygon hitBox = new Polygon();
+    // private final BufferedImage sprite
 
     public void GameElement(int x, int y, int width, int hight) {
         this.location.setLocation(x, y);
@@ -29,10 +28,13 @@ public class GameElementImpl implements GameElement {
         return this.location;
     }
 
+    public void initHitbox() {
+
+    }
+
     @Override
     public Polygon getHitBox() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSprite'");
+        return this.hitBox;
     }
 
     @Override
