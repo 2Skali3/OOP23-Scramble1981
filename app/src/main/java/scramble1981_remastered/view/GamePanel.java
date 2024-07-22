@@ -1,5 +1,6 @@
 package scramble1981_remastered.view;
 
+import scramble1981_remastered.model.command.SpaceShipCommand;
 import scramble1981_remastered.model.common.impl.Point2DImpl;
 import scramble1981_remastered.model.map.*;
 import scramble1981_remastered.model.spaceShip.SpaceShip;
@@ -27,11 +28,34 @@ public class GamePanel extends JPanel {
 
     private SpaceShip spaceship;
 
+    /*
+    private Queue<SpaceshipCommand> commandQueue = ...
+    private void checkQueue() {
+        while(true) {
+            if (!commandQueue.empty()) {
+                var command = commandQueue.pop();
+                command.execute();
+            } else {
+                semaphore.wait();
+            }
+        }
+    }
+
+    private void sendCommand(SpaceshipCommand command) {
+        commandQueue.push(command);
+        semaphore.signal();
+    }
+    */
+    public void sendCommand(SpaceShipCommand command) {
+        command.execute();
+    }
+
     public GamePanel() {
         tileMap = new TileMap();
         tileTranslations = new TileTranslations();
         currentStage = LandscapeData.getDataForStage(stage);
         spaceship = new SpaceShip(50, getHeight() / 2, 32, 16);
+        // TODO create new thread that launches checkQueue
     }
 
     public void paintComponent(Graphics g) {

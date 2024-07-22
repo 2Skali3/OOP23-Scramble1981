@@ -7,14 +7,15 @@ import scramble1981_remastered.model.common.api.GameElement;
 
 public class GameElementImpl implements GameElement {
 
-    private Point2DImpl location;
+    private Point2DImpl location = new Point2DImpl();
+    private int width, hight;
+    private final Polygon hitBox = new Polygon();
+    // private final BufferedImage sprite
 
-    private int width, height;
-
-    public GameElementImpl(int x, int y, int width, int height) {
-        this.location = new Point2DImpl(x, y);
+    public void GameElement(int x, int y, int width, int hight) {
+        this.location.setLocation(x, y);
         this.width = width;
-        this.height = height;
+        this.hight = hight;
     }
 
     @Override
@@ -27,10 +28,13 @@ public class GameElementImpl implements GameElement {
         return this.location;
     }
 
+    public void initHitbox() {
+
+    }
+
     @Override
     public Polygon getHitBox() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSprite'");
+        return this.hitBox;
     }
 
     @Override
@@ -43,18 +47,6 @@ public class GameElementImpl implements GameElement {
     public void updateSprite(BufferedImage newSprite) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateSprite'");
-    }
-
-    public Point2DImpl getLocation() {
-        return location;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
 }
