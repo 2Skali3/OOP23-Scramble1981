@@ -3,7 +3,10 @@
  */
 package scramble1981_remastered;
 
-import scramble1981_remastered.view.GameFrame;
+import scramble1981_remastered.model.spaceship.*;
+import scramble1981_remastered.view.*;
+
+import javax.swing.*;
 
 public class App {
     public String getGreeting() {
@@ -11,6 +14,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new GameFrame();
+        Astronave astronave = new Astronave();
+
+        GameView gv = new GameView();
+
     }
 }
