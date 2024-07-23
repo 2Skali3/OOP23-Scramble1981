@@ -16,7 +16,6 @@ public class GamePanel extends JPanel {
     private final static int COLUMN_WIDTH = 16;
     private final static int SCALE_FACTOR = 1; // Scaling factor for heights
 
-    private List<String> currentStage;
     private List<String> map;
     private TileMap tileMap;
     private int scrollX = 0; // Current scroll position
@@ -29,18 +28,31 @@ public class GamePanel extends JPanel {
         command.execute();
     }
 
+    /*
+     * private Queue<SpaceshipCommand> commandQueue = ...
+     * private void checkQueue() {
+     * while(true) {
+     * if (!commandQueue.empty()) {
+     * var command = commandQueue.pop();
+     * command.execute();
+     * } else {
+     * semaphore.wait();
+     * }
+     * }
+     * }
+     * 
+     * private void sendCommand(SpaceshipCommand command) {
+     * commandQueue.push(command);
+     * semaphore.signal();
+     * }
+     */
+
     public GamePanel() {
         tileMap = new TileMap();
         lb = new LevelsBuilder();
         map = LandscapeData.getAllStages();
         level = lb.decodeLandscape(map);
         spaceship = new SpaceShip(50, getHeight() / 2, 32, 16);
-        System.out.println(getHeight());
-    }
-
-    public void setStage(int stage) {
-        currentStage = LandscapeData.getDataForStage(stage);
-        System.out.println(currentStage.size());
     }
 
     public void paintComponent(Graphics g) {
@@ -114,21 +126,19 @@ public class GamePanel extends JPanel {
     private void drawSpaceship(Graphics g) {
         BufferedImage shipSprite = spaceship.getSprite();
         if (shipSprite != null) {
-            g.drawImage(shipSprite, spaceship.getLocation().getX(), spaceship.getLocation().getY(),
+            g.drawImage(shipSprite, spaceship.getPosition().getX(), spaceship.getPosition().getY(),
                     spaceship.getWidth(), spaceship.getHeight(), null);
         }
     }
 
     public void moveSpaceship(int dx, int dy) {
-        Point2DImpl location = spaceship.getLocation();
+        Point2DImpl location = spaceship.getPosition();
         int shipX = location.getX();
         int shipY = location.getY();
         if (shipX + dx < getWidth() / 2 &&
                 shipX + dx > 0 && shipY + dy < getHeight() &&
                 shipY + dy > 0) {
             spaceship.move(dx, dy);
-            System.out.println(getHeight());
-            System.out.println(shipY + dy);
         }
         repaint();
     }

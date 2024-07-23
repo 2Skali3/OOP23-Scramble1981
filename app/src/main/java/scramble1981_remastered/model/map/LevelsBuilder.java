@@ -65,7 +65,6 @@ public class LevelsBuilder {
                 }
             } else {
                 if (stage != 6) {
-                    System.out.println(stage);
                     stage++;
                     pointer++;
                 } else

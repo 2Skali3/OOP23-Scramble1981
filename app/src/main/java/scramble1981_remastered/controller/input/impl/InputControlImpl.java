@@ -43,6 +43,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     @Override
     public void keyMapping() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyMapping'");
+
     }
+
 }

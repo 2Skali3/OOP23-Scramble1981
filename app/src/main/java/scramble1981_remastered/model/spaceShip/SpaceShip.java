@@ -30,7 +30,7 @@ public class SpaceShip extends GameElementImpl {
     }
 
     public void move(int dx, int dy) {
-        getLocation().updateLocation(dx, dy);
+        getPosition().updateLocation(dx, dy);
     }
 
     @Override

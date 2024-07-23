@@ -9,10 +9,11 @@ public class GameElementImpl implements GameElement {
 
     private Point2DImpl location;
     private int width, height;
-    private final Polygon hitBox = new Polygon();
+    private final Polygon hitBox;
 
     public GameElementImpl(int x, int y, int width, int height) {
         this.location = new Point2DImpl(x, y);
+        this.hitBox = new Polygon();
         this.width = width;
         this.height = height;
     }
@@ -46,10 +47,6 @@ public class GameElementImpl implements GameElement {
     public void updateSprite(BufferedImage newSprite) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateSprite'");
-    }
-
-    public Point2DImpl getLocation() {
-        return location;
     }
 
     public int getWidth() {
