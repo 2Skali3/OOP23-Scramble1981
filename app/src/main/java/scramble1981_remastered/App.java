@@ -14,7 +14,8 @@ public class App {
     public static void main(String[] args) {
 
         GameView gv = new GameView();
-        InputControlImpl controller = new InputControlImpl(gv.getLandscape());
+        // final StatesController sc = new StatesController(gv);
+        InputControlImpl controller = new InputControlImpl(gv);
         gv.addKeyListener(controller);
 
     }

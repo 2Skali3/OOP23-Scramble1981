@@ -33,6 +33,7 @@ public class SpaceShip extends GameElementImpl {
         getLocation().updateLocation(dx, dy);
     }
 
+    @Override
     public BufferedImage getSprite() {
         Random random = new Random();
         int num = random.nextInt(8);

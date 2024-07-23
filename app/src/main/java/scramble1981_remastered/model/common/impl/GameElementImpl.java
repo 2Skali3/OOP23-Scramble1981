@@ -8,8 +8,8 @@ import scramble1981_remastered.model.common.api.GameElement;
 public class GameElementImpl implements GameElement {
 
     private Point2DImpl location;
-
     private int width, height;
+    private final Polygon hitBox = new Polygon();
 
     public GameElementImpl(int x, int y, int width, int height) {
         this.location = new Point2DImpl(x, y);
@@ -27,10 +27,13 @@ public class GameElementImpl implements GameElement {
         return this.location;
     }
 
+    public void initHitbox() {
+
+    }
+
     @Override
     public Polygon getHitBox() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSprite'");
+        return this.hitBox;
     }
 
     @Override

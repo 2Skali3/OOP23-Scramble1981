@@ -969,14 +969,30 @@ public class LandscapeData {
 
     public static List<String> getAllStages() {
         List<String> stages = new ArrayList<>();
+        List<String> tmpstage = new ArrayList<>();
+        tmpstage = stage1LandscapeLayout;
+        // tmpstage.remove("0xFF");
+        stages.addAll(tmpstage);
 
-        stages.addAll(stage1LandscapeLayout);
-        stages.addAll(stage2LandscapeLayout);
-        stages.addAll(stage3LandscapeLayout);
-        stages.addAll(stage4LandscapeLayout);
-        stages.addAll(stage5LandscapeLayout);
+        tmpstage = stage2LandscapeLayout;
+        // tmpstage.remove("0xFF");
+        stages.addAll(tmpstage);
+
+        tmpstage = stage3LandscapeLayout;
+        // tmpstage.remove("0xFF");
+        stages.addAll(tmpstage);
+
+        tmpstage = stage4LandscapeLayout;
+        // tmpstage.remove("0xFF");
+        stages.addAll(tmpstage);
+
+        tmpstage = stage5LandscapeLayout;
+        // tmpstage.remove("0xFF");
+        stages.addAll(tmpstage);
+
         stages.addAll(stage6LandscapeLayout);
 
+        // System.out.println(stages.indexOf("0xFF"));
         return stages;
     }
 }
