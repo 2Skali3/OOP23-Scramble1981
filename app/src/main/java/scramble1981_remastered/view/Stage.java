@@ -2,7 +2,7 @@ package scramble1981_remastered.view;
 
 import javax.swing.*;
 
-import scramble1981_remastered.model.spaceship.Astronave;
+import scramble1981_remastered.model.spaceShip.Astronave;
 
 import java.awt.*;
 

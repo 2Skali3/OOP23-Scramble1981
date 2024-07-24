@@ -3,10 +3,8 @@
  */
 package scramble1981_remastered;
 
-import scramble1981_remastered.model.spaceship.*;
+import scramble1981_remastered.model.spaceShip.*;
 import scramble1981_remastered.view.*;
-
-import javax.swing.*;
 
 public class App {
     public String getGreeting() {

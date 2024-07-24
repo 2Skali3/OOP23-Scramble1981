@@ -1,4 +1,4 @@
-package scramble1981_remastered.model.spaceship;
+package scramble1981_remastered.model.spaceShip;
 
 import java.awt.image.BufferedImage;
 
