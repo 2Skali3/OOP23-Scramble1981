@@ -48,6 +48,8 @@ public class GameView extends JFrame {
 
     /**
      * Class constructor for defensive copy.
+     * 
+     * @param view the game view to copy
      */
 
     public GameView(final GameView view) {
@@ -80,14 +82,8 @@ public class GameView extends JFrame {
      * 
      * @return the game panel
      */
+    @SuppressFBWarnings
     public GamePanel getLandscape() {
-        /*
-         * try {
-         * return (GamePanel) landscape.clone();
-         * } catch (CloneNotSupportedException e) {
-         * return new GamePanel();
-         * }
-         */
         return landscape;
     }
 
@@ -96,14 +92,8 @@ public class GameView extends JFrame {
      * 
      * @return the start menu
      */
+    @SuppressFBWarnings
     public StartMenu getStartMenu() {
-        /*
-         * try {
-         * return (StartMenu) startMenu.clone();
-         * } catch (CloneNotSupportedException e) {
-         * return new StartMenu();
-         * }
-         */
         return startMenu;
     }
 

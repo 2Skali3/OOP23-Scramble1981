@@ -11,13 +11,14 @@ import scramble.model.spaceship.SpaceShip;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Game panel that shows the landscape, player, enemies and fuel.
  */
-public class GamePanel extends JPanel implements Cloneable {
+public class GamePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,9 +27,9 @@ public class GamePanel extends JPanel implements Cloneable {
     private static final int SCALE_FACTOR = 1; // Scaling factor for heights
 
     private int scrollX; // Current scroll position
-    private final TileMap tileMap;
+    private final transient TileMap tileMap;
     private final Map<String, List<Map<String, Object>>> level;
-    private final SpaceShip spaceship;
+    private final transient SpaceShip spaceship;
 
     /**
      * Class constructor.
@@ -146,7 +147,7 @@ public class GamePanel extends JPanel implements Cloneable {
     }
 
     /**
-     * Getter for starting X scrolling position
+     * Getter for starting X scrolling position.
      * 
      * @return scrollX
      */
@@ -155,7 +156,7 @@ public class GamePanel extends JPanel implements Cloneable {
     }
 
     /**
-     * Getter for tilemap
+     * Getter for tilemap.
      * 
      * @return tileMap
      */
@@ -164,26 +165,21 @@ public class GamePanel extends JPanel implements Cloneable {
     }
 
     /**
-     * Getter for the level
+     * Getter for the level.
      * 
      * @return level
      */
     public Map<String, List<Map<String, Object>>> getLevel() {
-        return level;
+        return new HashMap<String, List<Map<String, Object>>>(level);
     }
 
     /**
-     * Getter for the spaceship
+     * Getter for the spaceship.
      * 
      * @return the spaceship
      */
     public SpaceShip getSpaceship() {
         return spaceship;
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
 }

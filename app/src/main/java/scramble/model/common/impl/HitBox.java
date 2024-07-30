@@ -5,11 +5,8 @@ import java.awt.Polygon;
 /**
  * This class handles the game element's hit boxes.
  */
-public class HitBox extends Polygon implements Cloneable {
+public class HitBox extends Polygon {
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+    private static final long serialVersionUID = 1L;
 
 }

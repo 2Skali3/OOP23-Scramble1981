@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
  * The start menu with wich the game starts.
  * Loopes through the Scoreboard as well.
  */
-public class StartMenu extends JPanel implements Cloneable {
+public final class StartMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class StartMenu extends JPanel implements Cloneable {
 
     private int sequenceStep;
     private final Font retroFont;
-    private final Scores scores;
+    private final transient Scores scores;
 
     /**
      * Class constructor.
@@ -125,11 +125,6 @@ public class StartMenu extends JPanel implements Cloneable {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         paintBoard(g);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
 }

@@ -12,13 +12,12 @@ import scramble.model.map.LandscapeUtil;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.Serializable;
 
 /**
  * This class handles the spaceship model in the game.
  * It is an implementation of the game element that is controlled by the player.
  */
-public class SpaceShip extends GameElementImpl implements Serializable {
+public final class SpaceShip extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
 

@@ -51,9 +51,4 @@ public class Point2DImpl implements Point2D {
         this.y += y;
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * This class handles the score board.
  * It creates a list to be display in the start menu.
  */
-public class Scores implements Cloneable {
+public class Scores {
 
     private static final int MAX = 9;
     private static final int PTS_STD = 10_000;
@@ -57,8 +57,4 @@ public class Scores implements Cloneable {
         scoresList.clear();
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }

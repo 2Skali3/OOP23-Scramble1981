@@ -29,7 +29,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
      */
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
-        this.gv.addKeyListener(this);
         // Create a timer to scroll the background
         timer = new Timer(100, e -> this.gv.getLandscape().scrollBackground());
     }

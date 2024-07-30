@@ -6,17 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import java.util.logging.Logger;
-import java.io.Serializable;
 
 /**
  * This class handles the tiles loading.
  * To every tile number obtained from the tile translation
  * is linked a tile file in the resources folder.
  */
-public class TileMap implements Serializable {
+public final class TileMap {
     private static final int NTILES = 40;
     private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
-    private static final long serialVersionUID = 1L;
 
     private final Map<Integer, BufferedImage> tiles;
 

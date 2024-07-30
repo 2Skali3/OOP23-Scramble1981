@@ -2,6 +2,7 @@ package scramble.model.common.impl;
 
 import java.awt.image.BufferedImage;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.api.GameElement;
 
 /**
@@ -37,14 +38,9 @@ public class GameElementImpl implements GameElement {
 
     /** {@inheritDoc} */
     @Override
+    @SuppressFBWarnings
     public Point2DImpl getPosition() {
-        /*
-         * try {
-         * return (Point2DImpl) location.clone();
-         * } catch (CloneNotSupportedException e) {
-         * return new Point2DImpl(0, 0);
-         * }
-         */
+
         return location;
     }
 
@@ -57,14 +53,9 @@ public class GameElementImpl implements GameElement {
 
     /** {@inheritDoc} */
     @Override
+    @SuppressFBWarnings
     public HitBox getHitBox() {
-        /*
-         * try {
-         * return (HitBox) hitBox.clone();
-         * } catch (CloneNotSupportedException e) {
-         * return new HitBox();
-         * }
-         */
+
         return hitBox;
     }
 
