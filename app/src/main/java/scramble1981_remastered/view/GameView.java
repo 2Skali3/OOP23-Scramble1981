@@ -1,6 +1,6 @@
 package scramble1981_remastered.view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class GameView extends JFrame {
 
