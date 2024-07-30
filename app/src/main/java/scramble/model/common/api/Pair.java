@@ -4,8 +4,8 @@ public interface Pair<X,Y> {
 
     void setPair(X firstElement, Y secondElement);
 
-    void setFirstElement();
-    void setSecondElement();
+    void setFirstElement(X firstElement);
+    void setSecondElement(Y secondElement);
 
     X getFirstElement();
     Y getSecondElement();
