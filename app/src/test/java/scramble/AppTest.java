@@ -6,19 +6,11 @@ package scramble;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-<<<<<<< HEAD:app/src/test/java/scramble1981_remastered/AppTest.java
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-=======
->>>>>>> features:app/src/test/java/scramble/AppTest.java
 
 class AppTest {
-    @Test
-    void appHasAGreeting() {
-<<<<<<< HEAD:app/src/test/java/scramble1981_remastered/AppTest.java
-        App classUnderTest = new App();
-=======
-        final App classUnderTest = new App();
->>>>>>> features:app/src/test/java/scramble/AppTest.java
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
+        @Test
+        void appHasAGreeting() {
+                final App classUnderTest = new App();
+                assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+        }
 }
