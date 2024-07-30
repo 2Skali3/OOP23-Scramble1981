@@ -58,11 +58,14 @@ public class GameElementImpl implements GameElement {
     /** {@inheritDoc} */
     @Override
     public HitBox getHitBox() {
-        try {
-            return (HitBox) hitBox.clone();
-        } catch (CloneNotSupportedException e) {
-            return new HitBox();
-        }
+        /*
+         * try {
+         * return (HitBox) hitBox.clone();
+         * } catch (CloneNotSupportedException e) {
+         * return new HitBox();
+         * }
+         */
+        return hitBox;
     }
 
     /** {@inheritDoc} */

@@ -34,23 +34,11 @@ public class GamePanel extends JPanel implements Cloneable {
      * Class constructor.
      */
     public GamePanel() {
-        // super();
         tileMap = new TileMap();
         level = new LevelsBuilder().decodeLandscape(LandscapeUtil.getAllStages());
         scrollX = 0;
-        spaceship = new SpaceShip(STARTX, getHeight() / 2, 32, 16);
+        spaceship = new SpaceShip(STARTX, super.getHeight() / 2, 32, 16);
     }
-
-    /** Class constructor for defensive copy. */
-    /*
-     * public GamePanel(final GamePanel panel) {
-     * super();
-     * tileMap = panel.getTileMap();
-     * level = panel.getLevel();
-     * scrollX = panel.getScrollX();
-     * spaceship = panel.getSpaceship();
-     * }
-     */
 
     private void drawLandscape(final Graphics g, final Map<String, List<Map<String, Object>>> data) {
 
@@ -139,6 +127,7 @@ public class GamePanel extends JPanel implements Cloneable {
         final Point2DImpl location = spaceship.getPosition();
         final int shipX = location.getX();
         final int shipY = location.getY();
+
         if (shipX + dx < getWidth() / 2
                 && shipX + dx > 0
                 && shipY + dy < getHeight()
@@ -198,22 +187,3 @@ public class GamePanel extends JPanel implements Cloneable {
     }
 
 }
-
-/*
- * private Queue<SpaceshipCommand> commandQueue = ...
- * private void checkQueue() {
- * while(true) {
- * if (!commandQueue.empty()) {
- * var command = commandQueue.pop();
- * command.execute();
- * } else {
- * semaphore.wait();
- * }
- * }
- * }
- * 
- * private void sendCommand(SpaceshipCommand command) {
- * commandQueue.push(command);
- * semaphore.signal();
- * }
- */

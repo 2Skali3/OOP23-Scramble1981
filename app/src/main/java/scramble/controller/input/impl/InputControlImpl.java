@@ -3,6 +3,8 @@ package scramble.controller.input.impl;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.Timer;
+//import java.util.Arrays;
+//import java.awt.event.KeyListener;
 
 import scramble.controller.input.api.InputControl;
 import scramble.model.command.impl.SpaceShipCommand;
@@ -26,9 +28,10 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
      * @param gv the game view to control
      */
     public InputControlImpl(final GameView gv) {
-        this.gv = /* new GameView(gv) */gv;
+        this.gv = new GameView(gv);
+        this.gv.addKeyListener(this);
         // Create a timer to scroll the background
-        timer = new Timer(100, e -> gv.getLandscape().scrollBackground());
+        timer = new Timer(100, e -> this.gv.getLandscape().scrollBackground());
     }
 
     /** {@inheritDoc} */

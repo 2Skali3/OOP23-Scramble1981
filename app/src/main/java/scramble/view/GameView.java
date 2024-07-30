@@ -49,20 +49,20 @@ public class GameView extends JFrame {
     /**
      * Class constructor for defensive copy.
      */
-    /*
-     * public GameView(final GameView view) {
-     * 
-     * mainPanelBackground = view.getMainPanelBackground();
-     * startMenu = view.getStartMenu();
-     * landscape = view.getLandscape();
-     * 
-     * setTitle("Scramble");
-     * setSize(WIDTH, HEIGHT);
-     * setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     * setLocationRelativeTo(null);
-     * 
-     * }
-     */
+
+    public GameView(final GameView view) {
+
+        super();
+        mainPanelBackground = view.getMainPanelBackground();
+        startMenu = view.getStartMenu();
+        landscape = view.getLandscape();
+
+        setTitle("Scramble");
+        setSize(WIDTH, HEIGHT);
+        setDefaultCloseOperation(view.getDefaultCloseOperation());
+        setLocationRelativeTo(null);
+
+    }
 
     /**
      * Getter for the main panel.
