@@ -3,8 +3,8 @@ package scramble.model.common.impl;
 import scramble.model.common.api.Point2D;
 
 /**
- * Implementation of the Point2D interface.
- * Used for recognising the game objects position on the screen.
+ * Implementation of the Point2D interface. Used for recognising the game
+ * objects position on the screen.
  */
 public class Point2DImpl implements Point2D {
 

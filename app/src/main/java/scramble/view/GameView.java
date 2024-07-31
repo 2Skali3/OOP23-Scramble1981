@@ -7,9 +7,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.CardLayout;
 
 /**
- * This class generates a JFrame in order to get a window environment.
- * In this it is shown the start menu, the scoreboard and the game itself.
- * It also switches from and to these components.
+ * This class generates a JFrame in order to get a window environment. In this
+ * it is shown the start menu, the scoreboard and the game itself. It also
+ * switches from and to these components.
  */
 public class GameView extends JFrame {
 
@@ -67,8 +67,8 @@ public class GameView extends JFrame {
     }
 
     /**
-     * Getter for the main panel.
-     * Supressing Warning for SpotBUgs since a standard JPanel is returned.
+     * Getter for the main panel. Supressing Warning for SpotBUgs since a standard
+     * JPanel is returned.
      * 
      * @return the main panel
      */

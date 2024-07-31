@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class handles the spaceship model in the game.
- * It is an implementation of the game element that is controlled by the player.
+ * This class handles the spaceship model in the game. It is an implementation
+ * of the game element that is controlled by the player.
  */
 public final class SpaceShip extends GameElementImpl {
 
@@ -46,8 +46,8 @@ public final class SpaceShip extends GameElementImpl {
     }
 
     /**
-     * Getter for the spaceship's sprites.
-     * Suppressed spotbugs warning since it's returning a jdk class.
+     * Getter for the spaceship's sprites. Suppressed spotbugs warning since it's
+     * returning a jdk class.
      * 
      * @return the list of spaceship's sprites
      */

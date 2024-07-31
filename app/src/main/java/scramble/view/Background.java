@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * This class is used to create a starry background.
- * It's shared by the start menu and the game panel.
+ * This class is used to create a starry background. It's shared by the start
+ * menu and the game panel.
  */
 public class Background extends JPanel {
 

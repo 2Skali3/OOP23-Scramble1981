@@ -3,8 +3,7 @@ package scramble.model.enemy.impl;
 import scramble.model.enemy.api.Enemy;
 
 /**
- * Implementation of the Enemy interface.
- * Used for the simple rocket NPC.
+ * Implementation of the Enemy interface. Used for the simple rocket NPC.
  */
 public class RocketImpl implements Enemy {
 

@@ -11,8 +11,8 @@ import scramble.model.command.impl.SpaceShipCommand;
 import scramble.view.GameView;
 
 /**
- * Implementation of InputControl.
- * Extends KeyAdapter in order to get the necessary key bindings.
+ * Implementation of InputControl. Extends KeyAdapter in order to get the
+ * necessary key bindings.
  */
 public class InputControlImpl extends KeyAdapter implements InputControl {
 
@@ -39,17 +39,17 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         final int key = e.getKeyCode();
 
         switch (key) {
-            case KeyEvent.VK_UP -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), 0, MINUS));
-            case KeyEvent.VK_DOWN -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), 0, PLUS));
-            case KeyEvent.VK_LEFT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), MINUS, 0));
-            case KeyEvent.VK_RIGHT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), PLUS, 0));
-            case KeyEvent.VK_ENTER -> {
-                timer.start();
-                gv.showLandscape();
-            }
-            default -> {
-                break;
-            }
+        case KeyEvent.VK_UP -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), 0, MINUS));
+        case KeyEvent.VK_DOWN -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), 0, PLUS));
+        case KeyEvent.VK_LEFT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), MINUS, 0));
+        case KeyEvent.VK_RIGHT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), PLUS, 0));
+        case KeyEvent.VK_ENTER -> {
+            timer.start();
+            gv.showLandscape();
+        }
+        default -> {
+            break;
+        }
         }
     }
 

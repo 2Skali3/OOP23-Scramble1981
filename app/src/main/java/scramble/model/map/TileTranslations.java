@@ -4,9 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * This class handles the tile translation.
- * To every number obtained from decoding the landscape data
- * is linked a tile file that goes to 0 to 40.
+ * This class handles the tile translation. To every number obtained from
+ * decoding the landscape data is linked a tile file that goes to 0 to 40.
  */
 public class TileTranslations {
 

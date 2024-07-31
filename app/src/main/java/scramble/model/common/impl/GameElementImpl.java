@@ -6,8 +6,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.api.GameElement;
 
 /**
- * Implementation of the GameElemnt interface.
- * Sets the ground for all game objects development.
+ * Implementation of the GameElemnt interface. Sets the ground for all game
+ * objects development.
  */
 public class GameElementImpl implements GameElement {
 

@@ -7,8 +7,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 
 /**
- * This class handles the score board.
- * It creates a list to be display in the start menu.
+ * This class handles the score board. It creates a list to be display in the
+ * start menu.
  */
 public class Scores {
 
@@ -40,8 +40,8 @@ public class Scores {
     }
 
     /**
-     * Getter for the score's list.
-     * SpotBUgs warning suppressed since it returns a std class.
+     * Getter for the score's list. SpotBUgs warning suppressed since it returns a
+     * std class.
      * 
      * @return the score's list
      */

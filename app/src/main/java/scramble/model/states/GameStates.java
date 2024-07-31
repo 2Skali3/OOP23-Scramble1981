@@ -42,17 +42,9 @@ public interface GameStates {
 
 /*
  * 
- * stati:
- * -playing
- * -menu
- * - game over
- * -scoreboard (forse)
+ * stati: -playing -menu - game over -scoreboard (forse)
  * 
- * cosa controlla?:
- * -collisioni
- * -movimenti
- * -vite
- * -generazione elementi di gioco
+ * cosa controlla?: -collisioni -movimenti -vite -generazione elementi di gioco
  * -checkpoint?
  * 
  * 

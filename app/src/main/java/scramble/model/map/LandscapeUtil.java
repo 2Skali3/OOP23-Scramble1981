@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Static class used to store the lists with the level's
- * landscape data. Every element is an hexa number that gets later decoded
- * for assembling the game map.
+ * Static class used to store the lists with the level's landscape data. Every
+ * element is an hexa number that gets later decoded for assembling the game
+ * map.
  */
 public final class LandscapeUtil {
 
@@ -31,8 +31,7 @@ public final class LandscapeUtil {
                 }
 
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
-                        return reader.lines().flatMap(line -> Arrays.stream(line.split(",")))
-                                        .map(String::trim)
+                        return reader.lines().flatMap(line -> Arrays.stream(line.split(","))).map(String::trim)
                                         .toList();
                 } catch (IOException e) {
                         LOG.severe("Ops!");

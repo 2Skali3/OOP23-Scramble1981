@@ -5,8 +5,8 @@ import scramble.model.command.api.Command;
 import scramble.view.GamePanel;
 
 /**
- * Implementation of Command interface.
- * handles the player (ship) commands and its screen movements.
+ * Implementation of Command interface. handles the player (ship) commands and
+ * its screen movements.
  */
 public final class SpaceShipCommand implements Command {
 

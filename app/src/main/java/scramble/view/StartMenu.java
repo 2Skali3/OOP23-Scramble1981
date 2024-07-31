@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * The start menu with wich the game starts.
- * Loopes through the Scoreboard as well.
+ * The start menu with wich the game starts. Loopes through the Scoreboard as
+ * well.
  */
 public final class StartMenu extends JPanel {
 

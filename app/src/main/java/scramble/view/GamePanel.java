@@ -74,13 +74,11 @@ public class GamePanel extends JPanel {
             final int tileId = (int) segment.get("outer_tile_id");
             final int innerTileId = (int) segment.get("inner_tile_id");
 
-            g.drawImage(tileMap.getTile(tileId), x, ypos * COLUMN_WIDTH, COLUMN_WIDTH, COLUMN_WIDTH,
-                    null);
+            g.drawImage(tileMap.getTile(tileId), x, ypos * COLUMN_WIDTH, COLUMN_WIDTH, COLUMN_WIDTH, null);
 
             int y = ypos + 1;
             while (y * SCALE_FACTOR < getHeight()) {
-                g.drawImage(tileMap.getTile(innerTileId), x, y * COLUMN_WIDTH, COLUMN_WIDTH,
-                        COLUMN_WIDTH, null);
+                g.drawImage(tileMap.getTile(innerTileId), x, y * COLUMN_WIDTH, COLUMN_WIDTH, COLUMN_WIDTH, null);
                 y++;
             }
 
@@ -129,10 +127,7 @@ public class GamePanel extends JPanel {
         final int shipX = location.getX();
         final int shipY = location.getY();
 
-        if (shipX + dx < getWidth() / 2
-                && shipX + dx > 0
-                && shipY + dy < getHeight()
-                && shipY + dy > 0) {
+        if (shipX + dx < getWidth() / 2 && shipX + dx > 0 && shipY + dy < getHeight() && shipY + dy > 0) {
             spaceship.move(dx, dy);
         }
         repaint();

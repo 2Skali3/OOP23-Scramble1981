@@ -7,9 +7,9 @@ import java.util.Map;
 
 /**
  * This class handles the decoding of the LandscapeData class in the same
- * package.
- * Every stage is passed through like in the original version of the game.
- * From the stage lists the map for top and bottom landscaped is manufactured.
+ * package. Every stage is passed through like in the original version of the
+ * game. From the stage lists the map for top and bottom landscaped is
+ * manufactured.
  */
 public class LevelsBuilder {
 
@@ -31,8 +31,8 @@ public class LevelsBuilder {
     private final TileTranslations tileTranslations;
 
     /**
-     * Class constructor.
-     * It initialises the tile map for decoding from hexa to a tile decimal number.
+     * Class constructor. It initialises the tile map for decoding from hexa to a
+     * tile decimal number.
      */
     public LevelsBuilder() {
         tileTranslations = new TileTranslations();
@@ -65,11 +65,9 @@ public class LevelsBuilder {
                 // int groundObjectId = Integer.decode(stageData.get(pointer + 5));
 
                 final Map<String, Object> bottomSegment1 = createSegment(firstCharPtr, firstChar,
-                        stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL,
-                        BOTTOM);
+                        stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, BOTTOM);
                 final Map<String, Object> bottomSegment2 = createSegment(secondCharPtr, secondChar,
-                        stage > 3 ? INNER_TILE_FINAL : INNER_TILE_FULL,
-                        BOTTOM);
+                        stage > 3 ? INNER_TILE_FINAL : INNER_TILE_FULL, BOTTOM);
 
                 landscapeBottomData.add(bottomSegment1);
                 landscapeBottomData.add(bottomSegment2);
@@ -95,11 +93,9 @@ public class LevelsBuilder {
                     pointer += PTR_CEILING;
                 } else {
                     final Map<String, Object> topSegment1 = createSegment(-1, 0,
-                            stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL,
-                            TOP);
+                            stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, TOP);
                     final Map<String, Object> topSegment2 = createSegment(-1, 0,
-                            stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL,
-                            TOP);
+                            stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, TOP);
                     landscapeTopData.add(topSegment1);
                     landscapeTopData.add(topSegment2);
                     pointer += PTR_BOTTOM;

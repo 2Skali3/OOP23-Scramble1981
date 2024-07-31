@@ -7,9 +7,8 @@ import scramble.controller.input.impl.InputControlImpl;
 import scramble.view.GameView;
 
 /**
- * Main class for the game.
- * It instantiate the Game View and the controller, that handles the game
- * inputs.
+ * Main class for the game. It instantiate the Game View and the controller,
+ * that handles the game inputs.
  */
 public class App {
 
