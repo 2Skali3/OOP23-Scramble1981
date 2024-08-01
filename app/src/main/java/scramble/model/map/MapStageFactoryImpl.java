@@ -25,13 +25,13 @@ public class MapStageFactoryImpl {
     public MapStageImpl prestage(){
         return mapStageGenerator.convertDataToMapStage(
             LandscapeDataLoads.getPrestageData(), 
-            new PairImpl<>(-1, 35), 
+            this.heightCeilingAndFloor, 
             LandscapeUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH
         );
     }
 
     public MapStageImpl stage1(){
-        return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getStage1Data(), new PairImpl<>(-1, 35), LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+        return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getStage1Data(), this.heightCeilingAndFloor, LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
 }
