@@ -11,6 +11,9 @@ import scramble.model.map.impl.MapElementImpl;
  * Class that converts MapStageImpl columns to ArrayList of BufferedImage.
  */
 public final class Converter {
+
+    private Converter() { }
+
     /**
      * Method to convert a MapStageImpl column into its ArrayList of BufferedImage.
      * 

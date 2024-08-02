@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  * @see ActionListener
  */
 public class GamePanel extends JPanel implements ActionListener {
-    private MapStageFactoryImpl stageFactory;
+    private transient MapStageFactoryImpl stageFactory;
     private List<List<BufferedImage>> columns;
     private List<MapStageImpl> stages;
     private int landScapeX;
@@ -66,6 +66,10 @@ public class GamePanel extends JPanel implements ActionListener {
         timer.start();
     }
 
+    /**
+     * Method that insert the element into the window.
+     * @param g
+     */
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         List<BufferedImage> column;
@@ -86,7 +90,7 @@ public class GamePanel extends JPanel implements ActionListener {
      * @inheritDoc
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
         landScapeX -= 2;
         if (landScapeX <= -LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE * columns.size()) {
             landScapeX = 0;

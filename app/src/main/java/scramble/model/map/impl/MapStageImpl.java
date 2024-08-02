@@ -8,16 +8,19 @@ import scramble.model.map.api.MapStage;
 /**
  * Implementation for the interface MapStage.
  * This implementation use an ArrayList for the storage of the columns.
+ * 
  * @see MapStage
  */
 public class MapStageImpl implements MapStage {
     private ArrayList<PairImpl<MapElementImpl, MapElementImpl>> columns;
+
     /**
      * Constructor for MapStageImpl.
      */
     public MapStageImpl() {
         this.columns = new ArrayList<>();
     }
+
     /**
      * @inheritDoc
      */
@@ -25,6 +28,7 @@ public class MapStageImpl implements MapStage {
     public int size() {
         return this.columns.size();
     }
+
     /**
      * @inheritDoc
      */
@@ -32,6 +36,7 @@ public class MapStageImpl implements MapStage {
     public void addColumn(final PairImpl<MapElementImpl, MapElementImpl> column) {
         this.columns.add(column);
     }
+
     /**
      * @inheritDoc
      */

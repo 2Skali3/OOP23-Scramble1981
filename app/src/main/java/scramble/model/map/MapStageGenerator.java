@@ -35,7 +35,7 @@ public class MapStageGenerator {
     private static final LandscapeSprite SUMMIT_CEILING_SPRITE = LandscapeSprite.STALACTITE_CEILING;
 
     private final int[] thresholdsFlat = { 95, 100 };
-    private final int[] thresholdsUpDw = { 60, 80, 90, 100 };
+    private final int[] thresholdsUpDw = { 50, 60, 90, 100 };
 
     private LandscapeUtils landscapeUtils;
 
@@ -47,7 +47,7 @@ public class MapStageGenerator {
     }
 
     private LandscapeSprite getSprite(final Behaviour behavior, final StageComponent stageComponent) {
-        int[] thresholdsUpDown = thresholdsFlat;
+        int[] thresholdsUpDown = thresholdsUpDw;
         final ArrayList<LandscapeSprite> flatSprite;
         final ArrayList<LandscapeSprite> downSprite;
         final ArrayList<LandscapeSprite> upSprite;
@@ -107,12 +107,14 @@ public class MapStageGenerator {
      * @return esatto
      */
     public MapStageImpl convertDataToMapStage(
-            final PairImpl<ArrayList<PairImpl<Integer, Behaviour>>, ArrayList<PairImpl<Integer, Behaviour>>> rawDataCeilingAndFloor,
+            final PairImpl<
+                ArrayList<PairImpl<Integer, Behaviour>>, 
+                ArrayList<PairImpl<Integer, Behaviour>>
+            > rawDataCeilingAndFloor,
             final PairImpl<Integer, Integer> heightCeilingAndFloor, final int stageLength) {
         MapStageImpl returnStage = new MapStageImpl();
         int index = 0;
         PairImpl<Integer, Integer> tempX = new PairImpl<Integer, Integer>(0, 0);
-
         for (int x = 0; x < stageLength; x++) {
             if (rawDataCeilingAndFloor.getSecondElement().get(index).getSecondElement() == Behaviour.SUMMIT) {
                 heightCeilingAndFloor.setSecondElement(heightCeilingAndFloor.getSecondElement() - 1);

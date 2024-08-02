@@ -7,7 +7,7 @@ import java.util.List;
  * Class that contains enum for the management of the Landscape Sprite and a
  * relative method for translating the enum to a List.
  */
-public class LandscapePart {
+public final class LandscapePart {
 
     /**
      * Enum for the Landscape sprite denomination for the Landscape parts.
@@ -72,7 +72,7 @@ public class LandscapePart {
          */
         LITTLE_HILL,
         /**
-         * Green square
+         * Green square.
          */
         GREEN_SQUARE,
         /**
@@ -156,6 +156,9 @@ public class LandscapePart {
          */
         SKY
     }
+
+    private LandscapePart() { }
+
     /**
      * Method that insert all of the enum LandscapeSprite data into a List.
      * 

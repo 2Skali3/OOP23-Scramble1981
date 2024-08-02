@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Class that contains static methods for the management of the csv files
  * reading for data scraping.
  */
-public class LandscapeDataLoads {
+public final class LandscapeDataLoads {
     /**
      * Prestage ceiling files relative path.
      */
@@ -29,6 +29,8 @@ public class LandscapeDataLoads {
     private static final String STAGE_6_CEILING_FILE_PATH = "stage/stage6_ceiling.csv";
     private static final String STAGE_6_FLOOR_FILE_PATH = "stage/stage6_floor.csv";
     private static final CSVReaderImpl CSV_READER = new CSVReaderImpl();
+
+    private LandscapeDataLoads() { }
 
     /**
      * Method for the data scraping of prestage files.

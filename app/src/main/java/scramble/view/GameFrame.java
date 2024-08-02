@@ -11,7 +11,7 @@ public class GameFrame extends JFrame {
     /**
      * Dimension of the window width.
      */
-    public static int WINDOW_WIDTH = 800;
+    public static final int WINDOW_WIDTH = 800;
 
     /**
      * Constructor of the class GameFrame.

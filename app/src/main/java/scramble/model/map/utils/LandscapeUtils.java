@@ -57,6 +57,8 @@ public class LandscapeUtils {
      */
     public static final String IMAGE_URL = "/shapes_trim.png";
 
+    private static final int GREEN_SQUARE_STARTER_LOCATION = 5;
+
     private Map<LandscapeSprite, BufferedImage> spritesMap;
 
     /**
@@ -69,7 +71,6 @@ public class LandscapeUtils {
     private void fillMap() {
         this.spritesMap = new HashMap<>();
         try {
-            System.out.println(LandscapeUtils.IMAGE_URL);
             BufferedImage spritesImage = ImageIO.read(getClass().getResource(LandscapeUtils.IMAGE_URL));
             for (int y = 0, i = 0; y < LandscapeUtils.MAX_IMAGE_HEIGHT; y++, i++) {
                 for (int x = 0; x < LandscapeUtils.MAX_IMAGE_WIDTH; x++, i++) {
@@ -81,7 +82,7 @@ public class LandscapeUtils {
                 }
             }
             this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(LandscapeUtils.NAME_IMAGE_PART.size() - 1),
-                    spritesImage.getSubimage(5, 0, 1, 1));
+                    spritesImage.getSubimage(GREEN_SQUARE_STARTER_LOCATION, 0, 1, 1));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +90,7 @@ public class LandscapeUtils {
     }
 
     /**
-     * Method for the conversion of LandscapeSprite to the relative BufferedImage
+     * Method for the conversion of LandscapeSprite to the relative BufferedImage.
      * 
      * @param landScapeSprite
      * @return relative BufferedImage
