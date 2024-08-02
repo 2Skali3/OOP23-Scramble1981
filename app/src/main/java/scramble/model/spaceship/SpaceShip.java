@@ -60,7 +60,7 @@ public final class SpaceShip extends GameElementImpl {
      * @param dy amount of movement on the Y axis
      */
     public void move(final int dx, final int dy) {
-        getPosition().setPair(dx, dy);
+        getPosition().setPair(getPosition().getFirstElement() + dx, getPosition().getSecondElement() + dy);
     }
 
     /** {@inheritDoc} */

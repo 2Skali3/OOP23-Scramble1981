@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int STARTX = 50;
+    private static final int START = 50;
     private static final int COLUMN_WIDTH = 16;
     private static final int SCALE_FACTOR = 1; // Scaling factor for heights
 
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
         level = new LevelsBuilder().decodeLandscape(LandscapeUtil.getAllStages());
         fuelBar = new FuelBar();
         scrollX = 0;
-        spaceship = new SpaceShip(STARTX, super.getHeight() / 2, 32, 16);
+        spaceship = new SpaceShip(START, START, 32, 16);
     }
 
     private void drawLandscape(final Graphics g, final Map<String, List<Map<String, Object>>> data) {
@@ -130,7 +130,7 @@ public class GamePanel extends JPanel {
         final int shipX = location.getFirstElement();
         final int shipY = location.getSecondElement();
 
-        if (shipX + dx < getWidth() / 2 && shipX + dx > 0 && shipY + dy < getHeight() && shipY + dy > 0) {
+        if (shipX + dx < getWidth() / 2 && shipX + dx >= 0 && shipY + dy < getHeight() && shipY + dy >= 0) {
             spaceship.move(dx, dy);
         }
         repaint();

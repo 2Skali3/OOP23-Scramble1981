@@ -14,7 +14,7 @@ public class GameElementImpl implements GameElement {
 
     private final int width, height;
     private Rectangle hitbox;
-    private final PairImpl<Float, Float> location;
+    private final PairImpl<Integer, Integer> location;
 
     /**
      * Class constructor.
@@ -24,7 +24,7 @@ public class GameElementImpl implements GameElement {
      * @param width  game element width
      * @param height game element height
      */
-    public GameElementImpl(final float x, final float y, final int width, final int height) {
+    public GameElementImpl(final int x, final int y, final int width, final int height) {
         this.location = new PairImpl<>(x, y);
         this.width = width;
         this.height = height;
@@ -32,8 +32,8 @@ public class GameElementImpl implements GameElement {
     }
 
     private void initHitbox() {
-        hitbox = new Rectangle(Math.round(this.location.getFirstElement()),
-                Math.round(this.location.getSecondElement()), width, height);
+        hitbox = new Rectangle(this.location.getFirstElement(),
+                this.location.getSecondElement(), width, height);
     }
 
     /**
@@ -66,8 +66,7 @@ public class GameElementImpl implements GameElement {
     @Override
     @SuppressFBWarnings
     public PairImpl<Integer, Integer> getPosition() {
-        return new PairImpl<Integer, Integer>(Math.round(location.getFirstElement()),
-                Math.round(location.getSecondElement()));
+        return this.location;
     }
 
     /** {@inheritDoc} */

@@ -61,8 +61,7 @@ public class PairImpl<X, Y> implements Pair<X, Y> {
      */
     @Override
     public void setPair(final X firstElement, final Y secondElement) {
-        this.setFirstElement(firstElement);
-        this.setSecondElement(secondElement);
+        setFirstElement(firstElement);
+        setSecondElement(secondElement);
     }
-
 }
