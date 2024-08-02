@@ -62,8 +62,6 @@ public class LevelsBuilder {
                 final int secondCharPtr = (Integer.decode(stageData.get(pointer + 2)) & HEXDECODE) / HEXADIVIDE;
                 final int secondChar = tileTranslations.getTileNum(Integer.decode(stageData.get(pointer + 3)));
 
-                // int groundObjectId = Integer.decode(stageData.get(pointer + 5));
-
                 final Map<String, Object> bottomSegment1 = createSegment(firstCharPtr, firstChar,
                         stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, BOTTOM);
                 final Map<String, Object> bottomSegment2 = createSegment(secondCharPtr, secondChar,
@@ -82,6 +80,7 @@ public class LevelsBuilder {
                             / HEXADIVIDE;
                     final int ceilingSecondChar = tileTranslations
                             .getTileNum(Integer.decode(stageData.get(pointer + ADVANCE7)));
+                    // final int groundObjectId = Integer.decode(stageData.get(pointer + 8));
 
                     final Map<String, Object> topSegment1 = createSegment(ceilingFirstCharPtr, ceilingFirstChar,
                             stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, TOP);
@@ -96,6 +95,8 @@ public class LevelsBuilder {
                             stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, TOP);
                     final Map<String, Object> topSegment2 = createSegment(-1, 0,
                             stage > 3 ? INNER_TILE_SQR : INNER_TILE_FULL, TOP);
+                    // final int groundObjectId = Integer.decode(stageData.get(pointer + 5));
+
                     landscapeTopData.add(topSegment1);
                     landscapeTopData.add(topSegment2);
                     pointer += PTR_BOTTOM;

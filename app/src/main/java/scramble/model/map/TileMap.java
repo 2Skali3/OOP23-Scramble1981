@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public final class TileMap {
     private static final int NTILES = 40;
-    private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(TileMap.class.getName());
 
     private final Map<Integer, BufferedImage> tiles;
 

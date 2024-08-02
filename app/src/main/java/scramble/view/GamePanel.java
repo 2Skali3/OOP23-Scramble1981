@@ -30,6 +30,7 @@ public class GamePanel extends JPanel {
     private final transient TileMap tileMap;
     private final Map<String, List<Map<String, Object>>> level;
     private final transient SpaceShip spaceship;
+    private final transient FuelBar fuelBar;
 
     /**
      * Class constructor.
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel {
     public GamePanel() {
         tileMap = new TileMap();
         level = new LevelsBuilder().decodeLandscape(LandscapeUtil.getAllStages());
+        fuelBar = new FuelBar();
         scrollX = 0;
         spaceship = new SpaceShip(STARTX, super.getHeight() / 2, 32, 16);
     }
@@ -114,6 +116,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         drawLandscape(g, level);
         drawSpaceship(g);
+        fuelBar.paintFuelBar(g, getWidth());
     }
 
     /**

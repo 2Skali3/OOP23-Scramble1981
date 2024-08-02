@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
-import scramble.model.map.LandscapeUtil;
-
 /**
  * This class handles game font for the writing.
  */
 public final class ScrambleFontUtil {
 
-    private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(ScrambleFontUtil.class.getName());
     /**
      * The original scramble font.
      */
