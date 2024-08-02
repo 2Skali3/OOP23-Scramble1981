@@ -5,12 +5,25 @@ package scramble;
 
 import scramble.view.GameFrame;
 
+/**
+ * Class that contein the main method.
+ */
 public class App {
+    /**
+     * Greeting.
+     * 
+     * @return string "Hello World!"
+     */
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
-       new GameFrame();
+    /**
+     * Main method.
+     * 
+     * @param args
+     */
+    public static void main(final String[] args) {
+        new GameFrame();
     }
 }

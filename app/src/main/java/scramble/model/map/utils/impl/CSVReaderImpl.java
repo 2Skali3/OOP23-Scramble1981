@@ -9,68 +9,74 @@ import java.util.ArrayList;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.utils.api.CSVReader;
 
-public class CSVReaderImpl implements CSVReader <PairImpl<Integer,CSVReaderImpl.Behaviour>> {
-
+/**
+ * Implementation of the CSVReader interface.
+ * 
+ * @see CSVReader
+ */
+public class CSVReaderImpl implements CSVReader<PairImpl<Integer, CSVReaderImpl.Behaviour>> {
     /**
-     * enum che descrive i comportamenti che il terreno può adorrate
+     * enum that describes the behaviour of the Landscape.
      */
-    public static enum Behaviour {
+    public enum Behaviour {
         /**
-         * terreno piatto
+         * Flat landscape.
          */
         FLAT,
-        
         /**
-         * terreno crescente verso l'alto
+         * Ascending landscape. 
          */
-        UP, 
-
+        UP,
         /**
-         * terreno calante verso il basso
+         * Descending landscape.
          */
-        DW, 
-
+        DW,
         /**
-         * terreno a punta
+         * Summit landscape.
          */
-        SUMMIT, 
-
+        SUMMIT,
         /**
-         * assenza di terreno
+         * Landscape not present.
          */
         EMPTY
     }
 
     /**
-     * enum che descrive gli elementi composti da terreno.
+     * enum that describes the elements that form the landscape.
      */
-    public static enum StageComponent {
-        FLOOR, CEILING
+    public enum StageComponent {
+        /**
+         * Floor part.
+         */
+        FLOOR,
+        /**
+         * Ceiling part. 
+         */ 
+        CEILING
     }
-    
-    public ArrayList<PairImpl<Integer,Behaviour>> readCSV(final String fileRelativePath) {
 
-        ArrayList<PairImpl<Integer,Behaviour>> dataLandscape = new ArrayList<>();
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public ArrayList<PairImpl<Integer, Behaviour>> readCSV(final String fileRelativePath) {
 
+        ArrayList<PairImpl<Integer, Behaviour>> dataLandscape = new ArrayList<>();
         ClassLoader classLoader = CSVReaderImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(fileRelativePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             Behaviour behaviour = Behaviour.DW;
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int length = Integer.parseInt(parts[0].trim());
                 behaviour = Behaviour.valueOf(parts[1].trim());
-                dataLandscape.add(new PairImpl<Integer,CSVReaderImpl.Behaviour>(length, behaviour));
+                dataLandscape.add(new PairImpl<Integer, CSVReaderImpl.Behaviour>(length, behaviour));
                 System.out.println(line);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return dataLandscape;
     }
-
 }

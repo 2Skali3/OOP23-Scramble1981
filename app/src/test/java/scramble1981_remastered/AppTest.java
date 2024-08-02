@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import scramble.App;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AppTest {
     @Test void appHasAGreeting() {

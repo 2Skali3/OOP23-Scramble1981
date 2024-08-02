@@ -11,47 +11,90 @@ import scramble.model.map.utils.LandscapePart.LandscapeSprite;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Class that contains all the methods and constants to manage the landscape
+ * management.
+ */
 public class LandscapeUtils {
+    /**
+     * Number of sprites per stage per column.
+     */
     public static final int NUMBER_OF_SPITE_PER_STAGE_HEIGHT = 40;
+    /**
+     * Number of sprites per stage per row.
+     */
     public static final int NUMBER_OF_SPITE_PER_STAGE_WIDTH = 500;
-    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 10; 
+    /**
+     * Number of sprites per prestage per column.
+     */
+    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 10;
+    /**
+     * Number of pixel of the single sprite in the source image.
+     */
     public static final int NUMBER_OF_PX_IN_IMAGE_PER_SPRITE = 8;
+    /**
+     * Sprite dimention in the final stage per pixel.
+     */
     public static final int NUMBER_OF_PX_IN_MAP_PER_SPRITE = 16;
+    /**
+     * Number of stage.
+     */
     public static final int STAGE_NUMBERS = 2;
-    public static final int MAX_IMAGE_HEIGHT = 2; 
+    /**
+     * Number of sprites rows.
+     */
+    public static final int MAX_IMAGE_HEIGHT = 2;
+    /**
+     * Number of sprites columns.
+     */
     public static final int MAX_IMAGE_WIDTH = 17;
+    /**
+     * Classification of the type of sprite.
+     */
     public static final List<LandscapeSprite> NAME_IMAGE_PART = LandscapePart.getImageParts();
+    /**
+     * Relative url of the sprites image.
+     */
     public static final String IMAGE_URL = "/shapes_trim.png";
 
     private Map<LandscapeSprite, BufferedImage> spritesMap;
 
-    public LandscapeUtils(){
+    /**
+     * Constructor of the LandscapeUtils class.
+     */
+    public LandscapeUtils() {
         this.fillMap();
     }
 
-    private void fillMap(){
-        
+    private void fillMap() {
         this.spritesMap = new HashMap<>();
         try {
+            System.out.println(LandscapeUtils.IMAGE_URL);
             BufferedImage spritesImage = ImageIO.read(getClass().getResource(LandscapeUtils.IMAGE_URL));
-            for(int y = 0, i = 0; y < LandscapeUtils.MAX_IMAGE_HEIGHT; y++, i++) {
+            for (int y = 0, i = 0; y < LandscapeUtils.MAX_IMAGE_HEIGHT; y++, i++) {
                 for (int x = 0; x < LandscapeUtils.MAX_IMAGE_WIDTH; x++, i++) {
-                    this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(i), spritesImage.getSubimage(LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x, LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y, LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE, LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
+                    this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(i),
+                            spritesImage.getSubimage(LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x,
+                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y,
+                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE,
+                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
                 }
             }
-            this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(LandscapeUtils.NAME_IMAGE_PART.size() - 1), spritesImage.getSubimage(5, 0, 1, 1));
+            this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(LandscapeUtils.NAME_IMAGE_PART.size() - 1),
+                    spritesImage.getSubimage(5, 0, 1, 1));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * Metodo per la conversione di LandscapeSprite in BufferedImage
-     * @param landScapeSprite; 
-     * @return BufferedImage relativo al LandscapeSprite passato in input
+     * Method for the conversion of LandscapeSprite to the relative BufferedImage
+     * 
+     * @param landScapeSprite
+     * @return relative BufferedImage
      */
-    public BufferedImage getSprite(LandscapeSprite landScapeSprite){
+    public BufferedImage getSprite(final LandscapeSprite landScapeSprite) {
         return this.spritesMap.get(landScapeSprite);
     }
 }

@@ -18,23 +18,30 @@ import scramble.model.map.utils.LandscapeUtils;
 
 import javax.swing.JPanel;
 
+/**
+ * Extension of the class JPanel and implementation of the interface
+ * ActionListener.
+ * 
+ * @see JPanel
+ * @see ActionListener
+ */
 public class GamePanel extends JPanel implements ActionListener {
-
     private MapStageFactoryImpl stageFactory;
     private List<List<BufferedImage>> columns;
     private List<MapStageImpl> stages;
     private int landScapeX;
     private Timer timer;
 
-    public GamePanel()
-    {
+    /**
+     * Constructor of GamePanel.
+     */
+    public GamePanel() {
         this.landScapeX = 0;
         this.stageFactory = new MapStageFactoryImpl();
         this.stages = new ArrayList<>();
         this.columns = new LinkedList<>();
         this.fillStage();
         this.fillColumns();
-
         landScapeX = 0;
         timer = new Timer(16, this); // Approx 60 FPS
     }
@@ -45,40 +52,45 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void fillColumns() {
-        for (MapStageImpl stage : this.stages){
-            for(int i = 0; i < stage.size(); i++){
+        for (MapStageImpl stage : this.stages) {
+            for (int i = 0; i < stage.size(); i++) {
                 this.columns.add(Converter.convertMapStageImplToBufferedImage(stage.getColumn(i)));
             }
         }
     }
 
+    /**
+     * Method to start the game.
+     */
     public void startGame() {
         timer.start();
     }
 
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        
         List<BufferedImage> column;
-
-        for(int x = 0; x < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH; x++)
-        {
+        for (int x = 0; x < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH; x++) {
             column = this.columns.get(x);
-            for(int y = 0; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++)
-                g.drawImage(column.get(y), (x * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) + landScapeX, y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE, LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE, LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE, null);
+            for (int y = 0; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++) {
+                g.drawImage(
+                        column.get(y), (x * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) + landScapeX,
+                        y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        null);
+            }
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         landScapeX -= 2;
-
         if (landScapeX <= -LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE * columns.size()) {
             landScapeX = 0;
         }
-        
         repaint();
     }
-    
 }

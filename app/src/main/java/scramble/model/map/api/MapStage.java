@@ -3,24 +3,35 @@ package scramble.model.map.api;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.impl.MapElementImpl;
 
+/**
+ * Interface for MapStage, this interface will be implemented with a private
+ * data strucure that contains
+ * the columns that form the stage and will store them in a sequential way.
+ */
 public interface MapStage {
-    
     /**
-     * Metodo per l'inserimento di una nuova colonna all'interno del MapStage. 
-     * Questo metodo non cambia il valore di colonne già esistenti, ma appende alla struttura dati utilizzata per la memorizzazione delle colonne la nuova colonna inserita in input 
-     * @param column; valore della colonna che stiamo inserendo
+     * Method to insert a new column in MapStage.
+     * This method store columns sequentially.
+     * 
+     * @param column value of the new column
      */
     void addColumn(PairImpl<MapElementImpl, MapElementImpl> column);
 
     /**
-     * Getter per una singola colonna del MapStage identificata da index
-     * @param index; colonna che si vuole prelevare dalla struttura dati che contiene l'insieme delle colonne del MapStage
-     * @return PairImpl di MapElement contenente come priomo elementola il MapElement del ceiling e come secondo elemento il MapElement del Floor
+     * Getter for a column of the MapStage that is identified by an index.
+     * 
+     * @param index position of the column that we want to get
+     * @return a column of the MapStage, identified by the index, as a PairImpl of
+     *         MapElement;
+     *         the first element of PairImpl rappresents the ceiling, the second
+     *         rappresents the floor
      */
     PairImpl<MapElementImpl, MapElementImpl> getColumn(int index);
 
     /**
-     * @return numero di colonne contenute nel MapStage
+     * The size of the MapStage data structure.
+     * 
+     * @return number of columns in MapStage
      */
     int size();
-} 
+}
