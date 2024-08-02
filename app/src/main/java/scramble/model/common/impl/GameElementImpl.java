@@ -1,6 +1,7 @@
 package scramble.model.common.impl;
 
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.api.GameElement;
@@ -11,9 +12,9 @@ import scramble.model.common.api.GameElement;
  */
 public class GameElementImpl implements GameElement {
 
-    private final Point2DImpl location;
     private final int width, height;
-    private final HitBox hitBox;
+    private Rectangle hitbox;
+    private final PairImpl<Float, Float> location;
 
     /**
      * Class constructor.
@@ -23,40 +24,50 @@ public class GameElementImpl implements GameElement {
      * @param width  game element width
      * @param height game element height
      */
-    public GameElementImpl(final int x, final int y, final int width, final int height) {
-        this.location = new Point2DImpl(x, y);
-        this.hitBox = new HitBox();
+    public GameElementImpl(final float x, final float y, final int width, final int height) {
+        this.location = new PairImpl<>(x, y);
         this.width = width;
         this.height = height;
+        initHitbox();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void updatePosition(final Point2DImpl newPosition) {
-        this.location.setLocation(newPosition.getX(), newPosition.getY());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    @SuppressFBWarnings
-    public Point2DImpl getPosition() {
-
-        return location;
+    private void initHitbox() {
+        hitbox = new Rectangle(Math.round(this.location.getFirstElement()),
+                Math.round(this.location.getSecondElement()), width, height);
     }
 
     /**
-     * Method for the hit box initialisation.
+     * Updates the values of the hitbox.
+     * 
+     * @param x
+     * @param y
      */
-    public void initHitbox() {
-
+    protected void updateHitbox(final int x, final int y) {
+        this.hitbox.x = (int) x;
+        this.hitbox.y = (int) y;
     }
 
     /** {@inheritDoc} */
     @Override
     @SuppressFBWarnings
-    public HitBox getHitBox() {
+    public Rectangle getHitbox() {
 
-        return hitBox;
+        return hitbox;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void updatePosition(final PairImpl<Integer, Integer> newPosition) {
+        // this.location.setLocation(newPosition.getFirstElement(),
+        // newPosition.getSecondElement());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    @SuppressFBWarnings
+    public PairImpl<Integer, Integer> getPosition() {
+        return new PairImpl<Integer, Integer>(Math.round(location.getFirstElement()),
+                Math.round(location.getSecondElement()));
     }
 
     /** {@inheritDoc} */

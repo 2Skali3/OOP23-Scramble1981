@@ -1,9 +1,9 @@
 package scramble.model.common.api;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import scramble.model.common.impl.HitBox;
-import scramble.model.common.impl.Point2DImpl;
+import scramble.model.common.impl.PairImpl;
 
 /**
  * Key interface that acts as base for every interactable object in the game.
@@ -16,21 +16,21 @@ public interface GameElement {
      * 
      * @param newPosition the new position
      */
-    void updatePosition(Point2DImpl newPosition);
+    void updatePosition(PairImpl<Integer, Integer> newPosition);
 
     /**
      * Gets the current game element position.
      * 
      * @return current position
      */
-    Point2DImpl getPosition();
+    PairImpl<Integer, Integer> getPosition();
 
     /**
      * Gets the game element hit box.
      * 
      * @return game element hit box
      */
-    HitBox getHitBox();
+    Rectangle getHitbox();
 
     /**
      * Getter for a game element single sprite.

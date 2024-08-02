@@ -2,40 +2,67 @@ package scramble.model.common.impl;
 
 import scramble.model.common.api.Pair;
 
-public class PairImpl<X,Y> implements Pair<X,Y>{
+/**
+ * Implementation of the generic class Pair.
+ * 
+ * @param <X> type of the firstElement
+ * @param <Y> type of the secondElement
+ */
+public class PairImpl<X, Y> implements Pair<X, Y> {
 
     private X firstElement;
     private Y secondElement;
 
-    public PairImpl(X firstElement, Y secondElement){
+    /**
+     * Class constructor.
+     * 
+     * @param firstElement
+     * @param secondElement
+     */
+    public PairImpl(final X firstElement, final Y secondElement) {
         this.firstElement = firstElement;
         this.secondElement = secondElement;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public X getFirstElement() {
         return this.firstElement;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Y getSecondElement() {
         return secondElement;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setFirstElement(X firstElement) {
+    public void setFirstElement(final X firstElement) {
         this.firstElement = firstElement;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setSecondElement(Y secondElement) {
+    public void setSecondElement(final Y secondElement) {
         this.secondElement = secondElement;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setPair(X firstElement, Y secondElement) {
-        this.firstElement = firstElement;
-        this.secondElement = secondElement;
+    public void setPair(final X firstElement, final Y secondElement) {
+        this.setFirstElement(firstElement);
+        this.setSecondElement(secondElement);
     }
-    
+
 }

@@ -3,7 +3,7 @@ package scramble.view;
 import javax.swing.JPanel;
 
 import scramble.model.command.impl.SpaceShipCommand;
-import scramble.model.common.impl.Point2DImpl;
+import scramble.model.common.impl.PairImpl;
 import scramble.model.map.LandscapeUtil;
 import scramble.model.map.LevelsBuilder;
 import scramble.model.map.TileMap;
@@ -89,8 +89,8 @@ public class GamePanel extends JPanel {
     private void drawSpaceship(final Graphics g) {
         final BufferedImage shipSprite = spaceship.getSprite();
         if (shipSprite != null) {
-            g.drawImage(shipSprite, spaceship.getPosition().getX(), spaceship.getPosition().getY(),
-                    spaceship.getWidth(), spaceship.getHeight(), null);
+            g.drawImage(shipSprite, spaceship.getPosition().getFirstElement(),
+                    spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
         }
     }
 
@@ -123,9 +123,9 @@ public class GamePanel extends JPanel {
      * @param dy movement on the Y axis
      */
     public void moveSpaceship(final int dx, final int dy) {
-        final Point2DImpl location = spaceship.getPosition();
-        final int shipX = location.getX();
-        final int shipY = location.getY();
+        final PairImpl<Integer, Integer> location = spaceship.getPosition();
+        final int shipX = location.getFirstElement();
+        final int shipY = location.getSecondElement();
 
         if (shipX + dx < getWidth() / 2 && shipX + dx > 0 && shipY + dy < getHeight() && shipY + dy > 0) {
             spaceship.move(dx, dy);
