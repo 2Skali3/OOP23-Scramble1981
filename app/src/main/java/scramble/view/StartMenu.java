@@ -1,15 +1,13 @@
 package scramble.view;
 
+import scramble.model.scores.Scores;
+import scramble.view.font.ScrambleFontUtil;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import scramble.model.map.LandscapeUtil;
-import scramble.model.scores.Scores;
-import scramble.view.font.ScrambleFontUtil;
-
 import java.awt.Graphics;
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -40,7 +38,7 @@ public final class StartMenu extends JPanel {
     private static final int TIMERS = 3000;
     private static final int SEC = 60;
     private static final int OFFSET = 25;
-    private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(StartMenu.class.getName());
 
     private int sequenceStep;
     private final Font retroFont;

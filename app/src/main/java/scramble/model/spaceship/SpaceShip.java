@@ -1,14 +1,12 @@
 package scramble.model.spaceship;
 
+import scramble.model.common.impl.GameElementImpl;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import scramble.model.common.impl.GameElementImpl;
-import scramble.model.map.LandscapeUtil;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +17,7 @@ import java.util.Random;
  */
 public final class SpaceShip extends GameElementImpl {
 
-    private static final Logger LOG = Logger.getLogger(LandscapeUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
 
     private final List<BufferedImage> sprites;
     private static final int SPRITES = 8;
