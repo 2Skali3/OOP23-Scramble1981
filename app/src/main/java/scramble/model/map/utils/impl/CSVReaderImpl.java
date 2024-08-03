@@ -9,69 +9,31 @@ import java.nio.charset.StandardCharsets;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.utils.api.CSVReader;
+import scramble.model.map.utils.enums.LandscapeBehaviour;
 
 /**
  * Implementation of the CSVReader interface.
  * 
  * @see CSVReader
  */
-public class CSVReaderImpl implements CSVReader<PairImpl<Integer, CSVReaderImpl.Behaviour>> {
-    /**
-     * enum that describes the behaviour of the Landscape.
-     */
-    public enum Behaviour {
-        /**
-         * Flat landscape.
-         */
-        FLAT,
-        /**
-         * Ascending landscape.
-         */
-        UP,
-        /**
-         * Descending landscape.
-         */
-        DW,
-        /**
-         * Summit landscape.
-         */
-        SUMMIT,
-        /**
-         * Landscape not present.
-         */
-        EMPTY
-    }
-
-    /**
-     * enum that describes the elements that form the landscape.
-     */
-    public enum StageComponent {
-        /**
-         * Floor part.
-         */
-        FLOOR,
-        /**
-         * Ceiling part.
-         */
-        CEILING
-    }
-
+public class CSVReaderImpl implements CSVReader<PairImpl<Integer, LandscapeBehaviour>> {
     /**
      * @inheritDoc
      */
     @Override
-    public ArrayList<PairImpl<Integer, Behaviour>> readCSV(final String fileRelativePath) {
-        ArrayList<PairImpl<Integer, Behaviour>> dataLandscape = new ArrayList<>();
+    public ArrayList<PairImpl<Integer, LandscapeBehaviour>> readCSV(final String fileRelativePath) {
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>> dataLandscape = new ArrayList<>();
         ClassLoader classLoader = CSVReaderImpl.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(fileRelativePath);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            Behaviour behaviour;
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            LandscapeBehaviour behaviour;
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int length = Integer.parseInt(parts[0].trim());
-                behaviour = Behaviour.valueOf(parts[1].trim());
-                dataLandscape.add(new PairImpl<Integer, CSVReaderImpl.Behaviour>(length, behaviour));
+                behaviour = LandscapeBehaviour.valueOf(parts[1].trim());
+                dataLandscape.add(new PairImpl<Integer, LandscapeBehaviour>(length, behaviour));
             }
         } catch (IOException e) {
             e.printStackTrace();

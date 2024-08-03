@@ -3,9 +3,12 @@ package scramble.model.map.utils;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.impl.MapElementImpl;
+import scramble.model.map.utils.enums.LandscapePart;
 
 /**
  * Class that converts MapStageImpl columns to ArrayList of BufferedImage.
@@ -24,8 +27,8 @@ public final class Converter {
             final PairImpl<MapElementImpl, MapElementImpl> column) {
         ArrayList<BufferedImage> returnColumn = new ArrayList<>();
         LandscapeUtils mapUtils = new LandscapeUtils();
-        BufferedImage green = mapUtils.getSprite(LandscapePart.LandscapeSprite.GREEN_SQUARE);
-        BufferedImage sky = mapUtils.getSprite(LandscapePart.LandscapeSprite.SKY);
+        BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
+        BufferedImage sky = mapUtils.getSprite(LandscapePart.SKY);
         int ceilingHeight = column.getFirstElement().getHeight();
         int floorHeight = column.getSecondElement().getHeight();
         boolean isGreen = (ceilingHeight != -1);
@@ -43,5 +46,13 @@ public final class Converter {
             }
         }
         return returnColumn;
+    }
+    /**
+     * Method that insert all of the enum LandscapeSprite data into a List.
+     * 
+     * @return the list of all the enum LandscapeSprite
+     */
+    public static List<LandscapePart> getImageParts() {
+        return Arrays.asList(LandscapePart.values());
     }
 }

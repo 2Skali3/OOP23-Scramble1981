@@ -3,11 +3,9 @@ package scramble.model.map.utils;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+import scramble.model.map.utils.enums.LandscapePart;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import scramble.model.map.utils.LandscapePart.LandscapeSprite;
 
 import java.awt.image.BufferedImage;
 
@@ -51,7 +49,7 @@ public class LandscapeUtils {
     /**
      * Classification of the type of sprite.
      */
-    public static final List<LandscapeSprite> NAME_IMAGE_PART = LandscapePart.getImageParts();
+    public static final List<LandscapePart> NAME_IMAGE_PART = Converter.getImageParts();
     /**
      * Relative url of the sprites image.
      */
@@ -59,7 +57,7 @@ public class LandscapeUtils {
 
     private static final int GREEN_SQUARE_STARTER_LOCATION = 5;
 
-    private Map<LandscapeSprite, BufferedImage> spritesMap;
+    private Map<LandscapePart, BufferedImage> spritesMap;
 
     /**
      * Constructor of the LandscapeUtils class.
@@ -95,7 +93,7 @@ public class LandscapeUtils {
      * @param landScapeSprite
      * @return relative BufferedImage
      */
-    public BufferedImage getSprite(final LandscapeSprite landScapeSprite) {
+    public BufferedImage getSprite(final LandscapePart landScapeSprite) {
         return this.spritesMap.get(landScapeSprite);
     }
 }
