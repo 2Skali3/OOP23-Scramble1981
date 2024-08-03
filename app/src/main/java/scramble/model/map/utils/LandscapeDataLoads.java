@@ -38,7 +38,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getPrestageData() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getPrestageData() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(PRESTAGE_CEILING),
                 CSV_READER.readCSV(PRESTAGE_FLOOR));
@@ -49,7 +51,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage1Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage1Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_1_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_1_FLOOR_FILE_PATH));
@@ -60,7 +64,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage2Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage2Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_2_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_2_FLOOR_FILE_PATH));
@@ -71,7 +77,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage3Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage3Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_3_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_3_FLOOR_FILE_PATH));
@@ -82,7 +90,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage4Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage4Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_4_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_4_FLOOR_FILE_PATH));
@@ -93,7 +103,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage5Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage5Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_5_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_5_FLOOR_FILE_PATH));
@@ -104,7 +116,9 @@ public final class LandscapeDataLoads {
      * 
      * @return raw data from the csv files for ceiling and floor
      */
-    public static PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage6Data() {
+    public static PairImpl<
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>, 
+        ArrayList<PairImpl<Integer, LandscapeBehaviour>>> getStage6Data() {
         return new PairImpl<ArrayList<PairImpl<Integer, LandscapeBehaviour>>, ArrayList<PairImpl<Integer, LandscapeBehaviour>>>(
                 CSV_READER.readCSV(STAGE_6_CEILING_FILE_PATH),
                 CSV_READER.readCSV(STAGE_6_FLOOR_FILE_PATH));
