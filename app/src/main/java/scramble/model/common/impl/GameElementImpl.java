@@ -9,6 +9,8 @@ import scramble.model.common.api.GameElement;
 /**
  * Implementation of the GameElemnt interface. Sets the ground for all game
  * objects development.
+ * 
+ * @see GameElement
  */
 public class GameElementImpl implements GameElement {
 
@@ -32,8 +34,7 @@ public class GameElementImpl implements GameElement {
     }
 
     private void initHitbox() {
-        hitbox = new Rectangle(this.location.getFirstElement(),
-                this.location.getSecondElement(), width, height);
+        hitbox = new Rectangle(this.location.getFirstElement(), this.location.getSecondElement(), width, height);
     }
 
     /**

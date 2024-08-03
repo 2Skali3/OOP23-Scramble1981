@@ -13,5 +13,4 @@ public class RocketImpl implements Enemy {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'startMovment'");
     }
-
 }
