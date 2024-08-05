@@ -94,7 +94,7 @@ public class GameElementImpl implements GameElement {
     }
 
     /**
-     * Getter for the game elemnet height.
+     * Getter for the game element height.
      * 
      * @return heigth
      */
