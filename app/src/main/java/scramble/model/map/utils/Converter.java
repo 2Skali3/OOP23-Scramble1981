@@ -33,7 +33,7 @@ public final class Converter {
         final int ceilingHeight = column.getFirstElement().getHeight();
         final int floorHeight = column.getSecondElement().getHeight();
         boolean isGreen = true;
-        if (ceilingHeight != -1) {
+        if (ceilingHeight == -1) {
             isGreen = false;
         }
         for (int y = 0; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++) {
