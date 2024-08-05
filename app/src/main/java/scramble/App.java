@@ -5,7 +5,7 @@ package scramble;
 
 import scramble.controller.input.impl.InputControlImpl;
 import scramble.view.GameView;
-// import scramble.view.GameFrame;
+//import scramble.view.GameFrame;
 
 /**
  * Main class for the game. It instantiate the Game View and the controller,
@@ -32,7 +32,7 @@ public class App {
         final GameView gv = new GameView();
         final InputControlImpl controller = new InputControlImpl(gv);
         gv.addKeyListener(controller);
-        // new GameFrame();
+        //new GameFrame();
 
     }
 }

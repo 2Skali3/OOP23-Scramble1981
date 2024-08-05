@@ -1,21 +1,19 @@
 package scramble.model.common.impl;
 
 import java.awt.image.BufferedImage;
-import java.awt.Rectangle;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.api.GameElement;
 
 /**
- * Implementation of the GameElemnt interface. Sets the ground for all game
+ * Implementation of the GameElement interface. Sets the ground for all game
  * objects development.
  * 
  * @see GameElement
  */
-public class GameElementImpl implements GameElement {
+public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     private final int width, height;
-    private Rectangle hitbox;
     private final PairImpl<Integer, Integer> location;
 
     /**
@@ -27,40 +25,16 @@ public class GameElementImpl implements GameElement {
      * @param height game element height
      */
     public GameElementImpl(final int x, final int y, final int width, final int height) {
+        super(x, y, width, height);
         this.location = new PairImpl<>(x, y);
         this.width = width;
         this.height = height;
-        initHitbox();
-    }
-
-    private void initHitbox() {
-        hitbox = new Rectangle(this.location.getFirstElement(), this.location.getSecondElement(), width, height);
-    }
-
-    /**
-     * Updates the values of the hitbox.
-     * 
-     * @param x
-     * @param y
-     */
-    protected void updateHitbox(final int x, final int y) {
-        this.hitbox.x = (int) x;
-        this.hitbox.y = (int) y;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    @SuppressFBWarnings
-    public Rectangle getHitbox() {
-
-        return hitbox;
     }
 
     /** {@inheritDoc} */
     @Override
     public void updatePosition(final PairImpl<Integer, Integer> newPosition) {
-        // this.location.setLocation(newPosition.getFirstElement(),
-        // newPosition.getSecondElement());
+        this.location.setPair(newPosition);
     }
 
     /** {@inheritDoc} */
@@ -85,7 +59,7 @@ public class GameElementImpl implements GameElement {
     }
 
     /**
-     * Getter for the game elemnet width.
+     * Getter for the game element width.
      * 
      * @return width
      */

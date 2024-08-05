@@ -1,6 +1,7 @@
 package scramble.model.spaceship;
 
 import scramble.model.common.impl.GameElementImpl;
+import scramble.model.common.impl.PairImpl;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -60,7 +61,8 @@ public final class SpaceShip extends GameElementImpl {
      * @param dy amount of movement on the Y axis
      */
     public void move(final int dx, final int dy) {
-        getPosition().setPair(getPosition().getFirstElement() + dx, getPosition().getSecondElement() + dy);
+        getPosition()
+            .setPair(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx, getPosition().getSecondElement() + dy));
     }
 
     /** {@inheritDoc} */

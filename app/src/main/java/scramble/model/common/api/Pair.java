@@ -12,12 +12,9 @@ public interface Pair<X, Y> {
      * This method is a setter for both generic elements to be done at the same
      * time.
      * 
-     * @param firstElement  is the field that refers to the first generic element
-     *                      (any type is accepted)
-     * @param secondElement is the field that refers to the second generic element
-     *                      (any type is accepted)
+     * @param newPair  is the new value of the pair
      */
-    void setPair(X firstElement, Y secondElement);
+    void setPair(Pair<X, Y> newPair);
 
     /**
      * Setter for the first element.

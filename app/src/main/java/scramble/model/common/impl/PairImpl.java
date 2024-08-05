@@ -60,8 +60,8 @@ public class PairImpl<X, Y> implements Pair<X, Y> {
      * {@inheritDoc}
      */
     @Override
-    public void setPair(final X firstElement, final Y secondElement) {
-        setFirstElement(firstElement);
-        setSecondElement(secondElement);
+    public void setPair(final Pair<X, Y> newPair) {
+        setFirstElement(newPair.getFirstElement());
+        setSecondElement(newPair.getSecondElement());
     }
 }
