@@ -3,16 +3,19 @@ package scramble.view;
 import javax.swing.JPanel;
 
 import scramble.model.command.impl.SpaceShipCommand;
+import scramble.model.command.impl.BulletCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.LandscapeUtil;
 import scramble.model.map.LevelsBuilder;
 import scramble.model.map.TileMap;
 import scramble.model.spaceship.SpaceShip;
+import scramble.model.bullets.Bullet;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -26,11 +29,15 @@ public class GamePanel extends JPanel {
     private static final int COLUMN_WIDTH = 16;
     private static final int SCALE_FACTOR = 1; // Scaling factor for heights
 
+    private static final int BULLET_WIDTH = 3;
+    private static final int BULLET_HEIGHT = 3;
+
     private int scrollX; // Current scroll position
     private final transient TileMap tileMap;
     private final Map<String, List<Map<String, Object>>> level;
     private final transient SpaceShip spaceship;
     private final transient FuelBar fuelBar;
+    private transient List<Bullet> bullets;
 
     /**
      * Class constructor.
@@ -41,6 +48,7 @@ public class GamePanel extends JPanel {
         fuelBar = new FuelBar();
         scrollX = 0;
         spaceship = new SpaceShip(START, START, 32, 16);
+        bulletInit();
     }
 
     private void drawLandscape(final Graphics g, final Map<String, List<Map<String, Object>>> data) {
@@ -95,10 +103,23 @@ public class GamePanel extends JPanel {
                     spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
         }
     }
+    private void drawBullet(final Graphics g, final Bullet bullet) {
+        final BufferedImage bulletSprite = bullet.getSprite();
+        if (bulletSprite != null) {
+            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
+                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
+        }
+    }
+    private void drawBullets(final Graphics g) {
+        // for each bullet in bullet list, call drawBullet()
+        for (final Bullet bullet : bullets) {
+            drawBullet(g, bullet);
+        }
+    }
 
     /**
      * Method that executes the command sent to the spaceship.
-     * 
+     *
      * @param command the command
      */
     public void sendCommand(final SpaceShipCommand command) {
@@ -106,9 +127,18 @@ public class GamePanel extends JPanel {
     }
 
     /**
+     * Method that executes the command sent to the spaceship.
+     *
+     * @param command the command
+     */
+    public void sendCommandBullet(final BulletCommand command) {
+        command.execute();
+    }
+
+    /**
      * Paints the game screen, basically overriding the method of the extended
      * class.
-     * 
+     *
      * @param g the graphics component
      */
     @Override
@@ -116,12 +146,13 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         drawLandscape(g, level);
         drawSpaceship(g);
+        drawBullets(g);
         fuelBar.paintFuelBar(g, getWidth());
     }
 
     /**
      * Moves the spaceship, controlled by the player, on the game panel.
-     * 
+     *
      * @param dx movement on the X axis
      * @param dy movement on the Y axis
      */
@@ -137,6 +168,47 @@ public class GamePanel extends JPanel {
     }
 
     /**
+    * For each bullet, call bullet.move().
+    */
+    public void moveBullets() {
+        final List<Bullet> bulletsToRemove = new ArrayList<>();
+        for (final Bullet bullet : bullets) {
+            bullet.move();
+            // Check if the bullet is out from screen
+            if (bullet.getPosition().getFirstElement() > getWidth()) {
+                bulletsToRemove.add(bullet);
+            }
+        }
+        // removes bullets that have gone off the screen
+        bullets.removeAll(bulletsToRemove);
+        repaint();
+    }
+
+    /**
+     * Shoots a bullet from the spaceship's current position.
+     *
+     * This method calculates the initial position of the bullet based on
+     * the spaceship's current position and size. It then creates a new
+     * {@link Bullet} instance and adds it to the list of bullets in the game.
+     * The bullet's start position is at the right edge of the spaceship, centered
+     * vertically.
+     */
+    public void shootBullet(/*final int bullet_type*/) {
+        //bullet_type should be an enum, not an int
+        final PairImpl<Integer, Integer> location = spaceship.getPosition();
+        final int bulletX = location.getFirstElement() + spaceship.getWidth();
+        final int bulletY = location.getSecondElement() + spaceship.getHeight() / 2;
+
+        /*
+            create new Bullet class and append to List<Bullet>
+            start position is (shipX+shipWidth, shipY+shipHeight/2)
+        */
+        final Bullet bullet = new Bullet(bulletX, bulletY, BULLET_WIDTH, BULLET_HEIGHT);
+        bullets.add(bullet);
+        repaint();
+    }
+
+    /**
      * Handles scrolling of the game levels.
      */
     public void scrollBackground() {
@@ -146,7 +218,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Getter for starting X scrolling position.
-     * 
+     *
      * @return scrollX
      */
     public int getScrollX() {
@@ -155,7 +227,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Getter for tilemap.
-     * 
+     *
      * @return tileMap
      */
     public TileMap getTileMap() {
@@ -164,7 +236,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Getter for the level.
-     * 
+     *
      * @return level
      */
     public Map<String, List<Map<String, Object>>> getLevel() {
@@ -173,11 +245,15 @@ public class GamePanel extends JPanel {
 
     /**
      * Getter for the spaceship.
-     * 
+     *
      * @return the spaceship
      */
     public SpaceShip getSpaceship() {
         return spaceship;
+    }
+
+    private void bulletInit()  {
+        this.bullets = new ArrayList<>();
     }
 
 }

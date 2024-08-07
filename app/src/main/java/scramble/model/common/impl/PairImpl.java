@@ -4,7 +4,7 @@ import scramble.model.common.api.Pair;
 
 /**
  * Implementation of the generic class Pair.
- * 
+ *
  * @param <X> type of the firstElement
  * @param <Y> type of the secondElement
  */
@@ -15,7 +15,7 @@ public class PairImpl<X, Y> implements Pair<X, Y> {
 
     /**
      * Class constructor.
-     * 
+     *
      * @param firstElement
      * @param secondElement
      */
@@ -63,5 +63,13 @@ public class PairImpl<X, Y> implements Pair<X, Y> {
     public void setPair(final Pair<X, Y> newPair) {
         setFirstElement(newPair.getFirstElement());
         setSecondElement(newPair.getSecondElement());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setPair(final X firstElement, final Y secondElement) {
+        setFirstElement(firstElement);
+        setSecondElement(secondElement);
     }
 }
