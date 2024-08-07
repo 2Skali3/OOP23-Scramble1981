@@ -1,4 +1,4 @@
-package scramble.view;
+package scramble.view.compact;
 
 import scramble.model.scores.Scores;
 import scramble.view.font.ScrambleFontUtil;
@@ -16,11 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * The start menu with wich the game starts. Loopes through the Scoreboard as
+ * The start menu with the game starts. Loopes through the Scoreboard as
  * well.
  */
 public final class StartMenu extends JPanel {
-
     private static final long serialVersionUID = 1L;
 
     private static final int GAP30 = 30;
@@ -49,7 +48,7 @@ public final class StartMenu extends JPanel {
      */
     public StartMenu() {
         setLayout(new BorderLayout());
-
+        setOpaque(false);
         scores = new Scores();
         retroFont = ScrambleFontUtil.loadFont(FSIZE2);
 

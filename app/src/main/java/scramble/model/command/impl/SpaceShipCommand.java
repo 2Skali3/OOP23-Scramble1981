@@ -2,7 +2,7 @@ package scramble.model.command.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.command.api.Command;
-import scramble.view.GamePanel;
+import scramble.view.compact.SpaceShipPanel;
 
 /**
  * Implementation of Command interface. handles the player (ship) commands and
@@ -10,27 +10,27 @@ import scramble.view.GamePanel;
  */
 public final class SpaceShipCommand implements Command {
 
-    private final GamePanel gamePanel;
+    private final SpaceShipPanel spaceShipPanel;
     private final int x;
     private final int y;
 
     /**
      * Class constructor.
      * 
-     * @param panel the game panel to update
+     * @param spaceShipPanel the game panel to update
      * @param x     movement on the x axis
      * @param y     movement on the y axis
      */
     @SuppressFBWarnings
-    public SpaceShipCommand(final GamePanel panel, final int x, final int y) {
-        this.gamePanel = panel;
+    public SpaceShipCommand(final SpaceShipPanel spaceShipPanel, final int x, final int y) {
+        this.spaceShipPanel = spaceShipPanel;
         this.x = x;
         this.y = y;
     }
 
     @Override
     public void execute() {
-        gamePanel.moveSpaceship(x, y);
+        spaceShipPanel.moveSpaceship(x, y);
     }
 
 }

@@ -30,6 +30,7 @@ public final class Converter {
         final LandscapeUtils mapUtils = new LandscapeUtils();
         final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
         final BufferedImage sky = mapUtils.getSprite(LandscapePart.SKY);
+
         final int ceilingHeight = column.getFirstElement().getHeight();
         final int floorHeight = column.getSecondElement().getHeight();
         boolean isGreen = true;
@@ -50,6 +51,35 @@ public final class Converter {
             }
         }
         return returnColumn;
+    }
+
+    /**
+     * Method that elaborate the data for beeing viewed.
+     * @param column that we want to elaborate.
+     * @return elaborated data.
+     */
+    public static PairImpl<List<BufferedImage>, List<BufferedImage>> 
+        convertMapStageImpl(final PairImpl<MapElementImpl, MapElementImpl> column) {
+
+        final ArrayList<BufferedImage> ceiling = new ArrayList<>();
+        final ArrayList<BufferedImage> floor = new ArrayList<>();
+        final LandscapeUtils mapUtils = new LandscapeUtils();
+        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
+
+        final int ceilingHeight = column.getFirstElement().getHeight();
+        final int floorHeight = column.getSecondElement().getHeight();
+
+        for (int y = 0; y < ceilingHeight; y++) {
+            ceiling.add(green);
+        }
+        ceiling.add(column.getFirstElement().getSprite());
+
+        for (int y = LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y > floorHeight; y--) {
+            floor.add(green);
+        }
+        floor.add(column.getSecondElement().getSprite());
+
+        return new PairImpl<List<BufferedImage>, List<BufferedImage>>(ceiling, floor);
     }
 
     /**

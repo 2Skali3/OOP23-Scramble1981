@@ -1,10 +1,13 @@
 package scramble.model.scores;
 
-import java.util.List;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
+import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * This class handles the score board. It creates a list to be display in the
@@ -12,17 +15,32 @@ import java.util.ArrayList;
  */
 public class Scores {
 
+    private static final Logger LOG = Logger.getLogger(Scores.class.getName());
+    private static final String FILE_PATH = "/scores/scores.json";
     private static final int MAX = 9;
-    private static final int PTS_STD = 10_000;
     private final List<Integer> scoresList;
 
     /**
      * Class constructor.
      */
     public Scores() {
-        scoresList = new ArrayList<>(MAX);
-        for (int i = 0; i < MAX; i++) {
-            scoresList.add(PTS_STD);
+        scoresList = new ArrayList<>(MAX); // Initialize with zeros
+
+        // Read scores from JSON file
+        try (Reader reader = new InputStreamReader(
+                Scores.class.getResourceAsStream(FILE_PATH), "UTF-8");) {
+
+            final Gson gson = new Gson();
+            final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
+            if (loadedScores != null) {
+                for (final int i : loadedScores.getScores()) {
+                    scoresList.add(i);
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
         }
     }
 
@@ -40,14 +58,13 @@ public class Scores {
     }
 
     /**
-     * Getter for the score's list. SpotBUgs warning suppressed since it returns a
+     * Getter for the score's list. SpotBgs warning suppressed since it returns a
      * std class.
      * 
      * @return the score's list
      */
-    @SuppressFBWarnings
     public List<Integer> getScoresList() {
-        return scoresList;
+        return new ArrayList<>(scoresList);
     }
 
     /**
@@ -57,4 +74,16 @@ public class Scores {
         scoresList.clear();
     }
 
+    // Nested class for json data handling
+    private static final class ScoreData {
+        private final List<Integer> scores;
+
+        private ScoreData() {
+            this.scores = new ArrayList<>();
+        }
+
+        private List<Integer> getScores() {
+            return Objects.nonNull(scores) ? new ArrayList<>(scores) : new ArrayList<>();
+        }
+    }
 }

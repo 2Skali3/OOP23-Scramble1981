@@ -2,7 +2,7 @@ package scramble.model.command.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.command.api.Command;
-import scramble.view.GamePanel;
+import scramble.view.compact.SpaceShipPanel;
 
 /**
  * Implementation of Command interface. handles the player (bullet) commands and
@@ -10,7 +10,7 @@ import scramble.view.GamePanel;
  */
 public class BulletCommand implements Command {
 
-    private final GamePanel gamePanel;
+    private final SpaceShipPanel gamePanel;
 
     /**
      * Class constructor.
@@ -18,7 +18,7 @@ public class BulletCommand implements Command {
      * @param panel the game panel to update
      */
     @SuppressFBWarnings
-    public BulletCommand(final GamePanel panel) {
+    public BulletCommand(final SpaceShipPanel panel) {
         this.gamePanel = panel;
     }
 
