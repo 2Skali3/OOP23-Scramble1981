@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 
 /**
  * Implementation of the interface HitBox.
+ * 
  * @see HitBox
  */
 public class HitBoxImpl implements HitBox {
@@ -13,9 +14,10 @@ public class HitBoxImpl implements HitBox {
 
     /**
      * Constructor for the class HitboxImpl.
-     * @param x is the position of the hitbox on the x axis
-     * @param y is the position of the hitbox on the y axis
-     * @param width is the width of the hitbox
+     * 
+     * @param x      is the position of the hitbox on the x axis
+     * @param y      is the position of the hitbox on the y axis
+     * @param width  is the width of the hitbox
      * @param height is the height of the hitbox
      */
     public HitBoxImpl(final int x, final int y, final int width, final int height) {
@@ -26,9 +28,8 @@ public class HitBoxImpl implements HitBox {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasCollided() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasCollided'");
+    public boolean hasCollided(final GameElementImpl obj) {
+        return hitbox.intersects(obj.getHitBox());
     }
 
     /**
@@ -36,9 +37,7 @@ public class HitBoxImpl implements HitBox {
      */
     @Override
     public void updateHitBox(final int x, final int y) {
-
         hitbox.setLocation(x, y);
-
     }
 
     /**

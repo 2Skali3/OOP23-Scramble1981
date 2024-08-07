@@ -9,6 +9,8 @@ import scramble.model.map.LevelsBuilder;
 import scramble.model.map.TileMap;
 import scramble.model.spaceship.SpaceShip;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -90,6 +92,9 @@ public class GamePanel extends JPanel {
 
     private void drawSpaceship(final Graphics g) {
         final BufferedImage shipSprite = spaceship.getSprite();
+        final Rectangle hb = spaceship.getHitBox();
+        g.setColor(Color.CYAN);
+        g.drawRect(hb.x, hb.y, hb.width, hb.height);
         if (shipSprite != null) {
             g.drawImage(shipSprite, spaceship.getPosition().getFirstElement(),
                     spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
