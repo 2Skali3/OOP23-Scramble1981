@@ -12,28 +12,28 @@ public interface GameElement {
 
     /**
      * Updates game element position.
-     * 
+     *
      * @param newPosition the new position
      */
     void updatePosition(PairImpl<Integer, Integer> newPosition);
 
     /**
      * Gets the current game element position.
-     * 
+     *
      * @return current position
      */
     PairImpl<Integer, Integer> getPosition();
 
     /**
      * Getter for a game element single sprite.
-     * 
+     *
      * @return the game element image
      */
     BufferedImage getSprite();
 
     /**
      * Updates the game element sprite.
-     * 
+     *
      * @param newSprite the new image
      */
     void updateSprite(BufferedImage newSprite);

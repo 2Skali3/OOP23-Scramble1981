@@ -7,17 +7,17 @@ import java.awt.image.BufferedImage;
 /**
  * Implementation of the GameElement interface. Sets the ground for all game
  * objects development.
- * 
+ *
  * @see GameElement
  */
 public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     private final int width, height;
-    private final PairImpl<Integer, Integer> location;
+    private final PairImpl<Integer, Integer> position;
 
     /**
      * Class constructor.
-     * 
+     *
      * @param x      X coordinate
      * @param y      Y coordinate
      * @param width  game element width
@@ -25,7 +25,7 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
      */
     public GameElementImpl(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
-        this.location = new PairImpl<>(x, y);
+        this.position = new PairImpl<>(x, y);
         this.width = width;
         this.height = height;
     }
@@ -33,14 +33,14 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
     /** {@inheritDoc} */
     @Override
     public void updatePosition(final PairImpl<Integer, Integer> newPosition) {
-        this.location.setPair(newPosition);
-        this.updateHitBox(newPosition.getFirstElement(), newPosition.getSecondElement());
+        this.position.setPair(newPosition);
+        updateHitBox(newPosition.getFirstElement(), newPosition.getSecondElement());
     }
 
     /** {@inheritDoc} */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
-        return new PairImpl<Integer, Integer>(location.getFirstElement(), location.getSecondElement());
+        return new PairImpl<Integer, Integer>(position.getFirstElement(), position.getSecondElement());
     }
 
     /** {@inheritDoc} */
@@ -59,7 +59,7 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     /**
      * Getter for the game element width.
-     * 
+     *
      * @return width
      */
     public int getWidth() {
@@ -68,7 +68,7 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     /**
      * Getter for the game element height.
-     * 
+     *
      * @return heigth
      */
     public int getHeight() {

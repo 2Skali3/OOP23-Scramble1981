@@ -8,6 +8,7 @@ import javax.swing.Timer;
 
 import scramble.controller.input.api.InputControl;
 import scramble.model.command.impl.SpaceShipCommand;
+import scramble.model.command.impl.BulletCommand;
 import scramble.view.GameView;
 
 /**
@@ -18,9 +19,11 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
 
     private static final int MINUS = -10;
     private static final int PLUS = 10;
+    private static final int DELAYBULLET = 300;
 
     private final GameView gv;
     private final Timer timer;
+    private final Timer timerBullet;
 
     /**
      * Class constructor.
@@ -31,6 +34,8 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         this.gv = new GameView(gv);
         // Create a timer to scroll the background
         timer = new Timer(100, e -> this.gv.getLandscape().scrollBackground());
+        // TODO add new timer that moves the bullets
+        timerBullet = new Timer(DELAYBULLET, e -> this.gv.getLandscape().moveBullets());
     }
 
     /** {@inheritDoc} */
@@ -43,8 +48,10 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         case KeyEvent.VK_DOWN -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), 0, PLUS));
         case KeyEvent.VK_LEFT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), MINUS, 0));
         case KeyEvent.VK_RIGHT -> gv.getLandscape().sendCommand(new SpaceShipCommand(gv.getLandscape(), PLUS, 0));
+        case KeyEvent.VK_SPACE -> gv.getLandscape().sendCommandBullet(new BulletCommand(gv.getLandscape()));
         case KeyEvent.VK_ENTER -> {
             timer.start();
+            timerBullet.start();
             gv.showLandscape();
         }
         default -> {

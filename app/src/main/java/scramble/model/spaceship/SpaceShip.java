@@ -25,7 +25,7 @@ public final class SpaceShip extends GameElementImpl {
 
     /**
      * Class construnctor.
-     * 
+     *
      * @param startX starting position on the X axis
      * @param startY starting position on the Y axis
      * @param width  the width of the spaceship
@@ -47,7 +47,7 @@ public final class SpaceShip extends GameElementImpl {
     /**
      * Getter for the spaceship's sprites. Suppressed spotbugs warning since it's
      * returning a jdk class.
-     * 
+     *
      * @return the list of spaceship's sprites
      */
     public List<BufferedImage> getSprites() {
@@ -56,16 +56,11 @@ public final class SpaceShip extends GameElementImpl {
 
     /**
      * Handles the spaceship's movement.
-     * 
+     *
      * @param dx amount of movement on the X axis
      * @param dy amount of movement on the Y axis
      */
     public void move(final int dx, final int dy) {
-        /*
-         * getPosition()
-         * .setPair(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx,
-         * getPosition().getSecondElement() + dy));
-         */
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx,
                 getPosition().getSecondElement() + dy));
     }
