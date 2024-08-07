@@ -19,9 +19,9 @@ import java.util.Random;
 public final class SpaceShip extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
+    private static final int SPRITES = 8;
 
     private final List<BufferedImage> sprites;
-    private static final int SPRITES = 8;
 
     /**
      * Class construnctor.
@@ -62,9 +62,7 @@ public final class SpaceShip extends GameElementImpl {
      */
     public void move(final int dx, final int dy) {
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx,
-                                                      getPosition().getSecondElement() + dy));
-        //getPosition()
-        //.setPair(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx, getPosition().getSecondElement() + dy));
+                getPosition().getSecondElement() + dy));
     }
 
     /** {@inheritDoc} */
@@ -79,4 +77,5 @@ public final class SpaceShip extends GameElementImpl {
 
         return sprites.get(num);
     }
+
 }

@@ -1,9 +1,8 @@
 package scramble.model.common.impl;
 
-import java.awt.image.BufferedImage;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.api.GameElement;
+
+import java.awt.image.BufferedImage;
 
 /**
  * Implementation of the GameElement interface. Sets the ground for all game
@@ -40,9 +39,8 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     /** {@inheritDoc} */
     @Override
-    @SuppressFBWarnings
     public PairImpl<Integer, Integer> getPosition() {
-        return this.position;
+        return new PairImpl<Integer, Integer>(position.getFirstElement(), position.getSecondElement());
     }
 
     /** {@inheritDoc} */
