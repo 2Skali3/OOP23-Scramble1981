@@ -3,6 +3,8 @@ package scramble.model.map.utils;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+
+import scramble.controller.map.Converter;
 import scramble.model.map.utils.enums.LandscapePart;
 import java.io.IOException;
 import javax.imageio.ImageIO;

@@ -2,7 +2,7 @@ package scramble.model.map;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStageFactory;
-import scramble.model.map.impl.MapStageImpl;
+import scramble.model.map.api.MapStage;
 import scramble.model.map.utils.LandscapeDataLoads;
 import scramble.model.map.utils.LandscapeUtils;
 
@@ -15,7 +15,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
     /**
      * the starter height value of the ceiling.
      */
-    public static final int STARTER_CEILINF_HEIGHT = -1;
+    public static final int STARTER_CEILING_HEIGHT = -1;
     /**
      * the starter height value of the floor.
      */
@@ -28,7 +28,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * Constructor of the class MapStageFactory.
      */
     public MapStageFactoryImpl() {
-        this.heightCeilingAndFloor = new PairImpl<>(MapStageFactoryImpl.STARTER_CEILINF_HEIGHT,
+        this.heightCeilingAndFloor = new PairImpl<>(MapStageFactoryImpl.STARTER_CEILING_HEIGHT,
                 MapStageFactoryImpl.STARTER_FLOOR_HEIGHT);
         this.mapStageGenerator = new MapStageGenerator();
     }
@@ -37,7 +37,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl prestage() {
+    public MapStage prestage() {
         return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getPrestageData(), this.heightCeilingAndFloor,
                 LandscapeUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH);
     }
@@ -46,7 +46,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage1() {
+    public MapStage stage1() {
         return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getStage1Data(), this.heightCeilingAndFloor,
                 LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
@@ -55,7 +55,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage2() {
+    public MapStage stage2() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage2'");
     }
@@ -64,7 +64,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage3() {
+    public MapStage stage3() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage3'");
     }
@@ -73,7 +73,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage4() {
+    public MapStage stage4() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage4'");
     }
@@ -82,7 +82,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage5() {
+    public MapStage stage5() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage5'");
     }
@@ -91,7 +91,7 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStageImpl stage6() {
+    public MapStage stage6() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage6'");
     }

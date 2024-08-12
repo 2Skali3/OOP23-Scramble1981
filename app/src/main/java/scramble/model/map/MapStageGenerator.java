@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import scramble.model.common.impl.PairImpl;
-import scramble.model.map.impl.MapElementImpl;
+import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageImpl;
 import scramble.model.map.utils.LandscapeUtils;
 import scramble.model.map.utils.enums.LandscapePart;
@@ -120,13 +120,22 @@ public class MapStageGenerator {
             if (rawDataCeilingAndFloor.getSecondElement().get(index).getSecondElement() == LandscapeBehaviour.SUMMIT) {
                 heightCeilingAndFloor.setSecondElement(heightCeilingAndFloor.getSecondElement() - 1);
             }
-            returnStage.addColumn(new PairImpl<MapElementImpl, MapElementImpl>(
-                    new MapElementImpl(heightCeilingAndFloor.getFirstElement(),
+            returnStage.addColumn(new PairImpl<MapElement, MapElement>(
+                    new MapElement(
+                            x * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            heightCeilingAndFloor.getFirstElement() * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
                             landscapeUtils.getSprite(LandscapePart.SKY)),
-                    new MapElementImpl(heightCeilingAndFloor.getSecondElement(),
-                            landscapeUtils.getSprite(this.getSprite(
-                                    rawDataCeilingAndFloor.getSecondElement().get(index).getSecondElement(),
-                                    StageComponent.FLOOR)))));
+                    new MapElement(
+                            x * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            heightCeilingAndFloor.getSecondElement() * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                            landscapeUtils.getSprite(
+                                    this.getSprite(
+                                            rawDataCeilingAndFloor.getSecondElement().get(index).getSecondElement(),
+                                            StageComponent.FLOOR)))));
             if (x - tempX.getSecondElement() == rawDataCeilingAndFloor.getSecondElement().get(index)
                     .getFirstElement()) {
                 index++;

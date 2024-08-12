@@ -3,6 +3,7 @@ package scramble.model.map.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStage;
 
@@ -13,36 +14,71 @@ import scramble.model.map.api.MapStage;
  * @see MapStage
  */
 public class MapStageImpl implements MapStage {
-    private final List<PairImpl<MapElementImpl, MapElementImpl>> columns;
+    private final List<MapElement> ceiling;
+    private final List<MapElement> floor;
 
     /**
      * Constructor for MapStageImpl.
      */
     public MapStageImpl() {
-        this.columns = new ArrayList<>();
+        this.ceiling = new ArrayList<>();
+        this.floor = new ArrayList<>();
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public int size() {
-        return this.columns.size();
+        return this.ceiling.size();
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
-    public void addColumn(final PairImpl<MapElementImpl, MapElementImpl> column) {
-        this.columns.add(column);
+    public void addColumn(final Pair<MapElement, MapElement> column) {
+        this.ceiling.add(column.getFirstElement());
+        this.floor.add(column.getSecondElement());
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
-    public PairImpl<MapElementImpl, MapElementImpl> getColumn(final int index) {
-        return this.columns.get(index);
+    public Pair<MapElement, MapElement> getColumn(final int index) {
+        return new PairImpl<MapElement, MapElement>(this.ceiling.get(index), this.floor.get(index));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MapElement getCloumnCeiling(final int index) {
+        return this.ceiling.get(index);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MapElement getCloumnFloor(final int index) {
+        return floor.get(index);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<MapElement> getCeiling() {
+        return new ArrayList<>(this.ceiling);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<MapElement> getFloor() {
+        return new ArrayList<>(this.floor);
     }
 }

@@ -1,7 +1,9 @@
 package scramble.model.map.api;
 
-import scramble.model.common.impl.PairImpl;
-import scramble.model.map.impl.MapElementImpl;
+import java.util.List;
+
+import scramble.model.common.api.Pair;
+import scramble.model.map.impl.MapElement;
 
 /**
  * Interface for MapStage, this interface will be implemented with a private
@@ -15,7 +17,7 @@ public interface MapStage {
      * 
      * @param column value of the new column
      */
-    void addColumn(PairImpl<MapElementImpl, MapElementImpl> column);
+    void addColumn(Pair<MapElement, MapElement> column);
 
     /**
      * Getter for a column of the MapStage that is identified by an index.
@@ -23,10 +25,26 @@ public interface MapStage {
      * @param index position of the column that we want to get
      * @return a column of the MapStage, identified by the index, as a PairImpl of
      *         MapElement;
-     *         the first element of PairImpl rappresents the ceiling, the second
+     *         the first element of Pair rappresents the ceiling, the second
      *         rappresents the floor
      */
-    PairImpl<MapElementImpl, MapElementImpl> getColumn(int index);
+    Pair<MapElement, MapElement> getColumn(int index);
+
+    /**
+     * Getter for only the ceiling component of the column.
+     * 
+     * @param index of the column
+     * @return the ceiling part of the column
+     */
+    MapElement getCloumnCeiling(int index);
+
+    /**
+     * Getter for only the floor component of the column.
+     * 
+     * @param index of the column
+     * @return the floor part of the column
+     */
+    MapElement getCloumnFloor(int index);
 
     /**
      * The size of the MapStage data structure.
@@ -34,4 +52,18 @@ public interface MapStage {
      * @return number of columns in MapStage
      */
     int size();
+
+    /**
+     * Getter for only the ceiling part of the MapStage.
+     * 
+     * @return the ceiling part of the stage
+     */
+    List<MapElement> getCeiling();
+
+    /**
+     * Getter for only the floor part of the MapStage.
+     * 
+     * @return the floor part of the stage
+     */
+    List<MapElement> getFloor();
 }
