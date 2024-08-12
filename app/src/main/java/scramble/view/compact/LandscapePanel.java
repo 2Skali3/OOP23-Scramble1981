@@ -6,8 +6,10 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import scramble.controller.map.MapController;
+import scramble.model.common.api.HitBox;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.utils.LandscapeUtils;
+import java.awt.Rectangle;
 
 /**
  * Class for the rappresentation of the Landscape Panel.
@@ -72,10 +74,16 @@ public class LandscapePanel extends GamePanel {
                         null);
             }
         }
+        drawHitBox(g);
     }
 
-    private void drowHitBox() {
-        
+    private void drawHitBox(final Graphics g) {
+        for (List<MapElement> c : columns) {
+            for (MapElement me : c ) {
+                final Rectangle temp = me.getHitBox().getHitBox();
+                g.drawRect(temp.x, temp.y, temp.width, temp.height);
+            }
+        }
     }
 
 }
