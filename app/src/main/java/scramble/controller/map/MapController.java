@@ -31,6 +31,8 @@ public class MapController {
     private static final MapStageFactory STAGE_FACTORY = new MapStageFactoryImpl();
     private final List<List<MapElement>> ceiling;
     private final List<List<MapElement>> floor;
+    private static List<Integer> stageStartingX = new ArrayList<>();
+
     private int columnIndex;
 
     /**
@@ -41,7 +43,6 @@ public class MapController {
         this.columnIndex = 0;
         this.ceiling = new ArrayList<>();
         this.floor = new ArrayList<>();
-        this.fillMapStage();
         this.fillColumns(stages);
         this.fillCeiling();
         this.fillFloor();
@@ -56,7 +57,8 @@ public class MapController {
 
     private void fillColumns(final List<MapStage> stages) {
         int x = 0;
-        for (MapStage mapStage : stages) {
+        for (final MapStage mapStage : stages) {
+            stageStartingX.add(x);
             for (int i = 0; i < mapStage.size(); i++) {
                 this.ceiling.add(new ArrayList<>());
                 this.floor.add(new ArrayList<>());
@@ -135,7 +137,27 @@ public class MapController {
                 .size()) {
             this.columnIndex = 0;
         }
-        System.out.println(columns.size());
+        // System.out.println(columns.size());
         return columns;
     }
+
+    /**
+     * Reset the Landscape to the indicated x position.
+     * 
+     * @param x position to reset the Landscape
+     */
+    public void resetToX(final int x) {
+        this.columnIndex = x;
+    }
+
+    /**
+     * Getter for the list of the starting x position of
+     * each stage.
+     * 
+     * @return the list with all the starter x position of each stage
+     */
+    public static List<Integer> getStageStartingX() {
+        return new ArrayList<>(stageStartingX);
+    }
+
 }

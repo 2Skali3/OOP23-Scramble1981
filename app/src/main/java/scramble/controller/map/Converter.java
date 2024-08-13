@@ -14,7 +14,7 @@ import scramble.model.map.utils.LandscapeUtils;
 import scramble.model.map.utils.enums.LandscapePart;
 
 /**
- * Class that convert raw data to usable data. 
+ * Class that convert raw data to usable data.
  */
 public final class Converter {
 
@@ -24,39 +24,36 @@ public final class Converter {
 
     /**
      * Method that take convert MapElements in List<BufferedImage>.
+     * 
      * @param column rappresented by Pair of MapElement
      * @return displayable pair of BfferedImage list
      */
-    public static Pair<List<BufferedImage>, List<BufferedImage>> 
-        convertMapElementToListOfBufferedImaga(final Pair<MapElement, MapElement> column) {
+    public static Pair<List<BufferedImage>, List<BufferedImage>> convertMapElementToListOfBufferedImaga(
+            final Pair<MapElement, MapElement> column) {
 
         final ArrayList<BufferedImage> ceiling = new ArrayList<>();
         final ArrayList<BufferedImage> floor = new ArrayList<>();
         final LandscapeUtils mapUtils = new LandscapeUtils();
         final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
 
-        final int ceilingHeight = 
-            column.getFirstElement().getPosition().getSecondElement() * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-        final int floorHeight = 
-            column.getSecondElement().getPosition().getSecondElement() * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        final int ceilingHeight = column.getFirstElement().getPosition().getSecondElement()
+                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        final int floorHeight = column.getSecondElement().getPosition().getSecondElement()
+                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
 
         for (int y = 0; y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < ceilingHeight; y++) {
             ceiling.add(green);
         }
         ceiling.add(column.getFirstElement().getSprite());
 
-        for (
-            int y = LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; 
-            y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE > floorHeight; 
-            y--
-        ) {
+        for (int y = LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y
+                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE > floorHeight; y--) {
             floor.add(green);
         }
         floor.add(column.getSecondElement().getSprite());
 
         return new PairImpl<List<BufferedImage>, List<BufferedImage>>(ceiling, floor);
     }
-
 
     // to-do: Porta in Converter la logica del Convertire enum in BufferedImage
     /**
@@ -69,17 +66,19 @@ public final class Converter {
     }
 
     /**
-     * Method that from the MapStage data of a single column (the ceiling and the floor MapElement) and 
+     * Method that from the MapStage data of a single column (the ceiling and the
+     * floor MapElement) and
      * return the list of all the MapElements that are present on that column.
      * 
      * @param ceiling component of the column
-     * @param floor component of the column
-     * @param x position of the column
-     * @return a list of MapElement with all the element and background element present in that column
-    */
+     * @param floor   component of the column
+     * @param x       position of the column
+     * @return a list of MapElement with all the element and background element
+     *         present in that column
+     */
     private static List<MapElement> elaborateSingleColumn(
             final MapElement ceiling, final MapElement floor, final int x) {
-        List<MapElement> returnColumn = new ArrayList<>();
+        final List<MapElement> returnColumn = new ArrayList<>();
         boolean isLandscapeArea = true;
         final LandscapeUtils mapUtils = new LandscapeUtils();
         final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
@@ -91,16 +90,15 @@ public final class Converter {
         returnColumn.add(ceiling);
 
         for (int y = 0; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++) {
-            if (y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE  == ceiling.getPosition().getSecondElement()) {
+            if (y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE == ceiling.getPosition().getSecondElement()) {
                 isLandscapeArea = false;
             } else if (y == floor.getPosition().getSecondElement()) {
                 isLandscapeArea = true;
             } else if (isLandscapeArea) {
-                returnColumn.add(new MapElement(x, y, 
-                    LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                    LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE, 
-                    green
-                    ));
+                returnColumn.add(new MapElement(x, y,
+                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        green));
             }
         }
 
@@ -108,18 +106,19 @@ public final class Converter {
 
     }
 
-    // to-do: nuova classe Column 
+    // to-do: nuova classe Column
     /**
-     * Method that takes all the MapStages you want to process 
+     * Method that takes all the MapStages you want to process
      * and translates them into a list of columns (List of MapElement).
      * 
      * @param mapStages List of MapStage to elaborate
-     * @return  column of the merged mapStage rappresented as a list of column (List of MapElement)
+     * @return column of the merged mapStage rappresented as a list of column (List
+     *         of MapElement)
      */
     public static List<List<MapElement>> convertMapStage(final List<MapStage> mapStages) {
         final List<List<MapElement>> returnColumns = new ArrayList<>();
         int x = 0;
-        for (MapStage stage : mapStages) {
+        for (final MapStage stage : mapStages) {
             for (int i = 0; i < mapStages.size(); i++) {
                 returnColumns.add(elaborateSingleColumn(stage.getCloumnCeiling(i), stage.getCloumnFloor(i), x));
                 x++;

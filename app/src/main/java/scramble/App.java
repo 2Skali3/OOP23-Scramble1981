@@ -34,6 +34,5 @@ public class App {
         final GameView gameView = new GameView();
         final InputControlImpl controller = new InputControlImpl(gameView);
         gameView.addKeyListener(controller);
-
     }
 }

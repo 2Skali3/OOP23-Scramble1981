@@ -2,6 +2,7 @@ package scramble.model.spaceship;
 
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.impl.MapElement;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -78,4 +79,20 @@ public final class SpaceShip extends GameElementImpl {
         return sprites.get(num);
     }
 
+    /**
+     * Check if the spaceship is colliding with the map.
+     * 
+     * @param map the map
+     * @return true it has touched the map
+     */
+    public boolean checkGroundCollision(final List<List<MapElement>> map) {
+        for (final List<MapElement> l : map) {
+            for (final MapElement me : l) {
+                if (hasCollided(me)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

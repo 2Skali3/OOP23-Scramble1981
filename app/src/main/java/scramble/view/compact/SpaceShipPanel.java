@@ -13,7 +13,6 @@ import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.SpaceShip;
 
-
 /**
  * Class for the representation of the Spaceship Panel.
  * 
@@ -43,12 +42,25 @@ public class SpaceShipPanel extends GamePanel {
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
+
+        // TODO check isRepaintable() from GamePanel
+
         if (spaceship.getSprite() != null) {
             g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
                     spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
         }
+        spaceship.drawHitBox(g);
         drawBullets(g);
         this.canNotBeRepaint();
+    }
+
+    /**
+     * Getter for the spaceship.
+     * 
+     * @return the spaceship
+     */
+    public SpaceShip getSpaceship() {
+        return spaceship;
     }
 
     /**
@@ -77,9 +89,10 @@ public class SpaceShipPanel extends GamePanel {
         this.canBeRepaint();
         repaint();
     }
+
     /**
-    * For each bullet, call bullet.move().
-    */
+     * For each bullet, call bullet.move().
+     */
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = new ArrayList<>();
         for (final Bullet bullet : bullets) {
@@ -101,6 +114,7 @@ public class SpaceShipPanel extends GamePanel {
                     bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
         }
     }
+
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         for (final Bullet bullet : bullets) {
@@ -117,16 +131,16 @@ public class SpaceShipPanel extends GamePanel {
      * The bullet's start position is at the right edge of the spaceship, centered
      * vertically.
      */
-    public void shootBullet(/*final int bullet_type*/) {
-        //bullet_type should be an enum, not an int
+    public void shootBullet(/* final int bullet_type */) {
+        // bullet_type should be an enum, not an int
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int bulletX = location.getFirstElement() + spaceship.getWidth();
         final int bulletY = location.getSecondElement() + spaceship.getHeight() / 2;
 
         /*
-            create new Bullet class and append to List<Bullet>
-            start position is (shipX+shipWidth, shipY+shipHeight/2)
-        */
+         * create new Bullet class and append to List<Bullet>
+         * start position is (shipX+shipWidth, shipY+shipHeight/2)
+         */
         final Bullet bullet = new Bullet(bulletX, bulletY, BULLET_WIDTH, BULLET_HEIGHT);
         bullets.add(bullet);
         repaint();
@@ -141,7 +155,7 @@ public class SpaceShipPanel extends GamePanel {
         command.execute();
     }
 
-    private void bulletInit()  {
+    private void bulletInit() {
         this.bullets = new ArrayList<>();
     }
 

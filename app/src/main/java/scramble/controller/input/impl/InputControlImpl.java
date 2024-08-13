@@ -46,19 +46,24 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         final int key = e.getKeyCode();
 
         switch (key) {
-        case KeyEvent.VK_UP -> gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
-        case KeyEvent.VK_DOWN -> gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, PLUS));
-        case KeyEvent.VK_LEFT -> gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), MINUS, 0));
-        case KeyEvent.VK_RIGHT -> gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
-        case KeyEvent.VK_SPACE -> gv.getSpaceshipPanel().sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel()));
-        case KeyEvent.VK_ENTER -> {
-            timer.start();
-            timerBullet.start();
-            gv.startGame();
-        }
-        default -> {
-            break;
-        }
+            case KeyEvent.VK_UP ->
+                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
+            case KeyEvent.VK_DOWN ->
+                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, PLUS));
+            case KeyEvent.VK_LEFT ->
+                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), MINUS, 0));
+            case KeyEvent.VK_RIGHT ->
+                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
+            case KeyEvent.VK_SPACE ->
+                gv.getSpaceshipPanel().sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel()));
+            case KeyEvent.VK_ENTER -> {
+                timer.start();
+                timerBullet.start();
+                gv.startGame();
+            }
+            default -> {
+                break;
+            }
         }
     }
 

@@ -1,12 +1,12 @@
 package scramble.view.compact;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import scramble.controller.map.MapController;
-import scramble.model.common.api.HitBox;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.utils.LandscapeUtils;
 import java.awt.Rectangle;
@@ -31,10 +31,17 @@ public class LandscapePanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
-
+    private int landscapeX;
     private transient List<List<MapElement>> columns;
 
-    private int landscapeX;
+    /**
+     * Returns the landscape.
+     * 
+     * @return a 2D list
+     */
+    public List<List<MapElement>> getColumns() {
+        return new ArrayList<>(columns);
+    }
 
     /** Costructor of the class LandscapePanel. */
     public LandscapePanel() {
@@ -63,14 +70,13 @@ public class LandscapePanel extends GamePanel {
             }
         }
 
-        for (int i = 0; i < columns.size(); i++) {
-            for (int j = 0; j < columns.get(i).size(); j++) {
-                MapElement element = columns.get(i).get(j);
-                element.updateHitBoxPosition(element.getX() + this.landscapeX, element.getY());
+        for (final List<MapElement> meList : columns) {
+            for (final MapElement me : meList) {
+                me.updateHitBoxPosition(me.getX() + this.landscapeX, me.getY());
                 g.drawImage(
-                        element.getSprite(),
-                        element.getX() + this.landscapeX, element.getY(),
-                        element.getWidth(), element.getHeight(),
+                        me.getSprite(),
+                        me.getX() + this.landscapeX, me.getY(),
+                        me.getWidth(), me.getHeight(),
                         null);
             }
         }
@@ -78,12 +84,23 @@ public class LandscapePanel extends GamePanel {
     }
 
     private void drawHitBox(final Graphics g) {
-        for (List<MapElement> c : columns) {
-            for (MapElement me : c ) {
-                final Rectangle temp = me.getHitBox().getHitBox();
+        for (final List<MapElement> c : columns) {
+            for (final MapElement me : c) {
+                final Rectangle temp = me.getHitBox();
                 g.drawRect(temp.x, temp.y, temp.width, temp.height);
             }
         }
+    }
+
+    /**
+     * Resets starting position of the map.
+     * 
+     * @param starterPosition self explanatory
+     */
+    public void reset(final int starterPosition) {
+        MAP_CONTROLLER.resetToX(starterPosition);
+        this.landscapeX = starterPosition;
+        this.fillColumns();
     }
 
 }
