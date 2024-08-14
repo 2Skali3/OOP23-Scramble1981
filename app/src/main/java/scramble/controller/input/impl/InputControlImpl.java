@@ -25,6 +25,8 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
 
     private final GameView gv;
     private final Timer timer;
+    private static boolean explPause;
+
     private final RepaintManager rm;
 
     /**
@@ -37,34 +39,36 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         this.rm = new RepaintManager(gv);
 
         timerBullet = new Timer(DELAYBULLET, e -> this.gv.getSpaceshipPanel().moveBullets());
-        this.timer = new Timer(SEC, e -> this.rm.repaintManagement());
+        timer = new Timer(SEC, e -> this.rm.repaintManagement());
     }
 
     /** {@inheritDoc} */
     @Override
     public void keyPressed(final KeyEvent e) {
-        final int key = e.getKeyCode();
-        gv.getLandscapePanel().canNotBeRepaint();
-        switch (key) {
-            case KeyEvent.VK_UP ->
-                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
-            case KeyEvent.VK_DOWN ->
-                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, PLUS));
-            case KeyEvent.VK_LEFT ->
-                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), MINUS, 0));
-            case KeyEvent.VK_RIGHT ->
-                gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
-            case KeyEvent.VK_SPACE ->
-                gv.getSpaceshipPanel().sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel()));
-            case KeyEvent.VK_ENTER -> {
-                gv.getLandscapePanel().canBeRepaint();
-                timer.start();
-                timerBullet.start();
-                gv.startGame();
-            }
-            default -> {
-                gv.getLandscapePanel().canBeRepaint();
-                break;
+        if (!gv.getSpaceshipPanel().getSpaceship().isHit()) {
+            final int key = e.getKeyCode();
+            gv.getLandscapePanel().canNotBeRepaint();
+            switch (key) {
+                case KeyEvent.VK_UP ->
+                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
+                case KeyEvent.VK_DOWN ->
+                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, PLUS));
+                case KeyEvent.VK_LEFT ->
+                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), MINUS, 0));
+                case KeyEvent.VK_RIGHT ->
+                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
+                case KeyEvent.VK_SPACE ->
+                    gv.getSpaceshipPanel().sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel()));
+                case KeyEvent.VK_ENTER -> {
+                    gv.getLandscapePanel().canBeRepaint();
+                    timer.start();
+                    timerBullet.start();
+                    gv.startGame();
+                }
+                default -> {
+                    gv.getLandscapePanel().canBeRepaint();
+                    break;
+                }
             }
         }
     }
@@ -73,6 +77,24 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     public void keyMapping() {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Setter for the boolean describing pause state.
+     * 
+     * @param bool the new value
+     */
+    public static void setPaused(final boolean bool) {
+        explPause = bool;
+    }
+
+    /**
+     * Getter for explosion pause state.
+     * 
+     * @return true if paused
+     */
+    public static boolean isExplPause() {
+        return explPause;
     }
 
 }

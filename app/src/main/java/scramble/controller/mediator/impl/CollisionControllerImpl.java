@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 
+import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.CollisionController;
 import scramble.view.compact.GameView;
@@ -20,6 +21,7 @@ public class CollisionControllerImpl implements CollisionController {
     private final LandscapePanel lp;
     private final SpaceShipPanel ssp;
     private final GameView gv;
+    private final Timer timer;
 
     /**
      * Class constructor.
@@ -30,18 +32,37 @@ public class CollisionControllerImpl implements CollisionController {
         this.gv = new GameView(gv);
         this.ssp = gv.getSpaceshipPanel();
         this.lp = gv.getLandscapePanel();
+        timer = new Timer(16, new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                touchedGround();
+            }
+        });
     }
 
     /** {@inheritDoc} */
     @Override
     public void touchedGround() {
         if (ssp.getSpaceship().checkGroundCollision(lp.getColumns())) {
-            if (gv.getGLoopController().isGameOver()) {
-                gv.setStart();
-            } else {
-                gv.getGLoopController().lostLife();
-                gv.restartFromCheckPoint(returnToCheckPoint());
-            }
+            // DEVE SUCCEDERE QUI
+            timer.stop();
+            InputControlImpl.setPaused(true);
+            final Timer delayTimer = new Timer(3500, new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    if (gv.getGLoopController().isGameOver()) {
+                        gv.setStart();
+                    } else {
+                        gv.getGLoopController().lostLife();
+                        gv.restartFromCheckPoint(returnToCheckPoint());
+                    }
+                    timer.start();
+                    InputControlImpl.setPaused(false);
+                    ssp.getSpaceship().setHit(false);
+                }
+            });
+            delayTimer.setRepeats(false); // Il timer deve eseguire l'azione solo una volta
+            delayTimer.start();
         }
     }
 
@@ -58,12 +79,6 @@ public class CollisionControllerImpl implements CollisionController {
 
     /** Initialise the timer for collision checking. */
     public void init() {
-        final Timer timer = new Timer(16, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                touchedGround();
-            }
-        });
         timer.start();
     }
 

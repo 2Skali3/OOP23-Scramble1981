@@ -184,6 +184,7 @@ public class GameView extends JFrame {
      * Setup of the mainPanel for the start of the game itself.
      */
     public void startGame() {
+
         this.mainPanel.removeAll();
 
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
@@ -204,6 +205,7 @@ public class GameView extends JFrame {
 
     /** Resets to start menu. */
     public void setStart() {
+
         this.mainPanel.removeAll();
 
         landscapePanel.reset(0);
@@ -214,6 +216,8 @@ public class GameView extends JFrame {
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 
         gLoopController.resetLives();
+        fuelBarPanel.getFuelBar().fillFuel();
+
     }
 
     /**
@@ -222,10 +226,14 @@ public class GameView extends JFrame {
      * @param restartPos X pos of selected checkpoint
      */
     public void restartFromCheckPoint(final int restartPos) {
+
         landscapePanel.reset(restartPos);
         spaceShipPanel.getSpaceship()
-                .updatePosition(new PairImpl<>(restartPos + SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
+                .updatePosition(
+                        new PairImpl<>(restartPos + SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
         this.landscapePanel.canBeRepaint();
+        fuelBarPanel.getFuelBar().fillFuel();
+
     }
 
 }

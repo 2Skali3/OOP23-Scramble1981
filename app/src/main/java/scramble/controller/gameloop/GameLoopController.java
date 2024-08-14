@@ -40,7 +40,7 @@ public class GameLoopController {
      * @return true if lives are over
      */
     public boolean isGameOver() {
-        return this.lives <= 0;
+        return this.lives == 0;
     }
 
     /** Adds checkpoints. */

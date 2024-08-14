@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import java.util.logging.Logger;
 
 import scramble.model.bullets.Bullet;
 import scramble.model.command.impl.BulletCommand;
@@ -21,6 +22,8 @@ import scramble.model.spaceship.SpaceShip;
  */
 public class SpaceShipPanel extends GamePanel {
 
+    private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
+
     private static final long serialVersionUID = 1L;
     private static final int STARTER_POSITION_X = 50;
     private static final int STARTER_POSITION_Y = 50;
@@ -29,7 +32,7 @@ public class SpaceShipPanel extends GamePanel {
     private static final int BULLET_WIDTH = 3;
     private static final int BULLET_HEIGHT = 3;
 
-    private final transient SpaceShip spaceship;
+    private transient SpaceShip spaceship;
     private transient List<Bullet> bullets;
 
     /** Cosnstructor for the SpaceshipPanel class. */
@@ -46,8 +49,13 @@ public class SpaceShipPanel extends GamePanel {
         // TODO check isRepaintable() from GamePanel
 
         if (spaceship.getSprite() != null) {
-            g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
-                    spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            if (spaceship.isHit()) {
+                g.drawImage(spaceship.getExpSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            } else {
+                g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            }
         }
         spaceship.drawHitBox(g);
         drawBullets(g);
@@ -60,7 +68,15 @@ public class SpaceShipPanel extends GamePanel {
      * @return the spaceship
      */
     public SpaceShip getSpaceship() {
-        return spaceship;
+        SpaceShip temp = spaceship;
+        try {
+            temp = spaceship.clone();
+            this.spaceship = temp;
+        } catch (CloneNotSupportedException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
+        }
+        return temp;
     }
 
     /**

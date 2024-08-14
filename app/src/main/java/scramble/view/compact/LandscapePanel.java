@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
@@ -69,7 +70,7 @@ public class LandscapePanel extends GamePanel {
     @Override
     protected void drawPanel(final Graphics g) {
         // to-do: dividi in sottometodi privati
-        if (this.isPanelRepeintable()) {
+        if (!InputControlImpl.isExplPause() && this.isPanelRepeintable()) {
             this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
@@ -107,6 +108,7 @@ public class LandscapePanel extends GamePanel {
                         null);
             }
         }
+
         drawHitBox(g);
     }
 

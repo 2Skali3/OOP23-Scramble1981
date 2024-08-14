@@ -61,4 +61,9 @@ public final class FuelBar {
     public int getFuelLevel() {
         return fuelLevel;
     }
+
+    /** Resets fuel bar to MAX. */
+    public void fillFuel() {
+        this.fuelLevel = MAX_FUEL;
+    }
 }
