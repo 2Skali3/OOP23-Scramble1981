@@ -7,9 +7,11 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import scramble.controller.map.MapController;
+import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.utils.LandscapeUtils;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  * Class for the rappresentation of the Landscape Panel.
@@ -33,15 +35,22 @@ public class LandscapePanel extends GamePanel {
     private static final MapController MAP_CONTROLLER = new MapController();
     private int landscapeX;
     private int starterX;
-    private transient List<List<MapElement>> columns;
+    private transient List<MapColumn> columns;
 
     /**
      * Returns the landscape.
      * 
      * @return a 2D list
      */
-    public List<List<MapElement>> getColumns() {
-        return new ArrayList<>(columns);
+    public List<MapElement> getColumns() {
+        final List<MapElement> returnColumns = new ArrayList<>();
+        for (final MapColumn mc : this.columns) {
+            returnColumns.addAll(mc.getCeilings());
+            returnColumns.addAll(mc.getFloors());
+        }
+
+        return returnColumns;
+        // return new ArrayList<>(columns);
     }
 
     /** Costructor of the class LandscapePanel. */
@@ -56,12 +65,10 @@ public class LandscapePanel extends GamePanel {
         this.columns = MAP_CONTROLLER.getColumnsToDisplay();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
-
+        // to-do: dividi in sottometodi privati
         if (this.isPanelRepeintable()) {
             this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
@@ -71,14 +78,32 @@ public class LandscapePanel extends GamePanel {
                 this.fillColumns();
             }
         }
+        for (final MapColumn column : this.columns) {
+            int tempY = 0;
+            column.updateHitBoxX(-this.landscapeX);
+            for (final BufferedImage bi : column.getBIListCeiling()) {
+                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
+                        column.getBIListHeight(), null);
+                tempY += column.getBIListHeight();
+            }
+            tempY = column.getStartYFloor();
+            for (final BufferedImage bi : column.getBIListFloor()) {
+                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
+                        column.getBIListHeight(), null);
+                tempY += column.getBIListHeight();
+            }
 
-        for (final List<MapElement> meList : columns) {
-            for (final MapElement me : meList) {
-                me.updateHitBoxPosition(me.getX() - this.landscapeX, me.getY());
-                g.drawImage(
-                        me.getSprite(),
-                        me.getX() - this.landscapeX, me.getY(),
-                        me.getWidth(), me.getHeight(),
+            for (final MapElement c : column.getCeilings()) {
+                g.drawImage(c.getSprite(),
+                        c.getX() - this.landscapeX, c.getY(),
+                        c.getWidth(), c.getHeight(),
+                        null);
+            }
+
+            for (final MapElement c : column.getFloors()) {
+                g.drawImage(c.getSprite(),
+                        c.getX() - this.landscapeX, c.getY(),
+                        c.getWidth(), c.getHeight(),
                         null);
             }
         }
@@ -86,8 +111,12 @@ public class LandscapePanel extends GamePanel {
     }
 
     private void drawHitBox(final Graphics g) {
-        for (final List<MapElement> c : columns) {
-            for (final MapElement me : c) {
+        for (final MapColumn c : columns) {
+            for (final MapElement me : c.getCeilings()) {
+                final Rectangle temp = me.getHitBox();
+                g.drawRect(temp.x, temp.y, temp.width, temp.height);
+            }
+            for (final MapElement me : c.getFloors()) {
                 final Rectangle temp = me.getHitBox();
                 g.drawRect(temp.x, temp.y, temp.width, temp.height);
             }

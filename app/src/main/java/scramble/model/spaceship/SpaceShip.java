@@ -85,12 +85,10 @@ public final class SpaceShip extends GameElementImpl {
      * @param map the map
      * @return true it has touched the map
      */
-    public boolean checkGroundCollision(final List<List<MapElement>> map) {
-        for (final List<MapElement> l : map) {
-            for (final MapElement me : l) {
-                if (hasCollided(me)) {
-                    return true;
-                }
+    public boolean checkGroundCollision(final List<MapElement> map) {
+        for (final MapElement me : map) {
+            if (hasCollided(me)) {
+                return true;
             }
         }
         return false;

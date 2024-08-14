@@ -44,7 +44,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     @Override
     public void keyPressed(final KeyEvent e) {
         final int key = e.getKeyCode();
-
+        gv.getLandscapePanel().canNotBeRepaint();
         switch (key) {
             case KeyEvent.VK_UP ->
                 gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
@@ -57,11 +57,13 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
             case KeyEvent.VK_SPACE ->
                 gv.getSpaceshipPanel().sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel()));
             case KeyEvent.VK_ENTER -> {
+                gv.getLandscapePanel().canBeRepaint();
                 timer.start();
                 timerBullet.start();
                 gv.startGame();
             }
             default -> {
+                gv.getLandscapePanel().canBeRepaint();
                 break;
             }
         }
