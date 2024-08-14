@@ -26,12 +26,12 @@ public class RepaintManager {
      */
     public void repaintManagement() {
         cicleCounter++;
-        this.gv.getLandscapePanel().canBeRepaint();
-        this.gv.getSpaceshipPanel().canBeRepaint();
         if (cicleCounter % CICLE_BEFORE_BACKGROUND_REPAINT == 0) {
             this.gv.getBackgroundPanel().canBeRepaint();
             cicleCounter = 0;
         }
+        this.gv.getLandscapePanel().canBeRepaint();
+        this.gv.getSpaceshipPanel().canBeRepaint();
 
         this.gv.getMainPanel().repaint();
     }

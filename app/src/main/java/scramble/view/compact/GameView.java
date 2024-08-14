@@ -200,7 +200,6 @@ public class GameView extends JFrame {
         this.fuelBarPanel.canBeRepaint();
 
         collContr.init();
-
     }
 
     /** Resets to start menu. */
@@ -226,6 +225,7 @@ public class GameView extends JFrame {
         landscapePanel.reset(restartPos);
         spaceShipPanel.getSpaceship()
                 .updatePosition(new PairImpl<>(restartPos + SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
+        this.landscapePanel.canBeRepaint();
     }
 
 }

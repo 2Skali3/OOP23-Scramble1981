@@ -137,7 +137,6 @@ public class MapController {
                 .size()) {
             this.columnIndex = 0;
         }
-        // System.out.println(columns.size());
         return columns;
     }
 
@@ -159,5 +158,4 @@ public class MapController {
     public static List<Integer> getStageStartingX() {
         return new ArrayList<>(stageStartingX);
     }
-
 }

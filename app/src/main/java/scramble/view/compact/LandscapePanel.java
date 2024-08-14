@@ -32,6 +32,7 @@ public class LandscapePanel extends GamePanel {
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
     private int landscapeX;
+    private int starterX;
     private transient List<List<MapElement>> columns;
 
     /**
@@ -47,6 +48,7 @@ public class LandscapePanel extends GamePanel {
     public LandscapePanel() {
         this.fillColumns();
         this.landscapeX = 0;
+        this.starterX = 0;
         this.setOpaque(false);
     }
 
@@ -61,21 +63,21 @@ public class LandscapePanel extends GamePanel {
     protected void drawPanel(final Graphics g) {
 
         if (this.isPanelRepeintable()) {
-            this.landscapeX -= LandscapePanel.LANDSCAPEX_SPEED;
+            this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
-                    + LandscapePanel.TOTAL_COLUMNS_LOADED == -MAP_CONTROLLER.getMapSize()) {
+                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
-            } else if (this.landscapeX % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
+            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
                 this.fillColumns();
             }
         }
 
         for (final List<MapElement> meList : columns) {
             for (final MapElement me : meList) {
-                me.updateHitBoxPosition(me.getX() + this.landscapeX, me.getY());
+                me.updateHitBoxPosition(me.getX() - this.landscapeX, me.getY());
                 g.drawImage(
                         me.getSprite(),
-                        me.getX() + this.landscapeX, me.getY(),
+                        me.getX() - this.landscapeX, me.getY(),
                         me.getWidth(), me.getHeight(),
                         null);
             }
@@ -99,8 +101,10 @@ public class LandscapePanel extends GamePanel {
      */
     public void reset(final int starterPosition) {
         MAP_CONTROLLER.resetToX(starterPosition);
-        this.landscapeX = starterPosition;
+        this.landscapeX = +starterPosition * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        this.starterX = landscapeX;
         this.fillColumns();
+        this.canBeRepaint();
     }
 
 }
