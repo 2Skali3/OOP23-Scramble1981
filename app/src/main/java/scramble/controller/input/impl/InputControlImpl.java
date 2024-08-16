@@ -21,7 +21,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     private static final int MINUS = -10;
     private static final int PLUS = 10;
     private static final int SEC = 30;
-    
 
     private final GameView gv;
     private final Timer timer;
@@ -38,7 +37,10 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
 
-        timer = new Timer(SEC, e -> {this.rm.repaintManagement(); this.gv.getSpaceshipPanel().moveBullets();});
+        timer = new Timer(SEC, e -> {
+            this.rm.repaintManagement();
+            this.gv.getSpaceshipPanel().moveBullets();
+        });
     }
 
     /** {@inheritDoc} */
@@ -57,9 +59,10 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                 case KeyEvent.VK_RIGHT ->
                     gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
                 case KeyEvent.VK_SPACE -> gv.getSpaceshipPanel()
-                                            .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_HORIZONTAL));
+                                            .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(),
+                                                                                 BulletType.TYPE_HORIZONTAL));
                 case KeyEvent.VK_1 -> gv.getSpaceshipPanel()
-                                            .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_BOMB));
+                                        .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_BOMB));
                 case KeyEvent.VK_ENTER -> {
                     gv.getLandscapePanel().canBeRepaint();
                     timer.start();

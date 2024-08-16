@@ -128,7 +128,7 @@ public class Bullet extends GameElementImpl {
             return sprites.get(SPRITES - 1); // Return the last sprite when the animation is complete
         }
 
-        BufferedImage currentSprite = sprites.get(currentSpriteIndex);
+        final BufferedImage currentSprite = sprites.get(currentSpriteIndex);
 
         // Update the current sprite index
         if (currentSpriteIndex < SPRITES - 1) {
