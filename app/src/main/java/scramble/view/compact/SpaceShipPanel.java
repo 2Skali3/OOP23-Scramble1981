@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.spaceship.Directions;
 import scramble.model.spaceship.SpaceShip;
 
 /**
@@ -33,12 +38,20 @@ public class SpaceShipPanel extends GamePanel {
 
     private transient SpaceShip spaceship;
     private transient List<Bullet> bullets;
+    private final Timer updateTimer;
 
     /** Cosnstructor for the SpaceshipPanel class. */
     public SpaceShipPanel() {
         this.spaceship = new SpaceShip(STARTER_POSITION_X, STARTER_POSITION_Y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT);
         this.setOpaque(false);
         bulletInit();
+        updateTimer = new Timer(16, new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                update();
+            }
+        });
+        updateTimer.start();
     }
 
     /** {@inheritDoc} */
@@ -88,21 +101,71 @@ public class SpaceShipPanel extends GamePanel {
     }
 
     /**
-     * Moves the spaceship, controlled by the player, on the game panel.
+     * Sets the corrispective boolean for the player movement.
+     * Also checks if repaintable.
      *
-     * @param dx movement on the X axis
-     * @param dy movement on the Y axis
+     * @param direction the direction
      */
-    public void moveSpaceship(final int dx, final int dy) {
+    public void moveSpaceship(final Directions direction) {
+
+        switch (direction) {
+            case UP:
+                spaceship.setAbove(true);
+                break;
+            case DOWN:
+                spaceship.setDown(true);
+                break;
+            case LEFT:
+                spaceship.setLeft(true);
+                break;
+            case RIGHT:
+                spaceship.setRight(true);
+                break;
+            default:
+        }
+
+        this.canBeRepaint();
+        repaint();
+    }
+
+    /** Checks continuosly with a timer for spaceship movement. */
+    public void update() {
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int shipX = location.getFirstElement();
         final int shipY = location.getSecondElement();
+        final int xSpeed = spaceship.getxSpeed();
+        final int ySpeed = spaceship.getySpeed();
 
-        if (shipX + dx < getWidth() / 2 && shipX + dx >= 0 && shipY + dy < getHeight() && shipY + dy >= 0) {
-            spaceship.move(dx, dy);
+        if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed <= getHeight()
+                && shipY + ySpeed >= 0) {
+            spaceship.move();
         }
-        this.canBeRepaint();
-        repaint();
+
+        final int minX = 0;
+        final int maxX = getWidth() / 2;
+        final int minY = 0;
+        final int maxY = getHeight();
+
+        // Condizioni per il movimento orizzontale (asse X)
+        if (shipX + xSpeed >= minX && shipX + xSpeed <= maxX) {
+            spaceship.move();
+        } else if (shipX + xSpeed < minX) {
+            spaceship.resetSpeedX();
+            spaceship.updatePosition(new PairImpl<>(minX, shipY));
+        } else if (shipX + xSpeed > maxX) {
+            spaceship.resetSpeedX();
+            spaceship.updatePosition(new PairImpl<>(maxX, shipY));
+        }
+
+        if (shipY + ySpeed >= minY && shipY + ySpeed <= maxY) {
+            spaceship.move();
+        } else if (shipY + ySpeed < minY) {
+            spaceship.resetSpeedY();
+            spaceship.updatePosition(new PairImpl<>(shipX, minY));
+        } else if (shipY + ySpeed > maxY) {
+            spaceship.resetSpeedY();
+            spaceship.updatePosition(new PairImpl<>(shipX, maxY));
+        }
     }
 
     /**
@@ -113,7 +176,7 @@ public class SpaceShipPanel extends GamePanel {
         for (final Bullet bullet : bullets) {
             bullet.move3();
             // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth()) { //aggiungere il secondo caso
+            if (bullet.getPosition().getFirstElement() > getWidth()) { // aggiungere il secondo caso
                 bulletsToRemove.add(bullet);
             }
         }
@@ -145,18 +208,19 @@ public class SpaceShipPanel extends GamePanel {
      * {@link Bullet} instance and adds it to the list of bullets in the game.
      * The bullet's start position is at the right edge of the spaceship, centered
      * vertically.
+     * 
      * @param type the type of the bullet
      */
     public void shootBullet(final BulletType type) {
-        //bullet_type should be an enum, not an int
+        // bullet_type should be an enum, not an int
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int bulletX = location.getFirstElement() + spaceship.getWidth();
         final int bulletY = location.getSecondElement() + spaceship.getHeight() / 2;
 
         /*
-            create new Bullet class and append to List<Bullet>
-            start position is (shipX+shipWidth, shipY+shipHeight/2)
-        */
+         * create new Bullet class and append to List<Bullet>
+         * start position is (shipX+shipWidth, shipY+shipHeight/2)
+         */
         final Bullet bullet = new Bullet(bulletX, bulletY, type);
         bullets.add(bullet);
         repaint();
@@ -175,5 +239,13 @@ public class SpaceShipPanel extends GamePanel {
         this.bullets = new ArrayList<>();
     }
 
+    /** Stops for timer. */
+    public void stopUpdateTimer() {
+        updateTimer.stop();
+    }
 
+    /** Start the timer. */
+    public void startUpdateTimer() {
+        updateTimer.start();
+    }
 }

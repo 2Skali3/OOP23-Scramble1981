@@ -7,6 +7,7 @@ import javax.swing.Timer;
 import scramble.controller.input.api.InputControl;
 import scramble.controller.repaints.RepaintManager;
 import scramble.model.command.impl.SpaceShipCommand;
+import scramble.model.spaceship.Directions;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 
@@ -18,10 +19,7 @@ import scramble.view.compact.GameView;
  */
 public class InputControlImpl extends KeyAdapter implements InputControl {
 
-    private static final int MINUS = -10;
-    private static final int PLUS = 10;
     private static final int SEC = 30;
-    
 
     private final GameView gv;
     private final Timer timer;
@@ -38,7 +36,11 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
 
-        timer = new Timer(SEC, e -> {this.rm.repaintManagement(); this.gv.getSpaceshipPanel().moveBullets();});
+        timer = new Timer(SEC, e -> {
+            this.rm.repaintManagement();
+            this.gv.getSpaceshipPanel().moveBullets();
+        });
+
     }
 
     /** {@inheritDoc} */
@@ -49,17 +51,21 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
             gv.getLandscapePanel().canNotBeRepaint();
             switch (key) {
                 case KeyEvent.VK_UP ->
-                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, MINUS));
+                    gv.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.UP));
                 case KeyEvent.VK_DOWN ->
-                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), 0, PLUS));
+                    gv.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.DOWN));
                 case KeyEvent.VK_LEFT ->
-                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), MINUS, 0));
+                    gv.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.LEFT));
                 case KeyEvent.VK_RIGHT ->
-                    gv.getSpaceshipPanel().sendCommand(new SpaceShipCommand(gv.getSpaceshipPanel(), PLUS, 0));
+                    gv.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.RIGHT));
                 case KeyEvent.VK_SPACE -> gv.getSpaceshipPanel()
-                                            .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_HORIZONTAL));
+                        .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_HORIZONTAL));
                 case KeyEvent.VK_1 -> gv.getSpaceshipPanel()
-                                            .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_BOMB));
+                        .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_BOMB));
                 case KeyEvent.VK_ENTER -> {
                     gv.getLandscapePanel().canBeRepaint();
                     timer.start();
@@ -70,6 +76,26 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                     break;
                 }
             }
+        }
+    }
+
+    /** @InheritDoc */
+    @Override
+    public void keyReleased(final KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                gv.getSpaceshipPanel().getSpaceship().setAbove(false);
+                break;
+            case KeyEvent.VK_DOWN:
+                gv.getSpaceshipPanel().getSpaceship().setDown(false);
+                break;
+            case KeyEvent.VK_RIGHT:
+                gv.getSpaceshipPanel().getSpaceship().setRight(false);
+                break;
+            case KeyEvent.VK_LEFT:
+                gv.getSpaceshipPanel().getSpaceship().setLeft(false);
+                break;
+            default:
         }
     }
 

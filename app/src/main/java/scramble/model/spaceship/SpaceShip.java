@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,11 +23,14 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
     private static final int SPRITES = 8;
     private static final int EXP_SPRITES = 4;
+    private static final int SPEED = 2;
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private final Random random;
     private boolean hit;
+    private boolean left, up, right, down;
+    private int xSpeed, ySpeed;
 
     /**
      * Class construnctor.
@@ -59,6 +63,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         }
         random = new Random();
         hit = false;
+
     }
 
     /**
@@ -72,13 +77,31 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Handles the spaceship's movement.
-     *
-     * @param dx amount of movement on the X axis
-     * @param dy amount of movement on the Y axis
+     * It does so through booleans for a better control
+     * of the spaceship.
      */
-    public void move(final int dx, final int dy) {
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + dx,
-                getPosition().getSecondElement() + dy));
+    public void move() {
+        if (!left && !right && !up && !down) {
+            return;
+        }
+
+        resetSpeedX();
+        resetSpeedY();
+
+        if (left && !right) {
+            xSpeed = -SPEED;
+        } else if (right && !left) {
+            xSpeed = SPEED;
+        }
+
+        if (up && !down) {
+            ySpeed = -SPEED;
+        } else if (down && !up) {
+            ySpeed = SPEED;
+        }
+
+        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
+                getPosition().getSecondElement() + ySpeed));
     }
 
     /** {@inheritDoc} */
@@ -142,4 +165,69 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     public SpaceShip clone() throws CloneNotSupportedException {
         return (SpaceShip) super.clone();
     }
+
+    /**
+     * Getter for X speed.
+     * 
+     * @return speed
+     */
+    public int getxSpeed() {
+        return xSpeed;
+    }
+
+    /**
+     * Getter for Y speed.
+     * 
+     * @return speed
+     */
+    public int getySpeed() {
+        return ySpeed;
+    }
+
+    /** Resets x speed. */
+    public void resetSpeedX() {
+        this.xSpeed = 0;
+    }
+
+    /** Resets y speed. */
+    public void resetSpeedY() {
+        this.ySpeed = 0;
+    }
+
+    /**
+     * Setter for left.
+     * 
+     * @param left the new value
+     */
+    public void setLeft(final boolean left) {
+        this.left = left;
+    }
+
+    /**
+     * Setter for up.
+     * 
+     * @param up the new value
+     */
+    public void setAbove(final boolean up) {
+        this.up = up;
+    }
+
+    /**
+     * Setter for right.
+     * 
+     * @param right the new value
+     */
+    public void setRight(final boolean right) {
+        this.right = right;
+    }
+
+    /**
+     * Setter for down.
+     * 
+     * @param down the new value
+     */
+    public void setDown(final boolean down) {
+        this.down = down;
+    }
+
 }

@@ -27,17 +27,16 @@ public class Bullet extends GameElementImpl {
     private BufferedImage sprite;
     private final BulletType type;
     private static final Map<BulletType, PairImpl<Integer, Integer>> SIZE_MAP = Map.of(
-        BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3),
-        BulletType.TYPE_BOMB, new PairImpl<>(21, 26));
+            BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3),
+            BulletType.TYPE_BOMB, new PairImpl<>(21, 26));
     private boolean animationComplete;
     private int currentSpriteIndex;
-
 
     /**
      * Class construnctor.
      *
-     * @param x starting position on the X axis
-     * @param y starting position on the Y axis
+     * @param x    starting position on the X axis
+     * @param y    starting position on the Y axis
      * @param type the type of the bullet
      */
     public Bullet(final int x, final int y, final BulletType type) {
@@ -81,29 +80,28 @@ public class Bullet extends GameElementImpl {
             case TYPE_HORIZONTAL -> {
                 ySpeed = 0;
                 move();
-            break;
-        }
+                break;
+            }
             case TYPE_BOMB -> {
                 ySpeed = YSPEAD_BOMB;
                 move();
-            break;
-        }
+                break;
+            }
             default -> {
 
                 break;
             }
         }
     }
+
     /**
      * Handles the bullet's movement.
      *
      */
     public void move() {
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + XSPEED,
-                                                      getPosition().getSecondElement() + ySpeed));
+                getPosition().getSecondElement() + ySpeed));
     }
-
-
 
     /** {@inheritDoc} */
     // Warning suppressed since returning a javadoc class
@@ -128,7 +126,7 @@ public class Bullet extends GameElementImpl {
             return sprites.get(SPRITES - 1); // Return the last sprite when the animation is complete
         }
 
-        BufferedImage currentSprite = sprites.get(currentSpriteIndex);
+        final BufferedImage currentSprite = sprites.get(currentSpriteIndex);
 
         // Update the current sprite index
         if (currentSpriteIndex < SPRITES - 1) {
@@ -139,7 +137,5 @@ public class Bullet extends GameElementImpl {
 
         return currentSprite;
     }
-
-
 
 }

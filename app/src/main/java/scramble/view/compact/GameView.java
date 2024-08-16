@@ -217,6 +217,7 @@ public class GameView extends JFrame {
 
         gLoopController.resetLives();
         fuelBarPanel.getFuelBar().fillFuel();
+        spaceShipPanel.startUpdateTimer();
 
     }
 
@@ -233,6 +234,7 @@ public class GameView extends JFrame {
                         new PairImpl<>(restartPos + SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
         this.landscapePanel.canBeRepaint();
         fuelBarPanel.getFuelBar().fillFuel();
+        spaceShipPanel.startUpdateTimer();
 
     }
 

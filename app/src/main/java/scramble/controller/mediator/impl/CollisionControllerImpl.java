@@ -47,6 +47,7 @@ public class CollisionControllerImpl implements CollisionController {
             // DEVE SUCCEDERE QUI
             timer.stop();
             InputControlImpl.setPaused(true);
+            ssp.stopUpdateTimer();
             final Timer delayTimer = new Timer(3500, new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
