@@ -3,6 +3,7 @@ package scramble.model.common.impl;
 import scramble.model.common.api.GameElement;
 
 import java.awt.image.BufferedImage;
+import java.awt.Graphics;
 
 /**
  * Implementation of the GameElement interface. Sets the ground for all game
@@ -75,4 +76,12 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
         return height;
     }
 
+    /**
+     * Draws the spaceship hitbox.
+     * 
+     * @param g the graphic component
+     */
+    public void drawHitBox(final Graphics g) {
+        g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width, getHitBox().height);
+    }
 }

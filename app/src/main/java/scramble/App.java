@@ -28,12 +28,8 @@ public class App {
      */
     public static void main(final String[] args) {
 
-        // final GameView gv = new GameView();
-        // final InputControlImpl controller = new InputControlImpl(gv);
-        // gv.addKeyListener(controller);
         final GameView gameView = new GameView();
         final InputControlImpl controller = new InputControlImpl(gameView);
         gameView.addKeyListener(controller);
-
     }
 }

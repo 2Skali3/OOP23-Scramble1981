@@ -80,4 +80,13 @@ public final class FuelBarPanel extends GamePanel {
         }
     }
 
+    /**
+     * Getter for the fuel bar.
+     * 
+     * @return the fuel bar
+     */
+    public FuelBar getFuelBar() {
+        return fuelBar;
+    }
+
 }

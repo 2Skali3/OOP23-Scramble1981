@@ -28,7 +28,7 @@ public class HitBoxImpl implements HitBox {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasCollided(final GameElementImpl obj) {
+    public boolean hasCollided(final HitBox obj) {
         return hitbox.intersects(obj.getHitBox());
     }
 

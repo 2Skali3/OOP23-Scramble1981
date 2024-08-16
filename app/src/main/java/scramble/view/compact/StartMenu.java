@@ -20,13 +20,15 @@ import java.awt.event.ActionEvent;
  * well.
  */
 public final class StartMenu extends JPanel {
+
     private static final long serialVersionUID = 1L;
 
+    private static final int KONH = 5;
     private static final int GAP30 = 30;
     private static final int PTSW = 120;
     private static final int SCOREH = 150;
     private static final int SCOREV = 200;
-    private static final int KONH = 25;
+    // private static final int KONH = 25;
     private static final int KONW = 75;
     private static final int SYSW = 220;
     private static final int INVW = 250;
@@ -90,7 +92,7 @@ public final class StartMenu extends JPanel {
             g.drawString("OUR SCRAMBLE SYSTEM?", getWidth() / 2 - SYSW, getHeight() / 2 + GAP30);
 
             g.setColor(Color.WHITE);
-            g.drawString("KONAMI", getWidth() / 2 - KONW, getHeight() - KONH);
+            g.drawString("KONAMI", getWidth() / 2 - KONW, getHeight() - (getHeight() / KONH));
         } else if (sequenceStep == 1) {
             g.setColor(Color.RED);
             final int offset = OFFSET;

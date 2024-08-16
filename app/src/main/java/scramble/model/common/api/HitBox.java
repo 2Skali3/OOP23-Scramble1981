@@ -2,8 +2,6 @@ package scramble.model.common.api;
 
 import java.awt.Rectangle;
 
-import scramble.model.common.impl.GameElementImpl;
-
 /**
  * Interface for the class HitBox.
  */
@@ -16,7 +14,7 @@ public interface HitBox {
      * @param obj the game element that's colliding with
      * @return boolean hasCollided
      */
-    boolean hasCollided(GameElementImpl obj);
+    boolean hasCollided(HitBox obj);
 
     /**
      * Updates the location of the rectangle used as hitbox.

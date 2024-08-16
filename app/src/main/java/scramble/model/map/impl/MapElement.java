@@ -10,24 +10,27 @@ import scramble.model.common.impl.HitBoxImpl;
 import scramble.model.common.impl.PairImpl;
 
 /**
- * Class {@code MapElement} is an implementation of the interface {@link GameElement}.
+ * Class {@code MapElement} is an implementation of the interface
+ * {@link GameElement}.
  * 
- * <p>A {@code MapElement} has:
- *  <ul>
- *      <li> space coordinate</li>
- *      <li> a width and an height</li>
- *      <li> an hitBox</li>
- *      <li> a sprite</li>
- *  </ul>
+ * <p>
+ * A {@code MapElement} has:
+ * <ul>
+ * <li>space coordinate</li>
+ * <li>a width and an height</li>
+ * <li>an hitBox</li>
+ * <li>a sprite</li>
+ * </ul>
  * </p>
  * 
- * <p> All the method of the {@link GameElement} interface has been implemented. </p>
+ * <p>
+ * All the method of the {@link GameElement} interface has been implemented.
+ * </p>
  * 
  * @see GameElement
  */
-public class MapElement implements GameElement {
+public class MapElement extends HitBoxImpl implements GameElement {
 
-    private HitBox hitBox;
     private Pair<Integer, Integer> position;
 
     private final int width;
@@ -38,26 +41,27 @@ public class MapElement implements GameElement {
     /**
      * Constructor of the class {@code MapElement}.
      * 
-     * @param x coordinate in the x-axis
-     * @param y coordinate in the y-axis
-     * @param width in the space
+     * @param x      coordinate in the x-axis
+     * @param y      coordinate in the y-axis
+     * @param width  in the space
      * @param height in the space
      * @param sprite of the element
      */
     public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite) {
+        super(x, y, width, height);
         this.width = width;
         this.height = height;
-        this.position = new PairImpl<Integer, Integer>(x, y);
-        this.refreshHitBox();
+        this.position = new PairImpl<>(x, y);
         this.sprite = this.cloneBufferedImage(sprite);
 
     }
 
-    /** @inheritDoc}. */
+    /** {@inheritDoc} */
     @Override
     public void updatePosition(final PairImpl<Integer, Integer> newPosition) {
-        this.position = new PairImpl<Integer, Integer>(newPosition.getFirstElement(), newPosition.getSecondElement());
+        this.position = new PairImpl<>(newPosition.getFirstElement(), newPosition.getSecondElement());
     }
+
     /** {@inheritDoc} */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
@@ -81,11 +85,13 @@ public class MapElement implements GameElement {
     public int getY() {
         return this.position.getSecondElement();
     }
+
     /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
         return this.cloneBufferedImage(this.sprite);
     }
+
     /** {@inheritDoc} */
     @Override
     public void updateSprite(final BufferedImage newSprite) {
@@ -109,6 +115,7 @@ public class MapElement implements GameElement {
     public int getHeight() {
         return this.height;
     }
+
     /**
      * Get the width of the {@code MapElement}.
      * 
@@ -119,26 +126,13 @@ public class MapElement implements GameElement {
     }
 
     /**
-     * Get the hitBox of the {@code MapElement}.
+     * Update the {@link HitBox} of the {@code MapElement}, and specify the
+     * coordinate of it.
      * 
-     * @return the hitBox of the {@code MapElement}
-     */
-    public HitBox getHitBox() {
-        return this.hitBox;
-    }
-
-    /**
-     * Update the {@link HitBox} of the {@code MapElement}, and specify the coordinate of it.
      * @param x coordinate in the x-axis
      * @param y coordinate in the y-axis
      */
     public void updateHitBoxPosition(final int x, final int y) {
-        this.hitBox = new HitBoxImpl(x, y, this.width, this.height);
+        this.updateHitBox(x, y);
     }
-
-    private void refreshHitBox() {
-        this.hitBox = new HitBoxImpl(this.position.getFirstElement(), this.position.getSecondElement(), this.width,
-                this.height);
-    }
-
 }

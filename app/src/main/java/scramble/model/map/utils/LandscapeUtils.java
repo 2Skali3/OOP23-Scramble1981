@@ -28,7 +28,7 @@ public final class LandscapeUtils {
     /**
      * Number of sprites per prestage per column.
      */
-    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 10;
+    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 40;
     /**
      * Number of pixel of the single sprite in the source image.
      */

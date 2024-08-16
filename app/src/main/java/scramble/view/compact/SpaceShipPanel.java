@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import java.util.logging.Logger;
 
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
@@ -13,7 +14,6 @@ import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.SpaceShip;
-
 
 /**
  * Class for the representation of the Spaceship Panel.
@@ -23,13 +23,15 @@ import scramble.model.spaceship.SpaceShip;
  */
 public class SpaceShipPanel extends GamePanel {
 
+    private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
+
     private static final long serialVersionUID = 1L;
     private static final int STARTER_POSITION_X = 50;
     private static final int STARTER_POSITION_Y = 50;
     private static final int SPACESHIP_WIDTH = 32;
     private static final int SPACESHIP_HEIGHT = 16;
 
-    private final transient SpaceShip spaceship;
+    private transient SpaceShip spaceship;
     private transient List<Bullet> bullets;
 
     /** Cosnstructor for the SpaceshipPanel class. */
@@ -42,12 +44,38 @@ public class SpaceShipPanel extends GamePanel {
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
+
+        // TODO check isRepaintable() from GamePanel
+
         if (spaceship.getSprite() != null) {
-            g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
-                    spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            if (spaceship.isHit()) {
+                g.drawImage(spaceship.getExpSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            } else {
+                g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            }
         }
+        spaceship.drawHitBox(g);
         drawBullets(g);
         this.canNotBeRepaint();
+    }
+
+    /**
+     * Getter for the spaceship.
+     *
+     * @return the spaceship
+     */
+    public SpaceShip getSpaceship() {
+        SpaceShip temp = spaceship;
+        try {
+            temp = spaceship.clone();
+            this.spaceship = temp;
+        } catch (CloneNotSupportedException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
+        }
+        return temp;
     }
 
     /**
@@ -76,9 +104,10 @@ public class SpaceShipPanel extends GamePanel {
         this.canBeRepaint();
         repaint();
     }
+
     /**
-    * For each bullet, call bullet.move().
-    */
+     * For each bullet, call bullet.move().
+     */
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = new ArrayList<>();
         for (final Bullet bullet : bullets) {
@@ -100,6 +129,7 @@ public class SpaceShipPanel extends GamePanel {
                     bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
         }
     }
+
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         for (final Bullet bullet : bullets) {
@@ -141,7 +171,7 @@ public class SpaceShipPanel extends GamePanel {
         command.execute();
     }
 
-    private void bulletInit()  {
+    private void bulletInit() {
         this.bullets = new ArrayList<>();
     }
 
