@@ -40,7 +40,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
             this.rm.repaintManagement();
             this.gv.getSpaceshipPanel().moveBullets();
         });
-
     }
 
     /** {@inheritDoc} */
@@ -63,7 +62,8 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                     gv.getSpaceshipPanel().sendCommand(
                             new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.RIGHT));
                 case KeyEvent.VK_SPACE -> gv.getSpaceshipPanel()
-                        .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_HORIZONTAL));
+                        .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(),
+                                BulletType.TYPE_HORIZONTAL));
                 case KeyEvent.VK_1 -> gv.getSpaceshipPanel()
                         .sendCommandBullet(new BulletCommand(gv.getSpaceshipPanel(), BulletType.TYPE_BOMB));
                 case KeyEvent.VK_ENTER -> {
