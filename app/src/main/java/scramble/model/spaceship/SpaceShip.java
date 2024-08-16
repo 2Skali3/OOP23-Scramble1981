@@ -88,10 +88,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     public BufferedImage getSprite() {
         // Needs to apply only once
         @SuppressFBWarnings
-<<<<<<< HEAD
-        final Random random = new Random();
-=======
->>>>>>> 434efcfa90ec5c6e76f3a35148a8bb2ec581ed36
         final int num = random.nextInt(SPRITES);
 
         return sprites.get(num);
