@@ -13,7 +13,7 @@ import java.awt.Rectangle;
 
 /**
  * Class for the rappresentation of the Landscape Panel.
- * 
+ *
  * @see GamePanel
  * @see JPanel
  */
@@ -79,7 +79,7 @@ public class LandscapePanel extends GamePanel {
 
     private void drawHitBox(final Graphics g) {
         for (List<MapElement> c : columns) {
-            for (MapElement me : c ) {
+            for (MapElement me : c) {
                 final Rectangle temp = me.getHitBox().getHitBox();
                 g.drawRect(temp.x, temp.y, temp.width, temp.height);
             }

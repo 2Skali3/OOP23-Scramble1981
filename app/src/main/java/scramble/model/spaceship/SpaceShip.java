@@ -73,7 +73,7 @@ public final class SpaceShip extends GameElementImpl {
         // Needs to apply only once
         @SuppressFBWarnings
         final Random random = new Random();
-        final int num = random.nextInt(8);
+        final int num = random.nextInt(SPRITES);
 
         return sprites.get(num);
     }

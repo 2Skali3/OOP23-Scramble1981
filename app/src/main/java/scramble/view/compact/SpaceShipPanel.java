@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import scramble.model.bullets.Bullet;
+import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
@@ -16,7 +17,7 @@ import scramble.model.spaceship.SpaceShip;
 
 /**
  * Class for the representation of the Spaceship Panel.
- * 
+ *
  * @see GamePanel
  * @see JPanel
  */
@@ -27,8 +28,6 @@ public class SpaceShipPanel extends GamePanel {
     private static final int STARTER_POSITION_Y = 50;
     private static final int SPACESHIP_WIDTH = 32;
     private static final int SPACESHIP_HEIGHT = 16;
-    private static final int BULLET_WIDTH = 3;
-    private static final int BULLET_HEIGHT = 3;
 
     private final transient SpaceShip spaceship;
     private transient List<Bullet> bullets;
@@ -53,7 +52,7 @@ public class SpaceShipPanel extends GamePanel {
 
     /**
      * Method that executes the command sent to the spaceship.
-     * 
+     *
      * @param command the command
      */
     public void sendCommand(final SpaceShipCommand command) {
@@ -62,7 +61,7 @@ public class SpaceShipPanel extends GamePanel {
 
     /**
      * Moves the spaceship, controlled by the player, on the game panel.
-     * 
+     *
      * @param dx movement on the X axis
      * @param dy movement on the Y axis
      */
@@ -83,9 +82,9 @@ public class SpaceShipPanel extends GamePanel {
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = new ArrayList<>();
         for (final Bullet bullet : bullets) {
-            bullet.move();
+            bullet.move3();
             // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth()) {
+            if (bullet.getPosition().getFirstElement() > getWidth()) { //aggiungere il secondo caso
                 bulletsToRemove.add(bullet);
             }
         }
@@ -116,8 +115,9 @@ public class SpaceShipPanel extends GamePanel {
      * {@link Bullet} instance and adds it to the list of bullets in the game.
      * The bullet's start position is at the right edge of the spaceship, centered
      * vertically.
+     * @param type the type of the bullet
      */
-    public void shootBullet(/*final int bullet_type*/) {
+    public void shootBullet(final BulletType type) {
         //bullet_type should be an enum, not an int
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int bulletX = location.getFirstElement() + spaceship.getWidth();
@@ -127,7 +127,7 @@ public class SpaceShipPanel extends GamePanel {
             create new Bullet class and append to List<Bullet>
             start position is (shipX+shipWidth, shipY+shipHeight/2)
         */
-        final Bullet bullet = new Bullet(bulletX, bulletY, BULLET_WIDTH, BULLET_HEIGHT);
+        final Bullet bullet = new Bullet(bulletX, bulletY, type);
         bullets.add(bullet);
         repaint();
     }
@@ -144,5 +144,6 @@ public class SpaceShipPanel extends GamePanel {
     private void bulletInit()  {
         this.bullets = new ArrayList<>();
     }
+
 
 }
