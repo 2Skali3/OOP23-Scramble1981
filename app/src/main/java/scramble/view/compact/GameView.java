@@ -8,7 +8,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 
 import scramble.model.common.impl.PairImpl;
-import scramble.model.map.utils.LandscapeUtils;
+import scramble.model.map.util.LandUtils;
 import scramble.controller.gameloop.GameLoopController;
 import scramble.controller.mediator.impl.CollisionControllerImpl;
 
@@ -24,8 +24,8 @@ public class GameView extends JFrame {
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
     /** Height of the window. */
-    public static final int WINDOW_HEIGHT = LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-            * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int WINDOW_HEIGHT = LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
+            * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
     private static final int SPACESHIP_STARTER_POSITION = 50;
     private static final int MAX_LIVES = 2;
 

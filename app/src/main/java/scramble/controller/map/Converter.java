@@ -10,8 +10,8 @@ import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.impl.MapElement;
-import scramble.model.map.utils.LandscapeUtils;
-import scramble.model.map.utils.enums.LandscapePart;
+import scramble.model.map.util.LandUtils;
+import scramble.model.map.util.enums.LandPart;
 
 /**
  * Class that convert raw data to usable data.
@@ -33,21 +33,20 @@ public final class Converter {
 
         final ArrayList<BufferedImage> ceiling = new ArrayList<>();
         final ArrayList<BufferedImage> floor = new ArrayList<>();
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
+        final BufferedImage green = LandUtils.getSprite(LandPart.GREEN_SQUARE);
 
         final int ceilingHeight = column.getFirstElement().getPosition().getSecondElement()
-                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+                * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
         final int floorHeight = column.getSecondElement().getPosition().getSecondElement()
-                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+                * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
 
-        for (int y = 0; y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < ceilingHeight; y++) {
+        for (int y = 0; y * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < ceilingHeight; y++) {
             ceiling.add(green);
         }
         ceiling.add(column.getFirstElement().getSprite());
 
-        for (int y = LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y
-                * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE > floorHeight; y--) {
+        for (int y = LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y
+                * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE > floorHeight; y--) {
             floor.add(green);
         }
         floor.add(column.getSecondElement().getSprite());
@@ -61,8 +60,8 @@ public final class Converter {
      * 
      * @return the list of all the enum LandscapeSprite
      */
-    public static List<LandscapePart> getImageParts() {
-        return Arrays.asList(LandscapePart.values());
+    public static List<LandPart> getImageParts() {
+        return Arrays.asList(LandPart.values());
     }
 
     /**
@@ -80,8 +79,7 @@ public final class Converter {
             final MapElement ceiling, final MapElement floor, final int x) {
         final List<MapElement> returnColumn = new ArrayList<>();
         boolean isLandscapeArea = true;
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
+        final BufferedImage green = LandUtils.getSprite(LandPart.GREEN_SQUARE);
         if (ceiling.getPosition().getSecondElement() == -1) {
             isLandscapeArea = false;
         }
@@ -89,15 +87,15 @@ public final class Converter {
         returnColumn.add(floor);
         returnColumn.add(ceiling);
 
-        for (int y = 0; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++) {
-            if (y * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE == ceiling.getPosition().getSecondElement()) {
+        for (int y = 0; y < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT; y++) {
+            if (y * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE == ceiling.getPosition().getSecondElement()) {
                 isLandscapeArea = false;
             } else if (y == floor.getPosition().getSecondElement()) {
                 isLandscapeArea = true;
             } else if (isLandscapeArea) {
                 returnColumn.add(new MapElement(x, y,
-                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
                         green));
             }
         }

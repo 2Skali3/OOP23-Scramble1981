@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import scramble.model.map.api.MapColumn;
-import scramble.model.map.utils.LandscapeUtils;
-import scramble.model.map.utils.enums.LandscapePart;
+import scramble.model.map.util.LandUtils;
+import scramble.model.map.util.enums.LandPart;
 
 /**
  * Implementation of the interface {@link MapColumn}.
@@ -43,19 +43,17 @@ public class MapColumnImpl implements MapColumn {
     }
 
     private void fillCeilingBI() {
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
-        for (int y = 0; y < this.endCeiling; y += LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+        final BufferedImage green = LandUtils.getSprite(LandPart.GREEN_SQUARE);
+        for (int y = 0; y < this.endCeiling; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
             this.ceilingBI.add(green);
         }
     }
 
     private void fillFloorBI() {
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
+        final BufferedImage green = LandUtils.getSprite(LandPart.GREEN_SQUARE);
         for (int y = this.startFloor
-                + LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-                        * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+                + LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
+                        * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
             this.floorBI.add(green);
         }
     }

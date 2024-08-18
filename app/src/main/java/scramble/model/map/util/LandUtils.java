@@ -1,11 +1,12 @@
-package scramble.model.map.utils;
+package scramble.model.map.util;
 
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 import scramble.controller.map.Converter;
-import scramble.model.map.utils.enums.LandscapePart;
+import scramble.model.map.util.enums.LandPart;
+
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import java.awt.image.BufferedImage;
  * Class that contains all the methods and constants to manage the landscape
  * management.
  */
-public final class LandscapeUtils {
+public final class LandUtils {
     /**
      * Number of sprites per stage per column.
      */
@@ -24,11 +25,11 @@ public final class LandscapeUtils {
     /**
      * Number of sprites per stage per row.
      */
-    public static final int NUMBER_OF_SPITE_PER_STAGE_WIDTH = 500;
+    public static final int NUMBER_OF_SPITE_PER_STAGE_WIDTH = 350;
     /**
      * Number of sprites per prestage per column.
      */
-    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 40;
+    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 70;
     /**
      * Number of pixel of the single sprite in the source image.
      */
@@ -52,7 +53,7 @@ public final class LandscapeUtils {
     /**
      * Classification of the type of sprite.
      */
-    public static final List<LandscapePart> NAME_IMAGE_PART = Converter.getImageParts();
+    public static final List<LandPart> NAME_IMAGE_PART = Converter.getImageParts();
     /**
      * Relative url of the sprites image.
      */
@@ -60,39 +61,36 @@ public final class LandscapeUtils {
 
     private static final int GREEN_SQUARE_STARTER_LOCATION = 5;
 
-    private Map<LandscapePart, BufferedImage> spritesMap;
-    private static final Logger LOG = Logger.getLogger(LandscapeUtils.class.getName());
+    private static final Map<LandPart, BufferedImage> SPRITE_MAP = fillMap();
+    private static final Logger LOG = Logger.getLogger(LandUtils.class.getName());
 
-    /**
-     * Constructor of the LandscapeUtils class.
-     */
-    public LandscapeUtils() {
-        this.fillMap();
+    private LandUtils() {
     }
 
-    private void fillMap() {
-        this.spritesMap = new HashMap<>();
+    private static Map<LandPart, BufferedImage> fillMap() {
+        Map<LandPart, BufferedImage> ret = new HashMap<>();
         try {
-            final BufferedImage spritesImage = ImageIO.read(getClass().getResource(LandscapeUtils.IMAGE_URL));
+            final BufferedImage spritesImage = ImageIO.read(LandUtils.class.getResource(LandUtils.IMAGE_URL));
             int i = 0;
-            for (int y = 0; y < LandscapeUtils.MAX_IMAGE_HEIGHT; y++) {
-                for (int x = 0; x < LandscapeUtils.MAX_IMAGE_WIDTH; x++) {
-                    this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(i),
-                            spritesImage.getSubimage(LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x,
-                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y,
-                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE,
-                                    LandscapeUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
+            for (int y = 0; y < LandUtils.MAX_IMAGE_HEIGHT; y++) {
+                for (int x = 0; x < LandUtils.MAX_IMAGE_WIDTH; x++) {
+                    final LandPart part = LandUtils.NAME_IMAGE_PART.get(i);
+                    ret.put(part, spritesImage.getSubimage(
+                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x,
+                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y,
+                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE,
+                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
                     i++;
                 }
-                i++;
             }
-            this.spritesMap.put(LandscapeUtils.NAME_IMAGE_PART.get(LandscapeUtils.NAME_IMAGE_PART.size() - 1),
+            ret.put(LandUtils.NAME_IMAGE_PART.get(LandUtils.NAME_IMAGE_PART.size() - 1),
                     spritesImage.getSubimage(GREEN_SQUARE_STARTER_LOCATION, 0, 1, 1));
 
         } catch (IOException e) {
             LOG.severe("Ops!");
             LOG.severe(e.toString());
         }
+        return ret;
     }
 
     /**
@@ -101,7 +99,7 @@ public final class LandscapeUtils {
      * @param landScapeSprite
      * @return relative BufferedImage
      */
-    public BufferedImage getSprite(final LandscapePart landScapeSprite) {
-        return this.spritesMap.get(landScapeSprite);
+    public static BufferedImage getSprite(final LandPart landScapeSprite) {
+        return SPRITE_MAP.get(landScapeSprite);
     }
 }

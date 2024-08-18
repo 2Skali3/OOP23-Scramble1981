@@ -81,4 +81,18 @@ public class MapStageImpl implements MapStage {
     public List<MapElement> getFloor() {
         return new ArrayList<>(this.floor);
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCeiling(final List<MapElement> ceiling) {
+        this.ceiling.addAll(ceiling);
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFloor(final List<MapElement> floor) {
+        this.floor.addAll(floor);
+    }
 }

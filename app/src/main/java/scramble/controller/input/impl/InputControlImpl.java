@@ -19,8 +19,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
 
     private static final int MINUS = -10;
     private static final int PLUS = 10;
-    private static final int DELAYBULLET = 100;
-    private final Timer timerBullet;
+    // private static final int DELAYBULLET = 100;
     private static final int SEC = 30;
 
     private final GameView gv;
@@ -35,9 +34,10 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
-
-        timerBullet = new Timer(DELAYBULLET, e -> this.gv.getSpaceshipPanel().moveBullets());
-        this.timer = new Timer(SEC, e -> this.rm.repaintManagement());
+        this.timer = new Timer(SEC, e -> {
+            this.rm.repaintManagement();
+            this.gv.getSpaceshipPanel().moveBullets();
+        });
     }
 
     /** {@inheritDoc} */
@@ -59,7 +59,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
             case KeyEvent.VK_ENTER -> {
                 gv.getLandscapePanel().canBeRepaint();
                 timer.start();
-                timerBullet.start();
                 gv.startGame();
             }
             default -> {

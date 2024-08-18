@@ -9,7 +9,8 @@ import javax.swing.JPanel;
 import scramble.controller.map.MapController;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
-import scramble.model.map.utils.LandscapeUtils;
+import scramble.model.map.util.LandUtils;
+
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -21,15 +22,15 @@ import java.awt.image.BufferedImage;
  */
 public class LandscapePanel extends GamePanel {
     /** Numebr of columns on screen. */
-    public static final int COLUMNS_ON_SCREEN = GameView.WINDOW_WIDTH / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int COLUMNS_ON_SCREEN = GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
     /** Number of columns that aren't seen on screen but are still loaded. */
-    public static final int EXTRA_COLUMNS_LOADED = 20;
+    public static final int EXTRA_COLUMNS_LOADED = 50;
     /** Number of total columns loaded. */
     public static final int TOTAL_COLUMNS_LOADED = COLUMNS_ON_SCREEN + EXTRA_COLUMNS_LOADED;
 
-    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
-    private static final int LANDSCAPEX_SPEED = 4;
+    private static final int LANDSCAPEX_SPEED = 4; // 4
 
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
@@ -71,7 +72,7 @@ public class LandscapePanel extends GamePanel {
         // to-do: dividi in sottometodi privati
         if (this.isPanelRepeintable()) {
             this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
-            if (this.landscapeX / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+            if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
             } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
@@ -130,7 +131,7 @@ public class LandscapePanel extends GamePanel {
      */
     public void reset(final int starterPosition) {
         MAP_CONTROLLER.resetToX(starterPosition);
-        this.landscapeX = +starterPosition * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        this.landscapeX = +starterPosition * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
         this.starterX = landscapeX;
         this.fillColumns();
         this.canBeRepaint();

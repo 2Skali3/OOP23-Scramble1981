@@ -1,10 +1,11 @@
-package scramble.model.map;
+package scramble.model.map.impl;
 
 import scramble.model.common.impl.PairImpl;
-import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.api.MapStage;
-import scramble.model.map.utils.LandscapeDataLoads;
-import scramble.model.map.utils.LandscapeUtils;
+import scramble.model.map.api.MapStageFactory;
+import scramble.model.map.util.LandUtils;
+import scramble.model.map.util.LandsDataLoader;
+import scramble.model.map.util.StageGenerator;
 
 /**
  * Implementation of the interface MapStageFactory.
@@ -21,16 +22,14 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     public static final int STARTER_FLOOR_HEIGHT = 35;
 
-    private final MapStageGenerator mapStageGenerator;
-    private final PairImpl<Integer, Integer> heightCeilingAndFloor;
+    private final StageGenerator mapStageGenerator;
 
     /**
      * Constructor of the class MapStageFactory.
      */
     public MapStageFactoryImpl() {
-        this.heightCeilingAndFloor = new PairImpl<>(MapStageFactoryImpl.STARTER_CEILING_HEIGHT,
-                MapStageFactoryImpl.STARTER_FLOOR_HEIGHT);
-        this.mapStageGenerator = new MapStageGenerator();
+        this.mapStageGenerator = new StageGenerator(new PairImpl<Integer, Integer>(
+                MapStageFactoryImpl.STARTER_CEILING_HEIGHT, MapStageFactoryImpl.STARTER_FLOOR_HEIGHT));
     }
 
     /**
@@ -38,8 +37,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage prestage() {
-        return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getPrestageData(), this.heightCeilingAndFloor,
-                LandscapeUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH);
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getPrestageData(),
+                LandUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH);
     }
 
     /**
@@ -47,8 +46,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage stage1() {
-        return mapStageGenerator.convertDataToMapStage(LandscapeDataLoads.getStage1Data(), this.heightCeilingAndFloor,
-                LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage1Data(),
+                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -56,8 +55,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage stage2() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stage2'");
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage2Data(),
+                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -65,8 +64,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage stage3() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stage3'");
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage3Data(),
+                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -74,8 +73,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage stage4() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stage4'");
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage4Data(),
+                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
     /**

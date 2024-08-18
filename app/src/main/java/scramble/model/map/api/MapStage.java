@@ -20,6 +20,20 @@ public interface MapStage {
     void addColumn(Pair<MapElement, MapElement> column);
 
     /**
+     * Setter for the ceiling part of the stage.
+     * 
+     * @param ceiling the list of {@link MapElement} that form the ceiling
+     */
+    void setCeiling(List<MapElement> ceiling);
+
+    /**
+     * Setter for the floor part of the stage.
+     * 
+     * @param floor the list of {@link MapElement} that form the floor
+     */
+    void setFloor(List<MapElement> floor);
+
+    /**
      * Getter for a column of the MapStage that is identified by an index.
      * 
      * @param index position of the column that we want to get
@@ -47,7 +61,7 @@ public interface MapStage {
     MapElement getCloumnFloor(int index);
 
     /**
-     * The size of the MapStage data structure.
+     * The size of the MapStage internal elements.
      * 
      * @return number of columns in MapStage
      */
