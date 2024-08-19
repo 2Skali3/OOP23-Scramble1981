@@ -5,7 +5,7 @@ import scramble.model.map.api.MapStage;
 import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.LandsDataLoader;
-import scramble.model.map.util.StageGenerator;
+import scramble.model.map.util.elaborator.StageGenerator;
 
 /**
  * Implementation of the interface MapStageFactory.

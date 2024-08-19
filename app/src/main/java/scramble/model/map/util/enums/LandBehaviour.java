@@ -23,5 +23,9 @@ public enum LandBehaviour {
     /**
      * Landscape not present.
      */
-    EMPTY
+    EMPTY,
+    /**
+     * Brick landscape.
+     */
+    BRICK
 }

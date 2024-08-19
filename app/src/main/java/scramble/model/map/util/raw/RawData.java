@@ -1,20 +1,30 @@
-package scramble.model.map.util.land.greenland.raw;
+package scramble.model.map.util.raw;
 
 import java.util.List;
+
+import scramble.model.map.util.enums.TerrainType;
+
 import java.util.ArrayList;
 
 /**
  * The class {@code RawData} rappresent a collection of segments of raw data.
  * There are two separate segments collection for floor and ceiling.
+ * 
  * @see SegmentRawData
  */
 public class RawData {
 
+    private final TerrainType terrainType;
     private final List<SegmentRawData> ceiling;
     private final List<SegmentRawData> floor;
 
-    /** Constructor for the class {@code RawData}. */
-    public RawData() {
+    /**
+     * Constructor for the class {@code RawData}.
+     * @param terrainType the type of the terraint
+     * @see TerrainType
+     */
+    public RawData(final TerrainType terrainType) {
+        this.terrainType = terrainType;
         this.ceiling = new ArrayList<>();
         this.floor = new ArrayList<>();
     }
@@ -57,6 +67,16 @@ public class RawData {
      */
     public List<SegmentRawData> getFloor() {
         return new ArrayList<>(this.floor);
+    }
+
+    /**
+     * Getter for the terrain type of the raw data.
+     * 
+     * @return the terrain type of the raw data
+     * @see TerrainType
+     */
+    public TerrainType getTerrainType() {
+        return this.terrainType;
     }
 
 }

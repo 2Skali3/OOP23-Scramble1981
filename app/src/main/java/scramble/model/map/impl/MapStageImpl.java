@@ -6,6 +6,7 @@ import java.util.List;
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStage;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Implementation for the interface MapStage. This implementation use an List
@@ -14,13 +15,18 @@ import scramble.model.map.api.MapStage;
  * @see MapStage
  */
 public class MapStageImpl implements MapStage {
+
     private final List<MapElement> ceiling;
     private final List<MapElement> floor;
+    private final TerrainType terrainType;
 
     /**
      * Constructor for MapStageImpl.
+     * 
+     * @param terrainType the terrain type of the stage
      */
-    public MapStageImpl() {
+    public MapStageImpl(final TerrainType terrainType) {
+        this.terrainType = terrainType;
         this.ceiling = new ArrayList<>();
         this.floor = new ArrayList<>();
     }
@@ -94,5 +100,12 @@ public class MapStageImpl implements MapStage {
     @Override
     public void setFloor(final List<MapElement> floor) {
         this.floor.addAll(floor);
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TerrainType getTerrainType() {
+        return this.terrainType;
     }
 }

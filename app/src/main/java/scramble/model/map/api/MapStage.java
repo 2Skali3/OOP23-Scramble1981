@@ -4,6 +4,7 @@ import java.util.List;
 
 import scramble.model.common.api.Pair;
 import scramble.model.map.impl.MapElement;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Interface for MapStage, this interface will be implemented with a private
@@ -80,4 +81,11 @@ public interface MapStage {
      * @return the floor part of the stage
      */
     List<MapElement> getFloor();
+
+    /**
+     * Getter for the terrain type of the MapStage.
+     * 
+     * @return the terrain type of the stage
+     */
+    TerrainType getTerrainType();
 }

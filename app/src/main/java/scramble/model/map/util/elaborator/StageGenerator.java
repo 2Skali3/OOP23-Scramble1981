@@ -1,4 +1,4 @@
-package scramble.model.map.util;
+package scramble.model.map.util.elaborator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +8,14 @@ import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageImpl;
+import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.LandPart;
-// import scramble.model.map.util.enums.LandType;
 import scramble.model.map.util.enums.StagePart;
-import scramble.model.map.util.land.greenland.raw.RawData;
-import scramble.model.map.util.land.greenland.raw.SegmentRawData;
+import scramble.model.map.util.enums.TerrainType;
+// import scramble.model.map.util.enums.TerrainType;
+import scramble.model.map.util.raw.RawData;
+import scramble.model.map.util.raw.SegmentRawData;
 
 import java.util.Random;
 import java.util.Arrays;
@@ -26,7 +28,7 @@ import java.awt.image.BufferedImage;
  */
 public class StageGenerator {
 
-    private Pair<Integer, Integer> currentYCeilingAndFloor;
+    private final Pair<Integer, Integer> currentYCeilingAndFloor;
 
     private static final LandPart[] FLAT = { LandPart.TOP_FLAT_FLOOR,
             LandPart.GORGE_FLOOR };
@@ -35,6 +37,8 @@ public class StageGenerator {
     private static final LandPart[] UP = { LandPart.MIRROR_CROWN_CLIMB,
             LandPart.MIRROR_STANDARD_CLIMB, LandPart.MIRROR_BOOT_CLIMB, LandPart.MIRROR_ROUND_CLIMB };
     private static final LandPart SUMMIT = LandPart.TRIANGLE_CLIFF;
+
+    private static final LandPart BRICKWALL = LandPart.LIGHT_BRICK_WALL;
 
     private final Random rand;
 
@@ -47,12 +51,14 @@ public class StageGenerator {
     /**
      * Constructor for MapStageGenerator.
      * 
-     * @param heightCeilingAndFloor contains the height of the ceiling as the first
-     *                              element and the height of the floor as a second
-     *                              element
+     * @param heightCeilingAndFloor {@link Pair} element that contains the height of
+     *                              the ceiling as the first element of the pair and
+     *                              the height of the floor as a second element of
+     *                              the pair
+     * @see Pair
      */
     public StageGenerator(final Pair<Integer, Integer> heightCeilingAndFloor) {
-        this.currentYCeilingAndFloor = new PairImpl<Integer, Integer>(heightCeilingAndFloor.getFirstElement(),
+        this.currentYCeilingAndFloor = new PairImpl<>(heightCeilingAndFloor.getFirstElement(),
                 heightCeilingAndFloor.getSecondElement());
         this.rand = new Random();
     }
@@ -61,8 +67,11 @@ public class StageGenerator {
         return n * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
     }
 
-    private LandPart getSprite(final LandBehaviour behavior, final StagePart stageComponent) {
+    private LandPart getSprite(final LandBehaviour behavior) {
 
+        if (behavior == LandBehaviour.BRICK) {
+            return StageGenerator.BRICKWALL;
+        }
         if (behavior == LandBehaviour.SUMMIT) {
             return StageGenerator.SUMMIT;
         }
@@ -70,7 +79,6 @@ public class StageGenerator {
         final ArrayList<LandPart> flatSprite;
         final ArrayList<LandPart> downSprite;
         final ArrayList<LandPart> upSprite;
-        int[] thresholdsUpDown = thresholdsUpDw;
 
         flatSprite = new ArrayList<>(Arrays.asList(StageGenerator.FLAT));
         downSprite = new ArrayList<>(Arrays.asList(StageGenerator.DOWN));
@@ -87,9 +95,9 @@ public class StageGenerator {
             }
             return flatSprite.get(thresholdsFlat.length - 1);
         }
-        selectedItem = rand.nextInt(thresholdsUpDown[thresholdsUpDown.length - 1]);
-        for (int i = 0; i < thresholdsUpDown.length; i++) {
-            if (selectedItem < thresholdsUpDown[i]) {
+        selectedItem = rand.nextInt(this.thresholdsUpDw[this.thresholdsUpDw.length - 1]);
+        for (int i = 0; i < this.thresholdsUpDw.length; i++) {
+            if (selectedItem < this.thresholdsUpDw[i]) {
                 if (behavior == LandBehaviour.UP) {
                     return upSprite.get(i);
                 }
@@ -103,6 +111,7 @@ public class StageGenerator {
 
     }
 
+    // to-do: creare una classe statica per la manipolazione di BufferedImage
     private static BufferedImage flipBufferedImageWithDegree(final BufferedImage toModify, final int degrees) {
         final BufferedImage modifiedImage = new BufferedImage(toModify.getWidth(), toModify.getHeight(),
                 toModify.getType());
@@ -117,35 +126,83 @@ public class StageGenerator {
         return modifiedImage;
     }
 
-    private Pair<List<MapElement>, Integer> elaborateData(final StagePart stageComponent,
-            final List<SegmentRawData> rawData, final int stageLenght, final int y) {
+    private int getDesiredY(final StagePart stagePart) {
+        if (stagePart == StagePart.CEILING) {
+            return this.currentYCeilingAndFloor.getFirstElement();
+        }
+        return this.currentYCeilingAndFloor.getSecondElement();
+    }
+
+    private int standardUpadte(final int y, final LandBehaviour behaviour, final StagePart stagePart) {
+        if (behaviour == LandBehaviour.UP || behaviour == LandBehaviour.SUMMIT && stagePart == StagePart.FLOOR) {
+            return y - 1;
+        } else if (behaviour == LandBehaviour.DW) {
+            return y + 1;
+        }
+        return y;
+    }
+
+    private int newY(final int y, final LandBehaviour prevBehaviour, final SegmentRawData rawData,
+            final StagePart stagePart) {
+        final TerrainType terrainType = rawData.getTerrainType();
+
+        if (terrainType == TerrainType.BRICK_COLUMN && rawData.hasSpecificHeight()) {
+            return rawData.getHeight();
+        }
+
+        final LandBehaviour triggerBehaviour;
         final int incY;
-        if (stageComponent == StagePart.CEILING) {
-            incY = 0;
+        if (stagePart == StagePart.CEILING) {
+            triggerBehaviour = LandBehaviour.UP;
+            incY = -1;
         } else {
+            triggerBehaviour = LandBehaviour.DW;
             incY = 1;
         }
 
-        List<MapElement> elaboratedData = new ArrayList<>();
+        int currentY = y;
+        if (rawData.getBehaviour() == triggerBehaviour) {
+            currentY -= incY;
+        } else if (rawData.getBehaviour() == LandBehaviour.SUMMIT && stagePart == StagePart.CEILING) {
+            currentY += 1;
+        }
 
+        if (prevBehaviour == triggerBehaviour) {
+            currentY += incY;
+        } else if (prevBehaviour == LandBehaviour.SUMMIT) {
+            currentY += incY;
+        }
+
+        return currentY;
+
+    }
+
+    private Pair<List<MapElement>, Integer> elaborateRawData(final StagePart stagePart,
+            final List<SegmentRawData> rawData, final int stageLength, final TerrainType terrainType) {
+        final List<MapElement> elaboratedData = new ArrayList<>();
         int index = 0;
+
         int length = rawData.get(index).getLength();
+        int currentY;
+        if (terrainType == TerrainType.GREENLAND) {
+            currentY = this.getDesiredY(stagePart);
+        } else {
+            // to-do; in segmentrawdata creare una gestione della richiesta dell'altezza in
+            // caso non sia presente
+            currentY = rawData.get(index).getHeight();
+        }
+
         LandBehaviour behaviour = rawData.get(index).getBehaviour();
         LandBehaviour prevBehaviour;
-        // LandType landType = rawData.get(index).getLandType(); // variabile che tiene
-        // traccia del tipo di terreno da applicare
-        int currentY = y;
-        for (int x = 0; x < stageLenght; x++) {
 
-            if (behaviour == LandBehaviour.SUMMIT) {
-                currentY = currentY - incY;
+        for (int x = 0; x < stageLength; x++) {
+
+            BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
+            if (stagePart == StagePart.CEILING) {
+                bi = StageGenerator.flipBufferedImageWithDegree(bi, 180);
             }
 
-            BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour, stageComponent));
-            if (StagePart.CEILING == stageComponent) {
-                bi = flipBufferedImageWithDegree(bi, 180);
-            }
-
+            // to-do: sistemare empty space
             if (behaviour != LandBehaviour.EMPTY) {
                 elaboratedData.add(new MapElement(
                         this.applyPxInMap(x), this.applyPxInMap(currentY),
@@ -158,46 +215,16 @@ public class StageGenerator {
                 index++;
                 prevBehaviour = behaviour;
                 behaviour = rawData.get(index).getBehaviour();
-                // landType = rawData.get(index).getLandType();
                 length = rawData.get(index).getLength() + x;
-                currentY = updateCurrentY(behaviour, prevBehaviour, stageComponent, currentY);
+
+                currentY = this.newY(currentY, prevBehaviour, rawData.get(index), stagePart);
             }
 
-            if (behaviour == LandBehaviour.UP) {
-                currentY -= 1;
-            } else if (behaviour == LandBehaviour.DW) {
-                currentY += 1;
-            }
+            currentY = this.standardUpadte(currentY, behaviour, stagePart);
+
         }
 
         return new PairImpl<>(elaboratedData, currentY);
-    }
-
-    private int updateCurrentY(final LandBehaviour behaviour, final LandBehaviour prevBehaviour,
-            final StagePart stageComponent, final int y) {
-        final LandBehaviour triggerBehaviour;
-        final int incY;
-        if (stageComponent == StagePart.CEILING) {
-            triggerBehaviour = LandBehaviour.UP;
-            incY = -1;
-        } else {
-            triggerBehaviour = LandBehaviour.DW;
-            incY = 1;
-        }
-
-        int currentY = y;
-        if (behaviour == triggerBehaviour) {
-            currentY -= incY;
-        } else if (behaviour == LandBehaviour.SUMMIT && stageComponent == StagePart.CEILING) {
-            currentY += 1;
-        }
-        if (prevBehaviour == triggerBehaviour) {
-            currentY += incY;
-        } else if (prevBehaviour == LandBehaviour.SUMMIT) {
-            currentY += incY;
-        }
-
-        return currentY;
     }
 
     /**
@@ -206,21 +233,25 @@ public class StageGenerator {
      * 
      * @param rawData     the raw data relative to the map stage
      * @param stageLength the length of the stage
+     * 
      * @return the elaborated data as a {@link MapStage}
+     * 
      * @see MapStage
      * @see RawData
      */
     public MapStage convertDataToMapStage(final RawData rawData, final int stageLength) {
-        final MapStage elaboratedStage = new MapStageImpl();
+        final MapStage elaboratedStage = new MapStageImpl(rawData.getTerrainType());
 
         Pair<List<MapElement>, Integer> elaboratedData;
-        elaboratedData = this.elaborateData(StagePart.CEILING, rawData.getCeiling(), stageLength,
-                currentYCeilingAndFloor.getFirstElement());
+        // if (rawData.getTerrainType() == TerrainType.GREENLAND)
+
+        elaboratedData = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
+                rawData.getTerrainType());
         currentYCeilingAndFloor.setFirstElement(elaboratedData.getSecondElement());
         elaboratedStage.setCeiling(elaboratedData.getFirstElement());
 
-        elaboratedData = this.elaborateData(StagePart.FLOOR, rawData.getFloor(), stageLength,
-                currentYCeilingAndFloor.getSecondElement());
+        elaboratedData = this.elaborateRawData(StagePart.FLOOR, rawData.getFloor(), stageLength,
+                rawData.getTerrainType());
         currentYCeilingAndFloor.setSecondElement(elaboratedData.getSecondElement());
         elaboratedStage.setFloor(elaboratedData.getFirstElement());
 

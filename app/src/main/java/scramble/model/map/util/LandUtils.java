@@ -68,7 +68,7 @@ public final class LandUtils {
     }
 
     private static Map<LandPart, BufferedImage> fillMap() {
-        Map<LandPart, BufferedImage> ret = new HashMap<>();
+        final Map<LandPart, BufferedImage> ret = new HashMap<>();
         try {
             final BufferedImage spritesImage = ImageIO.read(LandUtils.class.getResource(LandUtils.IMAGE_URL));
             int i = 0;
