@@ -11,7 +11,7 @@ import java.awt.Graphics;
  *
  * @see GameElement
  */
-public class GameElementImpl extends HitBoxImpl implements GameElement {
+public abstract class GameElementImpl extends HitBoxImpl implements GameElement {
 
     private final int width, height;
     private final PairImpl<Integer, Integer> position;
@@ -46,17 +46,7 @@ public class GameElementImpl extends HitBoxImpl implements GameElement {
 
     /** {@inheritDoc} */
     @Override
-    public BufferedImage getSprite() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSprite'");
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void updateSprite(final BufferedImage newSprite) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateSprite'");
-    }
+    public abstract BufferedImage getSprite();
 
     /**
      * Getter for the game element width.
