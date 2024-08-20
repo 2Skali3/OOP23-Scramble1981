@@ -35,24 +35,31 @@ public class MapElement extends HitBoxImpl implements GameElement {
     private Pair<Integer, Integer> position;
     private final int width;
     private final int height;
-    private BufferedImage sprite;
-    private TerrainType terrainType;
+    private final BufferedImage sprite;
+    private final TerrainType terrainType;
 
     /**
      * Constructor of the class {@code MapElement}.
      * 
-     * @param x      coordinate in the x-axis
-     * @param y      coordinate in the y-axis
-     * @param width  in the space
-     * @param height in the space
-     * @param sprite of the element
+     * @param x           coordinate in the x-axis
+     * @param y           coordinate in the y-axis
+     * @param width       in the space
+     * @param height      in the space
+     * @param sprite      of the element
+     * @param terrainType of the element
      */
-    public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite, final TerrainType terrainType) {
+    public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite,
+            final TerrainType terrainType) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
         this.position = new PairImpl<>(x, y);
         this.sprite = this.cloneBufferedImage(sprite);
+        if (terrainType == TerrainType.BRICK_COLUMN) {
+            this.terrainType = TerrainType.BRICK_COLUMN;
+        } else {
+            this.terrainType = TerrainType.GREENLAND;
+        }
 
     }
 
@@ -62,12 +69,17 @@ public class MapElement extends HitBoxImpl implements GameElement {
         this.position = new PairImpl<>(newPosition.getFirstElement(), newPosition.getSecondElement());
     }
 
-    /** {@inheritDoc} */
+    /** @inheritDoc */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
         return new PairImpl<Integer, Integer>(this.position.getFirstElement(), this.position.getSecondElement());
     }
 
+    /**
+     * Getter for the {@link TerrainType} of the {@code MapElement}.
+     * 
+     * @return the {@link TerrainType} of the {@code MapElement}
+     */
     public TerrainType getTerrainType() {
         return this.terrainType;
     }

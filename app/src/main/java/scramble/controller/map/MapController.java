@@ -49,8 +49,8 @@ public class MapController {
         final List<MapStage> stages = new ArrayList<>();
         //stages.add(STAGE_FACTORY.prestage());
         //stages.add(STAGE_FACTORY.stage1());
-        // stages.add(STAGE_FACTORY.stage2());
-        // stages.add(STAGE_FACTORY.stage3());
+        //stages.add(STAGE_FACTORY.stage2());
+        //stages.add(STAGE_FACTORY.stage3());
         stages.add(STAGE_FACTORY.stage4());
         return stages;
     }

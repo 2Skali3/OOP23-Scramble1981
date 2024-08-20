@@ -22,8 +22,8 @@ import scramble.model.spaceship.SpaceShip;
 public class SpaceShipPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-    private static final int STARTER_POSITION_X = -50;
-    private static final int STARTER_POSITION_Y = -50;
+    private static final int STARTER_POSITION_X = 50;
+    private static final int STARTER_POSITION_Y = 50;
     private static final int SPACESHIP_WIDTH = 32;
     private static final int SPACESHIP_HEIGHT = 16;
     private static final int BULLET_WIDTH = 3;

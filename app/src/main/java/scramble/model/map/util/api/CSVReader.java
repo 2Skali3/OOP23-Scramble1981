@@ -46,6 +46,7 @@ public abstract class CSVReader<X> {
             while (line != null) {
                 dataCollected.add(collectData(line));
                 line = br.readLine();
+
             }
         } catch (IOException e) {
             /* to-do: creazione messaggio di errore */

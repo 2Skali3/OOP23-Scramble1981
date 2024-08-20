@@ -180,7 +180,9 @@ public class StageGenerator {
 
             BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
             if (stagePart == StagePart.CEILING) {
-                bi = BufferedImageManager.flipBufferedImageWithDegree(bi, 180);
+                bi = BufferedImageManager.rotateBufferedImageWithDegree(bi, 180);
+            } else if (behaviour == LandBehaviour.BRICK) {
+                bi = BufferedImageManager.substituteGreenWithPurple(bi);
             }
 
             // to-do: sistemare empty space
@@ -224,7 +226,6 @@ public class StageGenerator {
         final MapStage elaboratedStage = new MapStageImpl(rawData.getTerrainType());
 
         Pair<List<MapElement>, Integer> elaboratedData;
-        // if (rawData.getTerrainType() == TerrainType.GREENLAND)
 
         elaboratedData = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
                 rawData.getTerrainType());
