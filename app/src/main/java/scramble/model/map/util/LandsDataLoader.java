@@ -1,8 +1,11 @@
 package scramble.model.map.util;
 
+import scramble.model.map.util.api.CSVReader;
 import scramble.model.map.util.enums.TerrainType;
+import scramble.model.map.util.land.brickcolumn.impl.CSVReaderBrickColumn;
 import scramble.model.map.util.land.greenland.impl.CSVReaderGreenland;
 import scramble.model.map.util.raw.RawData;
+import scramble.model.map.util.raw.SegmentRawData;
 
 /**
  * Class that contains static methods for the management of the csv files
@@ -27,14 +30,21 @@ public final class LandsDataLoader {
     private static final String STAGE_6_CEILING_FILE_PATH = "stage/stage6_ceiling.csv";
     private static final String STAGE_6_FLOOR_FILE_PATH = "stage/stage6_floor.csv";
     private static final CSVReaderGreenland CSV_READER_GREENLAND = new CSVReaderGreenland();
+    private static final CSVReaderBrickColumn CSV_READER_BRICK_COLUMN = new CSVReaderBrickColumn();
 
     private LandsDataLoader() {
     }
 
     private static RawData rawDataMaker(final String ceiling, final String floor, final TerrainType terrainType) {
         final RawData rawData = new RawData(terrainType);
-        rawData.setCeiling(CSV_READER_GREENLAND.readCSV(ceiling));
-        rawData.setFloor(CSV_READER_GREENLAND.readCSV(floor));
+        final CSVReader<SegmentRawData> csvReader;
+        if (terrainType == TerrainType.GREENLAND) {
+            csvReader = CSV_READER_GREENLAND;
+        } else {
+            csvReader = CSV_READER_BRICK_COLUMN;
+        }
+        rawData.setCeiling(csvReader.readCSV(ceiling));
+        rawData.setFloor(csvReader.readCSV(floor));
 
         return rawData;
     }

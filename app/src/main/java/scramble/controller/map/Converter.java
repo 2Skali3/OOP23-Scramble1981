@@ -12,6 +12,7 @@ import scramble.model.map.api.MapStage;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.enums.LandPart;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Class that convert raw data to usable data.
@@ -96,7 +97,7 @@ public final class Converter {
                 returnColumn.add(new MapElement(x, y,
                         LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
                         LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        green));
+                        green, TerrainType.GREENLAND));
             }
         }
 

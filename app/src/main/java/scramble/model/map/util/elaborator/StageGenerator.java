@@ -5,6 +5,7 @@ import java.util.List;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageImpl;
@@ -19,8 +20,6 @@ import scramble.model.map.util.raw.SegmentRawData;
 
 import java.util.Random;
 import java.util.Arrays;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
@@ -41,9 +40,6 @@ public class StageGenerator {
     private static final LandPart BRICKWALL = LandPart.LIGHT_BRICK_WALL;
 
     private final Random rand;
-
-    private static final double ANCHOR_X = 2;
-    private static final double ANCHOR_Y = 2;
 
     private final int[] thresholdsFlat = { 95, 100 };
     private final int[] thresholdsUpDw = { 50, 60, 90, 100 };
@@ -109,21 +105,6 @@ public class StageGenerator {
         }
         return downSprite.get(thresholdsUpDw.length - 1);
 
-    }
-
-    // to-do: creare una classe statica per la manipolazione di BufferedImage
-    private static BufferedImage flipBufferedImageWithDegree(final BufferedImage toModify, final int degrees) {
-        final BufferedImage modifiedImage = new BufferedImage(toModify.getWidth(), toModify.getHeight(),
-                toModify.getType());
-        final Graphics2D g2d = modifiedImage.createGraphics();
-        final AffineTransform transform = new AffineTransform();
-
-        transform.rotate(Math.toRadians(degrees), toModify.getWidth() / ANCHOR_X, toModify.getHeight() / ANCHOR_Y);
-        g2d.setTransform(transform);
-        g2d.drawImage(toModify, 0, 0, null);
-        g2d.dispose();
-
-        return modifiedImage;
     }
 
     private int getDesiredY(final StagePart stagePart) {
@@ -199,7 +180,7 @@ public class StageGenerator {
 
             BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
             if (stagePart == StagePart.CEILING) {
-                bi = StageGenerator.flipBufferedImageWithDegree(bi, 180);
+                bi = BufferedImageManager.flipBufferedImageWithDegree(bi, 180);
             }
 
             // to-do: sistemare empty space
@@ -208,7 +189,7 @@ public class StageGenerator {
                         this.applyPxInMap(x), this.applyPxInMap(currentY),
                         LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
                         LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        bi));
+                        bi, terrainType));
             }
 
             if (x == length) {

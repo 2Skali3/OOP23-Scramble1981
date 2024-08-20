@@ -8,6 +8,7 @@ import scramble.model.common.api.HitBox;
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.HitBoxImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Class {@code MapElement} is an implementation of the interface
@@ -32,11 +33,10 @@ import scramble.model.common.impl.PairImpl;
 public class MapElement extends HitBoxImpl implements GameElement {
 
     private Pair<Integer, Integer> position;
-
     private final int width;
     private final int height;
-
     private BufferedImage sprite;
+    private TerrainType terrainType;
 
     /**
      * Constructor of the class {@code MapElement}.
@@ -47,7 +47,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
      * @param height in the space
      * @param sprite of the element
      */
-    public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite) {
+    public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite, final TerrainType terrainType) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
@@ -66,6 +66,10 @@ public class MapElement extends HitBoxImpl implements GameElement {
     @Override
     public PairImpl<Integer, Integer> getPosition() {
         return new PairImpl<Integer, Integer>(this.position.getFirstElement(), this.position.getSecondElement());
+    }
+
+    public TerrainType getTerrainType() {
+        return this.terrainType;
     }
 
     /**
