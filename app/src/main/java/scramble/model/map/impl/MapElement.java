@@ -92,12 +92,6 @@ public class MapElement extends HitBoxImpl implements GameElement {
         return this.cloneBufferedImage(this.sprite);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void updateSprite(final BufferedImage newSprite) {
-        this.sprite = this.cloneBufferedImage(newSprite);
-    }
-
     private BufferedImage cloneBufferedImage(final BufferedImage sourceBufferedImage) {
         final BufferedImage clone = new BufferedImage(sourceBufferedImage.getWidth(), sourceBufferedImage.getHeight(),
                 sourceBufferedImage.getType());

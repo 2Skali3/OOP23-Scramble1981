@@ -31,11 +31,4 @@ public interface GameElement {
      */
     BufferedImage getSprite();
 
-    /**
-     * Updates the game element sprite.
-     *
-     * @param newSprite the new image
-     */
-    void updateSprite(BufferedImage newSprite);
-
 }
