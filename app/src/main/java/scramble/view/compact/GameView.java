@@ -9,9 +9,8 @@ import java.awt.Dimension;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.utils.LandscapeUtils;
-import scramble.controller.gameloop.GameLoopController;
 import scramble.controller.map.MapController;
-import scramble.controller.mediator.impl.CollisionControllerImpl;
+import scramble.controller.mediator.impl.LogicControllerImpl;
 
 /**
  * Class that extends javax.swing.JFrame. This class is the main view of the
@@ -37,8 +36,7 @@ public class GameView extends JFrame {
     private final SpaceShipPanel spaceShipPanel;
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
-    private final CollisionControllerImpl collContr;
-    private GameLoopController gLoopController;
+    private final LogicControllerImpl logicController;
 
     /** Costructor of the class GameVew. */
     public GameView() {
@@ -70,8 +68,7 @@ public class GameView extends JFrame {
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        this.gLoopController = new GameLoopController(MAX_LIVES, this);
-        this.collContr = new CollisionControllerImpl(this);
+        this.logicController = new LogicControllerImpl(MAX_LIVES, this);
 
         this.add(mainPanel);
         this.setVisible(true);
@@ -92,8 +89,7 @@ public class GameView extends JFrame {
         this.landscapePanel = view.getLandscapePanel();
         this.spaceShipPanel = view.getSpaceshipPanel();
         this.fuelBarPanel = view.getFuelBarPanel();
-        this.collContr = view.getCollisionController();
-        this.gLoopController = view.getGLoopController();
+        this.logicController = view.getLogicController();
 
         this.setTitle("Scramble");
         this.setSize(WIDTH, HEIGHT);
@@ -102,19 +98,8 @@ public class GameView extends JFrame {
 
     }
 
-    private CollisionControllerImpl getCollisionController() {
-        return collContr;
-    }
-
-    /**
-     * Getter for the GameLoopController.
-     * 
-     * @return the GameLoopController of the GameView
-     */
-    public GameLoopController getGLoopController() {
-        final GameLoopController temp = new GameLoopController(gLoopController.getLives(), this);
-        gLoopController = temp;
-        return temp;
+    private LogicControllerImpl getLogicController() {
+        return logicController;
     }
 
     /**
@@ -201,7 +186,6 @@ public class GameView extends JFrame {
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
         this.fuelBarPanel.canBeRepaint();
 
-        collContr.init();
     }
 
     /** Resets to start menu. */
@@ -216,7 +200,6 @@ public class GameView extends JFrame {
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 
-        gLoopController.resetLives();
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startUpdateTimer();
 
@@ -239,6 +222,11 @@ public class GameView extends JFrame {
 
     }
 
+    /**
+     * Calculates nearest checkpoint.
+     * 
+     * @return the chkpoint
+     */
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 0; i--) {

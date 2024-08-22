@@ -36,7 +36,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
     private final int width;
     private final int height;
 
-    private BufferedImage sprite;
+    private final BufferedImage sprite;
 
     /**
      * Constructor of the class {@code MapElement}.

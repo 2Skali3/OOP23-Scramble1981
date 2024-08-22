@@ -30,18 +30,21 @@ public class RocketImpl extends GameElementImpl implements Enemy {
         throw new UnsupportedOperationException("Unimplemented method 'startMovment'");
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void updatePosition(PairImpl<Integer, Integer> newPosition) {
+    public void updatePosition(final PairImpl<Integer, Integer> newPosition) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePosition'");
     }
 
+    /** {@inheritDoc} */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
     }
 
+    /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
         // TODO Auto-generated method stub
