@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.utils.LandscapeUtils;
 import scramble.controller.gameloop.GameLoopController;
+import scramble.controller.map.MapController;
 import scramble.controller.mediator.impl.CollisionControllerImpl;
 
 /**
@@ -69,7 +70,7 @@ public class GameView extends JFrame {
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        this.gLoopController = new GameLoopController(MAX_LIVES);
+        this.gLoopController = new GameLoopController(MAX_LIVES, this);
         this.collContr = new CollisionControllerImpl(this);
 
         this.add(mainPanel);
@@ -111,7 +112,7 @@ public class GameView extends JFrame {
      * @return the GameLoopController of the GameView
      */
     public GameLoopController getGLoopController() {
-        final GameLoopController temp = new GameLoopController(gLoopController.getLives());
+        final GameLoopController temp = new GameLoopController(gLoopController.getLives(), this);
         gLoopController = temp;
         return temp;
     }
@@ -236,6 +237,17 @@ public class GameView extends JFrame {
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startUpdateTimer();
 
+    }
+
+    public int returnToCheckPoint() {
+        final int size = MapController.getStageStartingX().size();
+        for (int i = size - 1; i > 0; i--) {
+            if (spaceShipPanel.getSpaceship().getPosition().getFirstElement() > MapController
+                    .getStageStartingX().get(i)) {
+                return MapController.getStageStartingX().get(i);
+            }
+        }
+        return MapController.getStageStartingX().get(0);
     }
 
 }

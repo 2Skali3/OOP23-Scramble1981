@@ -28,7 +28,6 @@ public final class FuelBarPanel extends GamePanel {
         loadImages();
         fuelBar = new FuelBar();
         setOpaque(false);
-
     }
 
     /**

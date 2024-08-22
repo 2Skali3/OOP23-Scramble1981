@@ -5,7 +5,6 @@ import javax.swing.Timer;
 import java.awt.event.ActionListener;
 
 import scramble.controller.input.impl.InputControlImpl;
-import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.CollisionController;
 import scramble.view.compact.GameView;
 import scramble.view.compact.LandscapePanel;
@@ -44,7 +43,6 @@ public class CollisionControllerImpl implements CollisionController {
     @Override
     public void touchedGround() {
         if (ssp.getSpaceship().checkGroundCollision(lp.getColumns())) {
-            // DEVE SUCCEDERE QUI
             timer.stop();
             InputControlImpl.setPaused(true);
             ssp.stopUpdateTimer();
@@ -55,7 +53,7 @@ public class CollisionControllerImpl implements CollisionController {
                         gv.setStart();
                     } else {
                         gv.getGLoopController().lostLife();
-                        gv.restartFromCheckPoint(returnToCheckPoint());
+                        gv.restartFromCheckPoint(gv.returnToCheckPoint());
                     }
                     timer.start();
                     InputControlImpl.setPaused(false);
@@ -65,17 +63,6 @@ public class CollisionControllerImpl implements CollisionController {
             delayTimer.setRepeats(false); // Il timer deve eseguire l'azione solo una volta
             delayTimer.start();
         }
-    }
-
-    private int returnToCheckPoint() {
-        final int size = MapController.getStageStartingX().size();
-        for (int i = size - 1; i > 0; i--) {
-            if (gv.getSpaceshipPanel().getSpaceship().getPosition().getFirstElement() > MapController
-                    .getStageStartingX().get(i)) {
-                return MapController.getStageStartingX().get(i);
-            }
-        }
-        return MapController.getStageStartingX().get(0);
     }
 
     /** Initialise the timer for collision checking. */

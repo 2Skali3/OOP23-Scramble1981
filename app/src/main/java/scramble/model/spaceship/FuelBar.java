@@ -16,7 +16,7 @@ public final class FuelBar {
      */
     public FuelBar() {
         fuelLevel = MAX_FUEL; // Initially the fuel bar is full
-        final Timer timer = new Timer(1000, e -> decreaseFuel(1));
+        final Timer timer = new Timer(1000, e -> decreaseFuel(2));
         timer.start();
     }
 

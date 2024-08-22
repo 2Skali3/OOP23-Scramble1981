@@ -136,14 +136,17 @@ public class SpaceShipPanel extends GamePanel {
         final int xSpeed = spaceship.getxSpeed();
         final int ySpeed = spaceship.getySpeed();
 
-        if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed <= getHeight()
-                && shipY + ySpeed >= 0) {
-            spaceship.move();
-        }
+        /*
+         * if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed
+         * <= getHeight()
+         * && shipY + ySpeed >= 0) {
+         * spaceship.move();
+         * }
+         */
 
         final int minX = 0;
         final int maxX = getWidth() / 2;
-        final int minY = 0;
+        final int minY = 4;
         final int maxY = getHeight();
 
         // Condizioni per il movimento orizzontale (asse X)

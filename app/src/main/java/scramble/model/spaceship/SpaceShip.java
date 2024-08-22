@@ -100,6 +100,11 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
             ySpeed = SPEED;
         }
 
+        if ((left || right) && (up || down)) {
+            xSpeed *= Math.sqrt(2);
+            ySpeed *= Math.sqrt(2);
+        }
+
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
                 getPosition().getSecondElement() + ySpeed));
     }
