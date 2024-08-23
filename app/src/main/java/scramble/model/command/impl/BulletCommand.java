@@ -3,7 +3,8 @@ package scramble.model.command.impl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.api.Command;
-import scramble.view.compact.SpaceShipPanel;
+import scramble.model.spaceship.SpaceShip;
+import scramble.view.compact.BulletsPanel;
 
 /**
  * Implementation of Command interface. handles the player (bullet) commands and
@@ -11,7 +12,8 @@ import scramble.view.compact.SpaceShipPanel;
  */
 public class BulletCommand implements Command {
 
-    private final SpaceShipPanel gamePanel;
+    private final BulletsPanel gamePanel;
+    private final SpaceShip spaceship;
     private final BulletType type;
 
     /**
@@ -19,11 +21,13 @@ public class BulletCommand implements Command {
      *
      * @param panel the game panel to update
      * @param type the type of the bullet
+     * @param spaceship
      */
     @SuppressFBWarnings
-    public BulletCommand(final SpaceShipPanel panel, final BulletType type) {
+    public BulletCommand(final BulletsPanel panel, final BulletType type, final SpaceShip spaceship) {
         this.gamePanel = panel;
         this.type = type;
+        this.spaceship = spaceship;
     }
 
     /**
@@ -32,7 +36,7 @@ public class BulletCommand implements Command {
      */
     @Override
     public void execute() {
-        gamePanel.shootBullet(type);
+        gamePanel.shootBullet(type, spaceship);
     }
 
 }
