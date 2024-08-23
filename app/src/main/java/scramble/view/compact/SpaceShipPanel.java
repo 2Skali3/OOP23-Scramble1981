@@ -1,9 +1,6 @@
 package scramble.view.compact;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -12,8 +9,6 @@ import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import scramble.model.bullets.Bullet;
-import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
@@ -37,14 +32,12 @@ public class SpaceShipPanel extends GamePanel {
     private static final int SPACESHIP_HEIGHT = 16;
 
     private transient SpaceShip spaceship;
-    private transient List<Bullet> bullets;
     private final Timer updateTimer;
 
-    /** Cosnstructor for the SpaceshipPanel class. */
+    /** Constructor for the SpaceshipPanel class. */
     public SpaceShipPanel() {
         this.spaceship = new SpaceShip(STARTER_POSITION_X, STARTER_POSITION_Y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT);
         this.setOpaque(false);
-        bulletInit();
         updateTimer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -69,8 +62,8 @@ public class SpaceShipPanel extends GamePanel {
                         spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
             }
         }
+
         spaceship.drawHitBox(g);
-        drawBullets(g);
         this.canNotBeRepaint();
     }
 
@@ -136,17 +129,14 @@ public class SpaceShipPanel extends GamePanel {
         final int xSpeed = spaceship.getxSpeed();
         final int ySpeed = spaceship.getySpeed();
 
-        /*
-         * if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed
-         * <= getHeight()
-         * && shipY + ySpeed >= 0) {
-         * spaceship.move();
-         * }
-         */
+        /*if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed <= getHeight()
+                && shipY + ySpeed >= 0) {
+            spaceship.move();
+        }*/
 
         final int minX = 0;
         final int maxX = getWidth() / 2;
-        final int minY = 4;
+        final int minY = 0;
         final int maxY = getHeight();
 
         // Condizioni per il movimento orizzontale (asse X)
@@ -172,74 +162,12 @@ public class SpaceShipPanel extends GamePanel {
     }
 
     /**
-     * For each bullet, call bullet.move().
-     */
-    public void moveBullets() {
-        final List<Bullet> bulletsToRemove = new ArrayList<>();
-        for (final Bullet bullet : bullets) {
-            bullet.move3();
-            // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth()) { // aggiungere il secondo caso
-                bulletsToRemove.add(bullet);
-            }
-        }
-        // removes bullets that have gone off the screen
-        bullets.removeAll(bulletsToRemove);
-        repaint();
-    }
-
-    private void drawBullet(final Graphics g, final Bullet bullet) {
-        final BufferedImage bulletSprite = bullet.getSprite();
-        if (bulletSprite != null) {
-            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
-                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
-        }
-    }
-
-    private void drawBullets(final Graphics g) {
-        // for each bullet in bullet list, call drawBullet()
-        for (final Bullet bullet : bullets) {
-            drawBullet(g, bullet);
-        }
-    }
-
-    /**
-     * Shoots a bullet from the spaceship's current position.
-     *
-     * This method calculates the initial position of the bullet based on
-     * the spaceship's current position and size. It then creates a new
-     * {@link Bullet} instance and adds it to the list of bullets in the game.
-     * The bullet's start position is at the right edge of the spaceship, centered
-     * vertically.
-     * 
-     * @param type the type of the bullet
-     */
-    public void shootBullet(final BulletType type) {
-        // bullet_type should be an enum, not an int
-        final PairImpl<Integer, Integer> location = spaceship.getPosition();
-        final int bulletX = location.getFirstElement() + spaceship.getWidth();
-        final int bulletY = location.getSecondElement() + spaceship.getHeight() / 2;
-
-        /*
-         * create new Bullet class and append to List<Bullet>
-         * start position is (shipX+shipWidth, shipY+shipHeight/2)
-         */
-        final Bullet bullet = new Bullet(bulletX, bulletY, type);
-        bullets.add(bullet);
-        repaint();
-    }
-
-    /**
      * Method that executes the command sent to the spaceship.
      *
      * @param command the command
      */
     public void sendCommandBullet(final BulletCommand command) {
         command.execute();
-    }
-
-    private void bulletInit() {
-        this.bullets = new ArrayList<>();
     }
 
     /** Stops for timer. */

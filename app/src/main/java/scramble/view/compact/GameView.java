@@ -15,7 +15,7 @@ import scramble.controller.mediator.impl.LogicControllerImpl;
 /**
  * Class that extends javax.swing.JFrame. This class is the main view of the
  * game.
- * 
+ *
  * @see JFrame
  */
 public class GameView extends JFrame {
@@ -34,6 +34,7 @@ public class GameView extends JFrame {
     private final BackgroundPanel backgroundPanel;
     private final LandscapePanel landscapePanel;
     private final SpaceShipPanel spaceShipPanel;
+    private final BulletsPanel bulletsPanel;
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
@@ -64,6 +65,10 @@ public class GameView extends JFrame {
         this.spaceShipPanel = new SpaceShipPanel();
         spaceShipPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+        // Bullets panel setup
+        this.bulletsPanel = new BulletsPanel();
+        this.bulletsPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
         // FuelBar panel setup
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -77,7 +82,7 @@ public class GameView extends JFrame {
 
     /**
      * Class constructor for defensive copy.
-     * 
+     *
      * @param view the game view to copy
      */
     public GameView(final GameView view) {
@@ -88,6 +93,7 @@ public class GameView extends JFrame {
         this.startMenu = view.getStartMenu();
         this.landscapePanel = view.getLandscapePanel();
         this.spaceShipPanel = view.getSpaceshipPanel();
+        this.bulletsPanel = view.getBulletsPanel();
         this.fuelBarPanel = view.getFuelBarPanel();
         this.logicController = view.getLogicController();
 
@@ -98,13 +104,29 @@ public class GameView extends JFrame {
 
     }
 
+<<<<<<< Updated upstream
     private LogicControllerImpl getLogicController() {
         return logicController;
+=======
+    private CollisionControllerImpl getCollisionController() {
+        return collContr;
+    }
+
+    /**
+     * Getter for the GameLoopController.
+     *
+     * @return the GameLoopController of the GameView
+     */
+    public GameLoopController getGLoopController() {
+        final GameLoopController temp = new GameLoopController(gLoopController.getLives(), this);
+        gLoopController = temp;
+        return temp;
+>>>>>>> Stashed changes
     }
 
     /**
      * Getter of the mainPanel.
-     * 
+     *
      * @return the mainpanel of this GameView
      */
     @SuppressFBWarnings
@@ -135,7 +157,7 @@ public class GameView extends JFrame {
 
     /**
      * Getter of startMenu.
-     * 
+     *
      * @return the startmenu panel of this GameView
      */
 
@@ -146,7 +168,7 @@ public class GameView extends JFrame {
 
     /**
      * Getter of landscapePanel.
-     * 
+     *
      * @return the landscape panel of this GameView
      */
 
@@ -157,13 +179,24 @@ public class GameView extends JFrame {
 
     /**
      * Getter of spaceShipPanel.
-     * 
+     *
      * @return the spaceship panel of this GameView
      */
 
     @SuppressFBWarnings
     public SpaceShipPanel getSpaceshipPanel() {
         return this.spaceShipPanel;
+    }
+
+    /**
+     * Getter of bulletsPanel.
+     *
+     * @return the bullets panel of this GameView
+     */
+
+    @SuppressFBWarnings
+    public BulletsPanel getBulletsPanel() {
+        return this.bulletsPanel;
     }
 
     /**
@@ -181,6 +214,9 @@ public class GameView extends JFrame {
 
         this.mainPanel.add(spaceShipPanel, JLayeredPane.MODAL_LAYER);
         this.spaceShipPanel.canBeRepaint();
+
+        this.mainPanel.add(bulletsPanel, JLayeredPane.MODAL_LAYER);
+        this.bulletsPanel.canBeRepaint();
 
         // POPUP_LAYER
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
@@ -207,7 +243,7 @@ public class GameView extends JFrame {
 
     /**
      * Resets to the nearest checkpoint.
-     * 
+     *
      * @param restartPos X pos of selected checkpoint
      */
     public void restartFromCheckPoint(final int restartPos) {
