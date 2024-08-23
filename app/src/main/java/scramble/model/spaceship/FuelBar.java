@@ -10,14 +10,14 @@ public final class FuelBar {
     private static final int MAX_FUEL = 100;
 
     private int fuelLevel; // shows the fuel level on the bar (varies from 1 to 100)
+    private final Timer depleteTimer;
 
     /**
      * Class constructor.
      */
     public FuelBar() {
         fuelLevel = MAX_FUEL; // Initially the fuel bar is full
-        final Timer timer = new Timer(1000, e -> decreaseFuel(2));
-        timer.start();
+        depleteTimer = new Timer(1000, e -> decreaseFuel(7));
     }
 
     /**
@@ -65,5 +65,15 @@ public final class FuelBar {
     /** Resets fuel bar to MAX. */
     public void fillFuel() {
         this.fuelLevel = MAX_FUEL;
+    }
+
+    /** Starts deplete timer. */
+    public void startDepleteTimer() {
+        depleteTimer.start();
+    }
+
+    /** Stops deplete timer. */
+    public void stopDepleteTimer() {
+        depleteTimer.stop();
     }
 }

@@ -130,6 +130,7 @@ public class LogicControllerImpl implements LogicController {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
                     if (isGameOver()) {
+                        gameView.getFuelBarPanel().getFuelBar().stopDepleteTimer();
                         gameView.setStart();
                         resetLives();
                     } else {
