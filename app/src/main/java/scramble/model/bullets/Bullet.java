@@ -23,8 +23,9 @@ public class Bullet extends GameElementImpl {
     private static final Logger LOG = Logger.getLogger(Bullet.class.getName());
     private int xSpeed;
     private int ySpeed;
-    private static final int YSPEAD_BOMB = 20;
-    private static final int XSPEAD_BOMB = 20;
+    private static final int XSPEAD_ORIZONTAL_BULLET = 20;
+    private static final int YSPEAD_BOMB = 5;
+    private static final int XSPEAD_BOMB = 5;
     private static final int SPRITES = 5;
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
@@ -98,7 +99,7 @@ public class Bullet extends GameElementImpl {
         switch (type) {
             case TYPE_HORIZONTAL -> {
                 ySpeed = 0;
-                xSpeed = 0;
+                xSpeed = XSPEAD_ORIZONTAL_BULLET;
                 move();
                 break;
             }

@@ -104,24 +104,8 @@ public class GameView extends JFrame {
 
     }
 
-<<<<<<< Updated upstream
     private LogicControllerImpl getLogicController() {
         return logicController;
-=======
-    private CollisionControllerImpl getCollisionController() {
-        return collContr;
-    }
-
-    /**
-     * Getter for the GameLoopController.
-     *
-     * @return the GameLoopController of the GameView
-     */
-    public GameLoopController getGLoopController() {
-        final GameLoopController temp = new GameLoopController(gLoopController.getLives(), this);
-        gLoopController = temp;
-        return temp;
->>>>>>> Stashed changes
     }
 
     /**
@@ -260,7 +244,7 @@ public class GameView extends JFrame {
 
     /**
      * Calculates nearest checkpoint.
-     * 
+     *
      * @return the chkpoint
      */
     public int returnToCheckPoint() {
