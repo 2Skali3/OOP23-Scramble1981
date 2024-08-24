@@ -37,8 +37,8 @@ public class Bullet extends GameElementImpl {
     private static final int EXP_SPRITES = 4;
     private boolean animationComplete;
     private int currentSpriteIndex;
-    private boolean hit = false;
-    private final Random random = new Random();;
+    private boolean hit;
+    private final Random random = new Random();
 
     /**
      * Class construnctor.
@@ -52,6 +52,7 @@ public class Bullet extends GameElementImpl {
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         this.type = type;
+        this.hit = false;
 
         switch (type) {
             case TYPE_HORIZONTAL:
@@ -77,7 +78,7 @@ public class Bullet extends GameElementImpl {
                 for (int i = 1; i <= EXP_SPRITES; i++) {
                 try {
                     explosionSprites
-                            .add(ImageIO.read(getClass().getResource("/bomb/explosion/bomb_explodes" + i + ".png")));
+                            .add(ImageIO.read(Bullet.class.getResource("/bomb/explosion/bomb_explodes" + i + ".png")));
                 } catch (IOException e) {
                     LOG.severe("Ops!");
                     LOG.severe(e.toString());

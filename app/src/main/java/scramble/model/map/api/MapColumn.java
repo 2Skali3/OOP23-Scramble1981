@@ -1,8 +1,10 @@
 package scramble.model.map.api;
 
 import java.util.List;
-import java.awt.image.BufferedImage;
+
 import scramble.model.map.impl.MapElement;
+
+import java.awt.image.BufferedImage;
 
 /**
  * {@code MapColum} is an interface for the rappresentation of a single column

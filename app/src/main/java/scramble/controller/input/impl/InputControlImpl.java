@@ -35,8 +35,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
-
-        timer = new Timer(SEC, e -> {
+        this.timer = new Timer(SEC, e -> {
             this.rm.repaintManagement();
             this.gv.getBulletsPanel().moveBullets();
         });

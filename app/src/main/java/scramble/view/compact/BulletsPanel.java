@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-
-
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
@@ -49,7 +47,7 @@ public class BulletsPanel extends GamePanel {
      * @return the bullet list
      */
     public List<Bullet> getBullets() {
-        return bullets;
+        return new ArrayList<>(bullets);
     }
 
     /**
@@ -69,7 +67,10 @@ public class BulletsPanel extends GamePanel {
         for (final Bullet bullet : bullets) {
             bullet.moveByType();
             // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth() /*|| bullet.checkGroundCollision()*/) { // aggiungere il secondo caso
+            if (bullet.getPosition().getFirstElement() > getWidth() /* || bullet.checkGroundCollision() */) { // aggiungere
+                                                                                                              // il
+                                                                                                              // secondo
+                                                                                                              // caso
                 bulletsToRemove.add(bullet);
             }
         }
@@ -110,7 +111,7 @@ public class BulletsPanel extends GamePanel {
      * vertically.
      *
      * @param type the type of the bullet
-     * @param type spaceship
+     * @param spaceship spaceship
      */
     public void shootBullet(final BulletType type, final SpaceShip spaceship) {
         final PairImpl<Integer, Integer> location = spaceship.getPosition();

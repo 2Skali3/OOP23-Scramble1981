@@ -1,9 +1,9 @@
-package scramble.model.map.utils.enums;
+package scramble.model.map.util.enums;
 
 /**
  * enum that describes the behaviour of the Landscape.
  */
-public enum LandscapeBehaviour {
+public enum LandBehaviour {
     /**
      * Flat landscape.
      */
@@ -23,5 +23,9 @@ public enum LandscapeBehaviour {
     /**
      * Landscape not present.
      */
-    EMPTY
+    EMPTY,
+    /**
+     * Brick landscape.
+     */
+    BRICK
 }

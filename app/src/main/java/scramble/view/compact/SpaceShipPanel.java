@@ -118,7 +118,7 @@ public class SpaceShipPanel extends GamePanel {
         }
 
         this.canBeRepaint();
-        repaint();
+        // repaint();
     }
 
     /** Checks continuosly with a timer for spaceship movement. */

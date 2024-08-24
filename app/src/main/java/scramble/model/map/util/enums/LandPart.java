@@ -1,9 +1,9 @@
-package scramble.model.map.utils.enums;
+package scramble.model.map.util.enums;
 
 /**
  * Enum for the Landscape sprite denomination for the Landscape parts.
  */
-public enum LandscapePart {
+public enum LandPart {
     /**
      * Descending floor landscape.
      */
@@ -36,6 +36,7 @@ public enum LandscapePart {
      * Ascending floor landscape.
      */
     MIRROR_STANDARD_CLIMB,
+
     /**
      * Flat floor landscape.
      */
@@ -44,6 +45,7 @@ public enum LandscapePart {
      * Flat floor landscape.
      */
     TRIANGLE_CLIFF,
+
     /**
      * Flat floor landscape.
      */
@@ -52,6 +54,7 @@ public enum LandscapePart {
      * Summit floor landscape.
      */
     GORGE_FLOOR,
+
     /**
      * Flat ceiling landscape.
      */
@@ -72,6 +75,7 @@ public enum LandscapePart {
      * Light brick wall.
      */
     LIGHT_BRICK_WALL, // last image of the first row
+
     /**
      * Dark brick wall.
      */
@@ -100,6 +104,7 @@ public enum LandscapePart {
      * Long white rectangel end.
      */
     LONG_WHITE_RECTANGLE_END,
+
     /**
      * Flat ceiling landscape.
      */
@@ -107,7 +112,7 @@ public enum LandscapePart {
     /**
      * Summit ceiling landscape.
      */
-    STALACTITE_CEILING,
+    GORGE_CEILING,
     /**
      * Flat ceiling landscape.
      */
@@ -115,11 +120,11 @@ public enum LandscapePart {
     /**
      * Flat ceiling landscape.
      */
-    GORGE_CEILING, // FLAT
+    STALACTITE_CEILING, // FLAT
     /**
      * Descending ceiling landscape.
      */
-    LEFT_ROUND_CEILING, // DOWN
+    BOH, // DOWN
     /**
      * Ascending ceiling landscape.
      */
@@ -127,7 +132,7 @@ public enum LandscapePart {
     /**
      * Descending ceiling landscape.
      */
-    LEFT_CROWN_CEILING, // DOWN
+    LEFT_ROUND_CEILING, // DOWN
     /**
      * Ascending ceiling landscape.
      */
@@ -135,7 +140,7 @@ public enum LandscapePart {
     /**
      * Blob square.
      */
-    BLOB_SQUARE,
+    LEFT_CROWN_CEILING,
     /**
      * Gray square.
      */

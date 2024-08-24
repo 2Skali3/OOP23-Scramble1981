@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.map.MapStageFactoryImpl;
-import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.api.MapStage;
+import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.impl.MapColumnImpl;
 import scramble.model.map.impl.MapElement;
-import scramble.model.map.utils.LandscapeUtils;
+import scramble.model.map.impl.MapStageFactoryImpl;
+import scramble.model.map.util.LandUtils;
+import scramble.model.map.util.enums.LandBehaviour;
 import scramble.view.compact.GameView;
 import scramble.view.compact.LandscapePanel;
 
@@ -33,6 +35,7 @@ public class MapController {
     private static List<Integer> stageStartingX = new ArrayList<>();
 
     private final List<MapColumn> columns;
+    private final List<Pair<Integer, Integer>> flatPositions;
     private int columnIndex;
 
     /**
@@ -41,6 +44,7 @@ public class MapController {
     public MapController() {
         final List<MapStage> stages = this.fillMapStage();
         this.columnIndex = 0;
+        this.flatPositions = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
     }
@@ -49,6 +53,10 @@ public class MapController {
         final List<MapStage> stages = new ArrayList<>();
         stages.add(STAGE_FACTORY.prestage());
         stages.add(STAGE_FACTORY.stage1());
+        stages.add(STAGE_FACTORY.stage2());
+        stages.add(STAGE_FACTORY.stage3());
+        stages.add(STAGE_FACTORY.stage4());
+        stages.add(STAGE_FACTORY.stage5());
         return stages;
     }
 
@@ -66,6 +74,9 @@ public class MapController {
 
                 this.columns.add(new MapColumnImpl(new ArrayList<>(Arrays.asList(ceilingColumn)),
                         new ArrayList<>(Arrays.asList(floorColumn)), ceilingColumn.getY(), floorColumn.getY()));
+                if (floorColumn.getBehaviour() == LandBehaviour.FLAT) {
+                    this.flatPositions.add(floorColumn.getPosition());
+                }
                 x++;
             }
         }
@@ -97,7 +108,7 @@ public class MapController {
             columnsToDisplay.add(columns.get(this.columnIndex + i));
         }
         this.columnIndex += LandscapePanel.EXTRA_COLUMNS_LOADED;
-        if (this.columnIndex + (GameView.WINDOW_WIDTH / LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE)
+        if (this.columnIndex + (GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE)
                 + 4 > this.columns
                         .size()) {
             this.columnIndex = 0;
@@ -123,4 +134,13 @@ public class MapController {
     public static List<Integer> getStageStartingX() {
         return new ArrayList<>(stageStartingX);
     }
+
+    /**
+     * Getter for the flat floor Position of the stages.
+     * @return the flat floor position
+     */
+    public List<Pair<Integer, Integer>> getFlatFloorPositions() {
+        return new ArrayList<>(this.flatPositions);
+    }
+
 }
