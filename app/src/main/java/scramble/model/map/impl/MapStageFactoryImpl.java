@@ -82,8 +82,8 @@ public class MapStageFactoryImpl implements MapStageFactory {
      */
     @Override
     public MapStage stage5() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stage5'");
+        return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage5Data(),
+                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
     }
 
     /**

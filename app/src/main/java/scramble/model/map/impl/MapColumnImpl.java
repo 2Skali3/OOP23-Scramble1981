@@ -37,7 +37,7 @@ public class MapColumnImpl implements MapColumn {
      */
     public MapColumnImpl(final List<MapElement> ceilingME, final List<MapElement> floorME, final int endCeiling,
             final int startFloor) {
-        if (ceilingME.get(0).getHeight() < 0) {
+        if (ceilingME.get(0).getHeight() > 0) {
             this.ceilingME = new ArrayList<>(ceilingME);
         } else {
             this.ceilingME = new ArrayList<>();

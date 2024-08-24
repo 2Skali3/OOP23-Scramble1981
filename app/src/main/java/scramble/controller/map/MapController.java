@@ -52,6 +52,7 @@ public class MapController {
         stages.add(STAGE_FACTORY.stage2());
         stages.add(STAGE_FACTORY.stage3());
         stages.add(STAGE_FACTORY.stage4());
+        stages.add(STAGE_FACTORY.stage5());
         return stages;
     }
 
