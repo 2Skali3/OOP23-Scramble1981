@@ -7,7 +7,7 @@ import javax.swing.Timer;
  * for empty and full bar.
  */
 public final class FuelBar {
-    private static final int MAX_FUEL = 100;
+    private static final int MAX_FUEL = 1000;
 
     private int fuelLevel; // shows the fuel level on the bar (varies from 1 to 100)
     private final Timer depleteTimer;
@@ -17,7 +17,7 @@ public final class FuelBar {
      */
     public FuelBar() {
         fuelLevel = MAX_FUEL; // Initially the fuel bar is full
-        depleteTimer = new Timer(1000, e -> decreaseFuel(7));
+        depleteTimer = new Timer(1000, e -> decreaseFuel(1));
     }
 
     /**

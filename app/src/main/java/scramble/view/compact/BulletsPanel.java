@@ -6,18 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
-
-import java.util.logging.Logger;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.spaceship.Directions;
 import scramble.model.spaceship.SpaceShip;
 
 /**
@@ -28,31 +21,20 @@ import scramble.model.spaceship.SpaceShip;
  */
 public class BulletsPanel extends GamePanel {
 
-    private static final Logger LOG = Logger.getLogger(Bullet.class.getName());
-
     private static final long serialVersionUID = 1L;
 
     private transient List<Bullet> bullets;
-    // private final Timer updateTimer;
 
-    /** Cosnstructor for the SpaceshipPanel class. */
+    /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
         bulletInit();
         this.setOpaque(false);
-        // updateTimer = new Timer(16, new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(final ActionEvent e) {
-        //         update();
-        //     }
-        // });
-        // updateTimer.start();
+
     }
 
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
-
-        // TODO check isRepaintable() from GamePanel
         drawBullets(g);
         this.canNotBeRepaint();
     }
@@ -75,20 +57,19 @@ public class BulletsPanel extends GamePanel {
         command.execute();
     }
 
-    /** Checks continuosly with a timer for spaceship movement. */
-    /*public void update() {
-    }*/
-
     /**
      * For each bullet, call bullet.move().
      */
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = new ArrayList<>();
         for (final Bullet bullet : bullets) {
-            if(bullets.size() == 2)
+            if (bullets.size() == 2)
                 bullet.moveByType();
             // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth() /*|| bullet.checkGroundCollision()*/) { // aggiungere il secondo caso
+            if (bullet.getPosition().getFirstElement() > getWidth() /* || bullet.checkGroundCollision() */) { // aggiungere
+                                                                                                              // il
+                                                                                                              // secondo
+                                                                                                              // caso
                 bulletsToRemove.add(bullet);
             }
         }
@@ -158,13 +139,4 @@ public class BulletsPanel extends GamePanel {
         this.bullets = new ArrayList<>();
     }
 
-    /** Stops for timer. */
-    public void stopUpdateTimer() {
-        // updateTimer.stop();
-    }
-
-    /** Start the timer. */
-    public void startUpdateTimer() {
-        // updateTimer.start();
-    }
 }
