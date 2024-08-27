@@ -14,6 +14,7 @@ import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.Directions;
 import scramble.model.spaceship.SpaceShip;
+import scramble.utility.Constants;
 
 /**
  * Class for the representation of the Spaceship Panel.
@@ -26,17 +27,17 @@ public class SpaceShipPanel extends GamePanel {
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
 
     private static final long serialVersionUID = 1L;
-    private static final int STARTER_POSITION_X = 50;
-    private static final int STARTER_POSITION_Y = 50;
-    private static final int SPACESHIP_WIDTH = 32;
-    private static final int SPACESHIP_HEIGHT = 16;
+
+    
 
     private transient SpaceShip spaceship;
     private final Timer updateTimer;
 
     /** Constructor for the SpaceshipPanel class. */
     public SpaceShipPanel() {
-        this.spaceship = new SpaceShip(STARTER_POSITION_X, STARTER_POSITION_Y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT);
+        this.spaceship = new SpaceShip(Constants.SPACESHIP_STARTER_POSITION, 
+                Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_WIDTH,
+                Constants.SPACESHIP_HEIGHT);
         this.setOpaque(false);
         updateTimer = new Timer(16, new ActionListener() {
             @Override

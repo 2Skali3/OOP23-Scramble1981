@@ -2,12 +2,13 @@ package scramble.model.spaceship;
 
 import javax.swing.Timer;
 
+import scramble.utility.Constants;
+
 /**
  * This class is in charge of the fuel bar part of the hud. It loads two images,
  * for empty and full bar.
  */
 public final class FuelBar {
-    private static final int MAX_FUEL = 100;
 
     private int fuelLevel; // shows the fuel level on the bar (varies from 1 to 100)
 
@@ -15,8 +16,8 @@ public final class FuelBar {
      * Class constructor.
      */
     public FuelBar() {
-        fuelLevel = MAX_FUEL; // Initially the fuel bar is full
-        final Timer timer = new Timer(1000, e -> decreaseFuel(2));
+        fuelLevel = Constants.MAX_FUEL; // Initially the fuel bar is full
+        final Timer timer = new Timer(1000, e -> decreaseFuel(Constants.FUEL_DECREASE_AMOUNT));
         timer.start();
     }
 
@@ -39,8 +40,8 @@ public final class FuelBar {
      */
     public void increaseFuel(final int amount) {
         fuelLevel += amount;
-        if (fuelLevel > MAX_FUEL) {
-            fuelLevel = MAX_FUEL;
+        if (fuelLevel > Constants.MAX_FUEL) {
+            fuelLevel = Constants.MAX_FUEL;
         }
     }
 
@@ -64,6 +65,6 @@ public final class FuelBar {
 
     /** Resets fuel bar to MAX. */
     public void fillFuel() {
-        this.fuelLevel = MAX_FUEL;
+        this.fuelLevel = Constants.MAX_FUEL;
     }
 }

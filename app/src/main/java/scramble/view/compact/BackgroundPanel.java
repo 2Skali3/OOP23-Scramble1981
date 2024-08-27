@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
+import scramble.utility.Constants;
 
 /**
  * Class for the rappresentation of the Background Panel.
@@ -20,7 +21,6 @@ import scramble.model.common.impl.PairImpl;
 public class BackgroundPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-    private static final int NUMBER_OF_STAR_IN_BACKGROUND = 100;
 
     private final Random rand;
     private transient List<Pair<Integer, Integer>> starPositionXY;
@@ -48,7 +48,7 @@ public class BackgroundPanel extends GamePanel {
         g.fillRect(0, 0, GameView.WINDOW_WIDTH, GameView.WINDOW_WIDTH);
 
         g.setColor(Color.WHITE);
-        for (int i = 0; i < NUMBER_OF_STAR_IN_BACKGROUND; i++) {
+        for (int i = 0; i < Constants.NUMBER_OF_STAR_IN_BACKGROUND; i++) {
             final int x = starPositionXY.get(i).getFirstElement();
             final int y = starPositionXY.get(i).getSecondElement();
             g.fillRect(x, y, 2, 2);
@@ -58,7 +58,7 @@ public class BackgroundPanel extends GamePanel {
 
     private void randomizeStarsPositionXY() {
         starPositionXY.clear();
-        for (int i = 0; i < NUMBER_OF_STAR_IN_BACKGROUND; i++) {
+        for (int i = 0; i < Constants.NUMBER_OF_STAR_IN_BACKGROUND; i++) {
             final int x = rand.nextInt(GameView.WINDOW_WIDTH);
             final int y = rand.nextInt(GameView.WINDOW_WIDTH);
             this.starPositionXY.add(new PairImpl<Integer, Integer>(x, y));

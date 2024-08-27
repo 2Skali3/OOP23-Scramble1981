@@ -13,6 +13,7 @@ import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
 import scramble.view.compact.SpaceShipPanel;
+import scramble.utility.Constants;
 
 /**
  * This class handles the Collision on the map.
@@ -20,10 +21,6 @@ import scramble.view.compact.SpaceShipPanel;
  * the game elements.
  */
 public class LogicControllerImpl implements LogicController {
-
-    private static final int MAX_STAGES = 1;
-
-    private static final int Y_POSITION = 50;
 
     private int lives;
     private final List<PairImpl<Integer, Integer>> checkPoints;
@@ -38,8 +35,8 @@ public class LogicControllerImpl implements LogicController {
      * @param lives    number of lives, added for deep copy
      * @param gameView the calling class
      */
-    public LogicControllerImpl(final int lives, final GameView gameView) {
-        this.lives = lives;
+    public LogicControllerImpl(final GameView gameView) {
+        this.lives = Constants.MAX_LIVES;
         this.gameView = new GameView(gameView);
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
@@ -79,8 +76,8 @@ public class LogicControllerImpl implements LogicController {
 
     /** Adds checkpoints. */
     public void addCheckPoints() {
-        for (int i = 0; i < MAX_STAGES + 1; i++) {
-            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i), Y_POSITION));
+        for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
+            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i), Constants.CHECKPOINT_Y_POSITION));
         }
     }
 

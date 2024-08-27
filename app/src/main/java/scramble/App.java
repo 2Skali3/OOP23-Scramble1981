@@ -13,15 +13,6 @@ import scramble.view.compact.GameView;
 public class App {
 
     /**
-     * Auto-generated test.
-     * 
-     * @return a std greeting
-     */
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
-    /**
      * Main method.
      * 
      * @param args standard main args

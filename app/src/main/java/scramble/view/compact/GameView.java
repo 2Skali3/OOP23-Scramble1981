@@ -9,6 +9,7 @@ import java.awt.Dimension;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.util.LandUtils;
+import scramble.utility.Constants;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.impl.LogicControllerImpl;
 
@@ -26,8 +27,6 @@ public class GameView extends JFrame {
     /** Height of the window. */
     public static final int WINDOW_HEIGHT = LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
             * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-    private static final int SPACESHIP_STARTER_POSITION = 50;
-    private static final int MAX_LIVES = 2;
 
     private final JLayeredPane mainPanel;
 
@@ -73,7 +72,7 @@ public class GameView extends JFrame {
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        this.logicController = new LogicControllerImpl(MAX_LIVES, this);
+        this.logicController = new LogicControllerImpl(this);
 
         this.add(mainPanel);
         this.setVisible(true);
@@ -215,7 +214,7 @@ public class GameView extends JFrame {
 
         landscapePanel.reset(0);
         spaceShipPanel.getSpaceship()
-                .updatePosition(new PairImpl<>(SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
+                .updatePosition(new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
@@ -235,7 +234,7 @@ public class GameView extends JFrame {
         landscapePanel.reset(restartPos);
         spaceShipPanel.getSpaceship()
                 .updatePosition(
-                        new PairImpl<>(restartPos + SPACESHIP_STARTER_POSITION, SPACESHIP_STARTER_POSITION));
+                        new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
         this.landscapePanel.canBeRepaint();
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startUpdateTimer();

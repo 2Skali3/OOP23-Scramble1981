@@ -12,14 +12,13 @@ import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 
 import scramble.view.compact.GameView;
+import scramble.utility.Constants;
 
 /**
  * Implementation of InputControl. Extends KeyAdapter in order to get the
  * necessary key bindings.
  */
 public class InputControlImpl extends KeyAdapter implements InputControl {
-
-    private static final int SEC = 30;
 
     private final GameView gv;
     private final Timer timer;
@@ -35,7 +34,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
-        this.timer = new Timer(SEC, e -> {
+        this.timer = new Timer(Constants.INPUT_TIMER_SEC, e -> {
             this.rm.repaintManagement();
             this.gv.getBulletsPanel().moveBullets();
         });

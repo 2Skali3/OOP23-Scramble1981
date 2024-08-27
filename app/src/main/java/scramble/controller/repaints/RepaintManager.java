@@ -1,5 +1,6 @@
 package scramble.controller.repaints;
 
+import scramble.utility.Constants;
 import scramble.view.compact.GameView;
 
 /**
@@ -9,7 +10,7 @@ public class RepaintManager {
 
     private final GameView gv;
     private int cicleCounter;
-    private static final int CICLE_BEFORE_BACKGROUND_REPAINT = 30;
+    
 
     /**
      * Costructor of the class RepaitManager.
@@ -26,7 +27,7 @@ public class RepaintManager {
      */
     public void repaintManagement() {
         cicleCounter++;
-        if (cicleCounter % CICLE_BEFORE_BACKGROUND_REPAINT == 0) {
+        if (cicleCounter % Constants.CICLE_BEFORE_BACKGROUND_REPAINT == 0) {
             this.gv.getBackgroundPanel().canBeRepaint();
             cicleCounter = 0;
         }

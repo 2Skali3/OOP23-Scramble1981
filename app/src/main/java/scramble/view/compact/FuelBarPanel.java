@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import scramble.model.spaceship.FuelBar;
+import scramble.utility.Constants;
 
 /**
  * This class is dedicated to painting the fuelBar.
@@ -15,7 +16,7 @@ import scramble.model.spaceship.FuelBar;
 public final class FuelBarPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-    private static final int SCALE_FACTOR = 2;
+    
     private transient BufferedImage fuelBarFull;
     private transient BufferedImage fuelBarEmpty;
 
@@ -46,8 +47,8 @@ public final class FuelBarPanel extends GamePanel {
      */
     private void paintFuelBar(final Graphics g, final int panelWidth) {
 
-        final int width = fuelBarFull.getWidth() * SCALE_FACTOR;
-        final int height = fuelBarFull.getHeight() * SCALE_FACTOR;
+        final int width = fuelBarFull.getWidth() * Constants.FUELBAR_SCALE_FACTOR;
+        final int height = fuelBarFull.getHeight() * Constants.FUELBAR_SCALE_FACTOR;
 
         // Calculates the amount of empty to draw over the full bar
         final int fullWidth = (int) (fuelBar.getFuelLevel() / 100.0 * width);
@@ -61,7 +62,7 @@ public final class FuelBarPanel extends GamePanel {
                 null);
 
         // Draws the full bar from right to left
-        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height, fuelBarFull.getWidth() - (fullWidth / SCALE_FACTOR),
+        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height, fuelBarFull.getWidth() - (fullWidth / Constants.FUELBAR_SCALE_FACTOR),
                 0, fuelBarFull.getWidth(), fuelBarFull.getHeight(), null);
 
     }
