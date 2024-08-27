@@ -5,41 +5,50 @@ import scramble.model.common.impl.PairImpl;
 
 import java.util.Map;
 
-//da fare la mappa in controller (parte di francesco)
+/*//da fare la mappa in controller (parte di francesco)
 //si può cambiare i nomi delle costanti senza problemi basta che poi venga anche aggiornato nei vari file
 //bisogna migliorare i commenti
-//secondo me nei commenti vanno tolti i path di dove viene usato (anche la classe che utilizza le costanti). In questo momento li ho lasciati per noi
+//secondo me nei commenti vanno tolti i path di dove viene usato 
+(anche la classe che utilizza le costanti). In questo momento li ho lasciati per noi
 //i nomi delle costanti mi piacevano di più la prima volta ma sono troppo creativo. Serve FEDERICO!!!
-/*
-potremmo pensare che alcune costanti non ci servono in questo file perchè non vanno cambiate spesso(anche mai tipo num_sprite) e a certe classi
-non può fregare di medo di certe costanti (a spaceship cosa gliene frega di bomb_sprtite_num). Magari dato che non va mai cambiato e che non serve da nessuna parte
-potremmo decidere di spostarle nel file della classe che la usa direttamente e tenere solo le costanti che POTREBBERO essere cambiate nel tempo.
+
+potremmo pensare che alcune costanti non ci servono in questo file perchè non 
+vanno cambiate spesso(anche mai tipo num_sprite) e a certe classi
+non può fregare di medo di certe costanti (a spaceship cosa gliene frega di bomb_sprtite_num). 
+Magari dato che non va mai cambiato e che non serve da nessuna parte
+potremmo decidere di spostarle nel file della classe che la usa direttamente e tenere solo le 
+costanti che POTREBBERO essere cambiate nel tempo.
 
 Per ora le metto tutte per chiarezza e non perderne nessuna per strada
-*/
+
 //Possiamo decidere di mettere anche gli enum come BulletType e spaceship/Directions
 //Mettere le costanti Anchor trovate in model/util BufferedImageManager
 //(Lasse) devo mettere le costanti di rocket
 //model/map lo lascio a francesco
-//controllare se ci sono variabili come decrease amount che non era stato messo come statico inizialmente ma torna molto utile metterlo in questo file
+//controllare se ci sono variabili come decrease amount che non era stato messo come statico 
+inizialmente ma torna molto utile metterlo in questo file
 //in gameView ci sono alcune costanti da riguardare e decidere se sono da spostare`
 //LandscapePanel lo lascio a francesco
+*/
 
-public class Constants {
-    
+
+/** Public class that keeps all Constants toghether. */
+public final class Constants {
+
+    private Constants() { } 
+
     //Controller
-
     /** Amount in ms between each tick of repaint of GV. Used in InputControllerImpl. */
     public static final int INPUT_TIMER_SEC = 30;
     /** Max Stages used in some way for the checkpoints in controller/mediator/LogicControllerImpl. */
     public static final int MAX_STAGES = 1;
     /** Starting Y position for each CheckPoint. Used in controller/mediator/LogicControllerImpl. */
     public static final int CHECKPOINT_Y_POSITION = 50;
-    /** Maximum number of Lives. Used in controller/mediator/LogiControllerImpl.*/
+    /** Maximum number of Lives. Used in controller/mediator/LogiControllerImpl. */
     public static final int MAX_LIVES = 2;
-    /** A counter used to determin repaint. Used in controller/mediator/RepaintManager.*/
+    /** A counter used to determin repaint. Used in controller/mediator/RepaintManager. */
     public static final int CICLE_BEFORE_BACKGROUND_REPAINT = 30;
-    
+
     //Model
     /** Movement speed on the X axis of the horizontal bullet type. Used in model/bullets/Bullet. */
     public static final int XSPEED_HORIZONTAL_BULLET = 20;
@@ -62,7 +71,7 @@ public class Constants {
     /** This number expresses the max number of scores in the scoreBoard. Used in model/scores/Scores. */
     public static final int MAX_N_SCORES = 9;
     /** Max amount of fuel. Used in model/spaceship/FuelBar. */
-    public static final int MAX_FUEL = 100;    
+    public static final int MAX_FUEL = 100;
     /** Amount of fuel consumed every tick. Used in model/spaceship/FuelBar. */
     public static final int FUEL_DECREASE_AMOUNT = 2;
     /** Number of Spaceship sprites. Used in model/spaceship/SpaceShip. */
@@ -83,4 +92,6 @@ public class Constants {
     public static final int SPACESHIP_WIDTH = 32;
     /** Height of the Spaceship. Used in SpaceShipPanel. */
     public static final int SPACESHIP_HEIGHT = 16;
+    /** The original scramble font. Used in view/font/ScrambleFontUtil*/
+    public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
 }

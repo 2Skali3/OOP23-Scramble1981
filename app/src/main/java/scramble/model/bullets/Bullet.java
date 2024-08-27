@@ -40,7 +40,8 @@ public class Bullet extends GameElementImpl {
      * @param type the type of the bullet
      */
     public Bullet(final int x, final int y, final BulletType type) {
-        super(x, y, Constants.BULLETS_SIZE_MAP.get(type).getFirstElement(), Constants.BULLETS_SIZE_MAP.get(type).getSecondElement());
+        super(x, y, Constants.BULLETS_SIZE_MAP.get(type).getFirstElement(), 
+                Constants.BULLETS_SIZE_MAP.get(type).getSecondElement());
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         this.type = type;

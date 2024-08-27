@@ -25,10 +25,7 @@ import scramble.utility.Constants;
 public class SpaceShipPanel extends GamePanel {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
-
     private static final long serialVersionUID = 1L;
-
-    
 
     private transient SpaceShip spaceship;
     private final Timer updateTimer;

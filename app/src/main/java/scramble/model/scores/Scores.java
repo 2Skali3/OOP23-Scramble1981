@@ -19,7 +19,7 @@ import java.io.Reader;
 public class Scores {
 
     private static final Logger LOG = Logger.getLogger(Scores.class.getName());
-    
+
     private final List<Integer> scoresList;
 
     /**

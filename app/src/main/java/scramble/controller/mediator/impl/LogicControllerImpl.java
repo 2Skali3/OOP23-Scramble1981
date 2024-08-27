@@ -32,7 +32,6 @@ public class LogicControllerImpl implements LogicController {
     /**
      * Class constructor.
      * 
-     * @param lives    number of lives, added for deep copy
      * @param gameView the calling class
      */
     public LogicControllerImpl(final GameView gameView) {
@@ -77,7 +76,8 @@ public class LogicControllerImpl implements LogicController {
     /** Adds checkpoints. */
     public void addCheckPoints() {
         for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
-            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i), Constants.CHECKPOINT_Y_POSITION));
+            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i), 
+            Constants.CHECKPOINT_Y_POSITION));
         }
     }
 

@@ -16,7 +16,6 @@ import scramble.utility.Constants;
 public final class FuelBarPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-    
     private transient BufferedImage fuelBarFull;
     private transient BufferedImage fuelBarEmpty;
 
@@ -62,7 +61,8 @@ public final class FuelBarPanel extends GamePanel {
                 null);
 
         // Draws the full bar from right to left
-        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height, fuelBarFull.getWidth() - (fullWidth / Constants.FUELBAR_SCALE_FACTOR),
+        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height, 
+                fuelBarFull.getWidth() - (fullWidth / Constants.FUELBAR_SCALE_FACTOR),
                 0, fuelBarFull.getWidth(), fuelBarFull.getHeight(), null);
 
     }

@@ -10,7 +10,6 @@ public class RepaintManager {
 
     private final GameView gv;
     private int cicleCounter;
-    
 
     /**
      * Costructor of the class RepaitManager.

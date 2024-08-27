@@ -22,28 +22,31 @@ import java.awt.event.ActionEvent;
 public final class StartMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
-    private static final int KONH = 5;
-    private static final int GAP30 = 30;
-    private static final int PTSW = 120;
-    private static final int SCOREH = 150;
-    private static final int SCOREV = 200;
-    // private static final int KONH = 25;
-    private static final int KONW = 75;
-    private static final int SYSW = 220;
-    private static final int INVW = 250;
-    private static final int SRBW = 140;
-    private static final int PLAYW = 50;
-    private static final float FSIZE1 = 21f;
-    private static final float FSIZE2 = 24f;
-    private static final int TIMERS = 3000;
-    private static final int SEC = 60;
-    private static final int OFFSET = 25;
     private static final Logger LOG = Logger.getLogger(StartMenu.class.getName());
 
     private int sequenceStep;
     private final Font retroFont;
     private final transient Scores scores;
+
+    private final class FixedConstants {
+
+        private static final int KONAMI_HEIGHT = 5;
+        private static final int KONAMI_WIDTH = 75;
+        private static final int GAP30 = 30;
+        private static final int POINTS_WIDTH = 120;
+        private static final int SCORE_HEIGHT = 150;
+        private static final int SCORE_WIDTH = 200;
+        private static final int SYSTEM_WIDTH = 220;
+        private static final int INVADE_WIDTH = 250;
+        private static final int SCRAMBLE_WIDTH = 140;
+        private static final int PLAY_WIDTH = 50;
+        private static final float FONT_SIZE1 = 21f;
+        private static final float FONT_SIZE2 = 24f;
+        private static final int TIMERS = 3000;
+        private static final int SEC = 60;
+        private static final int OFFSET = 25;
+
+    }
 
     /**
      * Class constructor.
@@ -52,9 +55,9 @@ public final class StartMenu extends JPanel {
         setLayout(new BorderLayout());
         setOpaque(false);
         scores = new Scores();
-        retroFont = ScrambleFontUtil.loadFont(FSIZE2);
+        retroFont = ScrambleFontUtil.loadFont(FixedConstants.FONT_SIZE2);
 
-        final Timer animationTimer = new Timer(1000 / SEC, new ActionListener() {
+        final Timer animationTimer = new Timer(1000 / FixedConstants.SEC, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 repaint();
@@ -63,7 +66,7 @@ public final class StartMenu extends JPanel {
         animationTimer.start();
 
         sequenceStep = 0;
-        final Timer scoreSequenceTimer = new Timer(TIMERS, new ActionListener() {
+        final Timer scoreSequenceTimer = new Timer(FixedConstants.TIMERS, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 sequenceStep++;
@@ -78,44 +81,46 @@ public final class StartMenu extends JPanel {
     }
 
     private void paintBoard(final Graphics g) {
-        g.setFont(retroFont.deriveFont(FSIZE1));
+        g.setFont(retroFont.deriveFont(FixedConstants.FONT_SIZE1));
 
         if (sequenceStep == 0) {
             g.setColor(Color.YELLOW);
-            g.drawString("PLAY", getWidth() / 2 - PLAYW, getHeight() / 4);
+            g.drawString("PLAY", getWidth() / 2 - FixedConstants.PLAY_WIDTH, getHeight() / 4);
 
             g.setColor(Color.CYAN);
-            g.drawString("- SCRAMBLE -", getWidth() / 2 - SRBW, getHeight() / 3);
+            g.drawString("- SCRAMBLE -", getWidth() / 2 - FixedConstants.SCRAMBLE_WIDTH, getHeight() / 3);
 
             g.setColor(Color.ORANGE);
-            g.drawString("HOW FAR CAN YOU INVADE", getWidth() / 2 - INVW, getHeight() / 2);
-            g.drawString("OUR SCRAMBLE SYSTEM?", getWidth() / 2 - SYSW, getHeight() / 2 + GAP30);
+            g.drawString("HOW FAR CAN YOU INVADE", getWidth() / 2 - FixedConstants.INVADE_WIDTH, getHeight() / 2);
+            g.drawString("OUR SCRAMBLE SYSTEM?", getWidth() / 2 - FixedConstants.SYSTEM_WIDTH, 
+                    getHeight() / 2 + FixedConstants.GAP30);
 
             g.setColor(Color.WHITE);
-            g.drawString("KONAMI", getWidth() / 2 - KONW, getHeight() - (getHeight() / KONH));
+            g.drawString("KONAMI", getWidth() / 2 - FixedConstants.KONAMI_WIDTH, 
+                    getHeight() - (getHeight() / FixedConstants.KONAMI_HEIGHT));
         } else if (sequenceStep == 1) {
             g.setColor(Color.RED);
-            final int offset = OFFSET;
+            final int offset = FixedConstants.OFFSET;
             int index = 1;
-            g.drawString("- SCORE RANKING -", getWidth() / 2 - SCOREV, getHeight() / 3);
+            g.drawString("- SCORE RANKING -", getWidth() / 2 - FixedConstants.SCORE_WIDTH, getHeight() / 3);
             g.setColor(Color.MAGENTA);
             for (final Integer i : scores.getScoresList()) {
-                g.drawString(index + "TH    " + i.toString() + "  PTS", getWidth() / 2 - SCOREV,
+                g.drawString(index + "TH    " + i.toString() + "  PTS", getWidth() / 2 - FixedConstants.SCORE_WIDTH,
                         getHeight() / 2 + index * offset);
                 index++;
             }
         } else if (sequenceStep == 2) {
             g.setColor(Color.YELLOW);
-            g.drawString("- SCORE TABLE -", getWidth() / 2 - SCOREH, getHeight() / 4);
+            g.drawString("- SCORE TABLE -", getWidth() / 2 - FixedConstants.SCORE_HEIGHT, getHeight() / 4);
             try {
-                g.drawImage(ImageIO.read(getClass().getResource("/elements/rocket.png")), getWidth() / 2 - PTSW,
-                        getHeight() / 2, 32, 32, null);
+                g.drawImage(ImageIO.read(getClass().getResource("/elements/rocket.png")), 
+                        getWidth() / 2 - FixedConstants.POINTS_WIDTH, getHeight() / 2, 32, 32, null);
             } catch (IOException e) {
                 LOG.severe("Ops!");
                 LOG.severe(e.toString());
             }
             g.setColor(Color.WHITE);
-            g.drawString("   50 PTS", getWidth() / 2 - PTSW, getHeight() / 2 + GAP30);
+            g.drawString("   50 PTS", getWidth() / 2 - FixedConstants.POINTS_WIDTH, getHeight() / 2 + FixedConstants.GAP30);
         }
     }
 

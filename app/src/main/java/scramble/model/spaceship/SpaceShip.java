@@ -22,7 +22,6 @@ import java.util.Random;
 public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
-    
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private final Random random;
