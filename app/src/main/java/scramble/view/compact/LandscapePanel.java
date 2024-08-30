@@ -35,6 +35,7 @@ public class LandscapePanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
+
     private int landscapeX;
     private int starterX;
     private transient List<MapColumn> columns;
@@ -137,6 +138,14 @@ public class LandscapePanel extends GamePanel {
         this.starterX = landscapeX;
         this.fillColumns();
         this.canBeRepaint();
+    }
+
+    /**
+     * Getter for the MapController of the LandscapePanel.
+     * @return the MapController
+     */
+    public static MapController getMapController() {
+        return MAP_CONTROLLER;
     }
 
 }

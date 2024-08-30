@@ -113,6 +113,7 @@ public class MapController {
                         .size()) {
             this.columnIndex = 0;
         }
+        System.out.println(this.getCurrentMapX());
         return columnsToDisplay;
     }
 
@@ -141,6 +142,14 @@ public class MapController {
      */
     public List<Pair<Integer, Integer>> getFlatFloorPositions() {
         return new ArrayList<>(this.flatPositions);
+    }
+
+    /**
+     * Getter for current X position.
+     * @return the current x position
+     */
+    public int getCurrentMapX() {
+        return columns.get(columnIndex).getX();
     }
 
 }

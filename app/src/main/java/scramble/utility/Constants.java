@@ -94,7 +94,7 @@ public final class Constants {
     /** Max amount of fuel. Used in model/spaceship/FuelBar. */
     public static final int MAX_FUEL = 100;
     /** Amount of fuel consumed every tick. Used in model/spaceship/FuelBar. */
-    public static final int FUEL_DECREASE_AMOUNT = 2;
+    public static final int FUEL_DECREASE_AMOUNT = 1;
     /** Number of Spaceship sprites. Used in model/spaceship/SpaceShip. */
     public static final int SPRITE_SPACESHIP = 8;
     /** Number of Spaceship Explosion sprites. Used in model/spaceship/SpaceShip. */

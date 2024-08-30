@@ -214,7 +214,8 @@ public class GameView extends JFrame {
 
         landscapePanel.reset(0);
         spaceShipPanel.getSpaceship()
-                .updatePosition(new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
+                .updatePosition(
+                        new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
@@ -234,7 +235,8 @@ public class GameView extends JFrame {
         landscapePanel.reset(restartPos);
         spaceShipPanel.getSpaceship()
                 .updatePosition(
-                        new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
+                        new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION,
+                                Constants.SPACESHIP_STARTER_POSITION));
         this.landscapePanel.canBeRepaint();
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startUpdateTimer();
@@ -249,8 +251,9 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 0; i--) {
-            if (spaceShipPanel.getSpaceship().getPosition().getFirstElement() > MapController
-                    .getStageStartingX().get(i)) {
+            if (MapController.getStageStartingX().get(i) * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < LandscapePanel
+                    .getMapController().getCurrentMapX()) {
+
                 return MapController.getStageStartingX().get(i);
             }
         }
