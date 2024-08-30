@@ -4,14 +4,19 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.api.MapColumn;
-import scramble.model.map.utils.LandscapeUtils;
-import scramble.model.map.utils.enums.LandscapePart;
+import scramble.model.map.util.LandUtils;
+import scramble.model.map.util.enums.LandPart;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Implementation of the interface {@link MapColumn}.
  */
 public class MapColumnImpl implements MapColumn {
+
+    private final TerrainType terrainType;
+    private final int currentX;
 
     private final List<BufferedImage> ceilingBI;
     private final List<MapElement> ceilingME;
@@ -32,8 +37,18 @@ public class MapColumnImpl implements MapColumn {
      */
     public MapColumnImpl(final List<MapElement> ceilingME, final List<MapElement> floorME, final int endCeiling,
             final int startFloor) {
-        this.ceilingME = new ArrayList<>(ceilingME);
+        if (ceilingME.get(0).getY() > 0) {
+            this.ceilingME = new ArrayList<>(ceilingME);
+        } else {
+            this.ceilingME = new ArrayList<>();
+        }
         this.floorME = new ArrayList<>(floorME);
+        if (ceilingME.get(0).getTerrainType() == TerrainType.BRICK_COLUMN) {
+            this.terrainType = TerrainType.BRICK_COLUMN;
+        } else {
+            this.terrainType = TerrainType.GREENLAND;
+        }
+        this.currentX = floorME.get(0).getX();
         this.endCeiling = endCeiling;
         this.startFloor = startFloor;
         this.ceilingBI = new ArrayList<>();
@@ -43,21 +58,44 @@ public class MapColumnImpl implements MapColumn {
     }
 
     private void fillCeilingBI() {
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
-        for (int y = 0; y < this.endCeiling; y += LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
-            this.ceilingBI.add(green);
+        if (this.terrainType == TerrainType.BRICK_COLUMN) {
+            final BufferedImage gs;
+            if ((this.currentX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) % 2 == 0) {
+                gs = BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.WHITE_SQUARE));
+            } else {
+                gs = BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.DARK_BRICK_WALL));
+            }
+            for (int y = 0; y < this.endCeiling; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+                this.ceilingBI.add(gs);
+            }
+        } else {
+            for (int y = 0; y < this.endCeiling; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+                this.ceilingBI.add(LandUtils.getSprite(LandPart.GREEN_SQUARE));
+            }
         }
     }
 
     private void fillFloorBI() {
-        final LandscapeUtils mapUtils = new LandscapeUtils();
-        final BufferedImage green = mapUtils.getSprite(LandscapePart.GREEN_SQUARE);
-        for (int y = this.startFloor
-                + LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y < LandscapeUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-                        * LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandscapeUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
-            this.floorBI.add(green);
+        if (terrainType == TerrainType.BRICK_COLUMN) {
+            final BufferedImage gs;
+            if ((this.currentX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) % 2 == 0) {
+                gs = BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.WHITE_SQUARE));
+            } else {
+                gs = BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.DARK_BRICK_WALL));
+            }
+            for (int y = this.startFloor
+                    + LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
+                            * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+                this.floorBI.add(gs);
+            }
+        } else {
+            for (int y = this.startFloor
+                    + LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
+                            * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+                this.floorBI.add(LandUtils.getSprite(LandPart.GREEN_SQUARE));
+            }
         }
+
     }
 
     /** {@inheritDoc} */

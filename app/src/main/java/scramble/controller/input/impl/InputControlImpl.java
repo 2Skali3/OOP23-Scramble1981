@@ -12,14 +12,13 @@ import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 
 import scramble.view.compact.GameView;
+import scramble.utility.Constants;
 
 /**
  * Implementation of InputControl. Extends KeyAdapter in order to get the
  * necessary key bindings.
  */
 public class InputControlImpl extends KeyAdapter implements InputControl {
-
-    private static final int SEC = 30;
 
     private final GameView gv;
     private final Timer inputTimer;
@@ -35,8 +34,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
         this.rm = new RepaintManager(gv);
-
-        inputTimer = new Timer(SEC, e -> {
+        this.inputTimer = new Timer(Constants.INPUT_TIMER_SEC, e -> {
             this.rm.repaintManagement();
             this.gv.getBulletsPanel().moveBullets();
         });
@@ -62,11 +60,11 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                     gv.getSpaceshipPanel().sendCommand(
                             new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.RIGHT));
                 case KeyEvent.VK_SPACE -> gv.getBulletsPanel()
-                         .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
+                        .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
                                 BulletType.TYPE_HORIZONTAL, gv.getSpaceshipPanel().getSpaceship()));
                 case KeyEvent.VK_1 -> gv.getBulletsPanel()
                         .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
-                                           BulletType.TYPE_BOMB, gv.getSpaceshipPanel().getSpaceship()));
+                                BulletType.TYPE_BOMB, gv.getSpaceshipPanel().getSpaceship()));
                 case KeyEvent.VK_ENTER -> {
                     gv.getLandscapePanel().canBeRepaint();
                     inputTimer.start();

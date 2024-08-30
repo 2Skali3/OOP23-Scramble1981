@@ -3,6 +3,7 @@ package scramble.model.spaceship;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.impl.MapElement;
+import scramble.utility.Constants;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -21,10 +22,6 @@ import java.util.Random;
 public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
-    private static final int SPRITES = 8;
-    private static final int EXP_SPRITES = 4;
-    private static final int SPEED = 2;
-
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private final Random random;
@@ -43,7 +40,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     public SpaceShip(final int startX, final int startY, final int width, final int height) {
         super(startX, startY, width, height);
         this.sprites = new ArrayList<>();
-        for (int i = 1; i <= SPRITES; i++) {
+        for (int i = 1; i <= Constants.SPRITE_SPACESHIP; i++) {
             try {
                 sprites.add(ImageIO.read(getClass().getResource("/ship/ship" + i + ".png")));
             } catch (IOException e) {
@@ -52,7 +49,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
             }
         }
         this.explosionSprites = new ArrayList<>();
-        for (int i = 1; i <= EXP_SPRITES; i++) {
+        for (int i = 1; i <= Constants.SPRITE_SPACESHIP_EXPLOSION; i++) {
             try {
                 explosionSprites
                         .add(ImageIO.read(getClass().getResource("/ship/explosion/ship_explosion_frame" + i + ".png")));
@@ -89,15 +86,15 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         resetSpeedY();
 
         if (left && !right) {
-            xSpeed = -SPEED;
+            xSpeed = -Constants.SPACESHIP_SPEED;
         } else if (right && !left) {
-            xSpeed = SPEED;
+            xSpeed = Constants.SPACESHIP_SPEED;
         }
 
         if (up && !down) {
-            ySpeed = -SPEED;
+            ySpeed = -Constants.SPACESHIP_SPEED;
         } else if (down && !up) {
-            ySpeed = SPEED;
+            ySpeed = Constants.SPACESHIP_SPEED;
         }
 
         if ((left || right) && (up || down)) {
@@ -116,7 +113,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     public BufferedImage getSprite() {
         // Needs to apply only once
         @SuppressFBWarnings
-        final int num = random.nextInt(SPRITES);
+        final int num = random.nextInt(Constants.SPRITE_SPACESHIP);
 
         return sprites.get(num);
     }
@@ -143,7 +140,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
      * @return a sprite
      */
     public BufferedImage getExpSprite() {
-        final int num = random.nextInt(EXP_SPRITES);
+        final int num = random.nextInt(Constants.SPRITE_SPACESHIP_EXPLOSION);
         // hit = false;
         return explosionSprites.get(num);
     }

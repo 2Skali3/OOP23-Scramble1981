@@ -1,9 +1,9 @@
-package scramble.model.map.utils.enums;
+package scramble.model.map.util.enums;
 
 /**
  * enum that describes the elements that form the landscape.
  */
-public enum StageComponent {
+public enum StagePart {
     /**
      * Floor part.
      */

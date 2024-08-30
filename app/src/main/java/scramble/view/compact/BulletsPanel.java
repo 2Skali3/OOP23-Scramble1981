@@ -29,7 +29,6 @@ public class BulletsPanel extends GamePanel {
     public BulletsPanel() {
         bulletInit();
         this.setOpaque(false);
-
     }
 
     /** {@inheritDoc} */
@@ -45,7 +44,7 @@ public class BulletsPanel extends GamePanel {
      * @return the bullet list
      */
     public List<Bullet> getBullets() {
-        return bullets;
+        return new ArrayList<>(bullets);
     }
 
     /**
@@ -63,8 +62,7 @@ public class BulletsPanel extends GamePanel {
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = new ArrayList<>();
         for (final Bullet bullet : bullets) {
-            if (bullets.size() == 2)
-                bullet.moveByType();
+            bullet.moveByType();
             // Check if the bullet is out from screen
             if (bullet.getPosition().getFirstElement() > getWidth() /* || bullet.checkGroundCollision() */) { // aggiungere
                                                                                                               // il
@@ -109,8 +107,8 @@ public class BulletsPanel extends GamePanel {
      * The bullet's start position is at the right edge of the spaceship, centered
      * vertically.
      *
-     * @param type the type of the bullet
-     * @param type spaceship
+     * @param type      the type of the bullet
+     * @param spaceship spaceship
      */
     public void shootBullet(final BulletType type, final SpaceShip spaceship) {
         final PairImpl<Integer, Integer> location = spaceship.getPosition();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import scramble.model.common.api.Pair;
 import scramble.model.map.impl.MapElement;
+import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Interface for MapStage, this interface will be implemented with a private
@@ -18,6 +19,20 @@ public interface MapStage {
      * @param column value of the new column
      */
     void addColumn(Pair<MapElement, MapElement> column);
+
+    /**
+     * Setter for the ceiling part of the stage.
+     * 
+     * @param ceiling the list of {@link MapElement} that form the ceiling
+     */
+    void setCeiling(List<MapElement> ceiling);
+
+    /**
+     * Setter for the floor part of the stage.
+     * 
+     * @param floor the list of {@link MapElement} that form the floor
+     */
+    void setFloor(List<MapElement> floor);
 
     /**
      * Getter for a column of the MapStage that is identified by an index.
@@ -47,7 +62,7 @@ public interface MapStage {
     MapElement getCloumnFloor(int index);
 
     /**
-     * The size of the MapStage data structure.
+     * The size of the MapStage internal elements.
      * 
      * @return number of columns in MapStage
      */
@@ -66,4 +81,11 @@ public interface MapStage {
      * @return the floor part of the stage
      */
     List<MapElement> getFloor();
+
+    /**
+     * Getter for the terrain type of the MapStage.
+     * 
+     * @return the terrain type of the stage
+     */
+    TerrainType getTerrainType();
 }

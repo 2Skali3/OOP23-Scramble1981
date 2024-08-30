@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import com.google.gson.Gson;
+
+import scramble.utility.Constants;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -16,19 +19,18 @@ import java.io.Reader;
 public class Scores {
 
     private static final Logger LOG = Logger.getLogger(Scores.class.getName());
-    private static final String FILE_PATH = "/scores/scores.json";
-    private static final int MAX = 9;
+
     private final List<Integer> scoresList;
 
     /**
      * Class constructor.
      */
     public Scores() {
-        scoresList = new ArrayList<>(MAX); // Initialize with zeros
+        scoresList = new ArrayList<>(Constants.MAX_N_SCORES); // Initialize with zeros
 
         // Read scores from JSON file
         try (Reader reader = new InputStreamReader(
-                Scores.class.getResourceAsStream(FILE_PATH), "UTF-8");) {
+                Scores.class.getResourceAsStream(Constants.SCORES_FILE_PATH), "UTF-8");) {
 
             final Gson gson = new Gson();
             final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
@@ -50,7 +52,7 @@ public class Scores {
      * @param score the new score
      */
     public void addScore(final int score) {
-        for (int i = 0; i < MAX; i++) {
+        for (int i = 0; i < Constants.MAX_N_SCORES; i++) {
             if (score > scoresList.get(i)) {
                 scoresList.set(i, score);
             }
