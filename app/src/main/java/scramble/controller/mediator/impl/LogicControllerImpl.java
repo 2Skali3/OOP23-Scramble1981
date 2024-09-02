@@ -10,7 +10,6 @@ import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.map.util.LandUtils;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
 import scramble.view.compact.LandscapePanel;
@@ -45,6 +44,7 @@ public class LogicControllerImpl implements LogicController {
         this.spaceShipPanel = gameView.getSpaceshipPanel();
 
         this.checkPoints = new ArrayList<>();
+        addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -62,10 +62,27 @@ public class LogicControllerImpl implements LogicController {
         stageCounterTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (LandscapePanel.getMapController().getCurrentMapX() > checkPoints.get(0).getFirstElement() ) {
-                    System.out.println("STAGE = " + stage);
-                    stage++;
+                final int pos = LandscapePanel.getMapController().getCurrentMapX();
+
+                
+                if (pos > checkPoints.get(1).getFirstElement() && pos < checkPoints.get(2).getFirstElement()){
+                    stage = 1;
                 }
+                else if (pos > checkPoints.get(2).getFirstElement() && pos < checkPoints.get(3).getFirstElement()){
+                    stage = 2;
+                }
+                /* 
+                else if (pos < checkPoints.get(3).getFirstElement() && pos < checkPoints.get(4).getFirstElement()){
+                    stage = 3;
+                }
+                else if (pos < checkPoints.get(4).getFirstElement() && pos < checkPoints.get(5).getFirstElement()){
+                    stage = 4;
+                }
+                else if (pos < checkPoints.get(5).getFirstElement()){
+                    stage = 5;
+                }*/
+                
+                System.out.println(stage);
             }
         });
 
