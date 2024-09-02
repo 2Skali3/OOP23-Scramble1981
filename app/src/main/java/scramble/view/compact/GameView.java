@@ -21,6 +21,7 @@ import scramble.controller.mediator.impl.LogicControllerImpl;
  */
 public class GameView extends JFrame {
 
+    private static final int CHECKPOINT_OFFSET_X = 40;
     private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
@@ -246,15 +247,18 @@ public class GameView extends JFrame {
     /**
      * Calculates nearest checkpoint.
      *
-     * @return the chkpoint
+     * @return the checkpoint
      */
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 0; i--) {
             if (MapController.getStageStartingX().get(i) * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < LandscapePanel
                     .getMapController().getCurrentMapX()) {
-
-                return MapController.getStageStartingX().get(i);
+                if(i == 1) {
+                    return MapController.getStageStartingX().get(i);
+                } else {
+                    return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
+                }
             }
         }
         return MapController.getStageStartingX().get(0);

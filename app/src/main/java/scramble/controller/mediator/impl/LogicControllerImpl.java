@@ -10,8 +10,10 @@ import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.util.LandUtils;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
+import scramble.view.compact.LandscapePanel;
 import scramble.view.compact.SpaceShipPanel;
 import scramble.utility.Constants;
 
@@ -28,6 +30,8 @@ public class LogicControllerImpl implements LogicController {
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
+    private final Timer stageCounterTimer;
+    private int stage = 0;
 
     /**
      * Class constructor.
@@ -55,8 +59,19 @@ public class LogicControllerImpl implements LogicController {
             }
         });
 
+        stageCounterTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                if (LandscapePanel.getMapController().getCurrentMapX() > checkPoints.get(0).getFirstElement() ) {
+                    System.out.println("STAGE = " + stage);
+                    stage++;
+                }
+            }
+        });
+
         fuelCheckTimer.start();
         collisionTimer.start();
+        stageCounterTimer.start();
     }
 
     /** Decrement lives counter. */
@@ -92,7 +107,7 @@ public class LogicControllerImpl implements LogicController {
 
     /** Sets lives to MAX_LIVES in case game starts anew. */
     public void resetLives() {
-        this.lives = 2;
+        this.lives = Constants.MAX_LIVES;
     }
 
     /** Starts collision timer. */
