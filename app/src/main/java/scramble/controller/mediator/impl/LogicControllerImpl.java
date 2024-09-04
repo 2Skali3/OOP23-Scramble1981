@@ -12,7 +12,6 @@ import scramble.controller.mediator.api.LogicController;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
-import scramble.view.compact.LandscapePanel;
 import scramble.view.compact.SpaceShipPanel;
 import scramble.utility.Constants;
 
@@ -24,13 +23,11 @@ import scramble.utility.Constants;
 public class LogicControllerImpl implements LogicController {
 
     private int lives;
-    private final List<PairImpl<Integer, Integer>> checkPoints;
+    private static List<PairImpl<Integer, Integer>> checkPoints = new ArrayList<>();
     private final SpaceShipPanel spaceShipPanel;
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
-    private final Timer stageCounterTimer;
-    private int stage = 0;
 
     /**
      * Class constructor.
@@ -43,7 +40,6 @@ public class LogicControllerImpl implements LogicController {
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
 
-        this.checkPoints = new ArrayList<>();
         addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
             @Override
@@ -59,36 +55,8 @@ public class LogicControllerImpl implements LogicController {
             }
         });
 
-        stageCounterTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final int pos = LandscapePanel.getMapController().getCurrentMapX();
-
-                
-                if (pos > checkPoints.get(1).getFirstElement() && pos < checkPoints.get(2).getFirstElement()){
-                    stage = 1;
-                }
-                else if (pos > checkPoints.get(2).getFirstElement() && pos < checkPoints.get(3).getFirstElement()){
-                    stage = 2;
-                }
-                /* 
-                else if (pos < checkPoints.get(3).getFirstElement() && pos < checkPoints.get(4).getFirstElement()){
-                    stage = 3;
-                }
-                else if (pos < checkPoints.get(4).getFirstElement() && pos < checkPoints.get(5).getFirstElement()){
-                    stage = 4;
-                }
-                else if (pos < checkPoints.get(5).getFirstElement()){
-                    stage = 5;
-                }*/
-                
-                System.out.println(stage);
-            }
-        });
-
         fuelCheckTimer.start();
         collisionTimer.start();
-        stageCounterTimer.start();
     }
 
     /** Decrement lives counter. */
@@ -106,10 +74,10 @@ public class LogicControllerImpl implements LogicController {
     }
 
     /** Adds checkpoints. */
-    public void addCheckPoints() {
+    private void addCheckPoints() {
         for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
-            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i), 
-            Constants.CHECKPOINT_Y_POSITION));
+            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i),
+                    Constants.CHECKPOINT_Y_POSITION));
         }
     }
 
@@ -145,6 +113,15 @@ public class LogicControllerImpl implements LogicController {
     /** Stops check fuel timer. */
     public void stopFuelCheckTimer() {
         fuelCheckTimer.stop();
+    }
+
+    /**
+     * Getter for the list containing the checkpoint.
+     * 
+     * @return the checkpoint list
+     */
+    public static List<PairImpl<Integer, Integer>> getCheckPoints() {
+        return new ArrayList<>(checkPoints);
     }
 
     /** {@inheritDoc} */

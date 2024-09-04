@@ -254,7 +254,7 @@ public class GameView extends JFrame {
         for (int i = size - 1; i > 0; i--) {
             if (MapController.getStageStartingX().get(i) * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < LandscapePanel
                     .getMapController().getCurrentMapX()) {
-                if(i == 1) {
+                if (i == 1) {
                     return MapController.getStageStartingX().get(i);
                 } else {
                     return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
