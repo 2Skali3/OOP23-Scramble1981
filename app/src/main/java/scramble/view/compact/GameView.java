@@ -220,6 +220,9 @@ public class GameView extends JFrame {
         this.mainPanel.add(bulletsPanel, JLayeredPane.MODAL_LAYER);
         this.bulletsPanel.canBeRepaint();
 
+        this.mainPanel.add(rocketPanel, JLayeredPane.MODAL_LAYER);
+        this.rocketPanel.canBeRepaint();
+        
         // POPUP_LAYER
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
         this.fuelBarPanel.canBeRepaint();

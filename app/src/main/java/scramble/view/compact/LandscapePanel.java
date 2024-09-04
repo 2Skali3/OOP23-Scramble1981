@@ -31,7 +31,7 @@ public class LandscapePanel extends GamePanel {
 
     private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
-    private static final int LANDSCAPEX_SPEED = 10; // 4
+    private static final int LANDSCAPEX_SPEED = 4; // 4
 
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
