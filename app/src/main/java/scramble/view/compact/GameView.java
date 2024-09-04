@@ -35,9 +35,12 @@ public class GameView extends JFrame {
     private final LandscapePanel landscapePanel;
     private final SpaceShipPanel spaceShipPanel;
     private final BulletsPanel bulletsPanel;
+    private final RocketPanel rocketPanel;
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
+
+    private static final int ROCKET_STARTER_POSITION = 50;
 
     /** Costructor of the class GameVew. */
     public GameView() {
@@ -73,6 +76,10 @@ public class GameView extends JFrame {
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
+        //Rocket panel setup
+        this.rocketPanel = new RocketPanel();
+        rocketPanel.setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT); 
+
         this.logicController = new LogicControllerImpl(this);
 
         this.add(mainPanel);
@@ -95,6 +102,7 @@ public class GameView extends JFrame {
         this.spaceShipPanel = view.getSpaceshipPanel();
         this.bulletsPanel = view.getBulletsPanel();
         this.fuelBarPanel = view.getFuelBarPanel();
+        this.rocketPanel = view.getRocketPanel();
         this.logicController = view.getLogicController();
 
         this.setTitle("Scramble");
@@ -184,6 +192,16 @@ public class GameView extends JFrame {
     }
 
     /**
+     * Getter of RocketPanel.
+     *
+     * @return the bullets panel of this GameView
+     */
+    @SuppressFBWarnings
+    public RocketPanel getRocketPanel() {
+        return this.rocketPanel;
+    }
+
+    /**
      * Setup of the mainPanel for the start of the game itself.
      */
     public void startGame() {
@@ -218,6 +236,7 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
+        rocketPanel.getRocket().updatePosition(new PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 
