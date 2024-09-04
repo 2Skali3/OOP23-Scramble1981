@@ -123,8 +123,7 @@ public final class FuelBarPanel extends GamePanel {
 
         if (stage == 0) {
             g.drawImage(
-                    BufferedImageManager.substitutePurpleWithRed(stageHud,
-                            stageHud.getWidth()),
+                    stageHud,
                     x, y,
                     x + widthHud, y + heightHud,
                     0, 0, stageHud.getWidth(), stageHud.getHeight(), null);
