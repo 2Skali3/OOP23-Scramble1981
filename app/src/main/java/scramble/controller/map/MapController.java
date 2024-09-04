@@ -22,12 +22,12 @@ import scramble.view.compact.LandscapePanel;
  * The {@code MapController} class is responsible for the preparation of data
  * related to {@link MapStage} model
  * for presentation in the view layer.
- * 
+ *
  * <p>
  * This controller collects and organizes data from the {@link MapStageFactory},
  * making sure it is ready for display.
  * </p>
- * 
+ *
  * @see MapStageFactory
  */
 public class MapController {
@@ -84,7 +84,7 @@ public class MapController {
 
     /**
      * Return the number of columns in this controller.
-     * 
+     *
      * @return the number of columns in this controller
      */
     public int getMapSize() {
@@ -99,7 +99,7 @@ public class MapController {
      * The number of returned columns is defined by
      * {@link LandscapePanel#TOTAL_COLUMNS_LOADED}.
      * </p>
-     * 
+     *
      * @return a list of columns
      */
     public List<MapColumn> getColumnsToDisplay() {
@@ -119,7 +119,7 @@ public class MapController {
 
     /**
      * Reset the Landscape to the indicated x position.
-     * 
+     *
      * @param x position to reset the Landscape
      */
     public void resetToX(final int x) {
@@ -129,7 +129,7 @@ public class MapController {
     /**
      * Getter for the list of the starting x position of
      * each stage.
-     * 
+     *
      * @return the list with all the starter x position of each stage
      */
     public static List<Integer> getStageStartingX() {

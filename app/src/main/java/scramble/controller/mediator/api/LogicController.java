@@ -14,7 +14,7 @@ public interface LogicController {
 
     /**
      * Behaviour for case when fuel is depleted.
-     * 
+     *
      * @param fuelBar the fuel bar
      */
     void finishedFuel(FuelBar fuelBar);

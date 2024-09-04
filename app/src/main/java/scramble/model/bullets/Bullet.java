@@ -1,5 +1,6 @@
 package scramble.model.bullets;
 
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -40,12 +41,12 @@ public class Bullet extends GameElementImpl {
      * @param type the type of the bullet
      */
     public Bullet(final int x, final int y, final BulletType type) {
-        super(x, y, Constants.BULLETS_SIZE_MAP.get(type).getFirstElement(), 
+        super(x, y, Constants.BULLETS_SIZE_MAP.get(type).getFirstElement(),
                 Constants.BULLETS_SIZE_MAP.get(type).getSecondElement());
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         this.type = type;
-        this.hit = false;
+
 
         switch (type) {
             case TYPE_HORIZONTAL:
@@ -77,11 +78,13 @@ public class Bullet extends GameElementImpl {
                     LOG.severe(e.toString());
                 }
             }
+
                 break;
 
             default:
                 break;
         }
+        this.hit = false;
 
     }
 
@@ -134,6 +137,8 @@ public class Bullet extends GameElementImpl {
         }
     }
 
+
+
     private BufferedImage getNextBombSprite() {
         if (animationComplete) {
             return sprites.get(Constants.SPRITE_NUMBER_BOMB - 1); // Return the last sprite when the animation is complete
@@ -168,15 +173,16 @@ public class Bullet extends GameElementImpl {
     }
 
     /**
-     * Returns randomised image for explosion animation.
-     *
-     * @return a sprite
-     */
-    public BufferedImage getExpSprite() {
-        final int num = random.nextInt(Constants.SPRITE_NUMBER_BOMB_EXPLOSION);
-        // hit = false;
-        return explosionSprites.get(num);
-    }
+    * Returns randomised image for explosion animation.
+    *
+    * @return a sprite
+    */
+   public BufferedImage getExpSprite() {
+       final int num = random.nextInt(Constants.SPRITE_NUMBER_BOMB_EXPLOSION);
+       // hit = false;
+       return explosionSprites.get(num);
+   }
+
 
     /**
      * Getter for hit.
@@ -184,6 +190,7 @@ public class Bullet extends GameElementImpl {
      * @return hit
      */
     public boolean isHit() {
+        //System.out.println("isHit() called. Current hit status: " + hit);
         return hit;
     }
 
@@ -195,4 +202,13 @@ public class Bullet extends GameElementImpl {
     public void setHit(final boolean hit) {
         this.hit = hit;
     }
+
+    /**
+     * Getter for the type of bullet.
+     * @return type
+    **/
+    public BulletType getType() {
+        return this.type;
+    }
+
 }
