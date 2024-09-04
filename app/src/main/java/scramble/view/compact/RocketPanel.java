@@ -17,7 +17,7 @@ public class RocketPanel extends GamePanel {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
 
-    private static final int STARTER_POSITION_X = 450;
+    private static final int STARTER_POSITION_X = 650;
     private static final int STARTER_POSITION_Y = 250;
 
     private static final int ROCKET_HEIGHT = 34;

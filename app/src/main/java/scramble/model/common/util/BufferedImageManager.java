@@ -107,4 +107,31 @@ public final class BufferedImageManager {
         return clone;
     }
 
+    /**
+     * The method {@code substitutePurpleWithRed} substitutes purple dominant pixel
+     * of a {@link BufferedImage} with red pixel.
+     * 
+     * @param toSubstitute the {@link BufferedImage} that needs to substitute green
+     *                     with purple
+     * @param pixelWidth   the pixel width that will be chacked
+     * @return a {@link BufferedImage} with purple substituted with red
+     */
+    public static BufferedImage substitutePurpleWithRed(final BufferedImage toSubstitute, final float pixelWidth) {
+        final BufferedImage bi = cloneBufferedImage(toSubstitute);
+        final int threshold = 200;
+        final Color red = new Color(120, 0, 0);
+
+        for (int y = 0; y < bi.getHeight(); y++) {
+            for (int x = 0; x < pixelWidth; x++) {
+                final int rgb = bi.getRGB(x, y);
+                final Color color = new Color(rgb);
+
+                if (color.getBlue() > threshold) {
+                    bi.setRGB(x, y, red.getRGB());
+                }
+            }
+        }
+        return bi;
+    }
+
 }
