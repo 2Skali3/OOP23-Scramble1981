@@ -9,6 +9,8 @@ import java.util.List;
 import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
+import scramble.model.bullets.Bullet;
+import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
@@ -28,10 +30,12 @@ public class LogicControllerImpl implements LogicController {
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
+    // TODO implement me!
+    // private final Timer keyPressedCheckTimer;
 
     /**
      * Class constructor.
-     * 
+     *
      * @param gameView the calling class
      */
     public LogicControllerImpl(final GameView gameView) {
@@ -52,8 +56,17 @@ public class LogicControllerImpl implements LogicController {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 touchedGround();
+                checkBulletCollisions();
             }
         });
+
+        // TODO implement me!
+        // keyPressedCheckTimer = new Timer(16, new ActionListener() {
+        // @Override
+        // public void actionPerformed(final ActionEvent e) {
+        // checkKeyPressed();
+        // }
+        // });
 
         fuelCheckTimer.start();
         collisionTimer.start();
@@ -66,7 +79,7 @@ public class LogicControllerImpl implements LogicController {
 
     /**
      * Checks if game is over.
-     * 
+     *
      * @return true if lives are over
      */
     private boolean isGameOver() {
@@ -83,7 +96,7 @@ public class LogicControllerImpl implements LogicController {
 
     /**
      * Getter for lives.
-     * 
+     *
      * @return number of lives remaining
      */
     public int getLives() {
@@ -152,6 +165,20 @@ public class LogicControllerImpl implements LogicController {
             delayTimer.setRepeats(false); // Il timer deve eseguire l'azione solo una volta
             delayTimer.start();
         }
+    }
+
+    private void checkBulletCollisions() {
+        final var bullets = gameView.getBulletsPanel();
+        final List<Bullet> bulletsToRemove = new ArrayList<>();
+        for (final Bullet bullet : bullets.getBullets()) {
+            if (bullet.getType() == BulletType.TYPE_BOMB
+                    && bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())) {
+                bulletsToRemove.add(bullet);
+                bullet.setHit(true);
+                // System.out.println("Bullet hit set to true.");
+            }
+        }
+        bullets.removeBullets(bulletsToRemove);
     }
 
     /** {@inheritDoc} */

@@ -120,7 +120,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Check if the spaceship is colliding with the map.
-     * 
+     *
      * @param map the map
      * @return true it has touched the map
      */
@@ -136,7 +136,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Returns randomised image for explosion animation.
-     * 
+     *
      * @return a sprite
      */
     public BufferedImage getExpSprite() {
@@ -147,7 +147,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Getter for hit.
-     * 
+     *
      * @return hit
      */
     public boolean isHit() {
@@ -156,7 +156,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Setter for hit, the boolean recording collision status.
-     * 
+     *
      * @param hit the new value
      */
     public void setHit(final boolean hit) {
@@ -170,7 +170,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Getter for X speed.
-     * 
+     *
      * @return speed
      */
     public int getxSpeed() {
@@ -179,7 +179,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Getter for Y speed.
-     * 
+     *
      * @return speed
      */
     public int getySpeed() {
@@ -198,7 +198,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Setter for left.
-     * 
+     *
      * @param left the new value
      */
     public void setLeft(final boolean left) {
@@ -207,7 +207,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Setter for up.
-     * 
+     *
      * @param up the new value
      */
     public void setAbove(final boolean up) {
@@ -216,7 +216,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Setter for right.
-     * 
+     *
      * @param right the new value
      */
     public void setRight(final boolean right) {
@@ -225,7 +225,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     /**
      * Setter for down.
-     * 
+     *
      * @param down the new value
      */
     public void setDown(final boolean down) {

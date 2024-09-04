@@ -13,6 +13,7 @@ import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.SpaceShip;
 
+
 /**
  * Class for the representation of the Spaceship Panel.
  *
@@ -22,7 +23,7 @@ import scramble.model.spaceship.SpaceShip;
 public class BulletsPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-
+    private static final int MAX_BOMB = 2;
     private transient List<Bullet> bullets;
 
     /** Constructor for the SpaceshipPanel class. */
@@ -56,33 +57,39 @@ public class BulletsPanel extends GamePanel {
         command.execute();
     }
 
+
+    /**
+     * Removes the specified bullets from the list of bullets and repaints the panel.
+     *
+     * @param bulletsToRemove the list of bullets to be removed from the internal list
+     */
+    public void removeBullets(final List<Bullet> bulletsToRemove) {
+        bullets.removeAll(bulletsToRemove);
+        repaint();
+    }
+
     /**
      * For each bullet, call bullet.move().
      */
     public void moveBullets() {
-        final List<Bullet> bulletsToRemove = new ArrayList<>();
-        for (final Bullet bullet : bullets) {
-            bullet.moveByType();
-            // Check if the bullet is out from screen
-            if (bullet.getPosition().getFirstElement() > getWidth() /* || bullet.checkGroundCollision() */) { // aggiungere
-                                                                                                              // il
-                                                                                                              // secondo
-                                                                                                              // caso
-                bulletsToRemove.add(bullet);
-            }
-        }
+        final List<Bullet> bulletsToRemove = bullets.stream()
+            .peek(b -> b.moveByType())
+            .filter(b -> b.getPosition().getFirstElement() > getWidth())
+            .toList();
         // removes bullets that have gone off the screen
-        bullets.removeAll(bulletsToRemove);
+        removeBullets(bulletsToRemove);
         repaint();
     }
 
     private void drawBullet(final Graphics g, final Bullet bullet) {
         final BufferedImage bulletSprite = bullet.getSprite();
         if (bulletSprite != null) {
-            if (bullet.isHit()) {
-                g.drawImage(bullet.getExpSprite(), bullet.getPosition().getFirstElement(),
+              if (bullet.isHit()) {
+                //System.out.println(" IsHit() true");
+                g.drawImage(bullet.getSprite(), bullet.getPosition().getFirstElement(),
                         bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
             } else {
+                //System.out.println("IsHit() false");
                 g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
                         bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
             }
@@ -92,10 +99,7 @@ public class BulletsPanel extends GamePanel {
 
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
-        for (final Bullet bullet : bullets) {
-            drawBullet(g, bullet);
-
-        }
+        bullets.stream().forEach(b -> drawBullet(g, b));
     }
 
     /**
@@ -111,6 +115,18 @@ public class BulletsPanel extends GamePanel {
      * @param spaceship spaceship
      */
     public void shootBullet(final BulletType type, final SpaceShip spaceship) {
+        if (type == BulletType.TYPE_BOMB) {
+            // Check if there are already MAX_BOMBS bombs
+            final long activeBombCount = bullets.stream()
+                .filter(b -> b.getType() == BulletType.TYPE_BOMB)
+                .count();
+
+            if (activeBombCount >= MAX_BOMB) {
+                //System.out.println("Cannot shoot more bombs. Maximum limit reached.");
+                return; // Don't add new bomb if limit is reached
+            }
+        }
+
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int bulletX = location.getFirstElement() + spaceship.getWidth();
         final int bulletY = location.getSecondElement() + spaceship.getHeight() / 2;

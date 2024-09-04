@@ -14,7 +14,7 @@ public class App {
 
     /**
      * Auto-generated test.
-     * 
+     *
      * @return a std greeting
      */
     public String getGreeting() {
@@ -23,7 +23,7 @@ public class App {
 
     /**
      * Main method.
-     * 
+     *
      * @param args standard main args
      */
     public static void main(final String[] args) {
