@@ -50,7 +50,7 @@ public final class Constants {
      */
     public static final int CHECKPOINT_Y_POSITION = 50;
     /** Maximum number of Lives. Used in controller/mediator/LogiControllerImpl. */
-    public static final int MAX_LIVES = 2;
+    public static final int MAX_LIVES = 200;
     /**
      * A counter used to determin repaint. Used in
      * controller/mediator/RepaintManager.

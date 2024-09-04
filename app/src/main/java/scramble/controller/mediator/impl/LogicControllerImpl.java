@@ -14,6 +14,7 @@ import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
+import scramble.view.compact.LandscapePanel;
 import scramble.view.compact.SpaceShipPanel;
 import scramble.utility.Constants;
 
@@ -30,8 +31,13 @@ public class LogicControllerImpl implements LogicController {
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
+<<<<<<< HEAD
     // TODO implement me!
     // private final Timer keyPressedCheckTimer;
+=======
+    private final Timer stageCounterTimer;
+    private int stage = 0;
+>>>>>>> 5e26c768bd40dbb0c53f14c8e789f37ad6308189
 
     /**
      * Class constructor.
@@ -45,6 +51,7 @@ public class LogicControllerImpl implements LogicController {
         this.spaceShipPanel = gameView.getSpaceshipPanel();
 
         this.checkPoints = new ArrayList<>();
+        addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -60,6 +67,7 @@ public class LogicControllerImpl implements LogicController {
             }
         });
 
+<<<<<<< HEAD
         // TODO implement me!
         // keyPressedCheckTimer = new Timer(16, new ActionListener() {
         //     @Override
@@ -67,9 +75,38 @@ public class LogicControllerImpl implements LogicController {
         //         checkKeyPressed();
         //     }
         // });
+=======
+        stageCounterTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final int pos = LandscapePanel.getMapController().getCurrentMapX();
+
+                
+                if (pos > checkPoints.get(1).getFirstElement() && pos < checkPoints.get(2).getFirstElement()){
+                    stage = 1;
+                }
+                else if (pos > checkPoints.get(2).getFirstElement() && pos < checkPoints.get(3).getFirstElement()){
+                    stage = 2;
+                }
+                /* 
+                else if (pos < checkPoints.get(3).getFirstElement() && pos < checkPoints.get(4).getFirstElement()){
+                    stage = 3;
+                }
+                else if (pos < checkPoints.get(4).getFirstElement() && pos < checkPoints.get(5).getFirstElement()){
+                    stage = 4;
+                }
+                else if (pos < checkPoints.get(5).getFirstElement()){
+                    stage = 5;
+                }*/
+                
+                System.out.println(stage);
+            }
+        });
+>>>>>>> 5e26c768bd40dbb0c53f14c8e789f37ad6308189
 
         fuelCheckTimer.start();
         collisionTimer.start();
+        stageCounterTimer.start();
     }
 
     /** Decrement lives counter. */
@@ -105,7 +142,7 @@ public class LogicControllerImpl implements LogicController {
 
     /** Sets lives to MAX_LIVES in case game starts anew. */
     public void resetLives() {
-        this.lives = 2;
+        this.lives = Constants.MAX_LIVES;
     }
 
     /** Starts collision timer. */

@@ -113,7 +113,6 @@ public class MapController {
                         .size()) {
             this.columnIndex = 0;
         }
-        System.out.println(this.getCurrentMapX());
         return columnsToDisplay;
     }
 
