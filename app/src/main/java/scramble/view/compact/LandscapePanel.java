@@ -104,6 +104,11 @@ public class LandscapePanel extends GamePanel {
             }
 
             for (final MapElement c : column.getFloors()) {
+                /*
+                 * if(c.getTerrainType() == TerrainType.BRICK_COLUMN) {
+                 * 
+                 * }
+                 */
                 g.drawImage(c.getSprite(),
                         c.getX() - this.landscapeX, c.getY(),
                         c.getWidth(), c.getHeight(),
@@ -142,6 +147,7 @@ public class LandscapePanel extends GamePanel {
 
     /**
      * Getter for the MapController of the LandscapePanel.
+     * 
      * @return the MapController
      */
     public static MapController getMapController() {

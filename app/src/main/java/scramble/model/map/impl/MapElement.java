@@ -1,6 +1,5 @@
 package scramble.model.map.impl;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import scramble.model.common.api.GameElement;
@@ -8,6 +7,7 @@ import scramble.model.common.api.HitBox;
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.HitBoxImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.TerrainType;
 
@@ -57,7 +57,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
         this.width = width;
         this.height = height;
         this.position = new PairImpl<>(x, y);
-        this.sprite = this.cloneBufferedImage(sprite);
+        this.sprite = BufferedImageManager.cloneBufferedImage(sprite);
         this.behaviour = behaviour;
         if (terrainType == TerrainType.BRICK_COLUMN) {
             this.terrainType = TerrainType.BRICK_COLUMN;
@@ -109,16 +109,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
     /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
-        return this.cloneBufferedImage(this.sprite);
-    }
-
-    private BufferedImage cloneBufferedImage(final BufferedImage sourceBufferedImage) {
-        final BufferedImage clone = new BufferedImage(sourceBufferedImage.getWidth(), sourceBufferedImage.getHeight(),
-                sourceBufferedImage.getType());
-        final Graphics2D g2d = clone.createGraphics();
-        g2d.drawImage(sourceBufferedImage, 0, 0, null);
-        g2d.dispose();
-        return clone;
+        return BufferedImageManager.cloneBufferedImage(this.sprite);
     }
 
     /**

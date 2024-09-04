@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+
 /**
  * The utility class {@code BufferedImageManager} is a class that contains
  * usefull
@@ -16,6 +17,16 @@ public final class BufferedImageManager {
     private static final double ANCHOR_Y = 2;
 
     private BufferedImageManager() {
+    }
+
+    /**
+     * Method that it is used to take a transparent {@link BufferedImage}.
+     * @param width the width of the transparent image
+     * @param height the height of the transparent image
+     * @return a {@link BufferedImage} having the {@code width} and {@code height} specified
+     */
+    public static BufferedImage transparentBufferedImage(final int width, final int height) {
+        return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     }
 
     /**
