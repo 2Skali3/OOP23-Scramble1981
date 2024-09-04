@@ -31,13 +31,8 @@ public class LogicControllerImpl implements LogicController {
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
-<<<<<<< HEAD
-    // TODO implement me!
-    // private final Timer keyPressedCheckTimer;
-=======
     private final Timer stageCounterTimer;
     private int stage = 0;
->>>>>>> 5e26c768bd40dbb0c53f14c8e789f37ad6308189
 
     /**
      * Class constructor.
@@ -67,15 +62,6 @@ public class LogicControllerImpl implements LogicController {
             }
         });
 
-<<<<<<< HEAD
-        // TODO implement me!
-        // keyPressedCheckTimer = new Timer(16, new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(final ActionEvent e) {
-        //         checkKeyPressed();
-        //     }
-        // });
-=======
         stageCounterTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -102,7 +88,6 @@ public class LogicControllerImpl implements LogicController {
                 System.out.println(stage);
             }
         });
->>>>>>> 5e26c768bd40dbb0c53f14c8e789f37ad6308189
 
         fuelCheckTimer.start();
         collisionTimer.start();
