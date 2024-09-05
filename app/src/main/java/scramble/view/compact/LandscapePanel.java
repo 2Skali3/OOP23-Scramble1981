@@ -11,6 +11,7 @@ import scramble.controller.map.MapController;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.util.LandUtils;
+import scramble.utility.Constants;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -31,7 +32,6 @@ public class LandscapePanel extends GamePanel {
 
     private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
-    private static final int LANDSCAPEX_SPEED = 10; // 4
 
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
@@ -73,7 +73,7 @@ public class LandscapePanel extends GamePanel {
     protected void drawPanel(final Graphics g) {
         // to-do: dividi in sottometodi privati
         if (!InputControlImpl.isExplPause() && this.isPanelRepeintable()) {
-            this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
+            this.landscapeX += Constants.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;

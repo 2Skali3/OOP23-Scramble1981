@@ -8,15 +8,15 @@ import java.util.Map;
 /*//da fare la mappa in controller (parte di francesco)
 //si può cambiare i nomi delle costanti senza problemi basta che poi venga anche aggiornato nei vari file
 //bisogna migliorare i commenti
-//secondo me nei commenti vanno tolti i path di dove viene usato 
+//secondo me nei commenti vanno tolti i path di dove viene usato
 (anche la classe che utilizza le costanti). In questo momento li ho lasciati per noi
 //i nomi delle costanti mi piacevano di più la prima volta ma sono troppo creativo. Serve FEDERICO!!!
 
-potremmo pensare che alcune costanti non ci servono in questo file perchè non 
+potremmo pensare che alcune costanti non ci servono in questo file perchè non
 vanno cambiate spesso(anche mai tipo num_sprite) e a certe classi
-non può fregare di medo di certe costanti (a spaceship cosa gliene frega di bomb_sprtite_num). 
+non può fregare di medo di certe costanti (a spaceship cosa gliene frega di bomb_sprtite_num).
 Magari dato che non va mai cambiato e che non serve da nessuna parte
-potremmo decidere di spostarle nel file della classe che la usa direttamente e tenere solo le 
+potremmo decidere di spostarle nel file della classe che la usa direttamente e tenere solo le
 costanti che POTREBBERO essere cambiate nel tempo.
 
 Per ora le metto tutte per chiarezza e non perderne nessuna per strada
@@ -25,7 +25,7 @@ Per ora le metto tutte per chiarezza e non perderne nessuna per strada
 //Mettere le costanti Anchor trovate in model/util BufferedImageManager
 //(Lasse) devo mettere le costanti di rocket
 //model/map lo lascio a francesco
-//controllare se ci sono variabili come decrease amount che non era stato messo come statico 
+//controllare se ci sono variabili come decrease amount che non era stato messo come statico
 inizialmente ma torna molto utile metterlo in questo file
 //in gameView ci sono alcune costanti da riguardare e decidere se sono da spostare`
 //LandscapePanel lo lascio a francesco
@@ -108,6 +108,13 @@ public final class Constants {
      * view/compact/BackgroundPanel.
      */
     public static final int NUMBER_OF_STAR_IN_BACKGROUND = 100;
+
+    /**
+     * Landscape movement speed.
+     * Used in view/compact/LandscapePanel and  in view/compact/BulletsPanel.
+     */
+    public static final int LANDSCAPEX_SPEED = 10; // 4
+
     /**
      * Scales up the fuel bar for a fitting image on the screen. Used in
      * view/compact/FuelBarPanel.

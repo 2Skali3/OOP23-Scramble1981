@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
@@ -130,7 +131,7 @@ public class LogicControllerImpl implements LogicController {
 
     /**
      * Getter for the list containing the checkpoint.
-     * 
+     *
      * @return the checkpoint list
      */
     public static List<PairImpl<Integer, Integer>> getCheckPoints() {
@@ -169,16 +170,13 @@ public class LogicControllerImpl implements LogicController {
 
     private void checkBulletCollisions() {
         final var bullets = gameView.getBulletsPanel();
-        final List<Bullet> bulletsToRemove = new ArrayList<>();
-        for (final Bullet bullet : bullets.getBullets()) {
-            if (bullet.getType() == BulletType.TYPE_BOMB
-                    && bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())) {
-                bulletsToRemove.add(bullet);
-                bullet.setHit(true);
-                // System.out.println("Bullet hit set to true.");
-            }
-        }
-        bullets.removeBullets(bulletsToRemove);
+        final List<Bullet> bulletsExploding = bullets.getBullets()
+            .stream()
+            .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
+                    && bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()))
+            .toList();
+        bullets.removeBullets(bulletsExploding);
+        bullets.addExplodingBullets(bulletsExploding);
     }
 
     /** {@inheritDoc} */

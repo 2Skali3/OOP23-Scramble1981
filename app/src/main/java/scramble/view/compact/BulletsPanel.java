@@ -2,8 +2,9 @@ package scramble.view.compact;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.swing.JPanel;
 import scramble.model.bullets.Bullet;
@@ -11,7 +12,10 @@ import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.common.api.TimedLinkedList;
+import scramble.model.common.impl.TimedLinkedListImpl;
 import scramble.model.spaceship.SpaceShip;
+import scramble.utility.Constants;
 
 
 /**
@@ -24,11 +28,12 @@ public class BulletsPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_BOMB = 2;
-    private transient List<Bullet> bullets;
+    private transient Set<Bullet> bullets;
+    private transient TimedLinkedList<Bullet> explodingBullets;
 
     /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
-        bulletInit();
+        bulletsInit();
         this.setOpaque(false);
     }
 
@@ -44,8 +49,8 @@ public class BulletsPanel extends GamePanel {
      *
      * @return the bullet list
      */
-    public List<Bullet> getBullets() {
-        return new ArrayList<>(bullets);
+    public Set<Bullet> getBullets() {
+        return new HashSet<>(bullets);
     }
 
     /**
@@ -69,6 +74,18 @@ public class BulletsPanel extends GamePanel {
     }
 
     /**
+     * Adds the given list of bullets to the list of exploding bullets.
+     * These bullets will be animated or processed as exploding bullets
+     * with a specified duration for the explosion effect.
+     *
+     * @param bulletsToRemove the list of bullets that have collided and are exploding
+     */
+    public void addExplodingBullets(final List<Bullet> bulletsToRemove) {
+        explodingBullets.addAll(bulletsToRemove, 1000);
+        repaint();
+    }
+
+    /**
      * For each bullet, call bullet.move().
      */
     public void moveBullets() {
@@ -78,28 +95,31 @@ public class BulletsPanel extends GamePanel {
             .toList();
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
+        explodingBullets.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
         repaint();
     }
 
     private void drawBullet(final Graphics g, final Bullet bullet) {
         final BufferedImage bulletSprite = bullet.getSprite();
         if (bulletSprite != null) {
-              if (bullet.isHit()) {
-                //System.out.println(" IsHit() true");
-                g.drawImage(bullet.getSprite(), bullet.getPosition().getFirstElement(),
-                        bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
-            } else {
-                //System.out.println("IsHit() false");
-                g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
-                        bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
-            }
+            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
+                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
         }
 
+    }
+
+    private void drawExplodingBullet(final Graphics g, final Bullet bullet) {
+        final BufferedImage bulletSprite = bullet.getExpSprite();
+        if (bulletSprite != null) {
+            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
+                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
+        }
     }
 
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         bullets.stream().forEach(b -> drawBullet(g, b));
+        explodingBullets.stream().forEach(b -> drawExplodingBullet(g, b));
     }
 
     /**
@@ -149,8 +169,8 @@ public class BulletsPanel extends GamePanel {
         command.execute();
     }
 
-    private void bulletInit() {
-        this.bullets = new ArrayList<>();
+    private void bulletsInit() {
+        this.bullets = new HashSet<>();
+        this.explodingBullets = new TimedLinkedListImpl<>();
     }
-
 }
