@@ -25,7 +25,7 @@ public class LandscapePanel extends GamePanel {
     /** Numebr of columns on screen. */
     public static final int COLUMNS_ON_SCREEN = GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
     /** Number of columns that aren't seen on screen but are still loaded. */
-    public static final int EXTRA_COLUMNS_LOADED = 50;
+    public static final int EXTRA_COLUMNS_LOADED = 100;
     /** Number of total columns loaded. */
     public static final int TOTAL_COLUMNS_LOADED = COLUMNS_ON_SCREEN + EXTRA_COLUMNS_LOADED;
 

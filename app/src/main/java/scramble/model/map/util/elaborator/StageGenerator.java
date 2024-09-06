@@ -182,8 +182,9 @@ public class StageGenerator {
             BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
             if (stagePart == StagePart.CEILING) {
                 bi = BufferedImageManager.rotateBufferedImageWithDegree(bi, 180);
-            } else if (behaviour == LandBehaviour.BRICK) {
-                bi = BufferedImageManager.substituteGreenWithPurple(bi);
+            } 
+            if (behaviour == LandBehaviour.BRICK) {
+                bi = BufferedImageManager.changeColorClockwise(bi, 0);
             }
 
             // to-do: sistemare empty space

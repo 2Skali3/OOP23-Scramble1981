@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 import scramble.controller.mediator.impl.LogicControllerImpl;
 import scramble.model.common.util.BufferedImageManager;
-import scramble.model.map.util.LandUtils;
 import scramble.model.spaceship.FuelBar;
 import scramble.utility.Constants;
 

@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
+import java.util.function.Predicate;
+import java.util.function.Function;
 
 /**
  * The utility class {@code BufferedImageManager} is a class that contains
@@ -21,9 +22,11 @@ public final class BufferedImageManager {
 
     /**
      * Method that it is used to take a transparent {@link BufferedImage}.
-     * @param width the width of the transparent image
+     * 
+     * @param width  the width of the transparent image
      * @param height the height of the transparent image
-     * @return a {@link BufferedImage} having the {@code width} and {@code height} specified
+     * @return a {@link BufferedImage} having the {@code width} and {@code height}
+     *         specified
      */
     public static BufferedImage transparentBufferedImage(final int width, final int height) {
         return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -52,50 +55,67 @@ public final class BufferedImageManager {
     }
 
     /**
-     * The method {@code exchangeRedWithGreen} exchanges the red rgb component of a
-     * {@link BufferedImage} with its green rgb component.
-     * 
-     * @param toExchange the {@link BufferedImage} that needs to exchange green and
-     *                   red rgb component
-     * @return the {@link BufferedImage} with red and green rgb components exchanged
-     */
-    public static BufferedImage exchangeRedWithGreen(final BufferedImage toExchange) {
-        final BufferedImage bi = cloneBufferedImage(toExchange);
-        for (int y = 0; y < bi.getHeight(); y++) {
-            for (int x = 0; x < bi.getWidth(); x++) {
-                final int rgb = bi.getRGB(x, y);
-                final Color color = new Color(rgb);
-                final Color newColor = new Color(color.getGreen(), color.getRed(), color.getBlue());
-                bi.setRGB(x, y, newColor.getRGB());
-            }
-        }
-        return bi;
-    }
-
-    /**
-     * The method {@code substituteGreenWithPurple} substitutes green dominant pixel
-     * of a {@link BufferedImage} with purple pixel. The other pixel will be painted
-     * black.
+     * The method {@code substitutePurpleWithRed} substitutes purple dominant pixel
+     * of a {@link BufferedImage} with red pixel.
      * 
      * @param toSubstitute the {@link BufferedImage} that needs to substitute green
      *                     with purple
-     * @return a {@link BufferedImage} with green substituted with purple
+     * @param pixelWidth   the pixel width that will be chacked
+     * @return a {@link BufferedImage} with purple substituted with red
      */
-    public static BufferedImage substituteGreenWithPurple(final BufferedImage toSubstitute) {
-        final BufferedImage bi = cloneBufferedImage(toSubstitute);
+    public static BufferedImage substitutePurpleWithRed(final BufferedImage toSubstitute, final float pixelWidth) {
         final int threshold = 200;
-        final Color purple = new Color(120, 0, 200);
-        final Color black = new Color(0, 0, 0);
+        final Color red = new Color(120, 0, 0);
 
+        return changeColor(toSubstitute, pixelWidth, c -> c.getBlue() > threshold, c -> red.getRGB(), c -> c.getRGB());
+    }
+
+    /**
+     * Mehtod to change the RGB value in a clockwise style.
+     * 
+     * <p>
+     * In the input {@link BufferedImage} the red, green and blue color components
+     * will be switched respectevely with the blue, red and green color components
+     * of the same {@link BufferedImage}.
+     * 
+     * @param toChange the {@link BufferedImage} whose color needs to be changed
+     * @param added the value that will be added to the color to intensify it
+     * @return the {@link BufferedImage} with the color switched
+     */
+    public static BufferedImage changeColorClockwise(final BufferedImage toChange, final int added) {
+        return changeColor(toChange, toChange.getWidth(), c -> true,
+                c -> new Color(c.getBlue(), c.getRed(), c.getGreen()).getRGB(), null);
+    }
+
+    /**
+     * Mehtod to change the RGB value in a counter clockwise cycle.
+     * 
+     * <p>
+     * In the input {@link BufferedImage} the red, green and blue color components
+     * will be switched respectevely with the green, blue and red color components
+     * of the same {@link BufferedImage}.
+     * 
+     * @param toChange the {@link BufferedImage} whose color needs to be changed
+     * @param added the value that will be added to the color to intensify it
+     * @return the {@link BufferedImage} with the color switched
+     */
+    public static BufferedImage changeColorCounterClockwise(final BufferedImage toChange, final int added) {
+        return changeColor(toChange, toChange.getWidth(), c -> true,
+                c -> new Color(c.getGreen(), c.getBlue(), c.getRed()).getRGB() + added, null);
+    }
+
+    private static BufferedImage changeColor(final BufferedImage toChange, final float pixelWidth,
+            final Predicate<Color> condition, final Function<Color, Integer> funTrue,
+            final Function<Color, Integer> funFalse) {
+        final BufferedImage bi = BufferedImageManager.cloneBufferedImage(toChange);
         for (int y = 0; y < bi.getHeight(); y++) {
-            for (int x = 0; x < bi.getWidth(); x++) {
+            for (int x = 0; x < pixelWidth; x++) {
                 final int rgb = bi.getRGB(x, y);
                 final Color color = new Color(rgb);
-
-                if (color.getGreen() > threshold) {
-                    bi.setRGB(x, y, purple.getRGB());
+                if (condition.test(color)) {
+                    bi.setRGB(x, y, funTrue.apply(color));
                 } else {
-                    bi.setRGB(x, y, black.getRGB());
+                    bi.setRGB(x, y, funFalse.apply(color));
                 }
             }
         }
@@ -117,32 +137,4 @@ public final class BufferedImageManager {
         g2d.dispose();
         return clone;
     }
-
-    /**
-     * The method {@code substitutePurpleWithRed} substitutes purple dominant pixel
-     * of a {@link BufferedImage} with red pixel.
-     * 
-     * @param toSubstitute the {@link BufferedImage} that needs to substitute green
-     *                     with purple
-     * @param pixelWidth   the pixel width that will be chacked
-     * @return a {@link BufferedImage} with purple substituted with red
-     */
-    public static BufferedImage substitutePurpleWithRed(final BufferedImage toSubstitute, final float pixelWidth) {
-        final BufferedImage bi = cloneBufferedImage(toSubstitute);
-        final int threshold = 200;
-        final Color red = new Color(120, 0, 0);
-
-        for (int y = 0; y < bi.getHeight(); y++) {
-            for (int x = 0; x < pixelWidth; x++) {
-                final int rgb = bi.getRGB(x, y);
-                final Color color = new Color(rgb);
-
-                if (color.getBlue() > threshold) {
-                    bi.setRGB(x, y, red.getRGB());
-                }
-            }
-        }
-        return bi;
-    }
-
 }

@@ -53,15 +53,15 @@ public class MapColumnImpl implements MapColumn {
         }
         if (x / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE % 2 == 0) {
             if (stagePart == StagePart.CEILING) {
-                return BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.DARK_BRICK_WALL));
+                return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
             }
-            return BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.WHITE_SQUARE));
+            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
         }
 
         if (stagePart == StagePart.CEILING) {
-            return BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.WHITE_SQUARE));
+            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
         }
-        return BufferedImageManager.exchangeRedWithGreen(LandUtils.getSprite(LandPart.DARK_BRICK_WALL));
+        return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
     }
 
     private void fillBufferedImages(final int yCeiling, final int yFloor, final BufferedImage ceiling,
