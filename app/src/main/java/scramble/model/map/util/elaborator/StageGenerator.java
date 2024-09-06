@@ -60,10 +60,6 @@ public class StageGenerator {
         this.rand = new Random();
     }
 
-    private int applyPxInMap(final int n) {
-        return n * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-    }
-
     private LandPart getSprite(final LandBehaviour behavior) {
 
         if (behavior == LandBehaviour.BRICK) {
@@ -182,7 +178,7 @@ public class StageGenerator {
             BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
             if (stagePart == StagePart.CEILING) {
                 bi = BufferedImageManager.rotateBufferedImageWithDegree(bi, 180);
-            } 
+            }
             if (behaviour == LandBehaviour.BRICK) {
                 bi = BufferedImageManager.changeColorClockwise(bi, 0);
             }
@@ -190,9 +186,8 @@ public class StageGenerator {
             // to-do: sistemare empty space
             if (behaviour != LandBehaviour.EMPTY) {
                 elaboratedData.add(new MapElement(
-                        this.applyPxInMap(x), this.applyPxInMap(currentY),
-                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandUtils.multiplyPixelPerSprite(x), LandUtils.multiplyPixelPerSprite(currentY),
+                        LandUtils.PIXEL_PER_LAND_SPRITE_SIDE, LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
                         bi, terrainType, behaviour));
             }
 
@@ -246,7 +241,7 @@ public class StageGenerator {
 
         for (int i = 0; i < elaboratedDataCeiling.getFirstElement().size(); i++) {
             elaboratedStage.addColumn(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
-                    i * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE, rawData.getTerrainType()));
+                    LandUtils.multiplyPixelPerSprite(i), rawData.getTerrainType()));
 
         }
 

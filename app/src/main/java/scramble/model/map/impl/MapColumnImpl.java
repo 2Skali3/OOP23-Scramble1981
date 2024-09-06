@@ -11,6 +11,7 @@ import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.LandPart;
 import scramble.model.map.util.enums.StagePart;
 import scramble.model.map.util.enums.TerrainType;
+import scramble.utility.Constants;
 
 /**
  * Implementation of the interface {@link MapColumn}.
@@ -37,8 +38,8 @@ public class MapColumnImpl implements MapColumn {
     public MapColumnImpl(final MapElement ceiling, final MapElement floor, final int x,
             final TerrainType terrainType) {
         this.x = x;
-        this.biHeight = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-        this.biWidth = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        this.biHeight = Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        this.biWidth = Constants.PIXEL_PER_LAND_SPRITE_SIDE;
         this.terrainType = terrainType;
         this.bufferedImages = new ArrayList<>();
         this.elements = new ArrayList<>();
@@ -51,7 +52,7 @@ public class MapColumnImpl implements MapColumn {
         if (this.terrainType == TerrainType.GREENLAND) {
             return LandUtils.getSprite(LandPart.GREEN_SQUARE);
         }
-        if (x / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE % 2 == 0) {
+        if (LandUtils.dividePixelPerSprite(x) % 2 == 0) {
             if (stagePart == StagePart.CEILING) {
                 return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
             }
@@ -79,8 +80,8 @@ public class MapColumnImpl implements MapColumn {
             currentBI = biCeiling;
         }
 
-        for (int y = 0; y < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-                * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE; y += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
+        for (int y = 0; y < LandUtils.multiplyPixelPerSprite(
+                Constants.SPRITE_PER_STAGE_HEIGHT); y = LandUtils.addPixelPerSprite(y)) {
             if (y == yCeiling) {
                 this.bufferedImages.add(BufferedImageManager.cloneBufferedImage(ceiling));
                 currentBI = transparent;
@@ -104,11 +105,10 @@ public class MapColumnImpl implements MapColumn {
                         BufferedImageManager.transparentBufferedImage(ceiling.getWidth(), ceiling.getY()),
                         this.terrainType, LandBehaviour.EMPTY));
             }
-            if (floor.getY() < LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE) {
-                this.elements.add(new MapElement(x, floor.getY() + LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        floor.getWidth(),
-                        LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
-                                - floor.getY() - LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+            if (floor.getY() < LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)) {
+                this.elements.add(new MapElement(x, LandUtils.addPixelPerSprite(floor.getY()), floor.getWidth(),
+                        LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)
+                                - LandUtils.subPixelPerSprite(floor.getY()),
                         BufferedImageManager.transparentBufferedImage(floor.getWidth(), floor.getY()),
                         this.terrainType, LandBehaviour.EMPTY));
 

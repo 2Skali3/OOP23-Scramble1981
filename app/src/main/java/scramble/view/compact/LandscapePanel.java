@@ -23,13 +23,13 @@ import java.awt.image.BufferedImage;
  */
 public class LandscapePanel extends GamePanel {
     /** Numebr of columns on screen. */
-    public static final int COLUMNS_ON_SCREEN = GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int COLUMNS_ON_SCREEN = LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH);
     /** Number of columns that aren't seen on screen but are still loaded. */
     public static final int EXTRA_COLUMNS_LOADED = 100;
     /** Number of total columns loaded. */
     public static final int TOTAL_COLUMNS_LOADED = COLUMNS_ON_SCREEN + EXTRA_COLUMNS_LOADED;
 
-    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
     private static final int LANDSCAPEX_SPEED = 10; // 4
 
@@ -72,7 +72,7 @@ public class LandscapePanel extends GamePanel {
         // to-do: dividi in sottometodi privati
         if (!InputControlImpl.isExplPause() && this.isPanelRepeintable()) {
             this.landscapeX += LandscapePanel.LANDSCAPEX_SPEED;
-            if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+            if (LandUtils.dividePixelPerSprite(this.landscapeX)
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
             } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
@@ -108,7 +108,7 @@ public class LandscapePanel extends GamePanel {
      */
     public void reset(final int starterPosition) {
         MAP_CONTROLLER.resetToX(starterPosition);
-        this.landscapeX = +starterPosition * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        this.landscapeX = LandUtils.multiplyPixelPerSprite(starterPosition);
         this.starterX = landscapeX;
         this.fillColumns();
         this.canBeRepaint();

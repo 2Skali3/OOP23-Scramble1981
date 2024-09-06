@@ -26,8 +26,7 @@ public class GameView extends JFrame {
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
     /** Height of the window. */
-    public static final int WINDOW_HEIGHT = LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-            * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int WINDOW_HEIGHT = LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT);
 
     private final JLayeredPane mainPanel;
 
@@ -252,7 +251,7 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 0; i--) {
-            if (MapController.getStageStartingX().get(i) * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < LandscapePanel
+            if (LandUtils.multiplyPixelPerSprite(MapController.getStageStartingX().get(i)) < LandscapePanel
                     .getMapController().getCurrentMapX()) {
                 if (i == 1) {
                     return MapController.getStageStartingX().get(i);

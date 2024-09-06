@@ -63,7 +63,7 @@ public class MapController {
                 final MapColumn column = mapStage.getColumn(i);
                 column.updateX(x);
                 this.columns.add(column);
-                x += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+                x = LandUtils.addPixelPerSprite(x);
             }
         }
     }
@@ -94,7 +94,7 @@ public class MapController {
             columnsToDisplay.add(columns.get(this.columnIndex + i));
         }
         this.columnIndex += LandscapePanel.EXTRA_COLUMNS_LOADED;
-        if (this.columnIndex + (GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE)
+        if (this.columnIndex + (LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH))
                 + 4 > this.columns
                         .size()) {
             this.columnIndex = 0;

@@ -7,6 +7,7 @@ import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.LandsDataLoader;
 import scramble.model.map.util.elaborator.StageGenerator;
+import scramble.utility.Constants;
 
 /**
  * Implementation of the interface MapStageFactory.
@@ -39,7 +40,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> prestage() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getPrestageData(),
-                LandUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH);
+                Constants.SPRITE_PER_PRESTAGE_WIDTH);
     }
 
     /**
@@ -48,7 +49,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> stage1() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage1Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -57,7 +58,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> stage2() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage2Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -66,7 +67,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> stage3() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage3Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -75,7 +76,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> stage4() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage4Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
@@ -84,7 +85,7 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     @Override
     public MapStage<MapColumn> stage5() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage5Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
