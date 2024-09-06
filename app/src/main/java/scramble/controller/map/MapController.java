@@ -3,20 +3,13 @@ package scramble.controller.map;
 import java.util.List;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import scramble.model.common.api.Pair;
-import scramble.model.common.impl.PairImpl;
-import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.api.MapStageFactory;
-import scramble.model.map.impl.MapColumnImpl;
-import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageFactoryImpl;
 import scramble.model.map.util.LandUtils;
-import scramble.model.map.util.enums.LandBehaviour;
-import scramble.model.map.util.enums.TerrainType;
 import scramble.view.compact.GameView;
 import scramble.view.compact.LandscapePanel;
 
@@ -33,7 +26,7 @@ import scramble.view.compact.LandscapePanel;
  * @see MapStageFactory
  */
 public class MapController {
-    private static final MapStageFactory STAGE_FACTORY = new MapStageFactoryImpl();
+    private static final MapStageFactory<MapColumn> STAGE_FACTORY = new MapStageFactoryImpl();
     private static List<Integer> stageStartingX = new ArrayList<>();
 
     private final List<MapColumn> columns;
@@ -44,15 +37,15 @@ public class MapController {
      * Controller for the class {@link MapController}.
      */
     public MapController() {
-        final List<MapStage> stages = this.fillMapStage();
+        final List<MapStage<MapColumn>> stages = this.fillMapStage();
         this.columnIndex = 0;
         this.flatPositions = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
     }
 
-    private List<MapStage> fillMapStage() {
-        final List<MapStage> stages = new ArrayList<>();
+    private List<MapStage<MapColumn>> fillMapStage() {
+        final List<MapStage<MapColumn>> stages = new ArrayList<>();
         stages.add(STAGE_FACTORY.prestage());
         stages.add(STAGE_FACTORY.stage1());
         stages.add(STAGE_FACTORY.stage2());
@@ -62,79 +55,18 @@ public class MapController {
         return stages;
     }
 
-    // todo: adding hitbox when mapelement.terrainType == BRICK_COLUMN
-
-    private void fillColumns(final List<MapStage> stages) {
+    private void fillColumns(final List<MapStage<MapColumn>> stages) {
         int x = 0;
-        for (final MapStage mapStage : stages) {
+        for (final MapStage<MapColumn> mapStage : stages) {
             stageStartingX.add(x);
             for (int i = 0; i < mapStage.size(); i++) {
-                final MapElement ceilingColumn = mapStage.getCloumnCeiling(i);
-                final MapElement floorColumn = mapStage.getCloumnFloor(i);
-                ceilingColumn.updatePosition(
-                        new PairImpl<Integer, Integer>(x * ceilingColumn.getWidth(), ceilingColumn.getY()));
-                floorColumn.updatePosition(
-                        new PairImpl<Integer, Integer>(x * floorColumn.getWidth(), floorColumn.getY()));
-                final List<MapElement> floor = new ArrayList<>(Arrays.asList(floorColumn));
-                final List<MapElement> ceiling = new ArrayList<>(Arrays.asList(ceilingColumn));
-                if (floorColumn.getTerrainType() == TerrainType.BRICK_COLUMN) {
-                    floor.add(new MapElement(floorColumn.getX(),
-                            floorColumn.getY() + floorColumn.getHeight(),
-                            floorColumn.getWidth(),
-                            LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
-                                    - floorColumn.getHeight(),
-                            BufferedImageManager.transparentBufferedImage(floorColumn.getWidth(),
-                                    LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT - floorColumn.getHeight()),
-                            floorColumn.getTerrainType(), LandBehaviour.FLAT));
-                }
-                if (ceilingColumn.getTerrainType() == TerrainType.BRICK_COLUMN) {
-                    ceiling.add(new MapElement(ceilingColumn.getX(),
-                            0,
-                            ceilingColumn.getWidth(), ceilingColumn.getY(),
-                            BufferedImageManager.transparentBufferedImage(ceilingColumn.getWidth(),
-                                    LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT - ceilingColumn.getHeight()),
-                            ceilingColumn.getTerrainType(), LandBehaviour.FLAT));
-                }
-                this.columns.add(new MapColumnImpl(new ArrayList<>(ceiling),
-                        new ArrayList<>(floor), ceilingColumn.getY(), floorColumn.getY()));
-                if (floorColumn.getBehaviour() == LandBehaviour.FLAT) {
-                    this.flatPositions.add(floorColumn.getPosition());
-                }
-                x++;
+                final MapColumn column = mapStage.getColumn(i);
+                column.updateX(x);
+                this.columns.add(column);
+                x += LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
             }
         }
     }
-
-    /*
-     * private void fillColumns(final List<MapStage> stages) {
-     * int x = 0;
-     * for (final MapStage mapStage : stages) {
-     * stageStartingX.add(x);
-     * for (int i = 0; i < mapStage.size(); i++) {
-     * final MapElement ceilingColumn = mapStage.getCloumnCeiling(i);
-     * final MapElement floorColumn = mapStage.getCloumnFloor(i);
-     * if(floorColumn.getTerrainType() == TerrainType.BRICK_COLUMN) {
-     * }
-     * ceilingColumn.updatePosition(
-     * new PairImpl<Integer, Integer>(x * ceilingColumn.getWidth(),
-     * ceilingColumn.getY()));
-     * floorColumn.updatePosition(
-     * new PairImpl<Integer, Integer>(x * floorColumn.getWidth(),
-     * floorColumn.getY()));
-     * 
-     * 
-     * this.columns.add(new MapColumnImpl(new
-     * ArrayList<>(Arrays.asList(ceilingColumn)),
-     * new ArrayList<>(Arrays.asList(floorColumn)), ceilingColumn.getY(),
-     * floorColumn.getY()));
-     * if (floorColumn.getBehaviour() == LandBehaviour.FLAT) {
-     * this.flatPositions.add(floorColumn.getPosition());
-     * }
-     * x++;
-     * }
-     * }
-     * }
-     */
 
     /**
      * Return the number of columns in this controller.

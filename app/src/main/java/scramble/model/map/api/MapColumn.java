@@ -17,41 +17,14 @@ public interface MapColumn {
      * 
      * @return the ceiling part
      */
-    List<MapElement> getCeilings();
+    List<MapElement> getElements();
 
     /**
      * Getter for the ceiling part that is composed by BufferedImage.
      * 
      * @return the list of only BufferedImage part
      */
-    List<BufferedImage> getBIListCeiling();
-
-    /**
-     * Getter for the floor part of the column.
-     * 
-     * @return the floor part
-     */
-    List<MapElement> getFloors();
-
-    /**
-     * Getter for the floor part that is composed by BufferedImage.
-     * 
-     * @return the list of only BufferedImage part
-     */
-    List<BufferedImage> getBIListFloor();
-
-    /**
-     * Getter for the end of the ceiling in the y-axis.
-     * @return the ceiling coordinate in the y-axis 
-     */
-    int getEndYCeiling();
-
-
-    /**
-     * Getter for the start of the floor part in the y-axis.
-     * @return the floor coordinate in the y-axis 
-     */
-    int getStartYFloor();
+    List<BufferedImage> getBIs();
 
     /**
      * Getter for the x coordinate.
@@ -60,10 +33,16 @@ public interface MapColumn {
     int getX();
 
     /**
+     * Update the x coordinate of the column.
+     * @param x the new coordinate for the column in the x-axis
+     */
+    void updateX(int x);
+
+    /**
      * Method for updating the x-axis of the column of the HitBox.
      * @param x update to sum at the old hitbox coordinate
      */
-    void updateHitBoxX(int x);
+    void updateHitBox(int x);
 
     /**
      * Getter for the width of the BufferedImage element of the column.

@@ -46,14 +46,12 @@ public class LandscapePanel extends GamePanel {
      * @return a 2D list
      */
     public List<MapElement> getColumns() {
-        final List<MapElement> returnColumns = new ArrayList<>();
+        final List<MapElement> mapElementsColumns = new ArrayList<>();
         for (final MapColumn mc : this.columns) {
-            returnColumns.addAll(mc.getCeilings());
-            returnColumns.addAll(mc.getFloors());
+            mapElementsColumns.addAll(mc.getElements());
         }
 
-        return returnColumns;
-        // return new ArrayList<>(columns);
+        return mapElementsColumns;
     }
 
     /** Costructor of the class LandscapePanel. */
@@ -83,36 +81,11 @@ public class LandscapePanel extends GamePanel {
         }
         for (final MapColumn column : this.columns) {
             int tempY = 0;
-            column.updateHitBoxX(-this.landscapeX);
-            for (final BufferedImage bi : column.getBIListCeiling()) {
+            column.updateHitBox(column.getX() - this.landscapeX);
+            for (final BufferedImage bi : column.getBIs()) {
                 g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
                         column.getBIListHeight(), null);
                 tempY += column.getBIListHeight();
-            }
-            tempY = column.getStartYFloor();
-            for (final BufferedImage bi : column.getBIListFloor()) {
-                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
-                        column.getBIListHeight(), null);
-                tempY += column.getBIListHeight();
-            }
-
-            for (final MapElement c : column.getCeilings()) {
-                g.drawImage(c.getSprite(),
-                        c.getX() - this.landscapeX, c.getY(),
-                        c.getWidth(), c.getHeight(),
-                        null);
-            }
-
-            for (final MapElement c : column.getFloors()) {
-                /*
-                 * if(c.getTerrainType() == TerrainType.BRICK_COLUMN) {
-                 * 
-                 * }
-                 */
-                g.drawImage(c.getSprite(),
-                        c.getX() - this.landscapeX, c.getY(),
-                        c.getWidth(), c.getHeight(),
-                        null);
             }
         }
 
@@ -121,11 +94,7 @@ public class LandscapePanel extends GamePanel {
 
     private void drawHitBox(final Graphics g) {
         for (final MapColumn c : columns) {
-            for (final MapElement me : c.getCeilings()) {
-                final Rectangle temp = me.getHitBox();
-                g.drawRect(temp.x, temp.y, temp.width, temp.height);
-            }
-            for (final MapElement me : c.getFloors()) {
+            for (final MapElement me : c.getElements()) {
                 final Rectangle temp = me.getHitBox();
                 g.drawRect(temp.x, temp.y, temp.width, temp.height);
             }
