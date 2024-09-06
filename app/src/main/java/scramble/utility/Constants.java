@@ -127,11 +127,10 @@ public final class Constants {
     public static final int SPRITE_PER_STAGE_HEIGHT = 40;
     /** Number of sprites per stage per row. */
     public static final int SPRITE_PER_STAGE_WIDTH = 350;
-    /** Sprite dimention in the final stage per pixel. */
-    public static final int PIXEL_PER_LAND_SPRITE_SIDE = 16;
+
+    
 
     // Stages
-
     /** Number of sprites per prestage per column.*/
     public static final int SPRITE_PER_PRESTAGE_WIDTH = 70;
 

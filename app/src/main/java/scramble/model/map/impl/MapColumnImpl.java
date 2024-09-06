@@ -38,8 +38,8 @@ public class MapColumnImpl implements MapColumn {
     public MapColumnImpl(final MapElement ceiling, final MapElement floor, final int x,
             final TerrainType terrainType) {
         this.x = x;
-        this.biHeight = Constants.PIXEL_PER_LAND_SPRITE_SIDE;
-        this.biWidth = Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        this.biHeight = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        this.biWidth = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
         this.terrainType = terrainType;
         this.bufferedImages = new ArrayList<>();
         this.elements = new ArrayList<>();

@@ -23,23 +23,9 @@ public final class LandUtils {
     /** Sprite dimention in the final stage per pixel. */
     public static final int PIXEL_PER_LAND_SPRITE_SIDE = 16;
 
-
-    /**
-     * Number of pixel of the single sprite in the source image.
-     */
-    public static final int NUMBER_OF_PX_IN_IMAGE_PER_SPRITE = 8;
-    /**
-     * Number of stage.
-     */
-    public static final int STAGE_NUMBERS = 2;
-    /**
-     * Number of sprites rows.
-     */
-    public static final int MAX_IMAGE_HEIGHT = 2;
-    /**
-     * Number of sprites columns.
-     */
-    public static final int MAX_IMAGE_WIDTH = 17;
+    private static final int NUMBER_OF_PX_IN_IMAGE_PER_SPRITE = 8;
+    private static final int MAX_IMAGE_HEIGHT = 2;
+    private static final int MAX_IMAGE_WIDTH = 17;
     /**
      * Classification of the type of sprite.
      */
@@ -89,7 +75,7 @@ public final class LandUtils {
      * @return the number multiplied by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
      */
     public static int multiplyPixelPerSprite(final int x) {
-        return x * Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -98,7 +84,7 @@ public final class LandUtils {
      * @return the number divided by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
      */
     public static int dividePixelPerSprite(final int x) {
-        return x / Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -107,7 +93,7 @@ public final class LandUtils {
      * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} added to him
      */
     public static int addPixelPerSprite(final int x) {
-        return x + Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x + LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -116,7 +102,7 @@ public final class LandUtils {
      * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} subtracted to him
      */
     public static int subPixelPerSprite(final int x) {
-        return x - Constants.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x - LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
