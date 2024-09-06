@@ -35,8 +35,6 @@ public final class FuelBarPanel extends GamePanel {
     private static final List<Integer> STAGES = new ArrayList<>(
             Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
 
-    private static final int INDEX_FIVE = 5;
-
     private static final Logger LOG = Logger.getLogger(FuelBar.class.getName());
 
     private final transient FuelBar fuelBar;
@@ -53,19 +51,19 @@ public final class FuelBarPanel extends GamePanel {
                 final int pos = LandscapePanel.getMapController().getCurrentMapX();
                 // final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
 
-                if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement()
-                        && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement()) {
+                if (pos > LogicControllerImpl.getCheckPoints().get(0).getFirstElement()
+                        && pos < LogicControllerImpl.getCheckPoints().get(1).getFirstElement()) {
                     stage = STAGES.get(0);
+                } else if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement()
+                        && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement()) {
+                    stage = STAGES.get(1);
                 } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement()
                         && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement()) {
-                    stage = STAGES.get(1);
+                    stage = STAGES.get(2);
                 } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement()
                         && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement()) {
-                    stage = STAGES.get(2);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement()
-                        && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
                     stage = STAGES.get(3);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
+                } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement()) {
                     stage = STAGES.get(4);
                 }
 

@@ -108,7 +108,7 @@ public class LandscapePanel extends GamePanel {
      */
     public void reset(final int starterPosition) {
         MAP_CONTROLLER.resetToX(starterPosition);
-        this.landscapeX = LandUtils.multiplyPixelPerSprite(starterPosition);
+        this.landscapeX = starterPosition;
         this.starterX = landscapeX;
         this.fillColumns();
         this.canBeRepaint();

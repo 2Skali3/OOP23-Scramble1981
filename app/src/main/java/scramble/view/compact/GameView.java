@@ -21,12 +21,13 @@ import scramble.controller.mediator.impl.LogicControllerImpl;
  */
 public class GameView extends JFrame {
 
-    private static final int CHECKPOINT_OFFSET_X = 40;
     private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
     /** Height of the window. */
     public static final int WINDOW_HEIGHT = LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT);
+
+    private static final int CHECKPOINT_OFFSET_X = WINDOW_WIDTH / 2;
 
     private final JLayeredPane mainPanel;
 
@@ -233,10 +234,8 @@ public class GameView extends JFrame {
     public void restartFromCheckPoint(final int restartPos) {
 
         landscapePanel.reset(restartPos);
-        spaceShipPanel.getSpaceship()
-                .updatePosition(
-                        new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION,
-                                Constants.SPACESHIP_STARTER_POSITION));
+        spaceShipPanel.getSpaceship().updatePosition(
+                new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
         this.landscapePanel.canBeRepaint();
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startUpdateTimer();
@@ -251,16 +250,11 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 0; i--) {
-            if (LandUtils.multiplyPixelPerSprite(MapController.getStageStartingX().get(i)) < LandscapePanel
-                    .getMapController().getCurrentMapX()) {
-                if (i == 1) {
-                    return MapController.getStageStartingX().get(i);
-                } else {
-                    return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
-                }
+            if (MapController.getStageStartingX().get(i) < LandscapePanel.getMapController().getCurrentMapX()) {
+                return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
             }
         }
-        return MapController.getStageStartingX().get(0);
+        return MapController.getStageStartingX().get(0) - CHECKPOINT_OFFSET_X;
     }
 
 }

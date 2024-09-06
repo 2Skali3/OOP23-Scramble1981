@@ -154,7 +154,7 @@ public class LogicControllerImpl implements LogicController {
                         resetLives();
                     } else {
                         lostLife();
-                        gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
+                         gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                     }
                     startCollisionTimer();
                     startFuelCheckTimer();

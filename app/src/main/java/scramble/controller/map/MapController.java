@@ -58,13 +58,14 @@ public class MapController {
     private void fillColumns(final List<MapStage<MapColumn>> stages) {
         int x = 0;
         for (final MapStage<MapColumn> mapStage : stages) {
-            stageStartingX.add(x);
             for (int i = 0; i < mapStage.size(); i++) {
                 final MapColumn column = mapStage.getColumn(i);
                 column.updateX(x);
                 this.columns.add(column);
                 x = LandUtils.addPixelPerSprite(x);
             }
+
+            stageStartingX.add(x);
         }
     }
 
@@ -108,7 +109,7 @@ public class MapController {
      * @param x position to reset the Landscape
      */
     public void resetToX(final int x) {
-        this.columnIndex = x;
+        this.columnIndex = LandUtils.dividePixelPerSprite(x);
     }
 
     /**
