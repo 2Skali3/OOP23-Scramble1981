@@ -73,7 +73,8 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
 
     public boolean checkCollision(final SpaceShip spaceship){
         if(hasCollided(spaceship)){
-            hit = true;
+            this.hit = true;
+            spaceship.setHit(true);
             return true;
         }
         return false;
