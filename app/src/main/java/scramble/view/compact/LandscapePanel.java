@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
@@ -40,6 +41,20 @@ public class LandscapePanel extends GamePanel {
     private int starterX;
     private transient List<MapColumn> columns;
 
+    private final Timer landscapeTimer;
+
+    private void updateLandscape() {
+        if (!InputControlImpl.isExplPause()) {
+            this.landscapeX += Constants.LANDSCAPEX_SPEED;
+            if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
+                this.landscapeX = 0;
+            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
+                this.fillColumns();
+            }
+        }
+    }
+
     /**
      * Returns the landscape.
      *
@@ -62,6 +77,7 @@ public class LandscapePanel extends GamePanel {
         this.landscapeX = 0;
         this.starterX = 0;
         this.setOpaque(false);
+        this.landscapeTimer = new Timer(32, e -> updateLandscape());
     }
 
     private void fillColumns() {
@@ -72,15 +88,6 @@ public class LandscapePanel extends GamePanel {
     @Override
     protected void drawPanel(final Graphics g) {
         // to-do: dividi in sottometodi privati
-        if (!InputControlImpl.isExplPause() && this.isPanelRepeintable()) {
-            this.landscapeX += Constants.LANDSCAPEX_SPEED;
-            if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
-                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
-                this.landscapeX = 0;
-            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
-                this.fillColumns();
-            }
-        }
         for (final MapColumn column : this.columns) {
             int tempY = 0;
             column.updateHitBoxX(-this.landscapeX);
@@ -137,15 +144,25 @@ public class LandscapePanel extends GamePanel {
         this.landscapeX = +starterPosition * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
         this.starterX = landscapeX;
         this.fillColumns();
-        this.canBeRepaint();
     }
 
     /**
      * Getter for the MapController of the LandscapePanel.
+     * 
      * @return the MapController
      */
     public static MapController getMapController() {
         return MAP_CONTROLLER;
+    }
+
+    @Override
+    void startTimer() {
+        this.landscapeTimer.start();
+    }
+
+    @Override
+    public void stopTimer() {
+        this.landscapeTimer.stop();
     }
 
 }

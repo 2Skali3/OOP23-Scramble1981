@@ -12,32 +12,6 @@ import java.awt.Graphics;
 public abstract class GamePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private boolean isRepaintable = true;
-
-    /**
-     * Method for the repaint management.
-     * It tells to the GamePanel that can repaint itself.
-     */
-    public void canBeRepaint() {
-        this.isRepaintable = true;
-    }
-
-    /**
-     * Method for the repaint management.
-     * It tells to the GamePanel that can't repaint itself.
-     */
-    public void canNotBeRepaint() {
-        this.isRepaintable = false;
-    }
-
-    /**
-     * Method that tells if the panel is repaintable or not.
-     * 
-     * @return true if panel is repaintable, false instend.
-     */
-    public boolean isPanelRepeintable() {
-        return this.isRepaintable;
-    }
 
     /**
      * Method for the update of the panel.
@@ -54,4 +28,14 @@ public abstract class GamePanel extends JPanel {
         super.paintComponent(g);
         drawPanel(g);
     }
+
+    /**
+     * Starts timer of the singular.
+     */
+    abstract void startTimer();
+
+    /**
+     * Stops timer of the singular panel.
+     */
+    abstract public void stopTimer();
 }

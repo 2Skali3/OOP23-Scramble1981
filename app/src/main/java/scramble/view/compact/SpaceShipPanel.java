@@ -32,7 +32,7 @@ public class SpaceShipPanel extends GamePanel {
 
     /** Constructor for the SpaceshipPanel class. */
     public SpaceShipPanel() {
-        this.spaceship = new SpaceShip(Constants.SPACESHIP_STARTER_POSITION, 
+        this.spaceship = new SpaceShip(Constants.SPACESHIP_STARTER_POSITION,
                 Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_WIDTH,
                 Constants.SPACESHIP_HEIGHT);
         this.setOpaque(false);
@@ -62,7 +62,6 @@ public class SpaceShipPanel extends GamePanel {
         }
 
         spaceship.drawHitBox(g);
-        this.canNotBeRepaint();
     }
 
     /**
@@ -114,8 +113,6 @@ public class SpaceShipPanel extends GamePanel {
                 break;
             default:
         }
-
-        this.canBeRepaint();
         // repaint();
     }
 
@@ -127,10 +124,13 @@ public class SpaceShipPanel extends GamePanel {
         final int xSpeed = spaceship.getxSpeed();
         final int ySpeed = spaceship.getySpeed();
 
-        /*if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed <= getHeight()
-                && shipY + ySpeed >= 0) {
-            spaceship.move();
-        }*/
+        /*
+         * if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed
+         * <= getHeight()
+         * && shipY + ySpeed >= 0) {
+         * spaceship.move();
+         * }
+         */
 
         final int minX = 0;
         final int maxX = getWidth() / 2;
@@ -168,13 +168,13 @@ public class SpaceShipPanel extends GamePanel {
         command.execute();
     }
 
-    /** Stops for timer. */
-    public void stopUpdateTimer() {
-        updateTimer.stop();
+    @Override
+    void startTimer() {
+        this.updateTimer.start();
     }
 
-    /** Start the timer. */
-    public void startUpdateTimer() {
-        updateTimer.start();
+    @Override
+    public void stopTimer() {
+        this.updateTimer.stop();
     }
 }

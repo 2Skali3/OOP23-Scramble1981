@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import javax.swing.Timer;
 
 import javax.swing.JPanel;
 import scramble.model.bullets.Bullet;
@@ -12,11 +13,9 @@ import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.common.api.TimedLinkedList;
 import scramble.model.common.impl.TimedLinkedListImpl;
 import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
-
 
 /**
  * Class for the representation of the Spaceship Panel.
@@ -29,19 +28,30 @@ public class BulletsPanel extends GamePanel {
     private static final long serialVersionUID = 1L;
     private static final int MAX_BOMB = 2;
     private transient Set<Bullet> bullets;
-    private transient TimedLinkedList<Bullet> explodingBullets;
+    private transient TimedLinkedListImpl<Bullet> explodingBullets;
+    private Timer bulletTimer;
 
     /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
         bulletsInit();
         this.setOpaque(false);
+        this.bulletTimer = new Timer(32, e -> this.updateBullets());
+
+    }
+
+    private void updateBullets() {
+        for (Bullet b : bullets) {
+            b.moveByType();
+        }
+        for (Bullet b : explodingBullets.getList()) {
+            b.moveByType();
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
         drawBullets(g);
-        this.canNotBeRepaint();
     }
 
     /**
@@ -62,11 +72,12 @@ public class BulletsPanel extends GamePanel {
         command.execute();
     }
 
-
     /**
-     * Removes the specified bullets from the list of bullets and repaints the panel.
+     * Removes the specified bullets from the list of bullets and repaints the
+     * panel.
      *
-     * @param bulletsToRemove the list of bullets to be removed from the internal list
+     * @param bulletsToRemove the list of bullets to be removed from the internal
+     *                        list
      */
     public void removeBullets(final List<Bullet> bulletsToRemove) {
         bullets.removeAll(bulletsToRemove);
@@ -78,7 +89,8 @@ public class BulletsPanel extends GamePanel {
      * These bullets will be animated or processed as exploding bullets
      * with a specified duration for the explosion effect.
      *
-     * @param bulletsToRemove the list of bullets that have collided and are exploding
+     * @param bulletsToRemove the list of bullets that have collided and are
+     *                        exploding
      */
     public void addExplodingBullets(final List<Bullet> bulletsToRemove) {
         explodingBullets.addAll(bulletsToRemove, 1000);
@@ -90,9 +102,9 @@ public class BulletsPanel extends GamePanel {
      */
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = bullets.stream()
-            .peek(b -> b.moveByType())
-            .filter(b -> b.getPosition().getFirstElement() > getWidth())
-            .toList();
+                .peek(b -> b.moveByType())
+                .filter(b -> b.getPosition().getFirstElement() > getWidth())
+                .toList();
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
         explodingBullets.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
@@ -138,11 +150,11 @@ public class BulletsPanel extends GamePanel {
         if (type == BulletType.TYPE_BOMB) {
             // Check if there are already MAX_BOMBS bombs
             final long activeBombCount = bullets.stream()
-                .filter(b -> b.getType() == BulletType.TYPE_BOMB)
-                .count();
+                    .filter(b -> b.getType() == BulletType.TYPE_BOMB)
+                    .count();
 
             if (activeBombCount >= MAX_BOMB) {
-                //System.out.println("Cannot shoot more bombs. Maximum limit reached.");
+                // System.out.println("Cannot shoot more bombs. Maximum limit reached.");
                 return; // Don't add new bomb if limit is reached
             }
         }
@@ -172,5 +184,17 @@ public class BulletsPanel extends GamePanel {
     private void bulletsInit() {
         this.bullets = new HashSet<>();
         this.explodingBullets = new TimedLinkedListImpl<>();
+    }
+
+    /** {@nheritDoc} */
+    @Override
+    void startTimer() {
+        bulletTimer.start();
+    }
+
+    /** {@nheritDoc} */
+    @Override
+    public void stopTimer() {
+        bulletTimer.stop();
     }
 }

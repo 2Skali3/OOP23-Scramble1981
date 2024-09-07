@@ -10,16 +10,19 @@ import java.util.stream.Stream;
 
 import scramble.model.common.api.TimedLinkedList;
 
-
 /**
- * A TimedLinkedList is a custom list implementation where each element is automatically
- * removed after a specified time interval. It internally uses a {@link LinkedList} to store
- * the elements and a {@link ScheduledExecutorService} to schedule their removal.
+ * A TimedLinkedList is a custom list implementation where each element is
+ * automatically
+ * removed after a specified time interval. It internally uses a
+ * {@link LinkedList} to store
+ * the elements and a {@link ScheduledExecutorService} to schedule their
+ * removal.
  *
  * @param <T> the type of elements held in this list
  */
 public class TimedLinkedListImpl<T> implements TimedLinkedList<T> {
     private final List<T> list = new LinkedList<>();
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     /**
@@ -43,9 +46,9 @@ public class TimedLinkedListImpl<T> implements TimedLinkedList<T> {
     public boolean addAll(final Collection<T> c, final long time) {
         return c.stream().map(x -> addElement(x, time)).anyMatch(x -> x);
         /*
-            B0, B1, B2, B3, ..., B8, B9, ...
-            true, true, true, true, ..., false, false, ...
-        */
+         * B0, B1, B2, B3, ..., B8, B9, ...
+         * true, true, true, true, ..., false, false, ...
+         */
     }
 
     /**
@@ -54,5 +57,15 @@ public class TimedLinkedListImpl<T> implements TimedLinkedList<T> {
     @Override
     public Stream<T> stream() {
         return list.stream();
+    }
+
+    /**
+     * Getter for list.
+     * 
+     * @return the list
+     */
+    @Override
+    public List<T> getList() {
+        return list;
     }
 }

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import scramble.controller.input.impl.InputControlImpl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
@@ -152,12 +151,12 @@ public class LogicControllerImpl implements LogicController {
             stopCollisionTimer();
             stopFuelCheckTimer();
             InputControlImpl.setPaused(true);
-            spaceShipPanel.stopUpdateTimer();
+            spaceShipPanel.stopTimer();
             final Timer delayTimer = new Timer(3500, new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
                     if (isGameOver()) {
-                        gameView.getFuelBarPanel().getFuelBar().stopDepleteTimer();
+                        gameView.getFuelBarPanel().startTimer();
                         gameView.setStart();
                         resetLives();
                     } else {
@@ -166,6 +165,7 @@ public class LogicControllerImpl implements LogicController {
                     }
                     startCollisionTimer();
                     startFuelCheckTimer();
+
                     InputControlImpl.setPaused(false);
                     spaceShipPanel.getSpaceship().setHit(false);
                 }
@@ -207,10 +207,10 @@ public class LogicControllerImpl implements LogicController {
     private void checkBulletCollisions() {
         final var bullets = gameView.getBulletsPanel();
         final List<Bullet> bulletsExploding = bullets.getBullets()
-            .stream()
-            .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
-                    && bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()))
-            .toList();
+                .stream()
+                .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
+                        && bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()))
+                .toList();
         bullets.removeBullets(bulletsExploding);
         bullets.addExplodingBullets(bulletsExploding);
     }
@@ -222,7 +222,7 @@ public class LogicControllerImpl implements LogicController {
             stopFuelCheckTimer();
             stopCollisionTimer();
             InputControlImpl.setPaused(true);
-            spaceShipPanel.stopUpdateTimer();
+            spaceShipPanel.stopTimer();
             spaceShipPanel.getSpaceship().setHit(true);
             final Timer delayTimer = new Timer(3500, new ActionListener() {
                 @Override
