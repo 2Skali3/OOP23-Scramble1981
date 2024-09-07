@@ -2,6 +2,7 @@ package scramble.model.common.impl;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -60,12 +61,10 @@ public class TimedLinkedListImpl<T> implements TimedLinkedList<T> {
     }
 
     /**
-     * Getter for list.
-     * 
-     * @return the list
+     * {@inheritDoc}
      */
     @Override
     public List<T> getList() {
-        return list;
+        return new ArrayList<>(list);
     }
 }

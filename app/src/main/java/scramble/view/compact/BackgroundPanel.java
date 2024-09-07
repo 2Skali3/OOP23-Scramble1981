@@ -68,11 +68,13 @@ public class BackgroundPanel extends GamePanel {
         }
     }
 
+    /** @inheritDoc */
     @Override
     public void startTimer() {
         this.backgroundTimer.start();
     }
 
+    /** @inheritDoc */
     @Override
     public void stopTimer() {
         this.backgroundTimer.stop();

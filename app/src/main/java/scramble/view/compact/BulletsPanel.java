@@ -31,7 +31,7 @@ public class BulletsPanel extends GamePanel {
     private static final int MAX_BOMB = 2;
     private transient Set<Bullet> bullets;
     private transient TimedLinkedListImpl<Bullet> explodingBullets;
-    private Timer bulletTimer;
+    private final Timer bulletTimer;
 
     /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
@@ -42,7 +42,7 @@ public class BulletsPanel extends GamePanel {
     }
 
     private void updateBullets() {
-        for (Bullet b : bullets) {
+        for (final Bullet b : bullets) {
             b.moveByType();
         }
         /*
@@ -111,7 +111,7 @@ public class BulletsPanel extends GamePanel {
                 .toList();
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
-        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        final List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
         bulletsCopy.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
 
         // repaint();
@@ -137,7 +137,7 @@ public class BulletsPanel extends GamePanel {
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         bullets.stream().forEach(b -> drawBullet(g, b));
-        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        final List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
         bulletsCopy.stream().forEach(b -> drawExplodingBullet(g, b));
     }
 
@@ -193,13 +193,13 @@ public class BulletsPanel extends GamePanel {
         this.explodingBullets = new TimedLinkedListImpl<>();
     }
 
-    /** {@nheritDoc} */
+    /** {@inheritDoc} */
     @Override
     void startTimer() {
         bulletTimer.start();
     }
 
-    /** {@nheritDoc} */
+    /** {@inheritDoc} */
     @Override
     public void stopTimer() {
         bulletTimer.stop();
