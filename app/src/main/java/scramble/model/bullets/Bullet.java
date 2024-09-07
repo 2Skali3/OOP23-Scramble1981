@@ -113,6 +113,15 @@ public class Bullet extends GameElementImpl {
         }
     }
 
+    /**
+     * Controls the movement of the bomb explosion.
+     * @param explosionSpeedX
+     */
+    public void moveExplosion(final int explosionSpeedX) {
+        ySpeed = 0;
+        xSpeed = explosionSpeedX;
+        move();
+    }
 
     private void move() {
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
@@ -136,7 +145,6 @@ public class Bullet extends GameElementImpl {
                 throw new IllegalArgumentException("Unknown BulletType: " + type);
         }
     }
-
 
 
     private BufferedImage getNextBombSprite() {
@@ -190,7 +198,6 @@ public class Bullet extends GameElementImpl {
      * @return hit
      */
     public boolean isHit() {
-        //System.out.println("isHit() called. Current hit status: " + hit);
         return hit;
     }
 
