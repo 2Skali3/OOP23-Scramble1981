@@ -14,6 +14,8 @@ import scramble.utility.Constants;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.impl.LogicControllerImpl;
 
+import javax.swing.Timer;
+
 /**
  * Class that extends javax.swing.JFrame. This class is the main view of the
  * game.
@@ -39,6 +41,8 @@ public class GameView extends JFrame {
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
+
+    private final Timer repaintTImer;
 
     /** Costructor of the class GameVew. */
     public GameView() {
@@ -78,6 +82,11 @@ public class GameView extends JFrame {
         this.add(mainPanel);
         this.setVisible(true);
 
+        this.repaintTImer = new Timer(32, e -> {
+            mainPanel.repaint();
+            this.bulletsPanel.moveBullets();
+        });
+
     }
 
     /**
@@ -96,12 +105,17 @@ public class GameView extends JFrame {
         this.bulletsPanel = view.getBulletsPanel();
         this.fuelBarPanel = view.getFuelBarPanel();
         this.logicController = view.getLogicController();
+        this.repaintTImer = view.getRepaintTimer();
 
         this.setTitle("Scramble");
         this.setSize(WIDTH, HEIGHT);
         this.setDefaultCloseOperation(view.getDefaultCloseOperation());
         this.setLocationRelativeTo(null);
 
+    }
+
+    protected Timer getRepaintTimer() {
+        return this.repaintTImer;
     }
 
     private LogicControllerImpl getLogicController() {
@@ -269,6 +283,14 @@ public class GameView extends JFrame {
         this.bulletsPanel.stopTimer();
         this.spaceShipPanel.stopTimer();
         this.fuelBarPanel.stopTimer();
+    }
+
+    public void startTimer() {
+        this.repaintTImer.start();
+    }
+
+    public void stopTimer() {
+        this.repaintTImer.stop();
     }
 
 }

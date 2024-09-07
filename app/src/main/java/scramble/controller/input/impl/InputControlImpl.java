@@ -2,17 +2,14 @@ package scramble.controller.input.impl;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.Timer;
 
 import scramble.controller.input.api.InputControl;
-import scramble.controller.repaints.RepaintManager;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.spaceship.Directions;
 import scramble.model.bullets.BulletType;
 import scramble.model.command.impl.BulletCommand;
 
 import scramble.view.compact.GameView;
-import scramble.utility.Constants;
 
 /**
  * Implementation of InputControl. Extends KeyAdapter in order to get the
@@ -21,10 +18,7 @@ import scramble.utility.Constants;
 public class InputControlImpl extends KeyAdapter implements InputControl {
 
     private final GameView gv;
-    private final Timer inputTimer;
     private static boolean explPause;
-
-    private final RepaintManager rm;
 
     /**
      * Class constructor.
@@ -33,11 +27,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
      */
     public InputControlImpl(final GameView gv) {
         this.gv = new GameView(gv);
-        this.rm = new RepaintManager(gv);
-        this.inputTimer = new Timer(Constants.INPUT_TIMER_SEC, e -> {
-            this.rm.repaintManagement();
-            this.gv.getBulletsPanel().moveBullets();
-        });
     }
 
     /** {@inheritDoc} */
@@ -65,7 +54,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                         .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
                                 BulletType.TYPE_BOMB, gv.getSpaceshipPanel().getSpaceship()));
                 case KeyEvent.VK_ENTER -> {
-                    inputTimer.start();
+                    gv.startTimer();
                     gv.getFuelBarPanel().startTimer();
                     gv.startGame();
                 }

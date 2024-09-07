@@ -60,7 +60,7 @@ public final class StartMenu extends JPanel {
         final Timer animationTimer = new Timer(1000 / FixedConstants.SEC, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                repaint();
+                // repaint();
             }
         });
         animationTimer.start();
@@ -73,7 +73,7 @@ public final class StartMenu extends JPanel {
                 if (sequenceStep > 2) {
                     sequenceStep = 0;
                 }
-                repaint();
+                // repaint();
             }
         });
         scoreSequenceTimer.start();

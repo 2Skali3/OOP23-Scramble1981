@@ -81,7 +81,7 @@ public class BulletsPanel extends GamePanel {
      */
     public void removeBullets(final List<Bullet> bulletsToRemove) {
         bullets.removeAll(bulletsToRemove);
-        repaint();
+        // repaint();
     }
 
     /**
@@ -94,7 +94,7 @@ public class BulletsPanel extends GamePanel {
      */
     public void addExplodingBullets(final List<Bullet> bulletsToRemove) {
         explodingBullets.addAll(bulletsToRemove, 1000);
-        repaint();
+        // repaint();
     }
 
     /**
@@ -108,7 +108,7 @@ public class BulletsPanel extends GamePanel {
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
         explodingBullets.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
-        repaint();
+        // repaint();
     }
 
     private void drawBullet(final Graphics g, final Bullet bullet) {
@@ -169,7 +169,7 @@ public class BulletsPanel extends GamePanel {
          */
         final Bullet bullet = new Bullet(bulletX, bulletY, type);
         bullets.add(bullet);
-        repaint();
+        // repaint();
     }
 
     /**
