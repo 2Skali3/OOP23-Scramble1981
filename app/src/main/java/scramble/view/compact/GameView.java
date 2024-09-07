@@ -1,3 +1,4 @@
+
 package scramble.view.compact;
 
 import javax.swing.JFrame;
@@ -52,7 +53,6 @@ public class GameView extends JFrame {
         this.backgroundPanel = new BackgroundPanel();
         this.backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
-        this.backgroundPanel.canBeRepaint();
 
         this.startMenu = new StartMenu();
         this.startMenu.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -191,20 +191,20 @@ public class GameView extends JFrame {
         this.mainPanel.removeAll();
 
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
-        this.landscapePanel.canBeRepaint();
+        this.backgroundPanel.startTimer();
 
         this.mainPanel.add(landscapePanel, JLayeredPane.PALETTE_LAYER);
-        this.landscapePanel.canBeRepaint();
+        this.landscapePanel.startTimer();
 
         this.mainPanel.add(spaceShipPanel, JLayeredPane.MODAL_LAYER);
-        this.spaceShipPanel.canBeRepaint();
+        this.spaceShipPanel.startTimer();
 
         this.mainPanel.add(bulletsPanel, JLayeredPane.MODAL_LAYER);
-        this.bulletsPanel.canBeRepaint();
+        this.bulletsPanel.startTimer();
 
         // POPUP_LAYER
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
-        this.fuelBarPanel.canBeRepaint();
+        this.fuelBarPanel.startTimer();
 
     }
 
@@ -222,7 +222,7 @@ public class GameView extends JFrame {
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 
         fuelBarPanel.getFuelBar().fillFuel();
-        spaceShipPanel.startUpdateTimer();
+        spaceShipPanel.startTimer();
 
     }
 
@@ -238,9 +238,8 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION,
                                 Constants.SPACESHIP_STARTER_POSITION));
-        this.landscapePanel.canBeRepaint();
         fuelBarPanel.getFuelBar().fillFuel();
-        spaceShipPanel.startUpdateTimer();
+        spaceShipPanel.startTimer();
 
     }
 
@@ -262,6 +261,14 @@ public class GameView extends JFrame {
             }
         }
         return MapController.getStageStartingX().get(0);
+    }
+
+    public void stopAllTimers() {
+        this.landscapePanel.stopTimer();
+        this.backgroundPanel.stopTimer();
+        this.bulletsPanel.stopTimer();
+        this.spaceShipPanel.stopTimer();
+        this.fuelBarPanel.stopTimer();
     }
 
 }

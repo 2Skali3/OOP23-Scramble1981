@@ -1,7 +1,5 @@
 package scramble.model.spaceship;
 
-import javax.swing.Timer;
-
 import scramble.utility.Constants;
 
 /**
@@ -11,15 +9,12 @@ import scramble.utility.Constants;
 public final class FuelBar {
 
     private int fuelLevel; // shows the fuel level on the bar (varies from 1 to 100)
-    private final Timer depleteTimer;
 
     /**
      * Class constructor.
      */
     public FuelBar() {
         fuelLevel = Constants.MAX_FUEL; // Initially the fuel bar is full
-        depleteTimer = new Timer(1000, e -> decreaseFuel(Constants.FUEL_DECREASE_AMOUNT));
-        depleteTimer.start();
     }
 
     /**
@@ -69,13 +64,4 @@ public final class FuelBar {
         this.fuelLevel = Constants.MAX_FUEL;
     }
 
-    /** Starts deplete timer. */
-    public void startDepleteTimer() {
-        depleteTimer.start();
-    }
-
-    /** Stops deplete timer. */
-    public void stopDepleteTimer() {
-        depleteTimer.stop();
-    }
 }

@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-import java.awt.event.ActionEvent;
 import javax.swing.Timer;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +27,7 @@ public final class FuelBarPanel extends GamePanel {
     private transient BufferedImage fuelBarEmpty;
     private transient BufferedImage stageHud;
     private int stage;
+    private Timer fuelTimer;
 
     private static final List<Float> STAGE_BAR_PAR = new ArrayList<>(
             Arrays.asList(new Float[] { 0.16f, 0.33f, 0.5f, 0.66f, 0.83f }));
@@ -47,33 +46,10 @@ public final class FuelBarPanel extends GamePanel {
         loadImages();
         fuelBar = new FuelBar();
         setOpaque(false);
-
-        final Timer stageCounterTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final int pos = LandscapePanel.getMapController().getCurrentMapX();
-                final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-
-                if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement() * scale
-                        && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale) {
-                    stage = STAGES.get(0);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale
-                        && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement() * scale) {
-                    stage = STAGES.get(1);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement() * scale
-                        && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement() * scale) {
-                    stage = STAGES.get(2);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement() * scale
-                        && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement() * scale) {
-                    stage = STAGES.get(3);
-                } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement() * scale) {
-                    stage = STAGES.get(4);
-                }
-
-            }
+        this.fuelTimer = new Timer(2000, e -> {
+            changeStage();
+            this.fuelBar.decreaseFuel(Constants.FUEL_DECREASE_AMOUNT);
         });
-
-        stageCounterTimer.start();
 
     }
 
@@ -159,6 +135,38 @@ public final class FuelBarPanel extends GamePanel {
      */
     public FuelBar getFuelBar() {
         return fuelBar;
+    }
+
+    public void changeStage() {
+        final int pos = LandscapePanel.getMapController().getCurrentMapX();
+        final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+
+        if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement() * scale
+                && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale) {
+            stage = STAGES.get(0);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale
+                && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement() * scale) {
+            stage = STAGES.get(1);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement() * scale
+                && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement() * scale) {
+            stage = STAGES.get(2);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement() * scale
+                && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement() * scale) {
+            stage = STAGES.get(3);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement() * scale) {
+            stage = STAGES.get(4);
+        }
+
+    }
+
+    @Override
+    public void startTimer() {
+        fuelTimer.start();
+    }
+
+    @Override
+    public void stopTimer() {
+        fuelTimer.stop();
     }
 
 }

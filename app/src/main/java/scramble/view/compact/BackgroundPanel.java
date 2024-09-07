@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
@@ -25,10 +26,13 @@ public class BackgroundPanel extends GamePanel {
     private final Random rand;
     private transient List<Pair<Integer, Integer>> starPositionXY;
 
+    private final Timer backgroundTimer;
+
     /** Costructor of the BackgroundPanel class. */
     public BackgroundPanel() {
         this.newStartPositionXY();
         this.rand = new Random();
+        this.backgroundTimer = new Timer(1000, e -> this.randomizeStarsPositionXY());
     }
 
     private void newStartPositionXY() {
@@ -40,7 +44,7 @@ public class BackgroundPanel extends GamePanel {
      */
     @Override
     protected void drawPanel(final Graphics g) {
-        if (this.isPanelRepeintable() || starPositionXY.isEmpty()) {
+        if (starPositionXY.isEmpty()) {
             randomizeStarsPositionXY();
         }
 
@@ -53,7 +57,6 @@ public class BackgroundPanel extends GamePanel {
             final int y = starPositionXY.get(i).getSecondElement();
             g.fillRect(x, y, 2, 2);
         }
-        this.canNotBeRepaint();
     }
 
     private void randomizeStarsPositionXY() {
@@ -65,4 +68,13 @@ public class BackgroundPanel extends GamePanel {
         }
     }
 
+    @Override
+    public void startTimer() {
+        this.backgroundTimer.start();
+    }
+
+    @Override
+    public void stopTimer() {
+        this.backgroundTimer.stop();
+    }
 }
