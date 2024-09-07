@@ -27,7 +27,7 @@ public final class FuelBarPanel extends GamePanel {
     private transient BufferedImage fuelBarEmpty;
     private transient BufferedImage stageHud;
     private int stage;
-    private Timer fuelTimer;
+    private final Timer fuelTimer;
 
     private static final List<Float> STAGE_BAR_PAR = new ArrayList<>(
             Arrays.asList(new Float[] { 0.16f, 0.33f, 0.5f, 0.66f, 0.83f }));
@@ -41,12 +41,14 @@ public final class FuelBarPanel extends GamePanel {
 
     private final transient FuelBar fuelBar;
 
+    private static final int SEC = 2048;
+
     /** Class constructor. */
     public FuelBarPanel() {
         loadImages();
         fuelBar = new FuelBar();
         setOpaque(false);
-        this.fuelTimer = new Timer(2000, e -> {
+        this.fuelTimer = new Timer(SEC, e -> {
             changeStage();
             this.fuelBar.decreaseFuel(Constants.FUEL_DECREASE_AMOUNT);
         });
@@ -137,6 +139,9 @@ public final class FuelBarPanel extends GamePanel {
         return fuelBar;
     }
 
+    /**
+     * 
+     */
     public void changeStage() {
         final int pos = LandscapePanel.getMapController().getCurrentMapX();
         final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
@@ -159,16 +164,20 @@ public final class FuelBarPanel extends GamePanel {
 
     }
 
+    /** @inheritDoc */
     @Override
     public void startTimer() {
         fuelTimer.start();
     }
-
+    /** @inheritDoc */
     @Override
     public void stopTimer() {
         fuelTimer.stop();
     }
 
+    /** 
+     * Reset the number of stages to the starting stage.
+     */
     public void resetStage() {
         this.stage = 0;
     }

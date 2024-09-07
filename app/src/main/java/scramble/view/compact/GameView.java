@@ -42,7 +42,7 @@ public class GameView extends JFrame {
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
 
-    private final Timer repaintTImer;
+    private final Timer repaintTimer;
 
     /** Costructor of the class GameVew. */
     public GameView() {
@@ -82,7 +82,7 @@ public class GameView extends JFrame {
         this.add(mainPanel);
         this.setVisible(true);
 
-        this.repaintTImer = new Timer(32, e -> {
+        this.repaintTimer = new Timer(32, e -> {
             mainPanel.repaint();
             this.bulletsPanel.moveBullets();
         });
@@ -105,7 +105,7 @@ public class GameView extends JFrame {
         this.bulletsPanel = view.getBulletsPanel();
         this.fuelBarPanel = view.getFuelBarPanel();
         this.logicController = view.getLogicController();
-        this.repaintTImer = view.getRepaintTimer();
+        this.repaintTimer = view.getRepaintTimer();
 
         this.setTitle("Scramble");
         this.setSize(WIDTH, HEIGHT);
@@ -114,11 +114,15 @@ public class GameView extends JFrame {
 
     }
 
-    protected Timer getRepaintTimer() {
-        return this.repaintTImer;
+    /** Getter for the repaint timer.
+     * 
+     * @return the timer
+     */
+    private Timer getRepaintTimer() {
+        return this.repaintTimer;
     }
 
-    private LogicControllerImpl getLogicController() {
+    public LogicControllerImpl getLogicController() {
         return logicController;
     }
 
@@ -277,6 +281,7 @@ public class GameView extends JFrame {
         return MapController.getStageStartingX().get(0);
     }
 
+    /** Stops all the timers of the singular panels inside game view. */
     public void stopAllTimers() {
         this.landscapePanel.stopTimer();
         this.backgroundPanel.stopTimer();
@@ -285,6 +290,7 @@ public class GameView extends JFrame {
         this.fuelBarPanel.stopTimer();
     }
 
+    /** Starts all the timers of the singular panels inside game view. */
     public void startAllTimers() {
         this.landscapePanel.startTimer();
         this.backgroundPanel.startTimer();
@@ -293,12 +299,14 @@ public class GameView extends JFrame {
         this.fuelBarPanel.startTimer();
     }
 
+    /** Starts repaint timer. */
     public void startTimer() {
-        this.repaintTImer.start();
+        this.repaintTimer.start();
     }
 
+    /** Stops repaint timer. */
     public void stopTimer() {
-        this.repaintTImer.stop();
+        this.repaintTimer.stop();
     }
 
 }

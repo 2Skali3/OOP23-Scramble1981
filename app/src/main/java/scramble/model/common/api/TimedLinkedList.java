@@ -42,6 +42,11 @@ public interface TimedLinkedList<T> {
      */
     Stream<T> stream();
 
+    /**
+     * Getter for list.
+     * 
+     * @return the list
+     */
     List<T> getList();
 
 }

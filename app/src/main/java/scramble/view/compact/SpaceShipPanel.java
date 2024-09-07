@@ -168,11 +168,13 @@ public class SpaceShipPanel extends GamePanel {
         command.execute();
     }
 
+    /** @inheritDoc */
     @Override
     void startTimer() {
         this.updateTimer.start();
     }
 
+    /** @inheritDoc */
     @Override
     public void stopTimer() {
         this.updateTimer.stop();

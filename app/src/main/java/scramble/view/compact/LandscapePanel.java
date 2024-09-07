@@ -155,11 +155,13 @@ public class LandscapePanel extends GamePanel {
         return MAP_CONTROLLER;
     }
 
+    /** @inheritDoc */
     @Override
     void startTimer() {
         this.landscapeTimer.start();
     }
 
+    /** @inheritDoc */
     @Override
     public void stopTimer() {
         this.landscapeTimer.stop();
