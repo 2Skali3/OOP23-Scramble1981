@@ -16,6 +16,7 @@ import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
+import scramble.view.compact.BulletsPanel;
 import scramble.view.compact.GameView;
 import scramble.view.compact.RocketPanel;
 import scramble.view.compact.SpaceShipPanel;
@@ -155,14 +156,17 @@ public class LogicControllerImpl implements LogicController {
             final Timer delayTimer = new Timer(3500, new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
+                    gameView.stopAllTimers();
                     if (isGameOver()) {
                         gameView.getFuelBarPanel().startTimer();
+                        gameView.getFuelBarPanel().resetStage();
                         gameView.setStart();
                         resetLives();
                     } else {
                         lostLife();
                         gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                     }
+                    gameView.startAllTimers();
                     startCollisionTimer();
                     startFuelCheckTimer();
 
@@ -203,7 +207,13 @@ public class LogicControllerImpl implements LogicController {
             delayTimer.start();
         }
     }
+    public void checkBulletEnemyCollision() {
+        final var bullets = gameView.getBulletsPanel().getBullets();
 
+        if(rocketPanel.getRocket().checkCollisionBullet(bullets)){
+            rocketPanel.getRocket().setHit(true);
+        }
+    }
     private void checkBulletCollisions() {
         final var bullets = gameView.getBulletsPanel();
         final List<Bullet> bulletsExploding = bullets.getBullets()

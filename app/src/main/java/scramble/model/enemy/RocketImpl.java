@@ -2,6 +2,7 @@ package scramble.model.enemy;
 
 import java.awt.image.BufferedImage;
 
+import scramble.model.bullets.Bullet;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.SpaceShip;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
@@ -88,6 +90,19 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         return false;
     }
 
+    public boolean checkCollisionBullet(final Set<Bullet> bullets){
+        for(final Bullet b : bullets){
+            if(hasCollided(b)){
+                hit = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void moveExplosion(final int explosionSpeedX) {
+        
+    }
     /**
      * Getter for hit.
      *
@@ -95,6 +110,10 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
      */
     public boolean isHit() {
         return hit;
+    }
+
+    public void setHit(final boolean hit) {
+        this.hit = hit;
     }
 
     

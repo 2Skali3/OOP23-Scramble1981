@@ -64,15 +64,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     }
 
     /**
-     * Getter for the spaceship's sprites.
-     *
-     * @return the list of spaceship's sprites
-     */
-    public List<BufferedImage> getSprites() {
-        return new ArrayList<>(sprites);
-    }
-
-    /**
      * Handles the spaceship's movement.
      * It does so through booleans for a better control
      * of the spaceship.

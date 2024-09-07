@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.Timer;
 
@@ -14,6 +15,7 @@ import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.impl.TimedLinkedListImpl;
+import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
 
@@ -43,9 +45,11 @@ public class BulletsPanel extends GamePanel {
         for (Bullet b : bullets) {
             b.moveByType();
         }
-        /*for (Bullet b : explodingBullets.getList()) {
-            b.moveByType();
-        }*/
+        /*
+         * for (Bullet b : explodingBullets.getList()) {
+         * b.moveByType();
+         * }
+         */
     }
 
     /** {@inheritDoc} */
@@ -81,7 +85,7 @@ public class BulletsPanel extends GamePanel {
      */
     public void removeBullets(final List<Bullet> bulletsToRemove) {
         bullets.removeAll(bulletsToRemove);
-        repaint();
+        // repaint();
     }
 
     /**
@@ -94,7 +98,7 @@ public class BulletsPanel extends GamePanel {
      */
     public void addExplodingBullets(final List<Bullet> bulletsToRemove) {
         explodingBullets.addAll(bulletsToRemove, 1000);
-        repaint();
+        // repaint();
     }
 
     /**
@@ -107,8 +111,10 @@ public class BulletsPanel extends GamePanel {
                 .toList();
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
-        explodingBullets.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
-        repaint();
+        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        bulletsCopy.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
+
+        // repaint();
     }
 
     private void drawBullet(final Graphics g, final Bullet bullet) {
@@ -131,7 +137,8 @@ public class BulletsPanel extends GamePanel {
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         bullets.stream().forEach(b -> drawBullet(g, b));
-        explodingBullets.stream().forEach(b -> drawExplodingBullet(g, b));
+        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        bulletsCopy.stream().forEach(b -> drawExplodingBullet(g, b));
     }
 
     /**
@@ -169,7 +176,7 @@ public class BulletsPanel extends GamePanel {
          */
         final Bullet bullet = new Bullet(bulletX, bulletY, type);
         bullets.add(bullet);
-        repaint();
+        // repaint();
     }
 
     /**
@@ -197,4 +204,6 @@ public class BulletsPanel extends GamePanel {
     public void stopTimer() {
         bulletTimer.stop();
     }
+
+    
 }

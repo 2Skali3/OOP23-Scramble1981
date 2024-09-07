@@ -41,8 +41,13 @@ public class RocketPanel extends GamePanel {
     @Override
     protected void drawPanel(final Graphics g) {
         if (rocket.getSprite() != null) {
-            g.drawImage(rocket.getSprite(), rocket.getPosition().getFirstElement(),
-                    rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
+            if (rocket.isHit()) {
+                g.drawImage(rocket.getExplosionSprite(), rocket.getPosition().getFirstElement(),
+                        rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
+            } else {
+                g.drawImage(rocket.getSprite(), rocket.getPosition().getFirstElement(),
+                        rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
+            }
         }
         rocket.drawHitBox(g);
     }
@@ -65,8 +70,7 @@ public class RocketPanel extends GamePanel {
 
     public void moveRocket() {
 
-        
-        //repaint();
+        // repaint();
     }
 
     public void update() {
