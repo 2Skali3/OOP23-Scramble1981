@@ -59,7 +59,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
             }
         }
         random = new Random();
-        hit = false;
+        this.hit = false;
 
     }
 

@@ -113,7 +113,7 @@ public final class Constants {
      * Landscape movement speed.
      * Used in view/compact/LandscapePanel and  in view/compact/BulletsPanel.
      */
-    public static final int LANDSCAPEX_SPEED = 10; // 4
+    public static final int LANDSCAPEX_SPEED = 4; // 4
 
     /**
      * Scales up the fuel bar for a fitting image on the screen. Used in

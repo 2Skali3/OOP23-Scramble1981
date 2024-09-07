@@ -2,6 +2,9 @@ package scramble.controller.mediator.impl;
 
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
+
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,7 @@ import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.view.compact.GameView;
+import scramble.view.compact.RocketPanel;
 import scramble.view.compact.SpaceShipPanel;
 import scramble.utility.Constants;
 
@@ -28,6 +32,7 @@ public class LogicControllerImpl implements LogicController {
     private int lives;
     private static List<PairImpl<Integer, Integer>> checkPoints = new ArrayList<>();
     private final SpaceShipPanel spaceShipPanel;
+    private final RocketPanel rocketPanel;
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
@@ -44,6 +49,7 @@ public class LogicControllerImpl implements LogicController {
         this.gameView = new GameView(gameView);
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
+        this.rocketPanel = gameView.getRocketPanel();
 
         addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
@@ -58,6 +64,7 @@ public class LogicControllerImpl implements LogicController {
             public void actionPerformed(final ActionEvent e) {
                 touchedGround();
                 checkBulletCollisions();
+                touchedEnemy();
             }
         });
 
@@ -168,6 +175,35 @@ public class LogicControllerImpl implements LogicController {
         }
     }
 
+    @Override
+    public void touchedEnemy() {
+        if(rocketPanel.getRocket().checkCollision(gameView.getSpaceshipPanel().getSpaceship())){
+            stopCollisionTimer();
+            stopFuelCheckTimer();
+            InputControlImpl.setPaused(true);
+            spaceShipPanel.startUpdateTimer();
+            final Timer delayTimer = new Timer (3500, new ActionListener() {
+                @Override
+                public void actionPerformed(final ActionEvent e){
+                    if(isGameOver()){
+                        gameView.getFuelBarPanel().getFuelBar().stopDepleteTimer();
+                        gameView.setStart();
+                        resetLives();
+                    } else {
+                        lostLife();
+                        gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
+                    }
+                    startCollisionTimer();
+                    startFuelCheckTimer();
+                    InputControlImpl.setPaused(false);
+                    spaceShipPanel.getSpaceship().setHit(false);
+                }
+            });
+            delayTimer.setRepeats(false);
+            delayTimer.start();
+        }
+    }
+
     private void checkBulletCollisions() {
         final var bullets = gameView.getBulletsPanel();
         final List<Bullet> bulletsExploding = bullets.getBullets()
@@ -208,5 +244,7 @@ public class LogicControllerImpl implements LogicController {
             delayTimer.start();
         }
     }
+
+    
 
 }

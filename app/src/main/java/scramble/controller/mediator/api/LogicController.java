@@ -11,6 +11,8 @@ public interface LogicController {
      * Check if a collision is happenning between landscape and spaceship.
      */
     void touchedGround();
+    
+    void touchedEnemy();
 
     /**
      * Behaviour for case when fuel is depleted.

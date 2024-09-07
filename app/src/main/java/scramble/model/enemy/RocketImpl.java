@@ -23,6 +23,7 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
 
     private final List<BufferedImage> sprites;
     private int currentSprite;
+    private boolean hit;
 
     /**
      * Class constructor.
@@ -44,6 +45,7 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
             }
         }
         this.currentSprite=0;
+        this.hit = false;
     }
 
     public void move() {
@@ -69,6 +71,13 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         return sprites.get(num);
     }
 
+    public boolean checkCollision(final SpaceShip spaceship){
+        if(hasCollided(spaceship)){
+            hit = true;
+            return true;
+        }
+        return false;
+    }
     @Override
     public RocketImpl clone() throws CloneNotSupportedException {
         return (RocketImpl) super.clone();
