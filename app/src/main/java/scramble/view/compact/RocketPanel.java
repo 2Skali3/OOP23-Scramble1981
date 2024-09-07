@@ -45,7 +45,6 @@ public class RocketPanel extends GamePanel {
                     rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
         }
         rocket.drawHitBox(g);
-        this.canNotBeRepaint();
     }
 
     public RocketImpl getRocket() {
@@ -66,8 +65,8 @@ public class RocketPanel extends GamePanel {
 
     public void moveRocket() {
 
-        this.canBeRepaint();
-        repaint();
+        
+        //repaint();
     }
 
     public void update() {
@@ -94,5 +93,15 @@ public class RocketPanel extends GamePanel {
             rocket.move();
         }
 
+    }
+
+    @Override
+    void startTimer() {
+        this.updateTimer.start();
+    }
+
+    @Override
+    public void stopTimer() {
+        this.updateTimer.stop();
     }
 }

@@ -169,7 +169,7 @@ public class SpaceShipPanel extends GamePanel {
     }
 
     @Override
-    void startTimer() {
+    public void startTimer() {
         this.updateTimer.start();
     }
 

@@ -4,6 +4,7 @@ import scramble.model.common.api.GameElement;
 
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.awt.Color;
 
 /**
  * Implementation of the GameElement interface. Sets the ground for all game
@@ -72,6 +73,7 @@ public abstract class GameElementImpl extends HitBoxImpl implements GameElement 
      * @param g the graphic component
      */
     public void drawHitBox(final Graphics g) {
+        g.setColor(Color.red);
         g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width, getHitBox().height);
     }
 }

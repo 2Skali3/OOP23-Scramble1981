@@ -221,7 +221,7 @@ public class GameView extends JFrame {
         this.bulletsPanel.startTimer();
 
         this.mainPanel.add(rocketPanel, JLayeredPane.MODAL_LAYER);
-        this.rocketPanel.canBeRepaint();
+        this.rocketPanel.startTimer();
         
         // POPUP_LAYER
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);

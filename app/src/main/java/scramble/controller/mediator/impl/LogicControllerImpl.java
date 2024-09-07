@@ -181,12 +181,12 @@ public class LogicControllerImpl implements LogicController {
             stopCollisionTimer();
             stopFuelCheckTimer();
             InputControlImpl.setPaused(true);
-            spaceShipPanel.startUpdateTimer();
+            spaceShipPanel.startTimer();
             final Timer delayTimer = new Timer (3500, new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e){
                     if(isGameOver()){
-                        gameView.getFuelBarPanel().getFuelBar().stopDepleteTimer();
+                        gameView.getFuelBarPanel().stopTimer();
                         gameView.setStart();
                         resetLives();
                     } else {

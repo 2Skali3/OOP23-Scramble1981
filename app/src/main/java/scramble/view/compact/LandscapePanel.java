@@ -16,6 +16,7 @@ import scramble.utility.Constants;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 /**
  * Class for the rappresentation of the Landscape Panel.
@@ -122,6 +123,7 @@ public class LandscapePanel extends GamePanel {
     }
 
     private void drawHitBox(final Graphics g) {
+        g.setColor(Color.red);
         for (final MapColumn c : columns) {
             for (final MapElement me : c.getCeilings()) {
                 final Rectangle temp = me.getHitBox();
