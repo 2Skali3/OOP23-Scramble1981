@@ -90,6 +90,7 @@ public class GameView extends JFrame {
 
         this.repaintTimer = new Timer(32, e -> {
             mainPanel.repaint();
+            this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
         });
 
@@ -256,7 +257,7 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
-        rocketPanel.getRocket().updatePosition(new PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
+        // rocketPanel.getRocket().updatePosition(new PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 

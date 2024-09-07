@@ -6,6 +6,7 @@ import scramble.model.bullets.Bullet;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.SpaceShip;
+import scramble.utility.Constants;
 
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -28,7 +29,9 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
     private final List<BufferedImage> explosionSprites;
     private int currentSprite;
     private int currentExpSprite;
+    private int speedY;
     private boolean hit;
+    //private boolean moving;
 
     /**
      * Class constructor.
@@ -60,12 +63,17 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         }
         this.currentSprite=0;
         this.hit = false;
+        this.speedY = 1;
+        //this.moving = false;
     }
 
     public void move() {
-
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - 4,
-                getPosition().getSecondElement() - 1));
+        if(isHit()){
+            speedY = 0;
+        }
+            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, 
+                    getPosition().getSecondElement() - speedY));
+        
     }
 
     @Override
@@ -81,14 +89,7 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         return explosionSprites.get(currentExpSprite);
     }
 
-    public boolean checkCollision(final SpaceShip spaceship){
-        if(hasCollided(spaceship)){
-            this.hit = true;
-            spaceship.setHit(true);
-            return true;
-        }
-        return false;
-    }
+    
 
     public boolean checkCollisionBullet(final Set<Bullet> bullets){
         for(final Bullet b : bullets){
@@ -115,10 +116,10 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
     public void setHit(final boolean hit) {
         this.hit = hit;
     }
-
     
     @Override
     public RocketImpl clone() throws CloneNotSupportedException {
         return (RocketImpl) super.clone();
     }
+
 }

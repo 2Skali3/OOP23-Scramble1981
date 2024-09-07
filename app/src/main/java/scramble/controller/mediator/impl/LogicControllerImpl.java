@@ -3,8 +3,6 @@ package scramble.controller.mediator.impl;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,8 @@ import scramble.controller.mediator.api.LogicController;
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.FuelBar;
-import scramble.view.compact.BulletsPanel;
 import scramble.view.compact.GameView;
 import scramble.view.compact.RocketPanel;
 import scramble.view.compact.SpaceShipPanel;
@@ -65,6 +63,7 @@ public class LogicControllerImpl implements LogicController {
                 touchedGround();
                 checkBulletCollisions();
                 touchedEnemy();
+                checkBulletEnemyCollision();
             }
         });
 
@@ -181,7 +180,7 @@ public class LogicControllerImpl implements LogicController {
 
     @Override
     public void touchedEnemy() {
-        if(rocketPanel.getRocket().checkCollision(gameView.getSpaceshipPanel().getSpaceship())){
+        if(spaceShipPanel.getSpaceship().checkEnemyCollision(rocketPanel.getRockets())){
             stopCollisionTimer();
             stopFuelCheckTimer();
             InputControlImpl.setPaused(true);
@@ -207,12 +206,16 @@ public class LogicControllerImpl implements LogicController {
             delayTimer.start();
         }
     }
+
+
     public void checkBulletEnemyCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
 
-        if(rocketPanel.getRocket().checkCollisionBullet(bullets)){
-            rocketPanel.getRocket().setHit(true);
+        for (RocketImpl rocket: rocketPanel.getRockets())
+        if(rocket.checkCollisionBullet(bullets)){
+            rocket.setHit(true);
         }
+        
     }
     private void checkBulletCollisions() {
         final var bullets = gameView.getBulletsPanel();

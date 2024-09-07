@@ -45,11 +45,6 @@ public class BulletsPanel extends GamePanel {
         for (final Bullet b : bullets) {
             b.moveByType();
         }
-        /*
-         * for (Bullet b : explodingBullets.getList()) {
-         * b.moveByType();
-         * }
-         */
     }
 
     /** {@inheritDoc} */

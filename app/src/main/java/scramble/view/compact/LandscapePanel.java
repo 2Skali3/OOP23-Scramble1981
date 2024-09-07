@@ -157,6 +157,10 @@ public class LandscapePanel extends GamePanel {
         return MAP_CONTROLLER;
     }
 
+    public int getCurrentMapX() {
+        return MAP_CONTROLLER.getCurrentMapX() + landscapeX;
+    }
+
     /** @inheritDoc */
     @Override
     void startTimer() {

@@ -2,6 +2,7 @@ package scramble.model.spaceship;
 
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.enemy.RocketImpl;
 import scramble.model.map.impl.MapElement;
 import scramble.utility.Constants;
 
@@ -124,6 +125,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         }
         return false;
     }
+    
 
     /**
      * Returns randomised image for explosion animation.
@@ -221,6 +223,18 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
      */
     public void setDown(final boolean down) {
         this.down = down;
+    }
+
+    public boolean checkEnemyCollision(List<RocketImpl> rockets) {
+        for(RocketImpl rocket: rockets) {
+            if(rocket.hasCollided(this)){
+                this.hit = true;
+                setHit(true);
+                return true;
+            }
+            
+        }
+        return false;
     }
 
 }

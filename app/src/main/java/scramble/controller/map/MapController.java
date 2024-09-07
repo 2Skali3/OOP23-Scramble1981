@@ -35,7 +35,7 @@ public class MapController {
     private static List<Integer> stageStartingX = new ArrayList<>();
 
     private final List<MapColumn> columns;
-    private final List<Pair<Integer, Integer>> flatPositions;
+    private static List<Pair<Integer, Integer>> flatPositions;
     private int columnIndex;
 
     /**
@@ -44,7 +44,7 @@ public class MapController {
     public MapController() {
         final List<MapStage> stages = this.fillMapStage();
         this.columnIndex = 0;
-        this.flatPositions = new ArrayList<>();
+        flatPositions = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
     }
@@ -62,6 +62,7 @@ public class MapController {
 
     private void fillColumns(final List<MapStage> stages) {
         int x = 0;
+        int set = 0;
         for (final MapStage mapStage : stages) {
             stageStartingX.add(x);
             for (int i = 0; i < mapStage.size(); i++) {
@@ -74,11 +75,12 @@ public class MapController {
 
                 this.columns.add(new MapColumnImpl(new ArrayList<>(Arrays.asList(ceilingColumn)),
                         new ArrayList<>(Arrays.asList(floorColumn)), ceilingColumn.getY(), floorColumn.getY()));
-                if (floorColumn.getBehaviour() == LandBehaviour.FLAT) {
-                    this.flatPositions.add(floorColumn.getPosition());
+                if (floorColumn.getBehaviour() == LandBehaviour.FLAT && set != 0) {
+                    flatPositions.add(floorColumn.getPosition());
                 }
                 x++;
             }
+            set++;
         }
     }
 
@@ -139,8 +141,8 @@ public class MapController {
      * Getter for the flat floor Position of the stages.
      * @return the flat floor position
      */
-    public List<Pair<Integer, Integer>> getFlatFloorPositions() {
-        return new ArrayList<>(this.flatPositions);
+    public static List<Pair<Integer, Integer>> getFlatFloorPositions() {
+        return new ArrayList<>(flatPositions);
     }
 
     /**
