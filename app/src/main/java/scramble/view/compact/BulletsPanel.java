@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.Timer;
 
@@ -43,9 +44,11 @@ public class BulletsPanel extends GamePanel {
         for (Bullet b : bullets) {
             b.moveByType();
         }
-        /*for (Bullet b : explodingBullets.getList()) {
-            b.moveByType();
-        }*/
+        /*
+         * for (Bullet b : explodingBullets.getList()) {
+         * b.moveByType();
+         * }
+         */
     }
 
     /** {@inheritDoc} */
@@ -107,7 +110,9 @@ public class BulletsPanel extends GamePanel {
                 .toList();
         // removes bullets that have gone off the screen
         removeBullets(bulletsToRemove);
-        explodingBullets.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
+        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        bulletsCopy.stream().forEach(b -> b.moveExplosion(-Constants.LANDSCAPEX_SPEED));
+
         // repaint();
     }
 
@@ -131,7 +136,8 @@ public class BulletsPanel extends GamePanel {
     private void drawBullets(final Graphics g) {
         // for each bullet in bullet list, call drawBullet()
         bullets.stream().forEach(b -> drawBullet(g, b));
-        explodingBullets.stream().forEach(b -> drawExplodingBullet(g, b));
+        List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        bulletsCopy.stream().forEach(b -> drawExplodingBullet(g, b));
     }
 
     /**

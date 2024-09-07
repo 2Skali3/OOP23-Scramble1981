@@ -285,6 +285,14 @@ public class GameView extends JFrame {
         this.fuelBarPanel.stopTimer();
     }
 
+    public void startAllTimers() {
+        this.landscapePanel.startTimer();
+        this.backgroundPanel.startTimer();
+        this.bulletsPanel.startTimer();
+        this.spaceShipPanel.startTimer();
+        this.fuelBarPanel.startTimer();
+    }
+
     public void startTimer() {
         this.repaintTImer.start();
     }

@@ -148,14 +148,17 @@ public class LogicControllerImpl implements LogicController {
             final Timer delayTimer = new Timer(3500, new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
+                    gameView.stopAllTimers();
                     if (isGameOver()) {
                         gameView.getFuelBarPanel().startTimer();
+                        gameView.getFuelBarPanel().resetStage();
                         gameView.setStart();
                         resetLives();
                     } else {
                         lostLife();
                         gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                     }
+                    gameView.startAllTimers();
                     startCollisionTimer();
                     startFuelCheckTimer();
 

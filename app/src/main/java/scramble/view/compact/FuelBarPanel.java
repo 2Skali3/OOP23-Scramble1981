@@ -169,4 +169,8 @@ public final class FuelBarPanel extends GamePanel {
         fuelTimer.stop();
     }
 
+    public void resetStage() {
+        this.stage = 0;
+    }
+
 }
