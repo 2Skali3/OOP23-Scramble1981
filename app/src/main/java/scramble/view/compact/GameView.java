@@ -311,6 +311,7 @@ public class GameView extends JFrame {
         this.bulletsPanel.stopTimer();
         this.spaceShipPanel.stopTimer();
         this.fuelBarPanel.stopTimer();
+        this.rocketPanel.stopTimer();
     }
 
     /** Starts all the timers of the singular panels inside game view. */
@@ -320,6 +321,7 @@ public class GameView extends JFrame {
         this.bulletsPanel.startTimer();
         this.spaceShipPanel.startTimer();
         this.fuelBarPanel.startTimer();
+        this.rocketPanel.startTimer();
     }
 
     /** Starts repaint timer. */

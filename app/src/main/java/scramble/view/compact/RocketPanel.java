@@ -7,8 +7,6 @@ import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
 import scramble.model.enemy.RocketImpl;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +26,8 @@ public class RocketPanel extends GamePanel {
     private final Timer rocketSpawn;
     private final List<Pair<Integer, Integer>> flatPositions;
 
+    private boolean st = false;
+
     private int mapX;
 
     public RocketPanel(final List<Pair<Integer, Integer>> flatFloorPosition) {
@@ -37,29 +37,33 @@ public class RocketPanel extends GamePanel {
         this.rockets = new ArrayList<RocketImpl>();
         this.flatPositions = new ArrayList<>(flatFloorPosition);
         this.rocketsOnScreen = new ArrayList<>();
+        this.fillRockets();
+
+        this.setOpaque(false);
+
+        updateTimer = new Timer(32, e -> update());
+        // updateTimer.start();
+
+        this.rocketSpawn = new Timer(64, e -> loadRockets());
+        // this.rocketSpawn.start();
+    }
+
+    private void fillRockets() {
         int counter = 0;
         for (Pair<Integer, Integer> pos : flatPositions) {
-            if (counter % 5 == 0) {
+            if (counter % 5 == 0 && pos.getFirstElement() > this.mapX) {
                 this.rockets
                         .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH,
                                 ROCKET_HEIGHT));
             }
             counter++;
         }
+    }
 
-        // this.mapX = 0;
-
-        this.setOpaque(false);
-        updateTimer = new Timer(32, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                update();
-            }
-        });
-        updateTimer.start();
-
-        this.rocketSpawn = new Timer(64, e -> loadRockets());
-        this.rocketSpawn.start();
+    public void resetRockets() {
+        this.rocketsOnScreen.clear();
+        this.rockets.clear();
+        this.fillRockets();
     }
 
     @Override
@@ -83,13 +87,11 @@ public class RocketPanel extends GamePanel {
         return new ArrayList<>(rocketsOnScreen);
     }
 
-    public void moveRocket() {
-
-        // repaint();
-    }
-
     public void update() {
         if (Objects.nonNull(rocketsOnScreen)) {
+            if (st) {
+                System.out.println("Hello");
+            }
             for (RocketImpl rocket : rocketsOnScreen) {
                 rocket.move();
             }
@@ -99,11 +101,16 @@ public class RocketPanel extends GamePanel {
 
     @Override
     void startTimer() {
+        st = false;
+        this.resetRockets();
+        this.rocketSpawn.start();
         this.updateTimer.start();
     }
 
     @Override
     public void stopTimer() {
+        st = true;
+        this.rocketSpawn.stop();
         this.updateTimer.stop();
     }
 

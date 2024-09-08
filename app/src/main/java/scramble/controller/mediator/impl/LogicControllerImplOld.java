@@ -25,7 +25,7 @@ import scramble.utility.Constants;
  * It implements the interface designed and uses game view to handle
  * the game elements.
  */
-public class LogicControllerImpl implements LogicController {
+public class LogicControllerImplOld implements LogicController {
 
     private int lives;
     private static List<PairImpl<Integer, Integer>> checkPoints = new ArrayList<>();
@@ -42,7 +42,7 @@ public class LogicControllerImpl implements LogicController {
      *
      * @param gameView the calling class
      */
-    public LogicControllerImpl(final GameView gameView) {
+    public LogicControllerImplOld(final GameView gameView) {
         this.lives = Constants.MAX_LIVES;
         this.gameView = new GameView(gameView);
 

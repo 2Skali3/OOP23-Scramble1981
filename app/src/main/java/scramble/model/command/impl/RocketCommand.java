@@ -1,4 +1,4 @@
-package scramble.model.command.impl;
+/* package scramble.model.command.impl;
 
 import scramble.model.command.api.Command;
 import scramble.view.compact.RocketPanel;
@@ -16,3 +16,4 @@ public class RocketCommand implements Command{
     }
 
 }
+ */

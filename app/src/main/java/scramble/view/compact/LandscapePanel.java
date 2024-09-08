@@ -151,6 +151,7 @@ public class LandscapePanel extends GamePanel {
      */
     public void reset(final int starterPosition) {
         MAP_CONTROLLER.resetToX(starterPosition);
+        counter = 0;
         this.landscapeX = +starterPosition * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
         this.starterX = landscapeX;
         this.fillColumns();
