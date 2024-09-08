@@ -141,7 +141,7 @@ public class MapController {
      * Getter for the flat floor Position of the stages.
      * @return the flat floor position
      */
-    public static List<Pair<Integer, Integer>> getFlatFloorPositions() {
+    public List<Pair<Integer, Integer>> getFlatFloorPositions() {
         return new ArrayList<>(flatPositions);
     }
 

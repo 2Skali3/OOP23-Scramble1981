@@ -3,7 +3,6 @@ package scramble.view.compact;
 import java.awt.Graphics;
 import javax.swing.Timer;
 
-import scramble.controller.map.MapController;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
 import scramble.model.enemy.RocketImpl;
@@ -32,16 +31,16 @@ public class RocketPanel extends GamePanel {
 
     private int mapX;
 
-    public RocketPanel() {
+    public RocketPanel(final List<Pair<Integer, Integer>> flatFloorPosition) {
 
         // this.rocket = new RocketImpl(STARTER_POSITION_X, STARTER_POSITION_Y,
         // ROCKET_WIDTH, ROCKET_HEIGHT);
         this.rockets = new ArrayList<RocketImpl>();
-        this.flatPositions = MapController.getFlatFloorPositions();
+        this.flatPositions = new ArrayList<>(flatFloorPosition);
         this.rocketsOnScreen = new ArrayList<>();
         int counter = 0;
         for (Pair<Integer, Integer> pos : flatPositions) {
-            if (counter % 5 == 0) {
+            if (counter % 5 == 0  ) {
                 this.rockets
                     .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH, ROCKET_HEIGHT));
             }
@@ -59,7 +58,7 @@ public class RocketPanel extends GamePanel {
         });
         updateTimer.start();
 
-        this.rocketSpawn = new Timer(1000, e -> loadRockets());
+        this.rocketSpawn = new Timer(64, e -> loadRockets());
         this.rocketSpawn.start();
     }
 
@@ -121,18 +120,19 @@ public class RocketPanel extends GamePanel {
 
     private void loadRockets() {
         Iterator<RocketImpl> iterator = rockets.iterator();
-        System.out.println("MapX: " + mapX);
+        // System.out.println("MapX: " + mapX);
 
         while (iterator.hasNext()) {
             RocketImpl r = iterator.next();
-            if (r.getPosition().getFirstElement() > mapX && r.getPosition().getFirstElement() <= mapX + GameView.WINDOW_WIDTH) {
+            if (/* r.getPosition().getFirstElement() > mapX &&  */r.getPosition().getFirstElement() <= mapX /* mapX GameView.WINDOW_WIDTH */) {
+                r.updatePosition(new PairImpl<Integer,Integer>(GameView.WINDOW_WIDTH, r.getPosition().getSecondElement() - ROCKET_HEIGHT));
                 rocketsOnScreen.add(r);
                 iterator.remove();
-                System.out.println("r pos: " + r.getPosition().getFirstElement());
+                // System.out.println("r pos: " + r.getPosition().getFirstElement());
             }
         }
-        System.out.println("Rockets: " + rockets.size());
-        System.out.println("On screen: " + rocketsOnScreen.size());
+        // System.out.println("Rockets: " + rockets.size());
+        // System.out.println("On screen: " + rocketsOnScreen.size());
         /* 
          * for (Pair<Integer,Integer> pos : flatPositions) { if (pos.getFirstElement()
          * <= mapX) { rocketsOnScreen.add(new RocketImpl(pos.getFirstElement(),

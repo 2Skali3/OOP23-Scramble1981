@@ -42,8 +42,6 @@ public class GameView extends JFrame {
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
-
-    private static final int ROCKET_STARTER_POSITION = 50;
     private final Timer repaintTimer;
 
     /** Costructor of the class GameVew. */
@@ -80,7 +78,7 @@ public class GameView extends JFrame {
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
         //Rocket panel setup
-        this.rocketPanel = new RocketPanel();
+        this.rocketPanel = new RocketPanel(LandscapePanel.getMapController().getFlatFloorPositions());
         rocketPanel.setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT); 
 
         this.logicController = new LogicControllerImpl(this);

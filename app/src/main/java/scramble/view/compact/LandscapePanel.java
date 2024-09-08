@@ -39,6 +39,7 @@ public class LandscapePanel extends GamePanel {
     private static final MapController MAP_CONTROLLER = new MapController();
 
     private int landscapeX;
+    private int counter;
     private int starterX;
     private transient List<MapColumn> columns;
 
@@ -47,11 +48,13 @@ public class LandscapePanel extends GamePanel {
     private void updateLandscape() {
         if (!InputControlImpl.isExplPause()) {
             this.landscapeX += Constants.LANDSCAPEX_SPEED;
+            this.counter += Constants.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
             } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
                 this.fillColumns();
+                this.counter = 0;
             }
         }
     }
@@ -74,6 +77,7 @@ public class LandscapePanel extends GamePanel {
 
     /** Costructor of the class LandscapePanel. */
     public LandscapePanel() {
+        this.counter = 0;
         this.fillColumns();
         this.landscapeX = 0;
         this.starterX = 0;
@@ -118,7 +122,6 @@ public class LandscapePanel extends GamePanel {
                         null);
             }
         }
-
         drawHitBox(g);
     }
 
@@ -158,7 +161,7 @@ public class LandscapePanel extends GamePanel {
     }
 
     public int getCurrentMapX() {
-        return MAP_CONTROLLER.getCurrentMapX() + landscapeX;
+        return MAP_CONTROLLER.getCurrentMapX() + this.counter;
     }
 
     /** @inheritDoc */
