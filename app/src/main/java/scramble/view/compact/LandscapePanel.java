@@ -40,6 +40,11 @@ public class LandscapePanel extends GamePanel {
 
     private int landscapeX;
     private int counter;
+
+    public int getLandscapeX() {
+        return landscapeX;
+    }
+
     private int starterX;
     private transient List<MapColumn> columns;
 

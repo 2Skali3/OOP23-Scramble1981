@@ -24,7 +24,6 @@ public class RocketPanel extends GamePanel {
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
 
-    private int speedY = 10;
     private final Timer updateTimer;
     private final Timer rocketSpawn;
     private final List<Pair<Integer, Integer>> flatPositions;
@@ -40,14 +39,15 @@ public class RocketPanel extends GamePanel {
         this.rocketsOnScreen = new ArrayList<>();
         int counter = 0;
         for (Pair<Integer, Integer> pos : flatPositions) {
-            if (counter % 5 == 0  ) {
+            if (counter % 5 == 0) {
                 this.rockets
-                    .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH, ROCKET_HEIGHT));
+                        .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH,
+                                ROCKET_HEIGHT));
             }
             counter++;
         }
 
-        this.mapX = 0;
+        // this.mapX = 0;
 
         this.setOpaque(false);
         updateTimer = new Timer(32, new ActionListener() {
@@ -69,6 +69,7 @@ public class RocketPanel extends GamePanel {
                 if (rocket.isHit()) {
                     g.drawImage(rocket.getExplosionSprite(), rocket.getPosition().getFirstElement(),
                             rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
+                    rocket.setExploded(true);
                 } else {
                     g.drawImage(rocket.getSprite(), rocket.getPosition().getFirstElement(),
                             rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
@@ -90,14 +91,10 @@ public class RocketPanel extends GamePanel {
     public void update() {
         if (Objects.nonNull(rocketsOnScreen)) {
             for (RocketImpl rocket : rocketsOnScreen) {
-                if (rocket.isHit()) {
-                    resetYSpeed();
-                }
-
                 rocket.move();
             }
-                
         }
+        checkForExplosion();
     }
 
     @Override
@@ -110,33 +107,38 @@ public class RocketPanel extends GamePanel {
         this.updateTimer.stop();
     }
 
-    public void resetYSpeed() {
-        this.speedY = 0;
-    }
-
     public void setMapX(final int x) {
         this.mapX = x;
     }
 
     private void loadRockets() {
         Iterator<RocketImpl> iterator = rockets.iterator();
-        // System.out.println("MapX: " + mapX);
 
         while (iterator.hasNext()) {
             RocketImpl r = iterator.next();
-            if (/* r.getPosition().getFirstElement() > mapX &&  */r.getPosition().getFirstElement() <= mapX /* mapX GameView.WINDOW_WIDTH */) {
-                r.updatePosition(new PairImpl<Integer,Integer>(GameView.WINDOW_WIDTH, r.getPosition().getSecondElement() - ROCKET_HEIGHT));
+            if (r.getPosition().getFirstElement() <= mapX) {
+                r.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
+                        r.getPosition().getSecondElement() - ROCKET_HEIGHT));
                 rocketsOnScreen.add(r);
+                rocketsOnScreen.get(rocketsOnScreen.size() - 1).turnOnMove();
                 iterator.remove();
-                // System.out.println("r pos: " + r.getPosition().getFirstElement());
+
+            }
+
+        }
+    }
+
+    private void checkForExplosion() {
+        int count;
+        Iterator<RocketImpl> iterator = rocketsOnScreen.iterator();
+        while (iterator.hasNext()) {
+            RocketImpl r = iterator.next();
+            if (r.isExploded()) {
+                count = r.incrementCounterForExplosion();
+                if (count == RocketImpl.getExplosionDuration()) {
+                    iterator.remove();
+                }
             }
         }
-        // System.out.println("Rockets: " + rockets.size());
-        // System.out.println("On screen: " + rocketsOnScreen.size());
-        /* 
-         * for (Pair<Integer,Integer> pos : flatPositions) { if (pos.getFirstElement()
-         * <= mapX) { rocketsOnScreen.add(new RocketImpl(pos.getFirstElement(),
-         * pos.getSecondElement(), ROCKET_HEIGHT, ROCKET_WIDTH)); } }
-         */
     }
 }

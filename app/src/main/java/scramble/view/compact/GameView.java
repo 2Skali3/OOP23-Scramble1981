@@ -42,6 +42,7 @@ public class GameView extends JFrame {
     private final StartMenu startMenu;
     private final FuelBarPanel fuelBarPanel;
     private final LogicControllerImpl logicController;
+
     private final Timer repaintTimer;
 
     /** Costructor of the class GameVew. */
@@ -77,9 +78,9 @@ public class GameView extends JFrame {
         this.fuelBarPanel = new FuelBarPanel();
         this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        //Rocket panel setup
+        // Rocket panel setup
         this.rocketPanel = new RocketPanel(LandscapePanel.getMapController().getFlatFloorPositions());
-        rocketPanel.setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT); 
+        rocketPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         this.logicController = new LogicControllerImpl(this);
 
@@ -120,7 +121,8 @@ public class GameView extends JFrame {
 
     }
 
-    /** Getter for the repaint timer.
+    /**
+     * Getter for the repaint timer.
      * 
      * @return the timer
      */
@@ -238,7 +240,7 @@ public class GameView extends JFrame {
 
         this.mainPanel.add(rocketPanel, JLayeredPane.MODAL_LAYER);
         this.rocketPanel.startTimer();
-        
+
         // POPUP_LAYER
         this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
         this.fuelBarPanel.startTimer();
@@ -255,7 +257,8 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
-        // rocketPanel.getRocket().updatePosition(new PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
+        // rocketPanel.getRocket().updatePosition(new
+        // PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 

@@ -15,7 +15,6 @@ import scramble.model.command.impl.BulletCommand;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.impl.TimedLinkedListImpl;
-import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
 
@@ -200,5 +199,4 @@ public class BulletsPanel extends GamePanel {
         bulletTimer.stop();
     }
 
-    
 }

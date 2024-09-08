@@ -19,19 +19,21 @@ import java.util.Set;
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
  */
-public class RocketImpl extends GameElementImpl implements Cloneable {
+public class RocketImpl extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
     private static final int SPRITES = 5;
     private static final int EXP_SPRITES = 4;
-
+    private static final int EXPLOSION_DURATION = 15;
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private int currentSprite;
     private int currentExpSprite;
-    private int speedY;
+    private float speedY;
     private boolean hit;
-    //private boolean moving;
+    private boolean moving;
+    private boolean exploded;
+    private int counterForExplosion = 0;
 
     /**
      * Class constructor.
@@ -55,25 +57,32 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         }
         for (int i = 1; i <= EXP_SPRITES; i++) {
             try {
-                explosionSprites.add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+                explosionSprites
+                        .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
             } catch (IOException e) {
                 LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
                 LOG.severe(e.toString());
             }
         }
-        this.currentSprite=0;
+        this.currentSprite = 0;
         this.hit = false;
-        this.speedY = 1;
-        //this.moving = false;
+        this.speedY = 1.5f;
+        this.moving = false;
+        this.exploded = false;
     }
 
     public void move() {
-        if(isHit()){
+        if (isHit()) {
             speedY = 0;
         }
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, 
-                    getPosition().getSecondElement() - speedY));
-        
+        if (moving) {
+            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+                    (int) (getPosition().getSecondElement() - speedY)));
+        }
+        if (getPosition().getSecondElement() <= 0) {
+            setExploded(true);
+            this.counterForExplosion = EXPLOSION_DURATION;
+        }
     }
 
     @Override
@@ -89,11 +98,9 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
         return explosionSprites.get(currentExpSprite);
     }
 
-    
-
-    public boolean checkCollisionBullet(final Set<Bullet> bullets){
-        for(final Bullet b : bullets){
-            if(hasCollided(b)){
+    public boolean checkCollisionBullet(final Set<Bullet> bullets) {
+        for (final Bullet b : bullets) {
+            if (hasCollided(b)) {
                 hit = true;
                 return true;
             }
@@ -102,8 +109,9 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
     }
 
     public void moveExplosion(final int explosionSpeedX) {
-        
+
     }
+
     /**
      * Getter for hit.
      *
@@ -116,10 +124,29 @@ public class RocketImpl extends GameElementImpl implements Cloneable {
     public void setHit(final boolean hit) {
         this.hit = hit;
     }
-    
-    @Override
-    public RocketImpl clone() throws CloneNotSupportedException {
-        return (RocketImpl) super.clone();
+
+    public void turnOnMove() {
+        this.moving = true;
+    }
+
+    public boolean isExploded() {
+        return exploded;
+    }
+
+    public void setExploded(boolean exploded) {
+        this.exploded = exploded;
+    }
+
+    public int getCounterForExplosion() {
+        return counterForExplosion;
+    }
+
+    public int incrementCounterForExplosion() {
+        return this.counterForExplosion++;
+    }
+
+    public static int getExplosionDuration() {
+        return EXPLOSION_DURATION;
     }
 
 }
