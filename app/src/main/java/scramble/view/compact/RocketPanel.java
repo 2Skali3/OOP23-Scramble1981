@@ -102,7 +102,6 @@ public class RocketPanel extends GamePanel {
     @Override
     void startTimer() {
         st = false;
-        this.resetRockets();
         this.rocketSpawn.start();
         this.updateTimer.start();
     }

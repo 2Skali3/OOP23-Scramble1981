@@ -218,6 +218,7 @@ public class LogicControllerImpl implements LogicController {
                     lostLife();
                     gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                 }
+                gameView.getRocketPanel().resetRockets();
             }
         });
         delayTimer.setRepeats(false);

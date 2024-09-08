@@ -265,6 +265,9 @@ public class GameView extends JFrame {
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
 
+        this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
+        this.rocketPanel.resetRockets();
+
     }
 
     /**
@@ -281,6 +284,8 @@ public class GameView extends JFrame {
                                 Constants.SPACESHIP_STARTER_POSITION));
         fuelBarPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
+        this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
+        this.rocketPanel.resetRockets();
 
     }
 
