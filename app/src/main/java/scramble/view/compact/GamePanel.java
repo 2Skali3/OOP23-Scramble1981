@@ -32,7 +32,7 @@ public abstract class GamePanel extends JPanel {
     /**
      * Starts timer of the singular.
      */
-    abstract void startTimer();
+    public abstract void startTimer();
 
     /**
      * Stops timer of the singular panel.

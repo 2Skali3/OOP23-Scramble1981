@@ -220,7 +220,6 @@ public class LogicControllerImpl implements LogicController {
         final Timer delayTimer = new Timer(3500, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                gameView.startAllPanelTimers();
                 startFuelCheckTimer();
                 startCollisionTimer();
                 InputControlImpl.setPaused(false);
@@ -229,6 +228,7 @@ public class LogicControllerImpl implements LogicController {
                     gameView.setStart();
                     resetLives();
                 } else {
+                    gameView.startAllPanelTimers();
                     lostLife();
                     gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                 }

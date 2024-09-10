@@ -95,7 +95,7 @@ public class RocketPanel extends GamePanel {
     }
 
     @Override
-    void startTimer() {
+    public void startTimer() {
         this.rocketSpawn.start();
         this.updateTimer.start();
     }

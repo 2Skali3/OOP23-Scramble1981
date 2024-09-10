@@ -172,7 +172,7 @@ public class LandscapePanel extends GamePanel {
 
     /** @inheritDoc */
     @Override
-    void startTimer() {
+    public void startTimer() {
         this.landscapeTimer.start();
     }
 

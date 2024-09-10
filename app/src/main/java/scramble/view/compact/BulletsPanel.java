@@ -189,7 +189,7 @@ public class BulletsPanel extends GamePanel {
 
     /** {@inheritDoc} */
     @Override
-    void startTimer() {
+    public void startTimer() {
         bulletTimer.start();
     }
 
