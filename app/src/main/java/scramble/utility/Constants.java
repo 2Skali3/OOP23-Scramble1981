@@ -123,9 +123,9 @@ public final class Constants {
     /** Starting X position of the spaceship. Used in view/compact/GameView. */
     public static final int SPACESHIP_STARTER_POSITION = 50;
     /** Width of the Spaceship. Used in SpaceShipPanel. */
-    public static final int SPACESHIP_WIDTH = 32;
+    public static final int SPACESHIP_WIDTH = 54;
     /** Height of the Spaceship. Used in SpaceShipPanel. */
-    public static final int SPACESHIP_HEIGHT = 16;
+    public static final int SPACESHIP_HEIGHT = 27;
     /** The original scramble font. Used in view/font/ScrambleFontUtil */
     public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
 

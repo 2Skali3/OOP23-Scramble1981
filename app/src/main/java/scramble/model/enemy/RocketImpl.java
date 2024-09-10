@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.random.RandomGenerator;
 
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
@@ -32,8 +35,13 @@ public class RocketImpl extends GameElementImpl {
     private float speedY;
     private boolean hit;
     private boolean moving;
+    private boolean premove;
     private boolean exploded;
     private int counterForExplosion = 0;
+    private final Timer startTimer;
+    private final RandomGenerator randomStartDelay;
+    private final TimerTask task;
+    private int randomDelay;
 
     /**
      * Class constructor.
@@ -66,14 +74,29 @@ public class RocketImpl extends GameElementImpl {
         }
         this.currentSprite = 0;
         this.hit = false;
-        this.speedY = 1.5f;
+        this.speedY = 3.5f;
         this.moving = false;
         this.exploded = false;
+        startTimer = new Timer();
+        randomStartDelay = RandomGenerator.of("Random");
+        task = new TimerTask() {
+
+            @Override
+            public void run() {
+                premove = false;
+                moving = true;
+            }
+        };
+        randomDelay = 1000 + randomStartDelay.nextInt(3000);
+        
     }
 
     public void move() {
         if (isHit()) {
             speedY = 0;
+        }
+        if(premove){
+            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) (getPosition().getSecondElement())));
         }
         if (moving) {
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
@@ -126,7 +149,8 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public void turnOnMove() {
-        this.moving = true;
+        premove = true;
+        startTimer.schedule(task, randomDelay);
     }
 
     public boolean isExploded() {

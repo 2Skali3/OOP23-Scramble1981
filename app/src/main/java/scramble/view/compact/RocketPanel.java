@@ -16,8 +16,8 @@ public class RocketPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int ROCKET_HEIGHT = 34;
-    private static final int ROCKET_WIDTH = 25;
+    private static final int ROCKET_HEIGHT = 39;
+    private static final int ROCKET_WIDTH = 30;
 
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
