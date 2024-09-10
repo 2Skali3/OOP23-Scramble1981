@@ -10,9 +10,11 @@ import java.awt.Dimension;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.util.LandUtils;
+import scramble.model.scores.Scores;
 import scramble.utility.Constants;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.impl.LogicControllerImpl;
+import scramble.controller.mediator.impl.LogicControllerImplOld;
 
 import javax.swing.Timer;
 
@@ -40,14 +42,16 @@ public class GameView extends JFrame {
     private final BulletsPanel bulletsPanel;
     private final RocketPanel rocketPanel;
     private final StartMenu startMenu;
-    private final FuelBarPanel fuelBarPanel;
-    private final LogicControllerImpl logicController;
+    private final HUDPanel hudPanel;
+    private final FuelTankPanel fuelTankPanel;
+    private final LogicControllerImplOld logicController;
 
     private final Timer repaintTimer;
 
     /** Costructor of the class GameVew. */
     public GameView() {
         this.setTitle("Scramble 1981");
+        this.setResizable(false);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -75,14 +79,19 @@ public class GameView extends JFrame {
         this.bulletsPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // FuelBar panel setup
-        this.fuelBarPanel = new FuelBarPanel();
-        this.fuelBarPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        this.hudPanel = new HUDPanel();
+        this.hudPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
         // Rocket panel setup
         this.rocketPanel = new RocketPanel(LandscapePanel.getMapController().getFlatFloorPositions());
         rocketPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        this.logicController = new LogicControllerImpl(this);
+        // FuelTank panel setup
+        this.fuelTankPanel = new FuelTankPanel(LandscapePanel.getMapController().getFlatFloorPositions(),
+                hudPanel.getFuelBar());
+        fuelTankPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        this.logicController = new LogicControllerImplOld(this);
 
         this.add(mainPanel);
         this.setVisible(true);
@@ -91,6 +100,7 @@ public class GameView extends JFrame {
             mainPanel.repaint();
             this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
+            this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
         });
 
     }
@@ -109,8 +119,9 @@ public class GameView extends JFrame {
         this.landscapePanel = view.getLandscapePanel();
         this.spaceShipPanel = view.getSpaceshipPanel();
         this.bulletsPanel = view.getBulletsPanel();
-        this.fuelBarPanel = view.getFuelBarPanel();
+        this.hudPanel = view.getHudPanel();
         this.rocketPanel = view.getRocketPanel();
+        this.fuelTankPanel = view.getFuelTankPanel();
         this.logicController = view.getLogicController();
         this.repaintTimer = view.getRepaintTimer();
 
@@ -130,7 +141,7 @@ public class GameView extends JFrame {
         return this.repaintTimer;
     }
 
-    public LogicControllerImpl getLogicController() {
+    public LogicControllerImplOld getLogicController() {
         return logicController;
     }
 
@@ -149,20 +160,29 @@ public class GameView extends JFrame {
      *
      * @return the background panel of this GameView
      */
-
     @SuppressFBWarnings
     public BackgroundPanel getBackgroundPanel() {
         return this.backgroundPanel;
     }
 
     /**
-     * Getter of FuelBarPanel.
+     * Getter of HUDPanel.
      *
-     * @return the background panel of this GameView
+     * @return the fuel bar panel of this GameView
      */
     @SuppressFBWarnings
-    public FuelBarPanel getFuelBarPanel() {
-        return this.fuelBarPanel;
+    public HUDPanel getHudPanel() {
+        return this.hudPanel;
+    }
+
+    /**
+     * Getter of FuelTankPanel.
+     *
+     * @return the tanks panel of this GameView
+     */
+    @SuppressFBWarnings
+    public FuelTankPanel getFuelTankPanel() {
+        return this.fuelTankPanel;
     }
 
     /**
@@ -241,14 +261,20 @@ public class GameView extends JFrame {
         this.mainPanel.add(rocketPanel, JLayeredPane.MODAL_LAYER);
         this.rocketPanel.startTimer();
 
+        this.mainPanel.add(fuelTankPanel, JLayeredPane.MODAL_LAYER);
+        this.fuelTankPanel.startTimer();
+
         // POPUP_LAYER
-        this.mainPanel.add(fuelBarPanel, JLayeredPane.POPUP_LAYER);
-        this.fuelBarPanel.startTimer();
+        this.mainPanel.add(hudPanel, JLayeredPane.POPUP_LAYER);
+        this.hudPanel.startTimer();
 
     }
 
     /** Resets to start menu. */
     public void setStart() {
+
+        Scores.addScore(Scores.getCurrentScore());
+        Scores.resetCurrentScore();
 
         this.mainPanel.removeAll();
 
@@ -257,16 +283,17 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
-        // rocketPanel.getRocket().updatePosition(new
-        // PairImpl<>(ROCKET_STARTER_POSITION, ROCKET_STARTER_POSITION));
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         this.mainPanel.add(startMenu, JLayeredPane.PALETTE_LAYER);
 
-        fuelBarPanel.getFuelBar().fillFuel();
+        hudPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
 
         this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
         this.rocketPanel.resetRockets();
+        this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
+        this.fuelTankPanel.resetTanks();
+        this.startMenu.startTimer();
 
     }
 
@@ -282,10 +309,12 @@ public class GameView extends JFrame {
                 .updatePosition(
                         new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION,
                                 Constants.SPACESHIP_STARTER_POSITION));
-        fuelBarPanel.getFuelBar().fillFuel();
+        hudPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
         this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
         this.rocketPanel.resetRockets();
+        this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
+        this.fuelTankPanel.resetTanks();
 
     }
 
@@ -310,32 +339,36 @@ public class GameView extends JFrame {
     }
 
     /** Stops all the timers of the singular panels inside game view. */
-    public void stopAllTimers() {
+    public void stopAllPanelTimers() {
         this.landscapePanel.stopTimer();
         this.backgroundPanel.stopTimer();
         this.bulletsPanel.stopTimer();
         this.spaceShipPanel.stopTimer();
-        this.fuelBarPanel.stopTimer();
+        this.hudPanel.stopTimer();
         this.rocketPanel.stopTimer();
+        this.fuelTankPanel.stopTimer();
+
     }
 
     /** Starts all the timers of the singular panels inside game view. */
-    public void startAllTimers() {
+    public void startAllPanelTimers() {
         this.landscapePanel.startTimer();
         this.backgroundPanel.startTimer();
         this.bulletsPanel.startTimer();
         this.spaceShipPanel.startTimer();
-        this.fuelBarPanel.startTimer();
+        this.hudPanel.startTimer();
         this.rocketPanel.startTimer();
+        this.fuelTankPanel.startTimer();
+        this.startMenu.stopTimer(); 
     }
 
     /** Starts repaint timer. */
-    public void startTimer() {
+    public void startRepaintTimer() {
         this.repaintTimer.start();
     }
 
     /** Stops repaint timer. */
-    public void stopTimer() {
+    public void stopRepaintTimer() {
         this.repaintTimer.stop();
     }
 

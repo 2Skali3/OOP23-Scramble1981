@@ -6,7 +6,6 @@ import scramble.view.font.ScrambleFontUtil;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.BorderLayout;
@@ -19,7 +18,7 @@ import java.awt.event.ActionEvent;
  * The start menu with the game starts. Loopes through the Scoreboard as
  * well.
  */
-public final class StartMenu extends JPanel {
+public final class StartMenu extends GamePanel {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(StartMenu.class.getName());
@@ -27,8 +26,9 @@ public final class StartMenu extends JPanel {
     private int sequenceStep;
     private final Font retroFont;
     private final transient Scores scores;
+    private Timer scoreSequenceTimer;
 
-    private static final class FixedConstants {
+	private static final class FixedConstants {
 
         private static final int KONAMI_HEIGHT = 5;
         private static final int KONAMI_WIDTH = 75;
@@ -43,7 +43,6 @@ public final class StartMenu extends JPanel {
         private static final float FONT_SIZE1 = 21f;
         private static final float FONT_SIZE2 = 24f;
         private static final int TIMERS = 3000;
-        private static final int SEC = 60;
         private static final int OFFSET = 25;
 
     }
@@ -57,30 +56,21 @@ public final class StartMenu extends JPanel {
         scores = new Scores();
         retroFont = ScrambleFontUtil.loadFont(FixedConstants.FONT_SIZE2);
 
-        final Timer animationTimer = new Timer(1000 / FixedConstants.SEC, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                // repaint();
-            }
-        });
-        animationTimer.start();
-
         sequenceStep = 0;
-        final Timer scoreSequenceTimer = new Timer(FixedConstants.TIMERS, new ActionListener() {
+        this.scoreSequenceTimer = new Timer(FixedConstants.TIMERS, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 sequenceStep++;
                 if (sequenceStep > 2) {
                     sequenceStep = 0;
                 }
-                // repaint();
             }
         });
-        scoreSequenceTimer.start();
 
     }
 
-    private void paintBoard(final Graphics g) {
+	@Override
+    protected void drawPanel(final Graphics g) {
         g.setFont(retroFont.deriveFont(FixedConstants.FONT_SIZE1));
 
         if (sequenceStep == 0) {
@@ -127,9 +117,21 @@ public final class StartMenu extends JPanel {
 
     /** {@inheritDoc} */
     @Override
-    protected void paintComponent(final Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        paintBoard(g);
+        drawPanel(g);
     }
+
+	@Override
+	public void startTimer() {
+				scoreSequenceTimer.start();
+
+	}
+
+	@Override
+	public void stopTimer() {
+				scoreSequenceTimer.stop();
+
+	}
 
 }

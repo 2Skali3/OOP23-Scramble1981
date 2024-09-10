@@ -54,8 +54,8 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                         .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
                                 BulletType.TYPE_BOMB, gv.getSpaceshipPanel().getSpaceship()));
                 case KeyEvent.VK_ENTER -> {
-                    gv.startTimer();
-                    gv.getFuelBarPanel().startTimer();
+                    gv.startRepaintTimer();
+                    gv.getHudPanel().startTimer();
                     gv.startGame();
                 }
                 default -> {

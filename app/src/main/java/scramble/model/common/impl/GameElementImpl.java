@@ -74,6 +74,6 @@ public abstract class GameElementImpl extends HitBoxImpl implements GameElement 
      */
     public void drawHitBox(final Graphics g) {
         g.setColor(Color.red);
-        g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width, getHitBox().height);
+        //g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width, getHitBox().height);
     }
 }

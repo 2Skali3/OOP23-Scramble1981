@@ -82,7 +82,7 @@ public final class Constants {
      */
     public static final Map<BulletType, PairImpl<Integer, Integer>> BULLETS_SIZE_MAP = Map.of(
             BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3),
-            BulletType.TYPE_BOMB, new PairImpl<>(21, 26));
+            BulletType.TYPE_BOMB, new PairImpl<>(42, 52));
 
     /** File path for the scores .json saved list. Used in model/scores/Scores. */
     public static final String SCORES_FILE_PATH = "/scores/scores.json";
@@ -94,7 +94,7 @@ public final class Constants {
     /** Max amount of fuel. Used in model/spaceship/FuelBar. */
     public static final int MAX_FUEL = 100;
     /** Amount of fuel consumed every tick. Used in model/spaceship/FuelBar. */
-    public static final int FUEL_DECREASE_AMOUNT = 1;
+    public static final int FUEL_DECREASE_AMOUNT = 2;
     /** Number of Spaceship sprites. Used in model/spaceship/SpaceShip. */
     public static final int SPRITE_SPACESHIP = 8;
     /** Number of Spaceship Explosion sprites. Used in model/spaceship/SpaceShip. */
@@ -120,6 +120,11 @@ public final class Constants {
      * view/compact/FuelBarPanel.
      */
     public static final int FUELBAR_SCALE_FACTOR = 2;
+    /**
+     * Scales up the stage hud for a fitting image on the screen. Used in
+     * view/compact/FuelBarPanel.
+     */
+    public static final float STAGE_HUD_SCALE_FACTOR = 1.75f;
     /** Starting X position of the spaceship. Used in view/compact/GameView. */
     public static final int SPACESHIP_STARTER_POSITION = 50;
     /** Width of the Spaceship. Used in SpaceShipPanel. */

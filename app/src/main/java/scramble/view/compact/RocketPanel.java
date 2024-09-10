@@ -6,6 +6,7 @@ import javax.swing.Timer;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
 import scramble.model.enemy.RocketImpl;
+import scramble.model.scores.Scores;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,9 @@ public class RocketPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int ROCKET_HEIGHT = 39;
-    private static final int ROCKET_WIDTH = 30;
+    private static final int ROCKET_HEIGHT = 50;
+    private static final int ROCKET_WIDTH = 38;
+    private static final int ROCKET_POINTS = 50;
 
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
@@ -26,14 +28,10 @@ public class RocketPanel extends GamePanel {
     private final Timer rocketSpawn;
     private final List<Pair<Integer, Integer>> flatPositions;
 
-    private boolean st = false;
-
     private int mapX;
 
     public RocketPanel(final List<Pair<Integer, Integer>> flatFloorPosition) {
 
-        // this.rocket = new RocketImpl(STARTER_POSITION_X, STARTER_POSITION_Y,
-        // ROCKET_WIDTH, ROCKET_HEIGHT);
         this.rockets = new ArrayList<RocketImpl>();
         this.flatPositions = new ArrayList<>(flatFloorPosition);
         this.rocketsOnScreen = new ArrayList<>();
@@ -87,11 +85,8 @@ public class RocketPanel extends GamePanel {
         return new ArrayList<>(rocketsOnScreen);
     }
 
-    public void update() {
+    private void update() {
         if (Objects.nonNull(rocketsOnScreen)) {
-            if (st) {
-                System.out.println("Hello");
-            }
             for (RocketImpl rocket : rocketsOnScreen) {
                 rocket.move();
             }
@@ -101,14 +96,12 @@ public class RocketPanel extends GamePanel {
 
     @Override
     void startTimer() {
-        st = false;
         this.rocketSpawn.start();
         this.updateTimer.start();
     }
 
     @Override
     public void stopTimer() {
-        st = true;
         this.rocketSpawn.stop();
         this.updateTimer.stop();
     }
@@ -142,6 +135,9 @@ public class RocketPanel extends GamePanel {
             if (r.isExploded()) {
                 count = r.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
+                    if (r.isHit()) {
+                        Scores.incrementCurrentScore(ROCKET_POINTS);
+                    }
                     iterator.remove();
                 }
             }

@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import scramble.model.bullets.Bullet;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.util.logging.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,10 +24,11 @@ import java.util.random.RandomGenerator;
  */
 public class RocketImpl extends GameElementImpl {
 
-    private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
+    private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
     private static final int SPRITES = 5;
     private static final int EXP_SPRITES = 4;
     private static final int EXPLOSION_DURATION = 15;
+
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private int currentSprite;
@@ -122,9 +123,12 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        for (final Bullet b : bullets) {
+        Iterator<Bullet> iterator = bullets.iterator();
+        while (iterator.hasNext()) {
+            Bullet b = iterator.next();
             if (hasCollided(b)) {
                 hit = true;
+                iterator.remove();
                 return true;
             }
         }
