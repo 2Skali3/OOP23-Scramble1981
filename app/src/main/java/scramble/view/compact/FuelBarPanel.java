@@ -1,6 +1,8 @@
 package scramble.view.compact;
 
 import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -14,8 +16,10 @@ import java.util.Arrays;
 import scramble.controller.mediator.impl.LogicControllerImpl;
 import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.util.LandUtils;
+import scramble.model.scores.Scores;
 import scramble.model.spaceship.FuelBar;
 import scramble.utility.Constants;
+import scramble.view.font.ScrambleFontUtil;
 
 /**
  * This class is dedicated to painting the fuelBar.
@@ -23,6 +27,9 @@ import scramble.utility.Constants;
 public final class FuelBarPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
+    private static final float FONT_SIZE = 16f;
+
+    private final Font retroFont;
     private transient BufferedImage fuelBarFull;
     private transient BufferedImage fuelBarEmpty;
     private transient BufferedImage stageHud;
@@ -48,6 +55,8 @@ public final class FuelBarPanel extends GamePanel {
         loadImages();
         fuelBar = new FuelBar();
         setOpaque(false);
+        retroFont = ScrambleFontUtil.loadFont(FONT_SIZE);
+
         this.fuelTimer = new Timer(SEC, e -> {
             changeStage();
             this.fuelBar.decreaseFuel(Constants.FUEL_DECREASE_AMOUNT);
@@ -62,6 +71,8 @@ public final class FuelBarPanel extends GamePanel {
     public void drawPanel(final Graphics g) {
         paintFuelBar(g);
         paintStageHud(g);
+        paintScore(g);
+        paintLives(g);
     }
 
     /**
@@ -93,8 +104,8 @@ public final class FuelBarPanel extends GamePanel {
     }
 
     private void paintStageHud(final Graphics g) {
-        final int widthHud = stageHud.getWidth() * Constants.FUELBAR_SCALE_FACTOR;
-        final int heightHud = stageHud.getHeight() * Constants.FUELBAR_SCALE_FACTOR;
+        final int widthHud = (int) (stageHud.getWidth() * Constants.STAGE_HUD_SCALE_FACTOR);
+        final int heightHud = (int) (stageHud.getHeight() * Constants.STAGE_HUD_SCALE_FACTOR);
 
         final int x = (getWidth() - widthHud) / 2;
         final int y = 10;
@@ -114,6 +125,26 @@ public final class FuelBarPanel extends GamePanel {
                     0, 0, stageHud.getWidth(), stageHud.getHeight(), null);
         }
 
+    }
+
+    private void paintScore(final Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(retroFont.deriveFont(FONT_SIZE));
+
+        int currentScore = Scores.getCurrentScore();
+
+        String scoreText = "Score: " + currentScore;
+        g.drawString(scoreText, 10, 30);
+    }
+
+    private void paintLives(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(retroFont.deriveFont(FONT_SIZE));
+
+        int currentLives = LogicControllerImpl.getLives() + 1;
+
+        String scoreText = "UP: " + currentLives;
+        g.drawString(scoreText, getWidth() - (getWidth() / 5), 30);
     }
 
     /**
@@ -169,13 +200,14 @@ public final class FuelBarPanel extends GamePanel {
     public void startTimer() {
         fuelTimer.start();
     }
+
     /** @inheritDoc */
     @Override
     public void stopTimer() {
         fuelTimer.stop();
     }
 
-    /** 
+    /**
      * Reset the number of stages to the starting stage.
      */
     public void resetStage() {

@@ -49,8 +49,6 @@ public class SpaceShipPanel extends GamePanel {
     @Override
     protected void drawPanel(final Graphics g) {
 
-        // TODO check isRepaintable() from GamePanel
-
         if (spaceship.getSprite() != null) {
             if (spaceship.isHit()) {
                 g.drawImage(spaceship.getExpSprite(), spaceship.getPosition().getFirstElement(),
@@ -116,28 +114,20 @@ public class SpaceShipPanel extends GamePanel {
         // repaint();
     }
 
-    /** Checks continuosly with a timer for spaceship movement. */
-    public void update() {
+    /* Checks continuosly with a timer for spaceship movement. */
+    private void update() {
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
         final int shipX = location.getFirstElement();
         final int shipY = location.getSecondElement();
         final int xSpeed = spaceship.getxSpeed();
         final int ySpeed = spaceship.getySpeed();
 
-        /*
-         * if (shipX + xSpeed < getWidth() / 2 && shipX + xSpeed >= 0 && shipY + ySpeed
-         * <= getHeight()
-         * && shipY + ySpeed >= 0) {
-         * spaceship.move();
-         * }
-         */
-
         final int minX = 0;
         final int maxX = getWidth() / 2;
         final int minY = 0;
         final int maxY = getHeight();
 
-        // Condizioni per il movimento orizzontale (asse X)
+        // Conditions for horizontal movement (on X axis)
         if (shipX + xSpeed >= minX && shipX + xSpeed <= maxX) {
             spaceship.move();
         } else if (shipX + xSpeed < minX) {

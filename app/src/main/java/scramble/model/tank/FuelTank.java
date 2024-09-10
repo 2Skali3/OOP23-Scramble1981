@@ -1,56 +1,45 @@
-package scramble.model.enemy;
+package scramble.model.tank;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import scramble.model.bullets.Bullet;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
 import scramble.utility.Constants;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.util.logging.Logger;
+public class FuelTank extends GameElementImpl {
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-
-/**
- * Implementation of the Enemy interface. Used for the simple rocket NPC.
- */
-public class RocketImpl extends GameElementImpl {
-
-    private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
-    private static final int SPRITES = 5;
+    private static final Logger LOG = Logger.getLogger(FuelTank.class.getName());
+    private static final int SPRITES = 2;
     private static final int EXP_SPRITES = 4;
     private static final int EXPLOSION_DURATION = 15;
+    private static final int FUEL_REFILL = 10;
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
+
     private int currentSprite;
     private int currentExpSprite;
-    private float speedY;
     private boolean hit;
-    private boolean moving;
+
     private boolean exploded;
+
     private int counterForExplosion = 0;
 
-    /**
-     * Class constructor.
-     *
-     * @param x      X coordinate
-     * @param y      Y coordinate
-     * @param width  Rocket width
-     * @param height Rocket height
-     */
-    public RocketImpl(final int x, final int y, final int width, final int height) {
+    public FuelTank(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         for (int i = 1; i <= SPRITES; i++) {
             try {
-                sprites.add(ImageIO.read(getClass().getResource("/rocket/rocket_frame" + i + "_shader.png")));
+                sprites.add(ImageIO.read(getClass().getResource("/fueltank/fuel_dump_" + i + ".png")));
             } catch (IOException e) {
                 LOG.severe("Ops!");
                 LOG.severe(e.toString());
@@ -59,7 +48,7 @@ public class RocketImpl extends GameElementImpl {
         for (int i = 1; i <= EXP_SPRITES; i++) {
             try {
                 explosionSprites
-                        .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+                        .add(ImageIO.read(getClass().getResource("/fueltank/explosion_frame" + i + "_shader.png")));
             } catch (IOException e) {
                 LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
                 LOG.severe(e.toString());
@@ -67,23 +56,12 @@ public class RocketImpl extends GameElementImpl {
         }
         this.currentSprite = 0;
         this.hit = false;
-        this.speedY = 1.5f;
-        this.moving = false;
         this.exploded = false;
     }
 
     public void move() {
-        if (isHit()) {
-            speedY = 0;
-        }
-        if (moving) {
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
-                    (int) (getPosition().getSecondElement() - speedY)));
-        }
-        if (getPosition().getSecondElement() <= 0) {
-            setExploded(true);
-            this.counterForExplosion = EXPLOSION_DURATION;
-        }
+        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+                (int) (getPosition().getSecondElement())));
     }
 
     @Override
@@ -100,20 +78,14 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        Iterator<Bullet> iterator = bullets.iterator();
-        while (iterator.hasNext()) {
-            Bullet b = iterator.next();
+        for (final Bullet b : bullets) {
             if (hasCollided(b)) {
                 hit = true;
-                iterator.remove();
+                // bullets.remove(b);
                 return true;
             }
         }
         return false;
-    }
-
-    public void moveExplosion(final int explosionSpeedX) {
-
     }
 
     /**
@@ -125,12 +97,8 @@ public class RocketImpl extends GameElementImpl {
         return hit;
     }
 
-    public void setHit(final boolean hit) {
+    public void setHit(boolean hit) {
         this.hit = hit;
-    }
-
-    public void turnOnMove() {
-        this.moving = true;
     }
 
     public boolean isExploded() {
@@ -153,4 +121,7 @@ public class RocketImpl extends GameElementImpl {
         return EXPLOSION_DURATION;
     }
 
+    public static int getFuelRefill() {
+        return FUEL_REFILL;
+    }
 }

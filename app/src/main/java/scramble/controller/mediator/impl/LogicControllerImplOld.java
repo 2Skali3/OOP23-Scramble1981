@@ -60,12 +60,12 @@ public class LogicControllerImplOld implements LogicController {
         collisionTimer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                
+
                 touchedGround();
                 checkBulletCollisions();
                 touchedEnemy();
                 checkBulletEnemyCollision();
-                
+
             }
         });
 
@@ -192,7 +192,7 @@ public class LogicControllerImplOld implements LogicController {
 
     private void iteraction() {
 
-        gameView.stopAllTimers();
+        gameView.stopAllPanelTimers();
         stopFuelCheckTimer();
         stopCollisionTimer();
         spaceShipPanel.getSpaceship().setHit(true);
@@ -201,12 +201,12 @@ public class LogicControllerImplOld implements LogicController {
     }
 
     private void timerLogic() {
-        gameView.stopAllTimers();
+        gameView.stopAllPanelTimers();
         InputControlImpl.setPaused(true);
         final Timer delayTimer = new Timer(3500, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                gameView.startAllTimers();
+                gameView.startAllPanelTimers();
                 startFuelCheckTimer();
                 startCollisionTimer();
                 InputControlImpl.setPaused(false);
@@ -225,4 +225,3 @@ public class LogicControllerImplOld implements LogicController {
     }
 
 }
-

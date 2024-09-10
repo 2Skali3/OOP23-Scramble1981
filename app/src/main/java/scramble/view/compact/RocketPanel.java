@@ -6,6 +6,7 @@ import javax.swing.Timer;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
 import scramble.model.enemy.RocketImpl;
+import scramble.model.scores.Scores;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class RocketPanel extends GamePanel {
 
     private static final int ROCKET_HEIGHT = 34;
     private static final int ROCKET_WIDTH = 25;
+    private static final int ROCKET_POINTS = 50;
 
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
@@ -32,8 +34,6 @@ public class RocketPanel extends GamePanel {
 
     public RocketPanel(final List<Pair<Integer, Integer>> flatFloorPosition) {
 
-        // this.rocket = new RocketImpl(STARTER_POSITION_X, STARTER_POSITION_Y,
-        // ROCKET_WIDTH, ROCKET_HEIGHT);
         this.rockets = new ArrayList<RocketImpl>();
         this.flatPositions = new ArrayList<>(flatFloorPosition);
         this.rocketsOnScreen = new ArrayList<>();
@@ -87,7 +87,7 @@ public class RocketPanel extends GamePanel {
         return new ArrayList<>(rocketsOnScreen);
     }
 
-    public void update() {
+    private void update() {
         if (Objects.nonNull(rocketsOnScreen)) {
             if (st) {
                 System.out.println("Hello");
@@ -142,6 +142,9 @@ public class RocketPanel extends GamePanel {
             if (r.isExploded()) {
                 count = r.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
+                    if (r.isHit()) {
+                        Scores.incrementCurrentScore(ROCKET_POINTS);
+                    }
                     iterator.remove();
                 }
             }

@@ -15,6 +15,8 @@ import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.FuelBar;
+import scramble.model.tank.FuelTank;
+import scramble.view.compact.FuelTankPanel;
 import scramble.view.compact.GameView;
 import scramble.view.compact.RocketPanel;
 import scramble.view.compact.SpaceShipPanel;
@@ -27,10 +29,11 @@ import scramble.utility.Constants;
  */
 public class LogicControllerImpl implements LogicController {
 
-    private int lives;
+    private static int lives;
     private static List<PairImpl<Integer, Integer>> checkPoints = new ArrayList<>();
     private final SpaceShipPanel spaceShipPanel;
     private final RocketPanel rocketPanel;
+    private final FuelTankPanel fuelTankPanel;
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
@@ -43,12 +46,12 @@ public class LogicControllerImpl implements LogicController {
      * @param gameView the calling class
      */
     public LogicControllerImpl(final GameView gameView) {
-        this.lives = Constants.MAX_LIVES;
+        lives = Constants.MAX_LIVES;
         this.gameView = new GameView(gameView);
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
         this.rocketPanel = gameView.getRocketPanel();
-
+        this.fuelTankPanel = gameView.getFuelTankPanel();
         addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
             @Override
@@ -60,12 +63,13 @@ public class LogicControllerImpl implements LogicController {
         collisionTimer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                
+
                 touchedGround();
                 checkBulletCollisions();
                 touchedEnemy();
                 checkBulletEnemyCollision();
-                
+                checkBulletTankCollision();
+
             }
         });
 
@@ -83,7 +87,7 @@ public class LogicControllerImpl implements LogicController {
 
     /** Decrement lives counter. */
     private void lostLife() {
-        this.lives--;
+        lives--;
     }
 
     /**
@@ -92,7 +96,7 @@ public class LogicControllerImpl implements LogicController {
      * @return true if lives are over
      */
     private boolean isGameOver() {
-        return this.lives == 0;
+        return lives == 0;
     }
 
     /** Adds checkpoints. */
@@ -108,13 +112,13 @@ public class LogicControllerImpl implements LogicController {
      *
      * @return number of lives remaining
      */
-    public int getLives() {
-        return this.lives;
+    public static int getLives() {
+        return lives;
     }
 
     /** Sets lives to MAX_LIVES in case game starts anew. */
     public void resetLives() {
-        this.lives = Constants.MAX_LIVES;
+        lives = Constants.MAX_LIVES;
     }
 
     /** Starts collision timer. */
@@ -161,12 +165,22 @@ public class LogicControllerImpl implements LogicController {
         }
     }
 
-    public void checkBulletEnemyCollision() {
+    private void checkBulletEnemyCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
 
         for (RocketImpl rocket : rocketPanel.getRockets())
             if (rocket.checkCollisionBullet(bullets)) {
                 rocket.setHit(true);
+            }
+
+    }
+
+    private void checkBulletTankCollision() {
+        final var bullets = gameView.getBulletsPanel().getBullets();
+
+        for (FuelTank tank : fuelTankPanel.getFuelTanks())
+            if (tank.checkCollisionBullet(bullets)) {
+                tank.setHit(true);
             }
 
     }
@@ -192,7 +206,7 @@ public class LogicControllerImpl implements LogicController {
 
     private void iteraction() {
 
-        gameView.stopAllTimers();
+        gameView.stopAllPanelTimers();
         stopFuelCheckTimer();
         stopCollisionTimer();
         spaceShipPanel.getSpaceship().setHit(true);
@@ -201,12 +215,12 @@ public class LogicControllerImpl implements LogicController {
     }
 
     private void timerLogic() {
-        gameView.stopAllTimers();
+        gameView.stopAllPanelTimers();
         InputControlImpl.setPaused(true);
         final Timer delayTimer = new Timer(3500, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                gameView.startAllTimers();
+                gameView.startAllPanelTimers();
                 startFuelCheckTimer();
                 startCollisionTimer();
                 InputControlImpl.setPaused(false);
@@ -219,6 +233,7 @@ public class LogicControllerImpl implements LogicController {
                     gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                 }
                 gameView.getRocketPanel().resetRockets();
+                gameView.getFuelTankPanel().resetTanks();
             }
         });
         delayTimer.setRepeats(false);
@@ -226,4 +241,3 @@ public class LogicControllerImpl implements LogicController {
     }
 
 }
-
