@@ -89,7 +89,7 @@ public class RocketImpl extends GameElementImpl {
             }
         };
         randomDelay = 1000 + randomStartDelay.nextInt(3000);
-        
+
     }
 
     public void move() {
@@ -123,12 +123,9 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        Iterator<Bullet> iterator = bullets.iterator();
-        while (iterator.hasNext()) {
-            Bullet b = iterator.next();
+        for(Bullet b : bullets){
             if (hasCollided(b)) {
                 hit = true;
-                iterator.remove();
                 return true;
             }
         }
