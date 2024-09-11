@@ -119,13 +119,7 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        for(Bullet b : bullets){
-            if (hasCollided(b)) {
-                hit = true;
-                return true;
-            }
-        }
-        return false;
+        return bullets.stream().anyMatch(this::hasCollided);
     }
 
     public void moveExplosion(final int explosionSpeedX) {
