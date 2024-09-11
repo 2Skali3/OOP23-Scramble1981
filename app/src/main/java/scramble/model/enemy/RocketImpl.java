@@ -8,6 +8,8 @@ import scramble.model.common.impl.PairImpl;
 import scramble.utility.Constants;
 
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.imageio.ImageIO;
 import java.util.logging.Logger;
 
@@ -51,23 +53,7 @@ public class RocketImpl extends GameElementImpl {
         super(x, y, width, height);
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
-        for (int i = 1; i <= Constants.SPRITE_ROCKET; i++) {
-            try {
-                sprites.add(ImageIO.read(getClass().getResource("/rocket/rocket_frame" + i + "_shader.png")));
-            } catch (IOException e) {
-                LOG.severe("Ops!");
-                LOG.severe(e.toString());
-            }
-        }
-        for (int i = 1; i <= Constants.SPRITE_ROCKET_EXPLOSION; i++) {
-            try {
-                explosionSprites
-                        .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
-            } catch (IOException e) {
-                LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
-                LOG.severe(e.toString());
-            }
-        }
+        loadSprites();
         this.currentSprite = 0;
         this.hit = false;
         this.speedY = 3.5f;
@@ -91,17 +77,15 @@ public class RocketImpl extends GameElementImpl {
         }
         if(this.state.equals(RocketState.PREMOVE)){
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) (getPosition().getSecondElement())));
-        }
-        if (this.state.equals(RocketState.MOVING)) {
+        }else if (this.state.equals(RocketState.MOVING)) {
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
                     (int) (getPosition().getSecondElement() - speedY)));
+        } else if(this.state.equals(RocketState.EXPLODED)){
+            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) getPosition().getSecondElement()));
         }
         if (getPosition().getSecondElement() <= 0) {
             setExploded();
             this.counterForExplosion = Constants.ROCKET_EXPLOSION_DURATION;
-        }
-        if(this.state.equals(RocketState.EXPLODED)){
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) getPosition().getSecondElement()));
         }
     }
 
@@ -162,6 +146,26 @@ public class RocketImpl extends GameElementImpl {
 
     public static int getExplosionDuration() {
         return Constants.ROCKET_EXPLOSION_DURATION;
+    }
+
+    private void loadSprites() {
+        for (int i = 1; i <= Constants.SPRITE_ROCKET; i++) {
+            try (InputStream inputStream = getClass().getResourceAsStream("/rocket/rocket_frame" + i + "_shader.png")) {
+                sprites.add(ImageIO.read(inputStream));
+            } catch (IOException e) {
+                LOG.severe("Error occurred while loading rocket sprites!");
+                LOG.severe(e.toString());
+            }
+        }
+        for (int i = 1; i <= Constants.SPRITE_ROCKET_EXPLOSION; i++) {
+            try {
+                explosionSprites
+                        .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+            } catch (IOException e) {
+                LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
+                LOG.severe(e.toString());
+            }
+        }
     }
 
 }
