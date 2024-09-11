@@ -80,9 +80,8 @@ public final class Constants {
     /**
      * Map created to save sizes of each bullet type. Used in model/bullets/Bullet.
      */
-    public static final Map<BulletType, PairImpl<Integer, Integer>> BULLETS_SIZE_MAP = Map.of(
-            BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3),
-            BulletType.TYPE_BOMB, new PairImpl<>(42, 52));
+    public static final Map<BulletType, PairImpl<Integer, Integer>> BULLETS_SIZE_MAP = Map
+            .of(BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3), BulletType.TYPE_BOMB, new PairImpl<>(42, 52));
 
     /** File path for the scores .json saved list. Used in model/scores/Scores. */
     public static final String SCORES_FILE_PATH = "/scores/scores.json";
@@ -102,6 +101,15 @@ public final class Constants {
     /** Spaceship movement speed. Used in model/spaceship/SpaceShip. */
     public static final int SPACESHIP_SPEED = 2;
 
+    /** Number of Rocket sprites. */
+    public static final int SPRITE_ROCKET = 5;
+    /** Number of Rocket Explosion sprites. */
+    public static final int SPRITE_ROCKET_EXPLOSION = 4;
+    /** Duration of a RocketExplosion before being deleted */
+    public static final int ROCKET_EXPLOSION_DURATION = 15;
+
+
+
     // view
     /**
      * Number of stars generated in the background. Used in
@@ -110,8 +118,8 @@ public final class Constants {
     public static final int NUMBER_OF_STAR_IN_BACKGROUND = 100;
 
     /**
-     * Landscape movement speed.
-     * Used in view/compact/LandscapePanel and in view/compact/BulletsPanel.
+     * Landscape movement speed. Used in view/compact/LandscapePanel and in
+     * view/compact/BulletsPanel.
      */
     public static final int LANDSCAPEX_SPEED = 4; // 4
 

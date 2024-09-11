@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,9 +24,7 @@ import java.util.random.RandomGenerator;
 public class RocketImpl extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
-    private static final int SPRITES = 5;
-    private static final int EXP_SPRITES = 4;
-    private static final int EXPLOSION_DURATION = 15;
+
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
@@ -35,14 +32,12 @@ public class RocketImpl extends GameElementImpl {
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
-    private boolean moving;
-    private boolean premove;
-    private boolean exploded;
     private int counterForExplosion = 0;
     private final Timer startTimer;
     private final RandomGenerator randomStartDelay;
     private final TimerTask task;
     private int randomDelay;
+    private RocketState state;
 
     /**
      * Class constructor.
@@ -56,7 +51,7 @@ public class RocketImpl extends GameElementImpl {
         super(x, y, width, height);
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
-        for (int i = 1; i <= SPRITES; i++) {
+        for (int i = 1; i <= Constants.SPRITE_ROCKET; i++) {
             try {
                 sprites.add(ImageIO.read(getClass().getResource("/rocket/rocket_frame" + i + "_shader.png")));
             } catch (IOException e) {
@@ -64,7 +59,7 @@ public class RocketImpl extends GameElementImpl {
                 LOG.severe(e.toString());
             }
         }
-        for (int i = 1; i <= EXP_SPRITES; i++) {
+        for (int i = 1; i <= Constants.SPRITE_ROCKET_EXPLOSION; i++) {
             try {
                 explosionSprites
                         .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
@@ -76,16 +71,14 @@ public class RocketImpl extends GameElementImpl {
         this.currentSprite = 0;
         this.hit = false;
         this.speedY = 3.5f;
-        this.moving = false;
-        this.exploded = false;
+        this.state = RocketState.PREMOVE;
         startTimer = new Timer();
         randomStartDelay = RandomGenerator.of("Random");
         task = new TimerTask() {
 
             @Override
             public void run() {
-                premove = false;
-                moving = true;
+                state = RocketState.MOVING;
             }
         };
         randomDelay = 1000 + randomStartDelay.nextInt(3000);
@@ -96,29 +89,32 @@ public class RocketImpl extends GameElementImpl {
         if (isHit()) {
             speedY = 0;
         }
-        if(premove){
+        if(this.state.equals(RocketState.PREMOVE)){
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) (getPosition().getSecondElement())));
         }
-        if (moving) {
+        if (this.state.equals(RocketState.MOVING)) {
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
                     (int) (getPosition().getSecondElement() - speedY)));
         }
         if (getPosition().getSecondElement() <= 0) {
-            setExploded(true);
-            this.counterForExplosion = EXPLOSION_DURATION;
+            setExploded();
+            this.counterForExplosion = Constants.ROCKET_EXPLOSION_DURATION;
+        }
+        if(this.state.equals(RocketState.EXPLODED)){
+            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) getPosition().getSecondElement()));
         }
     }
 
     @Override
     public BufferedImage getSprite() {
         currentSprite += 1;
-        currentSprite = currentSprite % SPRITES;
+        currentSprite = currentSprite % Constants.SPRITE_ROCKET;
         return sprites.get(currentSprite);
     }
 
     public BufferedImage getExplosionSprite() {
         currentExpSprite += 1;
-        currentExpSprite = currentExpSprite % EXP_SPRITES;
+        currentExpSprite = currentExpSprite % Constants.SPRITE_ROCKET_EXPLOSION;
         return explosionSprites.get(currentExpSprite);
     }
 
@@ -150,16 +146,16 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public void turnOnMove() {
-        premove = true;
+        this.state = RocketState.PREMOVE;
         startTimer.schedule(task, randomDelay);
     }
 
     public boolean isExploded() {
-        return exploded;
+        return this.state.equals(RocketState.EXPLODED);
     }
 
-    public void setExploded(boolean exploded) {
-        this.exploded = exploded;
+    public void setExploded() {
+        this.state = RocketState.EXPLODED;
     }
 
     public int getCounterForExplosion() {
@@ -171,7 +167,7 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public static int getExplosionDuration() {
-        return EXPLOSION_DURATION;
+        return Constants.ROCKET_EXPLOSION_DURATION;
     }
 
 }

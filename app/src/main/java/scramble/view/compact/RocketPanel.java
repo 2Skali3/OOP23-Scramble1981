@@ -71,7 +71,7 @@ public class RocketPanel extends GamePanel {
                 if (rocket.isHit()) {
                     g.drawImage(rocket.getExplosionSprite(), rocket.getPosition().getFirstElement(),
                             rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);
-                    rocket.setExploded(true);
+                    rocket.setExploded();
                 } else {
                     g.drawImage(rocket.getSprite(), rocket.getPosition().getFirstElement(),
                             rocket.getPosition().getSecondElement(), rocket.getWidth(), rocket.getHeight(), null);

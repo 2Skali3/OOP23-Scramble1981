@@ -204,7 +204,7 @@ public class LogicControllerImpl implements LogicController {
         final List<Bullet> bulletsToRemove = bullets.getBullets()
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
-                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()) /*|| checkBulletEnemyCollision()*/))
+                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()) || checkBulletEnemyCollision()))
                 .toList();
         bullets.removeBullets(bulletsToRemove);
     }
