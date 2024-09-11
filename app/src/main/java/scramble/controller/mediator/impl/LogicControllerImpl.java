@@ -68,7 +68,6 @@ public class LogicControllerImpl implements LogicController {
                 checkHorizontalBulletCollisions();
                 checkBombBulletCollisions();
                 touchedEnemy();
-                // checkBulletEnemyCollision();
                 checkBulletTankCollision();
 
             }
@@ -246,7 +245,9 @@ public class LogicControllerImpl implements LogicController {
                     lostLife();
                     gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                 }
+                gameView.getRocketPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
                 gameView.getRocketPanel().resetRockets();
+                gameView.getFuelTankPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
                 gameView.getFuelTankPanel().resetTanks();
             }
         });

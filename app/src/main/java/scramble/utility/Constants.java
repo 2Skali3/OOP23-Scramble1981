@@ -137,6 +137,16 @@ public final class Constants {
     /** The original scramble font. Used in view/font/ScrambleFontUtil */
     public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
 
+    // LandscapeUtils
+    /** Number of sprites per stage per column. */
+    public static final int SPRITE_PER_STAGE_HEIGHT = 40;
+    /** Number of sprites per stage per row. */
+    public static final int SPRITE_PER_STAGE_WIDTH = 350;
+
+    // Stages
+    /** Number of sprites per prestage per column. */
+    public static final int SPRITE_PER_PRESTAGE_WIDTH = 70;
+
     private Constants() {
     }
 }

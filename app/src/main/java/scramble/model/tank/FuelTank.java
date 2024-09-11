@@ -77,7 +77,7 @@ public class FuelTank extends GameElementImpl {
                 getPosition().getSecondElement()));
     }
 
-    /** @inheritDoc */
+    /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
         currentSprite += 1;

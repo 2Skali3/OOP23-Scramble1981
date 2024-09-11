@@ -1,11 +1,12 @@
 package scramble.model.map.util;
 
 import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 
-import scramble.controller.map.Converter;
 import scramble.model.map.util.enums.LandPart;
+import scramble.utility.Constants;
 
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -18,42 +19,17 @@ import java.awt.image.BufferedImage;
  * management.
  */
 public final class LandUtils {
-    /**
-     * Number of sprites per stage per column.
-     */
-    public static final int NUMBER_OF_SPITE_PER_STAGE_HEIGHT = 40;
-    /**
-     * Number of sprites per stage per row.
-     */
-    public static final int NUMBER_OF_SPITE_PER_STAGE_WIDTH = 350;
-    /**
-     * Number of sprites per prestage per column.
-     */
-    public static final int NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH = 70;
-    /**
-     * Number of pixel of the single sprite in the source image.
-     */
-    public static final int NUMBER_OF_PX_IN_IMAGE_PER_SPRITE = 8;
-    /**
-     * Sprite dimention in the final stage per pixel.
-     */
-    public static final int NUMBER_OF_PX_IN_MAP_PER_SPRITE = 16;
-    /**
-     * Number of stage.
-     */
-    public static final int STAGE_NUMBERS = 2;
-    /**
-     * Number of sprites rows.
-     */
-    public static final int MAX_IMAGE_HEIGHT = 2;
-    /**
-     * Number of sprites columns.
-     */
-    public static final int MAX_IMAGE_WIDTH = 17;
+
+    /** Sprite dimention in the final stage per pixel. */
+    public static final int PIXEL_PER_LAND_SPRITE_SIDE = 16;
+
+    private static final int NUMBER_OF_PX_IN_IMAGE_PER_SPRITE = 8;
+    private static final int MAX_IMAGE_HEIGHT = 2;
+    private static final int MAX_IMAGE_WIDTH = 17;
     /**
      * Classification of the type of sprite.
      */
-    public static final List<LandPart> NAME_IMAGE_PART = Converter.getImageParts();
+    public static final List<LandPart> NAME_IMAGE_PART = LandUtils.getImageParts();
     /**
      * Relative url of the sprites image.
      */
@@ -94,6 +70,42 @@ public final class LandUtils {
     }
 
     /**
+     * Multiply a number for the number of pixel per sprite's side.
+     * @param x the number that needs to be multiply
+     * @return the number multiplied by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
+     */
+    public static int multiplyPixelPerSprite(final int x) {
+        return x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Divide a number for the number of pixel per sprite's side.
+     * @param x the number that needs to be divided
+     * @return the number divided by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
+     */
+    public static int dividePixelPerSprite(final int x) {
+        return x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Add to a number the number of pixel per sprite's side.
+     * @param x the number that needs to add the number of pixel per sprite's side
+     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} added to him
+     */
+    public static int addPixelPerSprite(final int x) {
+        return x + LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Subtract to a number the number of pixel per sprite's side.
+     * @param x the number that needs to subtract the number of pixel per sprite's side
+     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} subtracted to him
+     */
+    public static int subPixelPerSprite(final int x) {
+        return x - LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
      * Method for the conversion of LandscapeSprite to the relative BufferedImage.
      * 
      * @param landScapeSprite
@@ -101,5 +113,14 @@ public final class LandUtils {
      */
     public static BufferedImage getSprite(final LandPart landScapeSprite) {
         return SPRITE_MAP.get(landScapeSprite);
+    }
+
+    /**
+     * Method that insert all of the enum LandscapeSprite data into a List.
+     * 
+     * @return the list of all the enum LandscapeSprite
+     */
+    public static List<LandPart> getImageParts() {
+        return Arrays.asList(LandPart.values());
     }
 }

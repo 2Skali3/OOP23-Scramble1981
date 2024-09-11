@@ -31,7 +31,6 @@ public final class HUDPanel extends GamePanel {
     private static final int GAP_Y = 30;
     private static final int LIVES_DIM = 5;
 
-
     private final Font retroFont;
     private transient BufferedImage fuelBarFull;
     private transient BufferedImage fuelBarEmpty;
@@ -178,7 +177,7 @@ public final class HUDPanel extends GamePanel {
      */
     public void changeStage() {
         final int pos = LandscapePanel.getMapController().getCurrentMapX();
-        final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        final int scale = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
 
         if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement() * scale
                 && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale) {

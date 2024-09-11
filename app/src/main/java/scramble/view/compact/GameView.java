@@ -25,13 +25,13 @@ import javax.swing.Timer;
  */
 public class GameView extends JFrame {
 
-    private static final int CHECKPOINT_OFFSET_X = 40;
     private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
     /** Height of the window. */
-    public static final int WINDOW_HEIGHT = LandUtils.NUMBER_OF_SPITE_PER_STAGE_HEIGHT
-            * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int WINDOW_HEIGHT = LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT);
+
+    private static final int CHECKPOINT_OFFSET_X = WINDOW_WIDTH / 2;
 
     private final JLayeredPane mainPanel;
 
@@ -82,12 +82,11 @@ public class GameView extends JFrame {
         this.hudPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
         // Rocket panel setup
-        this.rocketPanel = new RocketPanel(LandscapePanel.getMapController().getFlatFloorPositions());
+        this.rocketPanel = new RocketPanel();
         rocketPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // FuelTank panel setup
-        this.fuelTankPanel = new FuelTankPanel(LandscapePanel.getMapController().getFlatFloorPositions(),
-                hudPanel.getFuelBar());
+        this.fuelTankPanel = new FuelTankPanel(hudPanel.getFuelBar());
         fuelTankPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         this.logicController = new LogicControllerImpl(this);
@@ -96,10 +95,11 @@ public class GameView extends JFrame {
         this.setVisible(true);
 
         this.repaintTimer = new Timer(32, e -> {
+
+            this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
             mainPanel.repaint();
             this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
-            this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
         });
 
         this.backgroundPanel.startTimer();
@@ -253,31 +253,29 @@ public class GameView extends JFrame {
         this.mainPanel.removeAll();
 
         this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
-        this.backgroundPanel.startTimer();
+        // this.backgroundPanel.startTimer();
 
         this.mainPanel.add(landscapePanel, JLayeredPane.PALETTE_LAYER);
-        this.landscapePanel.startTimer();
+        // this.landscapePanel.startTimer();
 
         this.mainPanel.add(spaceShipPanel, JLayeredPane.MODAL_LAYER);
-        this.spaceShipPanel.startTimer();
+        // this.spaceShipPanel.startTimer();
 
         this.mainPanel.add(bulletsPanel, JLayeredPane.MODAL_LAYER);
-        this.bulletsPanel.startTimer();
+        // this.bulletsPanel.startTimer();
 
         this.mainPanel.add(rocketPanel, JLayeredPane.MODAL_LAYER);
-        this.rocketPanel.startTimer();
+        // this.rocketPanel.startTimer();
 
         this.mainPanel.add(fuelTankPanel, JLayeredPane.MODAL_LAYER);
-        this.fuelTankPanel.startTimer();
+        // this.fuelTankPanel.startTimer();
 
-        // POPUP_LAYER
         this.mainPanel.add(hudPanel, JLayeredPane.POPUP_LAYER);
-        this.hudPanel.startTimer();
-
-        this.startMenu.stopTimer();
-
+        // this.hudPanel.startTimer();
         this.hudPanel.resetStage();
 
+        this.startMenu.stopTimer();
+        this.startAllPanelTimers();
     }
 
     /** Resets to start menu. */
@@ -288,8 +286,13 @@ public class GameView extends JFrame {
 
         this.mainPanel.removeAll();
 
-        landscapePanel.reset(0);
-        spaceShipPanel.getSpaceship()
+        this.landscapePanel.reset(0);
+        this.rocketPanel.setMapX(0);
+        this.fuelTankPanel.setMapX(0);
+        this.rocketPanel.resetRockets();
+        this.fuelTankPanel.resetTanks();
+
+        this.spaceShipPanel.getSpaceship()
                 .updatePosition(
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_STARTER_POSITION));
 
@@ -298,12 +301,9 @@ public class GameView extends JFrame {
 
         hudPanel.getFuelBar().fillFuel();
 
-        this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
-        this.rocketPanel.resetRockets();
-        this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
-        this.fuelTankPanel.resetTanks();
+        // System.out.println(this.landscapePanel.getCurrentMapX());
         this.startMenu.startTimer();
-
+        // System.out.println("LandPanel:\t" + this.landscapePanel.getCurrentMapX());
     }
 
     /**
@@ -320,7 +320,7 @@ public class GameView extends JFrame {
                                 Constants.SPACESHIP_STARTER_POSITION));
         hudPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
-        this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
+        this.rocketPanel.setMapX(0);
         this.rocketPanel.resetRockets();
         this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
         this.fuelTankPanel.resetTanks();
@@ -334,17 +334,12 @@ public class GameView extends JFrame {
      */
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
-        for (int i = size - 1; i > 0; i--) {
-            if (MapController.getStageStartingX().get(i) * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE < LandscapePanel
-                    .getMapController().getCurrentMapX()) {
-                if (i == 1) {
-                    return MapController.getStageStartingX().get(i);
-                } else {
-                    return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
-                }
+        for (int i = size - 1; i > 1; i--) {
+            if (MapController.getStageStartingX().get(i) < LandscapePanel.getMapController().getCurrentMapX()) {
+                return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
             }
         }
-        return MapController.getStageStartingX().get(0);
+        return MapController.getStageStartingX().get(1);
     }
 
     /** Stops all the timers of the singular panels inside game view. */

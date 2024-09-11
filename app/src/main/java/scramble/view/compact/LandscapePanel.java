@@ -26,13 +26,13 @@ import java.awt.Color;
  */
 public class LandscapePanel extends GamePanel {
     /** Numebr of columns on screen. */
-    public static final int COLUMNS_ON_SCREEN = GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+    public static final int COLUMNS_ON_SCREEN = LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH);
     /** Number of columns that aren't seen on screen but are still loaded. */
-    public static final int EXTRA_COLUMNS_LOADED = 50;
+    public static final int EXTRA_COLUMNS_LOADED = 20;
     /** Number of total columns loaded. */
     public static final int TOTAL_COLUMNS_LOADED = COLUMNS_ON_SCREEN + EXTRA_COLUMNS_LOADED;
 
-    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+    private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
 
     private static final long serialVersionUID = 1L;
@@ -46,10 +46,11 @@ public class LandscapePanel extends GamePanel {
     private final Timer landscapeTimer;
 
     private void updateLandscape() {
+
         if (!InputControlImpl.isExplPause()) {
             this.landscapeX += Constants.LANDSCAPEX_SPEED;
             this.counter += Constants.LANDSCAPEX_SPEED;
-            if (this.landscapeX / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE
+            if (this.landscapeX / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
                     + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
             } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
@@ -65,14 +66,12 @@ public class LandscapePanel extends GamePanel {
      * @return a 2D list
      */
     public List<MapElement> getColumns() {
-        final List<MapElement> returnColumns = new ArrayList<>();
+        final List<MapElement> mapElementsColumns = new ArrayList<>();
         for (final MapColumn mc : this.columns) {
-            returnColumns.addAll(mc.getCeilings());
-            returnColumns.addAll(mc.getFloors());
+            mapElementsColumns.addAll(mc.getElements());
         }
 
-        return returnColumns;
-        // return new ArrayList<>(columns);
+        return mapElementsColumns;
     }
 
     /** Costructor of the class LandscapePanel. */
@@ -92,34 +91,13 @@ public class LandscapePanel extends GamePanel {
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
-        // to-do: dividi in sottometodi privati
         for (final MapColumn column : this.columns) {
             int tempY = 0;
-            column.updateHitBoxX(-this.landscapeX);
-            for (final BufferedImage bi : column.getBIListCeiling()) {
-                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
-                        column.getBIListHeight(), null);
-                tempY += column.getBIListHeight();
-            }
-            tempY = column.getStartYFloor();
-            for (final BufferedImage bi : column.getBIListFloor()) {
-                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.getBIListWidth(),
-                        column.getBIListHeight(), null);
-                tempY += column.getBIListHeight();
-            }
-
-            for (final MapElement c : column.getCeilings()) {
-                g.drawImage(c.getSprite(),
-                        c.getX() - this.landscapeX, c.getY(),
-                        c.getWidth(), c.getHeight(),
-                        null);
-            }
-
-            for (final MapElement c : column.getFloors()) {
-                g.drawImage(c.getSprite(),
-                        c.getX() - this.landscapeX, c.getY(),
-                        c.getWidth(), c.getHeight(),
-                        null);
+            column.updateHitBox(column.getX() - this.landscapeX);
+            for (final BufferedImage bi : column.getBIs()) {
+                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.gettWidth(),
+                        column.getBIstHeight(), null);
+                tempY += column.getBIstHeight();
             }
         }
         drawHitBox(g);
@@ -128,11 +106,7 @@ public class LandscapePanel extends GamePanel {
     private void drawHitBox(final Graphics g) {
         g.setColor(Color.red);
         for (final MapColumn c : columns) {
-            for (final MapElement me : c.getCeilings()) {
-                final Rectangle temp = me.getHitBox();
-                g.drawRect(temp.x, temp.y, temp.width, temp.height);
-            }
-            for (final MapElement me : c.getFloors()) {
+            for (final MapElement me : c.getElements()) {
                 final Rectangle temp = me.getHitBox();
                 g.drawRect(temp.x, temp.y, temp.width, temp.height);
             }
@@ -145,10 +119,12 @@ public class LandscapePanel extends GamePanel {
      * @param starterPosition self explanatory
      */
     public void reset(final int starterPosition) {
+
         MAP_CONTROLLER.resetToX(starterPosition);
-        counter = 0;
-        this.landscapeX = +starterPosition * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
-        this.starterX = landscapeX;
+        this.landscapeX = starterPosition;
+
+        this.counter = 0;
+        this.starterX = starterPosition;
         this.fillColumns();
     }
 
@@ -166,7 +142,8 @@ public class LandscapePanel extends GamePanel {
      * @return MapX with added the column counter
      */
     public int getCurrentMapX() {
-        return MAP_CONTROLLER.getCurrentMapX() + this.counter;
+        // System.out.println(MAP_CONTROLLER.getCurrentMapX() + this.counter);
+        return MAP_CONTROLLER.getCurrentMapX() + this.counter - 1;
     }
 
     /** @inheritDoc */

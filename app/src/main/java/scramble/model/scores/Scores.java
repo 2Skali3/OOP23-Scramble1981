@@ -14,7 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class handles the score board. It creates a list to be display in the
@@ -35,7 +36,7 @@ public class Scores {
         // Read scores from JSON file
         final File scoresFile = new File(SCORES_FILE_PATH);
         if (scoresFile.exists()) {
-            try (Reader reader = new FileReader(scoresFile, Charset.forName("UTF-8"))) {
+            try (Reader reader = new FileReader(scoresFile, StandardCharsets.UTF_8)) {
                 final Gson gson = new Gson();
                 final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
                 if (loadedScores != null) {
@@ -88,7 +89,7 @@ public class Scores {
             }
         }
 
-        try (FileWriter writer = new FileWriter(SCORES_FILE_PATH, Charset.forName("UFT-8"))) {
+        try (FileWriter writer = new FileWriter(SCORES_FILE_PATH, StandardCharsets.UTF_8)) {
             final Gson gson = new Gson();
             final ScoreData updatedScores = new ScoreData(scoresList);
             gson.toJson(updatedScores, writer);

@@ -1,18 +1,19 @@
 package scramble.model.map.impl;
 
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.api.MapColumn;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.api.MapStageFactory;
-import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.LandsDataLoader;
 import scramble.model.map.util.elaborator.StageGenerator;
+import scramble.utility.Constants;
 
 /**
  * Implementation of the interface MapStageFactory.
  * 
  * @see MapStageFactory
  */
-public class MapStageFactoryImpl implements MapStageFactory {
+public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
     /**
      * the starter height value of the ceiling.
      */
@@ -36,61 +37,61 @@ public class MapStageFactoryImpl implements MapStageFactory {
      * @inheritDoc
      */
     @Override
-    public MapStage prestage() {
+    public MapStage<MapColumn> prestage() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getPrestageData(),
-                LandUtils.NUMBER_OF_SPITE_PER_PRESTAGE_WIDTH);
+                Constants.SPRITE_PER_PRESTAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage1() {
+    public MapStage<MapColumn> stage1() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage1Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage2() {
+    public MapStage<MapColumn> stage2() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage2Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage3() {
+    public MapStage<MapColumn> stage3() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage3Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage4() {
+    public MapStage<MapColumn> stage4() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage4Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage5() {
+    public MapStage<MapColumn> stage5() {
         return mapStageGenerator.convertDataToMapStage(LandsDataLoader.getStage5Data(),
-                LandUtils.NUMBER_OF_SPITE_PER_STAGE_WIDTH);
+                Constants.SPRITE_PER_STAGE_WIDTH);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public MapStage stage6() {
+    public MapStage<MapColumn> stage6() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stage6'");
     }

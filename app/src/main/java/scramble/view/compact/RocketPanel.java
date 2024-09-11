@@ -28,23 +28,19 @@ public class RocketPanel extends GamePanel {
     private static final int ROCKET_POINTS = 50;
     private static final int ROCKET_OFFSET = 5;
 
-
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
 
     private final Timer updateTimer;
     private final Timer rocketSpawn;
-    private final List<Pair<Integer, Integer>> flatPositions;
 
     private int mapX;
 
-    /** Class constructor {@code RocketPanel}.
-     *
-     * @param flatFloorPosition the list of spawn points for the enemy
+    /**
+     * Class constructor {@code RocketPanel}.
      */
-    public RocketPanel(final List<Pair<Integer, Integer>> flatFloorPosition) {
+    public RocketPanel() {
 
-        this.flatPositions = new ArrayList<>(flatFloorPosition);
         initializeRockets();
         this.fillRockets();
 
@@ -64,8 +60,8 @@ public class RocketPanel extends GamePanel {
 
     private void fillRockets() {
         int counter = 0;
-        for (final Pair<Integer, Integer> pos : flatPositions) {
-            if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() > this.mapX) {
+        for (final Pair<Integer, Integer> pos : LandscapePanel.getMapController().getFlatFloorPositions()) {
+            if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() >= this.mapX + GameView.WINDOW_WIDTH) {
                 this.rockets
                         .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH,
                                 ROCKET_HEIGHT));
@@ -76,9 +72,12 @@ public class RocketPanel extends GamePanel {
 
     /** Resets all rockets and refill the list anew. */
     public void resetRockets() {
+
+        // System.out.println("RocketPanel:\t" + mapX);
         this.rocketsOnScreen.clear();
         this.rockets.clear();
         this.fillRockets();
+        this.loadRockets();
     }
 
     /** {@inheritDoc} */
@@ -99,7 +98,8 @@ public class RocketPanel extends GamePanel {
         }
     }
 
-    /** Getter for the list of rockets on the screen.
+    /**
+     * Getter for the list of rockets on the screen.
      *
      * @return a copy of the list
      */
@@ -130,7 +130,8 @@ public class RocketPanel extends GamePanel {
         this.updateTimer.stop();
     }
 
-    /** Setter for MapX.
+    /**
+     * Setter for MapX.
      *
      * @param x the new MapX
      */
@@ -143,7 +144,7 @@ public class RocketPanel extends GamePanel {
 
         while (iterator.hasNext()) {
             final RocketImpl r = iterator.next();
-            if (r.getPosition().getFirstElement() <= mapX) {
+            if (r.getPosition().getFirstElement() <= mapX + GameView.WINDOW_WIDTH) {
                 r.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
                         r.getPosition().getSecondElement() - ROCKET_HEIGHT));
                 rocketsOnScreen.add(r);
@@ -151,7 +152,6 @@ public class RocketPanel extends GamePanel {
                 iterator.remove();
 
             }
-
         }
     }
 

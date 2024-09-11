@@ -6,7 +6,9 @@ import java.util.List;
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.util.BufferedImageManager;
+import scramble.model.map.api.MapColumn;
 import scramble.model.map.api.MapStage;
+import scramble.model.map.impl.MapColumnImpl;
 import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageImpl;
 import scramble.model.map.util.LandUtils;
@@ -14,7 +16,6 @@ import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.LandPart;
 import scramble.model.map.util.enums.StagePart;
 import scramble.model.map.util.enums.TerrainType;
-// import scramble.model.map.util.enums.TerrainType;
 import scramble.model.map.util.raw.RawData;
 import scramble.model.map.util.raw.SegmentRawData;
 
@@ -57,10 +58,6 @@ public class StageGenerator {
         this.currentYCeilingAndFloor = new PairImpl<>(heightCeilingAndFloor.getFirstElement(),
                 heightCeilingAndFloor.getSecondElement());
         this.rand = new Random();
-    }
-
-    private int applyPxInMap(final int n) {
-        return n * LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
     }
 
     private LandPart getSprite(final LandBehaviour behavior) {
@@ -181,16 +178,16 @@ public class StageGenerator {
             BufferedImage bi = LandUtils.getSprite(this.getSprite(behaviour));
             if (stagePart == StagePart.CEILING) {
                 bi = BufferedImageManager.rotateBufferedImageWithDegree(bi, 180);
-            } else if (behaviour == LandBehaviour.BRICK) {
-                bi = BufferedImageManager.substituteGreenWithPurple(bi);
+            }
+            if (behaviour == LandBehaviour.BRICK) {
+                bi = BufferedImageManager.changeColorClockwise(bi, 0);
             }
 
             // to-do: sistemare empty space
             if (behaviour != LandBehaviour.EMPTY) {
                 elaboratedData.add(new MapElement(
-                        this.applyPxInMap(x), this.applyPxInMap(currentY),
-                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
-                        LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE,
+                        LandUtils.multiplyPixelPerSprite(x), LandUtils.multiplyPixelPerSprite(currentY),
+                        LandUtils.PIXEL_PER_LAND_SPRITE_SIDE, LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
                         bi, terrainType, behaviour));
             }
 
@@ -222,20 +219,31 @@ public class StageGenerator {
      * @see MapStage
      * @see RawData
      */
-    public MapStage convertDataToMapStage(final RawData rawData, final int stageLength) {
-        final MapStage elaboratedStage = new MapStageImpl(rawData.getTerrainType());
+    public MapStage<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
 
-        Pair<List<MapElement>, Integer> elaboratedData;
+        Pair<List<MapElement>, Integer> elaboratedDataCeiling;
+        Pair<List<MapElement>, Integer> elaboratedDataFloor;
 
-        elaboratedData = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
+        elaboratedDataCeiling = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
                 rawData.getTerrainType());
-        currentYCeilingAndFloor.setFirstElement(elaboratedData.getSecondElement());
-        elaboratedStage.setCeiling(elaboratedData.getFirstElement());
+        currentYCeilingAndFloor.setFirstElement(elaboratedDataCeiling.getSecondElement());
 
-        elaboratedData = this.elaborateRawData(StagePart.FLOOR, rawData.getFloor(), stageLength,
+        elaboratedDataFloor = this.elaborateRawData(StagePart.FLOOR, rawData.getFloor(), stageLength,
                 rawData.getTerrainType());
-        currentYCeilingAndFloor.setSecondElement(elaboratedData.getSecondElement());
-        elaboratedStage.setFloor(elaboratedData.getFirstElement());
+        currentYCeilingAndFloor.setSecondElement(elaboratedDataFloor.getSecondElement());
+
+        if (elaboratedDataCeiling.getFirstElement().size() != elaboratedDataFloor.getFirstElement().size()) {
+            return null;
+        }
+        final MapStage<MapColumn> elaboratedStage = new MapStageImpl<>();
+        final List<MapElement> elaborateCeiling = elaboratedDataCeiling.getFirstElement();
+        final List<MapElement> elaborateFloor = elaboratedDataFloor.getFirstElement();
+
+        for (int i = 0; i < elaboratedDataCeiling.getFirstElement().size(); i++) {
+            elaboratedStage.addColumn(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
+                    LandUtils.multiplyPixelPerSprite(i), rawData.getTerrainType()));
+
+        }
 
         return elaboratedStage;
     }
