@@ -105,7 +105,7 @@ public final class Constants {
     public static final int SPRITE_ROCKET = 5;
     /** Number of Rocket Explosion sprites. */
     public static final int SPRITE_ROCKET_EXPLOSION = 4;
-    /** Duration of a RocketExplosion before being deleted */
+    /** Duration of a RocketExplosion before being deleted. */
     public static final int ROCKET_EXPLOSION_DURATION = 15;
 
 
@@ -139,6 +139,14 @@ public final class Constants {
     public static final int SPACESHIP_WIDTH = 54;
     /** Height of the Spaceship. Used in SpaceShipPanel. */
     public static final int SPACESHIP_HEIGHT = 27;
+
+    /** Height of the Rocket. */
+    public static final int ROCKET_HEIGHT = 50;
+    /** Width of the Rocket. */
+    public static final int ROCKET_WIDTH = 38;
+    /** Points gained from destroying a rocket. */
+    public static final int ROCKET_POINTS = 50;
+
     /** The original scramble font. Used in view/font/ScrambleFontUtil */
     public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
 

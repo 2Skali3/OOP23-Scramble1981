@@ -7,6 +7,7 @@ import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
 import scramble.model.enemy.RocketImpl;
 import scramble.model.scores.Scores;
+import scramble.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,6 @@ import java.util.Iterator;
 public class RocketPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
-
-    private static final int ROCKET_HEIGHT = 50;
-    private static final int ROCKET_WIDTH = 38;
-    private static final int ROCKET_POINTS = 50;
 
     private transient List<RocketImpl> rockets;
     private transient List<RocketImpl> rocketsOnScreen;
@@ -51,8 +48,8 @@ public class RocketPanel extends GamePanel {
         for (Pair<Integer, Integer> pos : flatPositions) {
             if (counter % 5 == 0 && pos.getFirstElement() > this.mapX) {
                 this.rockets
-                        .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), ROCKET_WIDTH,
-                                ROCKET_HEIGHT));
+                        .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), Constants.ROCKET_WIDTH,
+                                Constants.ROCKET_HEIGHT));
             }
             counter++;
         }
@@ -117,7 +114,7 @@ public class RocketPanel extends GamePanel {
             RocketImpl r = iterator.next();
             if (r.getPosition().getFirstElement() <= mapX) {
                 r.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
-                        r.getPosition().getSecondElement() - ROCKET_HEIGHT));
+                        r.getPosition().getSecondElement() - Constants.ROCKET_HEIGHT));
                 rocketsOnScreen.add(r);
                 rocketsOnScreen.get(rocketsOnScreen.size() - 1).turnOnMove();
                 iterator.remove();
@@ -136,7 +133,7 @@ public class RocketPanel extends GamePanel {
                 count = r.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
                     if (r.isHit()) {
-                        Scores.incrementCurrentScore(ROCKET_POINTS);
+                        Scores.incrementCurrentScore(Constants.ROCKET_POINTS);
                     }
                     iterator.remove();
                 }
