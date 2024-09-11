@@ -25,6 +25,7 @@ import javax.swing.Timer;
  */
 public class GameView extends JFrame {
 
+    private static final int END_GAME_X = 27_500;
     private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
@@ -44,6 +45,7 @@ public class GameView extends JFrame {
     private final HUDPanel hudPanel;
     private final FuelTankPanel fuelTankPanel;
     private final LogicControllerImpl logicController;
+    private final GameOverPanel gameOverPanel;
 
     private final Timer repaintTimer;
 
@@ -91,6 +93,9 @@ public class GameView extends JFrame {
 
         this.logicController = new LogicControllerImpl(this);
 
+        this.gameOverPanel = new GameOverPanel();
+        gameOverPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
         this.add(mainPanel);
         this.setVisible(true);
 
@@ -100,6 +105,9 @@ public class GameView extends JFrame {
             mainPanel.repaint();
             this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
+            if (landscapePanel.getCurrentMapX() >= END_GAME_X) {
+                showGameOverScreen();
+            }
         });
 
         this.backgroundPanel.startTimer();
@@ -125,12 +133,40 @@ public class GameView extends JFrame {
         this.fuelTankPanel = view.getFuelTankPanel();
         this.logicController = view.getLogicController();
         this.repaintTimer = view.getRepaintTimer();
+        this.gameOverPanel = view.getGameOverPanel();
 
         this.setTitle("Scramble");
         this.setSize(WIDTH, HEIGHT);
         this.setDefaultCloseOperation(view.getDefaultCloseOperation());
         this.setLocationRelativeTo(null);
 
+    }
+
+    private void showGameOverScreen() {
+        stopAllPanelTimers(); // Stop all ongoing game processes
+        this.mainPanel.removeAll(); // Clear current game view
+
+        // Add the background panel to retain the starry background
+        this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
+        backgroundPanel.startTimer(); // Continue moving the starry background
+
+        // Add the GameOverPanel on top
+        this.mainPanel.add(gameOverPanel, JLayeredPane.PALETTE_LAYER);
+        gameOverPanel.startTimer();
+
+        this.mainPanel.repaint(); // Ensure the panel is rendered
+
+        final Timer endGameTimer = new Timer(32, e -> {
+            if (gameOverPanel.isGameOver()) {
+                setStart();
+                gameOverPanel.newGame();
+            }
+        });
+        endGameTimer.start();
+    }
+
+    private GameOverPanel getGameOverPanel() {
+        return this.gameOverPanel;
     }
 
     /**
@@ -276,10 +312,19 @@ public class GameView extends JFrame {
 
         this.startMenu.stopTimer();
         this.startAllPanelTimers();
+
+        // TODO delete
+        /*
+         * this.landscapePanel.reset(22_400);
+         * this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+         * this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+         * this.rocketPanel.resetRockets();
+         * this.fuelTankPanel.resetTanks();
+         */
     }
 
     /** Resets to start menu. */
-    public void setStart() {
+    public final void setStart() {
         this.stopAllPanelTimers();
         Scores.addScore(Scores.getCurrentScore());
         Scores.resetCurrentScore();
@@ -301,9 +346,7 @@ public class GameView extends JFrame {
 
         hudPanel.getFuelBar().fillFuel();
 
-        // System.out.println(this.landscapePanel.getCurrentMapX());
         this.startMenu.startTimer();
-        // System.out.println("LandPanel:\t" + this.landscapePanel.getCurrentMapX());
     }
 
     /**
@@ -343,7 +386,7 @@ public class GameView extends JFrame {
     }
 
     /** Stops all the timers of the singular panels inside game view. */
-    public void stopAllPanelTimers() {
+    public final void stopAllPanelTimers() {
         this.landscapePanel.stopTimer();
         this.bulletsPanel.stopTimer();
         this.spaceShipPanel.stopTimer();

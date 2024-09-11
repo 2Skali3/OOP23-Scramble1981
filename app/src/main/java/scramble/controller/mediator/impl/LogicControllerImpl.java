@@ -181,7 +181,7 @@ public class LogicControllerImpl implements LogicController {
         final var bullets = gameView.getBulletsPanel().getBullets();
         for (final FuelTank tank : fuelTankPanel.getFuelTanks()) {
             if (tank.checkCollisionBullet(bullets)) {
-                tank.setHit(true);
+                tank.setDestroyed(true);
             }
         }
     }

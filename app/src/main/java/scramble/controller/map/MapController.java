@@ -36,7 +36,7 @@ public class MapController {
     private int columnIndex;
     private int currentX;
 
-    private int endOfMapX;
+    private static int endOfMapX;
 
     /**
      * Controller for the class {@link MapController}.
@@ -77,7 +77,7 @@ public class MapController {
                 x++;
             }
         }
-        this.endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE; 
+        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -154,11 +154,12 @@ public class MapController {
     }
 
     /**
-     * Getter for the x coordinate of the end of the map. 
+     * Getter for the x coordinate of the end of the map.
+     * 
      * @return x coordinate of the end of the map
      */
-    public int getEndOfMapX() {
-        return this.endOfMapX;
+    public static int getEndOfMapX() {
+        return endOfMapX - GameView.WINDOW_WIDTH / 2;
     }
 
 }

@@ -19,6 +19,8 @@ import java.util.Random;
 /**
  * This class handles the spaceship model in the game. It is an implementation
  * of the game element that is controlled by the player.
+ * 
+ * Pattern Decorator
  */
 public final class SpaceShip extends GameElementImpl implements Cloneable {
 
@@ -103,8 +105,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     @SuppressFBWarnings
     @Override
     public BufferedImage getSprite() {
-        // Needs to apply only once
-        @SuppressFBWarnings
         final int num = random.nextInt(Constants.SPRITE_SPACESHIP);
 
         return sprites.get(num);
@@ -118,6 +118,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
      */
     public boolean checkGroundCollision(final List<MapElement> map) {
         for (final MapElement me : map) {
+            // Comment below to disable hitbox
             if (hasCollided(me)) {
                 hit = true;
                 return true;
@@ -143,7 +144,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
      * @return hit
      */
     public boolean isHit() {
-        return hit;
+        return this.hit;
     }
 
     /**

@@ -40,7 +40,7 @@ public class FuelTankPanel extends GamePanel {
     /**
      * Constructor for the class {@code FuelTankPanel}.
      *
-     * @param fuelBar           the fuelBar
+     * @param fuelBar the fuelBar
      */
     public FuelTankPanel(final FuelBar fuelBar) {
 
@@ -65,7 +65,7 @@ public class FuelTankPanel extends GamePanel {
     protected void drawPanel(final Graphics g) {
         for (final FuelTank tank : tanksOnScreen) {
             if (tank.getSprite() != null) {
-                if (tank.isHit()) {
+                if (tank.isDestroyed()) {
                     g.drawImage(tank.getExplosionSprite(), tank.getPosition().getFirstElement(),
                             tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
                     tank.setExploded(true);
@@ -122,7 +122,8 @@ public class FuelTankPanel extends GamePanel {
     private void fillTanks() {
         int counter = 0;
         for (final Pair<Integer, Integer> pos : LandscapePanel.getMapController().getFlatFloorPositions()) {
-            if (counter % SPAWN == 0 && counter % AVOID != 0 && pos.getFirstElement() > this.mapX + GameView.WINDOW_WIDTH) {
+            if (counter % SPAWN == 0 && counter % AVOID != 0
+                    && pos.getFirstElement() > this.mapX + GameView.WINDOW_WIDTH) {
                 this.fuelTanks
                         .add(new FuelTank(pos.getFirstElement() /* + 770 */, pos.getSecondElement(), FUEL_TANK_WIDTH,
                                 FUEL_TANK_HEIGHT));

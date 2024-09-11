@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.random.RandomGenerator;
 
 import javax.imageio.ImageIO;
 
@@ -21,18 +22,14 @@ import scramble.utility.Constants;
 public class FuelTank extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(FuelTank.class.getName());
-    private static final int SPRITES = 2;
     private static final int EXP_SPRITES = 4;
     private static final int EXPLOSION_DURATION = 15;
     private static final int FUEL_REFILL = 15;
 
-    private final List<BufferedImage> sprites;
+    private final List<BufferedImage> sprite;
     private final List<BufferedImage> explosionSprites;
 
-    private int currentSprite;
-    private int currentExpSprite;
-    private boolean hit;
-
+    private boolean destroyed;
     private boolean exploded;
 
     private int counterForExplosion;
@@ -47,16 +44,15 @@ public class FuelTank extends GameElementImpl {
      */
     public FuelTank(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
-        this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
-        for (int i = 1; i <= SPRITES; i++) {
-            try {
-                sprites.add(ImageIO.read(FuelTank.class.getResource("/fueltank/fuel_dump_" + i + ".png")));
-            } catch (IOException e) {
-                LOG.severe("Ops!");
-                LOG.severe(e.toString());
-            }
+        this.sprite = new ArrayList<>();
+        try {
+            this.sprite.add(ImageIO.read(FuelTank.class.getResource("/fueltank/fuel_dump.png")));
+        } catch (IOException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
         }
+
         for (int i = 1; i <= EXP_SPRITES; i++) {
             try {
                 explosionSprites
@@ -66,8 +62,7 @@ public class FuelTank extends GameElementImpl {
                 LOG.severe(e.toString());
             }
         }
-        this.currentSprite = 0;
-        this.hit = false;
+        this.destroyed = false;
         this.exploded = false;
     }
 
@@ -80,9 +75,7 @@ public class FuelTank extends GameElementImpl {
     /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
-        currentSprite += 1;
-        currentSprite = currentSprite % SPRITES;
-        return sprites.get(currentSprite);
+        return sprite.get(0);
     }
 
     /**
@@ -91,9 +84,8 @@ public class FuelTank extends GameElementImpl {
      * @return BufferedImage
      */
     public BufferedImage getExplosionSprite() {
-        currentExpSprite += 1;
-        currentExpSprite = currentExpSprite % EXP_SPRITES;
-        return explosionSprites.get(currentExpSprite);
+        final RandomGenerator randG = RandomGenerator.of("Random");
+        return explosionSprites.get(randG.nextInt(EXP_SPRITES));
     }
 
     /**
@@ -106,7 +98,7 @@ public class FuelTank extends GameElementImpl {
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
         for (final Bullet b : bullets) {
             if (hasCollided(b)) {
-                hit = true;
+                destroyed = true;
                 return true;
             }
         }
@@ -118,8 +110,8 @@ public class FuelTank extends GameElementImpl {
      *
      * @return hit
      */
-    public boolean isHit() {
-        return hit;
+    public boolean isDestroyed() {
+        return this.destroyed;
     }
 
     /**
@@ -127,8 +119,8 @@ public class FuelTank extends GameElementImpl {
      *
      * @param hit
      */
-    public void setHit(final boolean hit) {
-        this.hit = hit;
+    public void setDestroyed(final boolean hit) {
+        this.destroyed = hit;
     }
 
     /**
