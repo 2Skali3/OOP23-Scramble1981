@@ -33,9 +33,9 @@ import scramble.view.compact.LandscapePanel;
 public class MapController {
     private static final MapStageFactory STAGE_FACTORY = new MapStageFactoryImpl();
     private static List<Integer> stageStartingX = new ArrayList<>();
+    private static List<Pair<Integer, Integer>> flatPositions = new ArrayList<>();
 
     private final List<MapColumn> columns;
-    private static List<Pair<Integer, Integer>> flatPositions;
     private int columnIndex;
 
     /**
@@ -44,7 +44,6 @@ public class MapController {
     public MapController() {
         final List<MapStage> stages = this.fillMapStage();
         this.columnIndex = 0;
-        flatPositions = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
     }

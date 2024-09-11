@@ -46,7 +46,7 @@ public class LogicControllerImpl implements LogicController {
      * @param gameView the calling class
      */
     public LogicControllerImpl(final GameView gameView) {
-        lives = Constants.MAX_LIVES;
+        resetLives();
         this.gameView = new GameView(gameView);
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
@@ -68,7 +68,7 @@ public class LogicControllerImpl implements LogicController {
                 checkHorizontalBulletCollisions();
                 checkBombBulletCollisions();
                 touchedEnemy();
-                //checkBulletEnemyCollision();
+                // checkBulletEnemyCollision();
                 checkBulletTankCollision();
 
             }
@@ -118,7 +118,7 @@ public class LogicControllerImpl implements LogicController {
     }
 
     /** Sets lives to MAX_LIVES in case game starts anew. */
-    public void resetLives() {
+    public static void resetLives() {
         lives = Constants.MAX_LIVES;
     }
 
@@ -159,6 +159,7 @@ public class LogicControllerImpl implements LogicController {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void touchedEnemy() {
         if (spaceShipPanel.getSpaceship().checkEnemyCollision(rocketPanel.getRockets())) {
@@ -168,8 +169,7 @@ public class LogicControllerImpl implements LogicController {
 
     private boolean checkBulletEnemyCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
-
-        for (RocketImpl rocket : rocketPanel.getRockets()){
+        for (final RocketImpl rocket : rocketPanel.getRockets()) {
             if (rocket.checkCollisionBullet(bullets)) {
                 rocket.setHit(true);
                 return true;
@@ -180,12 +180,11 @@ public class LogicControllerImpl implements LogicController {
 
     private void checkBulletTankCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
-
-        for (FuelTank tank : fuelTankPanel.getFuelTanks())
+        for (final FuelTank tank : fuelTankPanel.getFuelTanks()) {
             if (tank.checkCollisionBullet(bullets)) {
                 tank.setHit(true);
             }
-
+        }
     }
 
     private void checkBombBulletCollisions() {
@@ -193,7 +192,8 @@ public class LogicControllerImpl implements LogicController {
         final List<Bullet> bulletsExploding = bullets.getBullets()
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
-                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()) || checkBulletEnemyCollision()))
+                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
+                                || checkBulletEnemyCollision()))
                 .toList();
         bullets.removeBullets(bulletsExploding);
         bullets.addExplodingBullets(bulletsExploding);
@@ -204,7 +204,8 @@ public class LogicControllerImpl implements LogicController {
         final List<Bullet> bulletsToRemove = bullets.getBullets()
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
-                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns()) /*|| checkBulletEnemyCollision()*/))
+                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
+                                || checkBulletEnemyCollision()))
                 .toList();
         bullets.removeBullets(bulletsToRemove);
     }

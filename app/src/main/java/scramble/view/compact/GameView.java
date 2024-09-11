@@ -135,15 +135,20 @@ public class GameView extends JFrame {
 
     /**
      * Getter for the repaint timer.
-     * 
+     *
      * @return the timer
      */
     private Timer getRepaintTimer() {
         return this.repaintTimer;
     }
 
-    public LogicControllerImpl getLogicController() {
-        return logicController;
+    /**
+     * Getter for the logic controller implementation.
+     *
+     * @return the logic controller
+     */
+    private LogicControllerImpl getLogicController() {
+        return this.logicController;
     }
 
     /**

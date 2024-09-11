@@ -40,11 +40,6 @@ public class LandscapePanel extends GamePanel {
 
     private int landscapeX;
     private int counter;
-
-    public int getLandscapeX() {
-        return landscapeX;
-    }
-
     private int starterX;
     private transient List<MapColumn> columns;
 
@@ -159,13 +154,17 @@ public class LandscapePanel extends GamePanel {
 
     /**
      * Getter for the MapController of the LandscapePanel.
-     * 
+     *
      * @return the MapController
      */
     public static MapController getMapController() {
         return MAP_CONTROLLER;
     }
 
+    /** Getter for MapX.
+     *
+     * @return MapX with added the column counter
+     */
     public int getCurrentMapX() {
         return MAP_CONTROLLER.getCurrentMapX() + this.counter;
     }

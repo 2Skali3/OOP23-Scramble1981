@@ -26,9 +26,9 @@ public final class StartMenu extends GamePanel {
     private int sequenceStep;
     private final Font retroFont;
     private final transient Scores scores;
-    private Timer scoreSequenceTimer;
+    private final Timer scoreSequenceTimer;
 
-	private static final class FixedConstants {
+    private static final class FixedConstants {
 
         private static final int KONAMI_HEIGHT = 5;
         private static final int KONAMI_WIDTH = 75;
@@ -69,7 +69,7 @@ public final class StartMenu extends GamePanel {
 
     }
 
-	@Override
+    @Override
     protected void drawPanel(final Graphics g) {
         g.setFont(retroFont.deriveFont(FixedConstants.FONT_SIZE1));
 
@@ -122,16 +122,16 @@ public final class StartMenu extends GamePanel {
         drawPanel(g);
     }
 
-	@Override
-	public void startTimer() {
-				scoreSequenceTimer.start();
+    @Override
+    public void startTimer() {
+                scoreSequenceTimer.start();
 
-	}
+    }
 
-	@Override
-	public void stopTimer() {
-				scoreSequenceTimer.stop();
+    @Override
+    public void stopTimer() {
+                scoreSequenceTimer.stop();
 
-	}
+    }
 
 }

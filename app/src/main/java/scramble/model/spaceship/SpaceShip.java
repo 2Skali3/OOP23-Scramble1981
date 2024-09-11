@@ -125,7 +125,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         }
         return false;
     }
-    
 
     /**
      * Returns randomised image for explosion animation.
@@ -225,14 +224,23 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         this.down = down;
     }
 
-    public boolean checkEnemyCollision(List<RocketImpl> rockets) {
-        for(RocketImpl rocket: rockets) {
-            if(rocket.hasCollided(this)){
+    /**
+     * Check if its happened a collision between a {@link Rocket} and the
+     * {@code SpaceShip}.
+     *
+     * @param rockets the list of {@link Rocket} thet can cause a collision
+     *
+     * @return {@code true} if the {@code SpaceShip} has collided, {@code fales}
+     *         otherwise
+     */
+    public boolean checkEnemyCollision(final List<RocketImpl> rockets) {
+        for (final RocketImpl rocket : rockets) {
+            if (rocket.hasCollided(this)) {
                 this.hit = true;
                 setHit(true);
                 return true;
             }
-            
+
         }
         return false;
     }

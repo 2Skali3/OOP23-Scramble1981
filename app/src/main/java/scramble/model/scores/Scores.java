@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * This class handles the score board. It creates a list to be display in the
@@ -23,19 +24,18 @@ public class Scores {
 
     private static final Logger LOG = Logger.getLogger(Scores.class.getName());
     private static final String SCORES_FILE_PATH = System.getProperty("user.home") + "/scores.json";
-    private static List<Integer> scoresList;
+    private static List<Integer> scoresList = new ArrayList<>(Constants.MAX_N_SCORES);
     private static int currentScore;
 
     /**
      * Class constructor.
      */
     public Scores() {
-        scoresList = new ArrayList<>(Constants.MAX_N_SCORES); // Initialize with zeros
 
         // Read scores from JSON file
-        File scoresFile = new File(SCORES_FILE_PATH);
+        final File scoresFile = new File(SCORES_FILE_PATH);
         if (scoresFile.exists()) {
-            try (Reader reader = new FileReader(scoresFile)) {
+            try (Reader reader = new FileReader(scoresFile, Charset.forName("UTF-8"))) {
                 final Gson gson = new Gson();
                 final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
                 if (loadedScores != null) {
@@ -74,7 +74,7 @@ public class Scores {
 
     /**
      * Adds a score to the scoreboard.
-     * 
+     *
      * @param score the new score
      */
     public static void addScore(final int score) {
@@ -88,9 +88,9 @@ public class Scores {
             }
         }
 
-        try (FileWriter writer = new FileWriter(SCORES_FILE_PATH)) {
-            Gson gson = new Gson();
-            ScoreData updatedScores = new ScoreData(scoresList);
+        try (FileWriter writer = new FileWriter(SCORES_FILE_PATH, Charset.forName("UFT-8"))) {
+            final Gson gson = new Gson();
+            final ScoreData updatedScores = new ScoreData(scoresList);
             gson.toJson(updatedScores, writer);
             writer.flush();
         } catch (IOException e) {
@@ -102,7 +102,7 @@ public class Scores {
     /**
      * Getter for the score's list. SpotBgs warning suppressed since it returns a
      * std class.
-     * 
+     *
      * @return the score's list
      */
     public List<Integer> getScoresList() {
@@ -129,14 +129,25 @@ public class Scores {
         }
     }
 
+    /**
+     * Getter for current score.
+     *
+     * @return an int
+     */
     public static int getCurrentScore() {
         return currentScore;
     }
 
+    /**
+     * Increments the current score.
+     *
+     * @param enemyPoints the amount of point to add
+     */
     public static void incrementCurrentScore(final int enemyPoints) {
         currentScore += enemyPoints;
     }
 
+    /** Resets current score. */
     public static void resetCurrentScore() {
         currentScore = 0;
     }
