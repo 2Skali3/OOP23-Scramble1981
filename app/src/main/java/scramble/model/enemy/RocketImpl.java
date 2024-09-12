@@ -26,14 +26,7 @@ import java.util.random.RandomGenerator;
 public class RocketImpl extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
-<<<<<<< HEAD
 
-=======
-    private static final int SPRITES = 5;
-    private static final int EXP_SPRITES = 4;
-    private static final int EXPLOSION_DURATION = 15;
-    private static final int DELAY = 3000;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
@@ -41,22 +34,12 @@ public class RocketImpl extends GameElementImpl {
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
-<<<<<<< HEAD
     private int counterForExplosion = 0;
-=======
-    private boolean moving;
-    private boolean premove;
-    private boolean exploded;
-    private int counterForExplosion;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
     private final Timer startTimer;
+    private final RandomGenerator randomStartDelay;
     private final TimerTask task;
-<<<<<<< HEAD
     private int randomDelay;
     private RocketState state;
-=======
-    private final int randomDelay;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
 
     /**
      * Class constructor.
@@ -70,38 +53,13 @@ public class RocketImpl extends GameElementImpl {
         super(x, y, width, height);
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
-<<<<<<< HEAD
         loadSprites();
         this.currentSprite = 0;
         this.hit = false;
         this.speedY = 3.5f;
         this.state = RocketState.PREMOVE;
-=======
-        for (int i = 1; i <= SPRITES; i++) {
-            try {
-                sprites.add(ImageIO.read(RocketImpl.class.getResource("/rocket/rocket_frame" + i + "_shader.png")));
-            } catch (IOException e) {
-                LOG.severe("Ops!");
-                LOG.severe(e.toString());
-            }
-        }
-        for (int i = 1; i <= EXP_SPRITES; i++) {
-            try {
-                explosionSprites
-                        .add(ImageIO.read(RocketImpl.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
-            } catch (IOException e) {
-                LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
-                LOG.severe(e.toString());
-            }
-        }
-        this.currentSprite = 0;
-        this.hit = false;
-        this.speedY = Constants.ROCKET_SPEED;
-        this.moving = false;
-        this.exploded = false;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
         startTimer = new Timer();
-        final RandomGenerator randomStartDelay = RandomGenerator.of("Random");
+        randomStartDelay = RandomGenerator.getDefault();
         task = new TimerTask() {
 
             @Override
@@ -109,26 +67,17 @@ public class RocketImpl extends GameElementImpl {
                 state = RocketState.MOVING;
             }
         };
-        randomDelay = 1000 + randomStartDelay.nextInt(DELAY);
+        randomDelay = 1000 + randomStartDelay.nextInt(3000);
 
     }
 
-    /** Handles movement logic for the rocket. */
     public void move() {
         if (isHit()) {
             speedY = 0;
         }
-<<<<<<< HEAD
         if(this.state.equals(RocketState.PREMOVE)){
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) (getPosition().getSecondElement())));
         }else if (this.state.equals(RocketState.MOVING)) {
-=======
-        if (premove) {
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
-                    getPosition().getSecondElement()));
-        }
-        if (moving) {
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
             updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
                     (int) (getPosition().getSecondElement() - speedY)));
         } else if(this.state.equals(RocketState.EXPLODED)){
@@ -140,7 +89,6 @@ public class RocketImpl extends GameElementImpl {
         }
     }
 
-    /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
         currentSprite += 1;
@@ -148,36 +96,18 @@ public class RocketImpl extends GameElementImpl {
         return sprites.get(currentSprite);
     }
 
-    /**
-     * Returns randomised image for explosion animation.
-     *
-     * @return a sprite
-     */
     public BufferedImage getExplosionSprite() {
         currentExpSprite += 1;
         currentExpSprite = currentExpSprite % Constants.SPRITE_ROCKET_EXPLOSION;
         return explosionSprites.get(currentExpSprite);
     }
 
-    /**
-     * Check if the {@link Rocket} is collided with a {@Bullet}.
-     *
-     * @param bullets the {@link Set} of {@link Bullet} that needed to be checked
-     *
-     * @return {@code true} if is collided, false otherwise
-     */
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-<<<<<<< HEAD
         return bullets.stream().anyMatch(this::hasCollided);
-=======
-        for (final Bullet b : bullets) {
-            if (hasCollided(b)) {
-                hit = true;
-                return true;
-            }
-        }
-        return false;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
+    }
+
+    public void moveExplosion(final int explosionSpeedX) {
+
     }
 
     /**
@@ -189,69 +119,31 @@ public class RocketImpl extends GameElementImpl {
         return hit;
     }
 
-    /**
-     * Setter for hit.
-     *
-     * @param hit
-     */
     public void setHit(final boolean hit) {
         this.hit = hit;
     }
 
-    /**
-     * Method that allow the movement of the {@link Rocket}.
-     */
     public void turnOnMove() {
         this.state = RocketState.PREMOVE;
         startTimer.schedule(task, randomDelay);
     }
 
-    /**
-     * Getter for exploded.
-     *
-     * @return exploded
-     */
     public boolean isExploded() {
         return this.state.equals(RocketState.EXPLODED);
     }
 
-<<<<<<< HEAD
     public void setExploded() {
         this.state = RocketState.EXPLODED;
-=======
-    /**
-     * Setter for exploded.
-     *
-     * @param exploded the new value of {@code exploded}
-     */
-    public void setExploded(final boolean exploded) {
-        this.exploded = exploded;
->>>>>>> 1cd6456da427bd6757fc70649e448d5b1c5693ab
     }
 
-    /**
-     * Getter for the counter of the explosion.
-     *
-     * @return the counter of the explosion
-     */
     public int getCounterForExplosion() {
         return counterForExplosion;
     }
 
-    /**
-     * Increment the counter of the explosion.
-     *
-     * @return the counter of the explosion incremented by {@code 1}
-     */
     public int incrementCounterForExplosion() {
         return this.counterForExplosion++;
     }
 
-    /**
-     * Getter for the explosion duration.
-     *
-     * @return the explosion duration
-     */
     public static int getExplosionDuration() {
         return Constants.ROCKET_EXPLOSION_DURATION;
     }
