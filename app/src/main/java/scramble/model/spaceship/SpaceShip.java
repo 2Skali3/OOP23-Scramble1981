@@ -25,6 +25,8 @@ import java.util.Random;
 public final class SpaceShip extends GameElementImpl implements Cloneable {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
+    private static final int ANGLE = 45;
+
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private final Random random;
@@ -92,8 +94,8 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
         }
 
         if ((left || right) && (up || down)) {
-            xSpeed *= Math.sqrt(2);
-            ySpeed *= Math.sqrt(2);
+            xSpeed *= Math.cos(ANGLE);
+            ySpeed *= Math.cos(ANGLE);
         }
 
         updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,

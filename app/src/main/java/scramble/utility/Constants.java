@@ -112,8 +112,6 @@ public final class Constants {
     /** Duration of a RocketExplosion before being deleted. */
     public static final int ROCKET_EXPLOSION_DURATION = 15;
 
-
-
     // view
     /**
      * Number of stars generated in the background. Used in
@@ -150,6 +148,8 @@ public final class Constants {
     public static final int ROCKET_WIDTH = 38;
     /** Points gained from destroying a rocket. */
     public static final int ROCKET_POINTS = 50;
+    /** Max Delay of the rocket. */
+    public static final int MAXDELAY = 3000;
 
     /** The original scramble font. Used in view/font/ScrambleFontUtil */
     public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
@@ -163,6 +163,9 @@ public final class Constants {
     // Stages
     /** Number of sprites per prestage per column. */
     public static final int SPRITE_PER_PRESTAGE_WIDTH = 70;
+
+    /** The end of the map for the {@link Rocket} and {@link FuelTank} spawning. */
+    public static final int END_OF_SPAWNING = 27_000;
 
     private Constants() {
     }

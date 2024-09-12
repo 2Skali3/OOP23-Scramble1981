@@ -25,7 +25,6 @@ import javax.swing.Timer;
  */
 public class GameView extends JFrame {
 
-    private static final int END_GAME_X = 27_500;
     private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
@@ -105,7 +104,7 @@ public class GameView extends JFrame {
             mainPanel.repaint();
             this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
-            if (landscapePanel.getCurrentMapX() >= END_GAME_X) {
+            if (landscapePanel.getCurrentMapX() >= MapController.getEndOfMapX()) {
                 showGameOverScreen();
             }
         });
@@ -314,15 +313,16 @@ public class GameView extends JFrame {
         this.startAllPanelTimers();
 
         // TODO delete
-        
-        this.landscapePanel.reset(22_400);
-        this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.rocketPanel.resetRockets();
-        this.fuelTankPanel.resetTanks();
-        
+        /*
+         * this.landscapePanel.reset(25_000);
+         * this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+         * this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+         * this.rocketPanel.resetRockets();
+         * this.fuelTankPanel.resetTanks();
+         */
+
     }
-    
+
     /** Resets to start menu. */
     public final void setStart() {
         this.stopAllPanelTimers();
@@ -378,8 +378,10 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 1; i--) {
-            if (MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE < LandscapePanel.getMapController().getCurrentMapX()) {
-                return MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - CHECKPOINT_OFFSET_X;
+            if (MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE < LandscapePanel
+                    .getMapController().getCurrentMapX()) {
+                return MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
+                        - CHECKPOINT_OFFSET_X;
             }
         }
         return MapController.getStageStartingX().get(1) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - CHECKPOINT_OFFSET_X;

@@ -13,6 +13,7 @@ import scramble.model.common.impl.PairImpl;
 import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.model.tank.FuelTank;
+import scramble.utility.Constants;
 
 /**
  * Class for the rappresentation of the FuelTank in the window.
@@ -126,9 +127,10 @@ public class FuelTankPanel extends GamePanel {
         spawnPosition.addAll(LandscapePanel.getMapController().getFlatFloorPositions());
         for (final Pair<Integer, Integer> pos : spawnPosition) {
             if (counter % SPAWN == 0 && counter % AVOID != 0
-                    && pos.getFirstElement() > this.mapX + GameView.WINDOW_WIDTH) {
+                    && pos.getFirstElement() > this.mapX + GameView.WINDOW_WIDTH
+                    && pos.getFirstElement() < Constants.END_OF_SPAWNING) {
                 this.fuelTanks
-                        .add(new FuelTank(pos.getFirstElement() /* + 770 */, pos.getSecondElement(), FUEL_TANK_WIDTH,
+                        .add(new FuelTank(pos.getFirstElement(), pos.getSecondElement(), FUEL_TANK_WIDTH,
                                 FUEL_TANK_HEIGHT));
             }
             counter++;

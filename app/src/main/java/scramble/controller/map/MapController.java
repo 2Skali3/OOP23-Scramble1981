@@ -80,7 +80,7 @@ public class MapController {
                 x++;
             }
         }
-        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - GameView.WINDOW_WIDTH / 2;
     }
 
     /**
@@ -105,8 +105,13 @@ public class MapController {
      */
     public List<MapColumn> getColumnsToDisplay() {
         final List<MapColumn> columnsToDisplay = new ArrayList<>();
-        for (int i = 0; i < LandscapePanel.TOTAL_COLUMNS_LOADED; i++) {
-            // System.out.println(this.columnIndex);
+        final int end;
+        if (columnIndex + LandscapePanel.TOTAL_COLUMNS_LOADED >= columns.size()) {
+            end = columnIndex + LandscapePanel.TOTAL_COLUMNS_LOADED - columns.size();
+        } else {
+            end = LandscapePanel.TOTAL_COLUMNS_LOADED;
+        }
+        for (int i = 0; i < end; i++) {
             columnsToDisplay.add(columns.get(this.columnIndex + i));
         }
         this.currentX = columns.get(columnIndex).getX();

@@ -37,8 +37,6 @@ public class LogicControllerImpl implements LogicController {
     private final GameView gameView;
     private final Timer collisionTimer;
     private final Timer fuelCheckTimer;
-    // TODO implement me!
-    // private final Timer keyPressedCheckTimer;
 
     /**
      * Class constructor.
@@ -72,14 +70,6 @@ public class LogicControllerImpl implements LogicController {
 
             }
         });
-
-        // TODO implement me!
-        // keyPressedCheckTimer = new Timer(16, new ActionListener() {
-        // @Override
-        // public void actionPerformed(final ActionEvent e) {
-        // checkKeyPressed();
-        // }
-        // });
 
         fuelCheckTimer.start();
         collisionTimer.start();

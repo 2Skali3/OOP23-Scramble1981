@@ -33,11 +33,10 @@ public class RocketImpl extends GameElementImpl {
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
-    private int counterForExplosion = 0;
+    private int counterForExplosion;
     private final Timer startTimer;
-    private final RandomGenerator randomStartDelay;
     private final TimerTask task;
-    private int randomDelay;
+    private final int randomDelay;
     private RocketState state;
 
     /**
@@ -55,10 +54,10 @@ public class RocketImpl extends GameElementImpl {
         loadSprites();
         this.currentSprite = 0;
         this.hit = false;
-        this.speedY = 3.5f;
+        this.speedY = Constants.ROCKET_SPEED;
         this.state = RocketState.PREMOVE;
         startTimer = new Timer();
-        randomStartDelay = RandomGenerator.getDefault();
+        final RandomGenerator randomStartDelay = RandomGenerator.getDefault();
         task = new TimerTask() {
 
             @Override
@@ -66,14 +65,15 @@ public class RocketImpl extends GameElementImpl {
                 state = RocketState.MOVING;
             }
         };
-        randomDelay = 1000 + randomStartDelay.nextInt(3000);
+        randomDelay = 1000 + randomStartDelay.nextInt(Constants.MAXDELAY);
 
     }
 
-    private void updateRocketPosition(int x, int y) {
+    private void updateRocketPosition(final int x, final int y) {
         updatePosition(new PairImpl<Integer, Integer>(x, y));
     }
 
+    /** Handles rocket movement. */
     public void move() {
         if (isHit()) {
             speedY = 0;
@@ -94,6 +94,7 @@ public class RocketImpl extends GameElementImpl {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
         currentSprite += 1;
@@ -101,18 +102,23 @@ public class RocketImpl extends GameElementImpl {
         return sprites.get(currentSprite);
     }
 
+    /** Getter for exploding sprite.
+     * 
+     * @return a random sprite
+     */
     public BufferedImage getExplosionSprite() {
         currentExpSprite += 1;
         currentExpSprite = currentExpSprite % Constants.SPRITE_ROCKET_EXPLOSION;
         return explosionSprites.get(currentExpSprite);
     }
 
+    /** Checks for collision with bullets.
+     * 
+     * @param bullets the list of on screen bullets
+     * @return true if collided
+     */
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
         return bullets.stream().anyMatch(this::hasCollided);
-    }
-
-    public void moveExplosion(final int explosionSpeedX) {
-
     }
 
     /**
@@ -124,38 +130,70 @@ public class RocketImpl extends GameElementImpl {
         return hit;
     }
 
+    /**
+     * Setter for hit.
+     * 
+     * @param hit the new value
+     */
     public void setHit(final boolean hit) {
         this.hit = hit;
     }
 
+    /**
+     * Turns on movement of the rocket.
+     */
     public void turnOnMove() {
         this.state = RocketState.PREMOVE;
         startTimer.schedule(task, randomDelay);
     }
 
+    /**
+     * Getter for exploded.
+     * 
+     * @return a boolean
+     */
     public boolean isExploded() {
         return this.state.equals(RocketState.EXPLODED);
     }
 
+    /**
+     * Setter for exploded.
+     */
     public void setExploded() {
         this.state = RocketState.EXPLODED;
     }
 
+    /**
+     * Getter for counter.
+     * 
+     * @return the counter int
+     */
     public int getCounterForExplosion() {
         return counterForExplosion;
     }
 
+    /**
+     * Increment counter, used as a timer for explosion.
+     * 
+     * @return the counter incremented
+     */
     public int incrementCounterForExplosion() {
         return this.counterForExplosion++;
     }
 
+    /**
+     *  Getter for Rocket Explosion duration.
+     * 
+     * @return the rocket explosion duration
+     */
     public static int getExplosionDuration() {
         return Constants.ROCKET_EXPLOSION_DURATION;
     }
 
     private void loadSprites() {
         for (int i = 1; i <= Constants.SPRITE_ROCKET; i++) {
-            try (InputStream inputStream = getClass().getResourceAsStream("/rocket/rocket_frame" + i + "_shader.png")) {
+            try (InputStream inputStream = RocketImpl.class
+                    .getResourceAsStream("/rocket/rocket_frame" + i + "_shader.png")) {
                 sprites.add(ImageIO.read(inputStream));
             } catch (IOException e) {
                 LOG.severe("Error occurred while loading rocket sprites!");
@@ -165,7 +203,7 @@ public class RocketImpl extends GameElementImpl {
         for (int i = 1; i <= Constants.SPRITE_ROCKET_EXPLOSION; i++) {
             try {
                 explosionSprites
-                        .add(ImageIO.read(getClass().getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+                        .add(ImageIO.read(RocketImpl.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
             } catch (IOException e) {
                 LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
                 LOG.severe(e.toString());

@@ -24,7 +24,6 @@ public class RocketPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
 
-    
     private static final int ROCKET_OFFSET = 5;
 
     private transient List<RocketImpl> rockets;
@@ -59,8 +58,12 @@ public class RocketPanel extends GamePanel {
 
     private void fillRockets() {
         int counter = 0;
-        for (final Pair<Integer, Integer> pos : LandscapePanel.getMapController().getFlatFloorPositions()) {
-            if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() >= this.mapX + GameView.WINDOW_WIDTH) {
+        final List<Pair<Integer, Integer>> spawnPosition = new ArrayList<>();
+        spawnPosition.addAll(LandscapePanel.getMapController().getBrikFloorPosition());
+        spawnPosition.addAll(LandscapePanel.getMapController().getFlatFloorPositions());
+        for (final Pair<Integer, Integer> pos : spawnPosition) {
+            if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() >= this.mapX + GameView.WINDOW_WIDTH
+                    && pos.getFirstElement() < Constants.END_OF_SPAWNING) {
                 this.rockets
                         .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), Constants.ROCKET_WIDTH,
                                 Constants.ROCKET_HEIGHT));
@@ -160,7 +163,7 @@ public class RocketPanel extends GamePanel {
         while (iterator.hasNext()) {
             final RocketImpl r = iterator.next();
             if (r.isExploded()) {
-                count = r.incrementCounterForExplosion();;
+                count = r.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
                     if (r.isHit()) {
                         Scores.incrementCurrentScore(Constants.ROCKET_POINTS);
