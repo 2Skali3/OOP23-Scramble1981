@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.random.RandomGenerator;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
@@ -27,14 +28,13 @@ public class RocketImpl extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
 
-
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private int currentSprite;
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
-    private int counterForExplosion = 0;
+    private AtomicInteger counterForExplosion;
     private final Timer startTimer;
     private final RandomGenerator randomStartDelay;
     private final TimerTask task;
@@ -71,21 +71,27 @@ public class RocketImpl extends GameElementImpl {
 
     }
 
+    private void updateRocketPosition(int x, int y) {
+        updatePosition(new PairImpl<Integer, Integer>(x, y));
+    }
+
     public void move() {
         if (isHit()) {
             speedY = 0;
         }
-        if(this.state.equals(RocketState.PREMOVE)){
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) (getPosition().getSecondElement())));
-        }else if (this.state.equals(RocketState.MOVING)) {
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
-                    (int) (getPosition().getSecondElement() - speedY)));
-        } else if(this.state.equals(RocketState.EXPLODED)){
-            updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED, (int) getPosition().getSecondElement()));
+        if (this.state.equals(RocketState.PREMOVE)) {
+            updateRocketPosition(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+                    (int) (getPosition().getSecondElement()));
+        } else if (this.state.equals(RocketState.MOVING)) {
+            updateRocketPosition(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+                    (int) (getPosition().getSecondElement() - speedY));
+        } else if (this.state.equals(RocketState.EXPLODED)) {
+            updateRocketPosition(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+                    (int) getPosition().getSecondElement());
         }
         if (getPosition().getSecondElement() <= 0) {
             setExploded();
-            this.counterForExplosion = Constants.ROCKET_EXPLOSION_DURATION;
+            this.counterForExplosion = new AtomicInteger(Constants.ROCKET_EXPLOSION_DURATION);
         }
     }
 
@@ -137,11 +143,11 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public int getCounterForExplosion() {
-        return counterForExplosion;
+        return counterForExplosion.get();
     }
 
-    public int incrementCounterForExplosion() {
-        return this.counterForExplosion++;
+    public void incrementCounterForExplosion() {
+        this.counterForExplosion.incrementAndGet();
     }
 
     public static int getExplosionDuration() {
