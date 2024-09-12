@@ -160,7 +160,7 @@ public class RocketPanel extends GamePanel {
         while (iterator.hasNext()) {
             final RocketImpl r = iterator.next();
             if (r.isExploded()) {
-                count = r.incrementCounterForExplosion();
+                count = r.incrementCounterForExplosion();;
                 if (count == RocketImpl.getExplosionDuration()) {
                     if (r.isHit()) {
                         Scores.incrementCurrentScore(Constants.ROCKET_POINTS);

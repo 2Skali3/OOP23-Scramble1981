@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.random.RandomGenerator;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
@@ -34,7 +33,7 @@ public class RocketImpl extends GameElementImpl {
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
-    private AtomicInteger counterForExplosion;
+    private int counterForExplosion = 0;
     private final Timer startTimer;
     private final RandomGenerator randomStartDelay;
     private final TimerTask task;
@@ -91,7 +90,7 @@ public class RocketImpl extends GameElementImpl {
         }
         if (getPosition().getSecondElement() <= 0) {
             setExploded();
-            this.counterForExplosion = new AtomicInteger(Constants.ROCKET_EXPLOSION_DURATION);
+            this.counterForExplosion = Constants.ROCKET_EXPLOSION_DURATION;
         }
     }
 
@@ -143,11 +142,11 @@ public class RocketImpl extends GameElementImpl {
     }
 
     public int getCounterForExplosion() {
-        return counterForExplosion.get();
+        return counterForExplosion;
     }
 
-    public void incrementCounterForExplosion() {
-        this.counterForExplosion.incrementAndGet();
+    public int incrementCounterForExplosion() {
+        return this.counterForExplosion++;
     }
 
     public static int getExplosionDuration() {
