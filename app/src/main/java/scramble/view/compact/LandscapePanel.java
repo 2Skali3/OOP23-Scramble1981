@@ -122,9 +122,9 @@ public class LandscapePanel extends GamePanel {
 
         MAP_CONTROLLER.resetToX(starterPosition);
         this.landscapeX = starterPosition;
+        this.starterX = starterPosition;
 
         this.counter = 0;
-        this.starterX = starterPosition;
         this.fillColumns();
     }
 

@@ -35,6 +35,7 @@ public class GameOverPanel extends GamePanel {
     private void display() {
         if (counter >= OVERLAY_DURATION) {
             stopTimer();
+            counter = 0;
         }
         counter++;
     }
@@ -43,7 +44,7 @@ public class GameOverPanel extends GamePanel {
     @Override
     protected void drawPanel(final Graphics g) {
         g.setFont(retroFont);
-        g.setColor(Color.WHITE);
+        g.setColor(Color.YELLOW);
         final int messageWidth0 = g.getFontMetrics().stringWidth(MESSAGES.get(0));
         final int x0 = (GameView.WINDOW_WIDTH - messageWidth0) / 2;
         final int y0 = TEXT_SCALE * 2;

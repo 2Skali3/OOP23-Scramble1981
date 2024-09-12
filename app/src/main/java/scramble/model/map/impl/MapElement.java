@@ -40,8 +40,6 @@ public class MapElement extends HitBoxImpl implements GameElement {
     private final TerrainType terrainType;
     private final LandBehaviour behaviour;
 
-    private static int toAddAtHitboxHeight = 10;
-
     /**
      * Constructor of the class {@code MapElement}.
      *
@@ -55,7 +53,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
      */
     public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite,
             final TerrainType terrainType, final LandBehaviour behaviour) {
-        super(x, y, width, height + toAddAtHitboxHeight);
+        super(x, y, width, height);
         this.width = width;
         this.height = height;
         this.position = new PairImpl<>(x, y);

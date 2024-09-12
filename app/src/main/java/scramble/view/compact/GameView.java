@@ -359,7 +359,7 @@ public class GameView extends JFrame {
         landscapePanel.reset(restartPos);
         spaceShipPanel.getSpaceship()
                 .updatePosition(
-                        new PairImpl<>(restartPos + Constants.SPACESHIP_STARTER_POSITION,
+                        new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION,
                                 Constants.SPACESHIP_STARTER_POSITION));
         hudPanel.getFuelBar().fillFuel();
         spaceShipPanel.startTimer();
@@ -378,11 +378,11 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 1; i--) {
-            if (MapController.getStageStartingX().get(i) < LandscapePanel.getMapController().getCurrentMapX()) {
-                return MapController.getStageStartingX().get(i) - CHECKPOINT_OFFSET_X;
+            if (MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE < LandscapePanel.getMapController().getCurrentMapX()) {
+                return MapController.getStageStartingX().get(i) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - CHECKPOINT_OFFSET_X;
             }
         }
-        return MapController.getStageStartingX().get(1);
+        return MapController.getStageStartingX().get(1) * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - CHECKPOINT_OFFSET_X;
     }
 
     /** Stops all the timers of the singular panels inside game view. */

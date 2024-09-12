@@ -105,7 +105,7 @@ public class MapColumnImpl implements MapColumn {
         if (ceiling.getY() >= 0) {
             this.elements.add(ceiling);
         }
-        this.elements.add(floor);
+        this.elements.add(new MapElement(floor.getX(), floor.getY(), floor.getWidth(), floor.getHeight() + 10, floor.getSprite(), floor.getTerrainType(), floor.getBehaviour()));
         if (this.terrainType == TerrainType.BRICK_COLUMN) {
             if (ceiling.getY() > 0) {
                 this.elements.add(new MapElement(x, 0, ceiling.getWidth(), ceiling.getY(),
