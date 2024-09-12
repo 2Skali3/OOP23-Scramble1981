@@ -14,26 +14,38 @@ import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.FuelBar;
 import scramble.model.tank.FuelTank;
 
+/**
+ * Class for the rappresentation of the FuelTank in the window.
+ *
+ * @see GamePanel
+ * @see javax.swing.JFrame
+ */
 public class FuelTankPanel extends GamePanel {
 
-    private List<FuelTank> fuelTanks;
-    private List<FuelTank> tanksOnScreen;
+    private static final long serialVersionUID = 1L;
+    private transient List<FuelTank> fuelTanks;
+    private transient List<FuelTank> tanksOnScreen;
 
-    private final List<Pair<Integer, Integer>> flatPositions;
     private final Timer updateTimer;
     private final Timer refuelTimer;
     private static final int FUEL_TANK_HEIGHT = 32;
     private static final int FUEL_TANK_WIDTH = 32;
 
-    private int mapX;
-    private FuelBar fuelBar;
+    private static final int SPAWN = 13;
+    private static final int AVOID = 5;
 
-    public FuelTankPanel(final List<Pair<Integer, Integer>> flatFloorPosition, final FuelBar fuelBar) {
+    private int mapX;
+    private final transient FuelBar fuelBar;
+
+    /**
+     * Constructor for the class {@code FuelTankPanel}.
+     *
+     * @param fuelBar the fuelBar
+     */
+    public FuelTankPanel(final FuelBar fuelBar) {
 
         this.fuelBar = fuelBar;
-        this.fuelTanks = new ArrayList<>();
-        this.tanksOnScreen = new ArrayList<>();
-        this.flatPositions = new ArrayList<>(flatFloorPosition);
+        initializeTank();
 
         fillTanks();
         this.setOpaque(false);
@@ -43,11 +55,17 @@ public class FuelTankPanel extends GamePanel {
 
     }
 
+    private void initializeTank() {
+        this.fuelTanks = new ArrayList<>();
+        this.tanksOnScreen = new ArrayList<>();
+    }
+
+    /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
-        for (FuelTank tank : tanksOnScreen) {
+        for (final FuelTank tank : tanksOnScreen) {
             if (tank.getSprite() != null) {
-                if (tank.isHit()) {
+                if (tank.isDestroyed()) {
                     g.drawImage(tank.getExplosionSprite(), tank.getPosition().getFirstElement(),
                             tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
                     tank.setExploded(true);
@@ -60,38 +78,54 @@ public class FuelTankPanel extends GamePanel {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void startTimer() {
         updateTimer.start();
         refuelTimer.start();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stopTimer() {
         updateTimer.stop();
         refuelTimer.stop();
     }
 
+    /**
+     * Method for resetting the {@link FuelTank} position.
+     */
     public void resetTanks() {
         this.tanksOnScreen.clear();
         this.fuelTanks.clear();
         this.fillTanks();
     }
 
+    /**
+     * Getter for the {@link List} of {@link FuelTank}.
+     *
+     * @return a copy of the on screen tanks list
+     */
     public List<FuelTank> getFuelTanks() {
         return new ArrayList<>(tanksOnScreen);
     }
 
+    /**
+     * Setter for mapX.
+     *
+     * @param x x-axis coordinate
+     */
     public void setMapX(final int x) {
         this.mapX = x;
     }
 
     private void fillTanks() {
         int counter = 0;
-        for (Pair<Integer, Integer> pos : flatPositions) {
-            if (counter % 13 == 0 && counter % 5 != 0 && pos.getFirstElement() > this.mapX) {
+        for (final Pair<Integer, Integer> pos : LandscapePanel.getMapController().getFlatFloorPositions()) {
+            if (counter % SPAWN == 0 && counter % AVOID != 0
+                    && pos.getFirstElement() > this.mapX + GameView.WINDOW_WIDTH) {
                 this.fuelTanks
-                        .add(new FuelTank(pos.getFirstElement(), pos.getSecondElement(), FUEL_TANK_WIDTH,
+                        .add(new FuelTank(pos.getFirstElement() /* + 770 */, pos.getSecondElement(), FUEL_TANK_WIDTH,
                                 FUEL_TANK_HEIGHT));
             }
             counter++;
@@ -100,7 +134,7 @@ public class FuelTankPanel extends GamePanel {
 
     private void update() {
         if (Objects.nonNull(tanksOnScreen)) {
-            for (FuelTank tank : tanksOnScreen) {
+            for (final FuelTank tank : tanksOnScreen) {
                 tank.move();
             }
         }
@@ -108,11 +142,11 @@ public class FuelTankPanel extends GamePanel {
     }
 
     private void loadTanks() {
-        Iterator<FuelTank> iterator = fuelTanks.iterator();
+        final Iterator<FuelTank> iterator = fuelTanks.iterator();
 
         while (iterator.hasNext()) {
-            FuelTank ft = iterator.next();
-            if (ft.getPosition().getFirstElement() <= mapX) {
+            final FuelTank ft = iterator.next();
+            if (ft.getPosition().getFirstElement() <= mapX + GameView.WINDOW_WIDTH) {
                 ft.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
                         ft.getPosition().getSecondElement() - FUEL_TANK_HEIGHT));
                 tanksOnScreen.add(ft);
@@ -123,9 +157,9 @@ public class FuelTankPanel extends GamePanel {
 
     private void checkForExplosion() {
         int count;
-        Iterator<FuelTank> iterator = tanksOnScreen.iterator();
+        final Iterator<FuelTank> iterator = tanksOnScreen.iterator();
         while (iterator.hasNext()) {
-            FuelTank ft = iterator.next();
+            final FuelTank ft = iterator.next();
             if (ft.isExploded()) {
                 count = ft.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {

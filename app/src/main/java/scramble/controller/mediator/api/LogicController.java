@@ -11,7 +11,10 @@ public interface LogicController {
      * Check if a collision is happenning between landscape and spaceship.
      */
     void touchedGround();
-    
+
+    /**
+     * Check if a collision is happening between enemy and spaceship.
+     */
     void touchedEnemy();
 
     /**

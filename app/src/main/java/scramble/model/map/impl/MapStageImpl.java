@@ -3,32 +3,26 @@ package scramble.model.map.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import scramble.model.common.api.Pair;
-import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapStage;
-import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Implementation for the interface MapStage. This implementation use an List
  * for the storage of the columns.
  * 
+ * @param <X> the type of element designed to rappresent the data contained into
+ *            the {@link MapStage}
+ * 
  * @see MapStage
  */
-public class MapStageImpl implements MapStage {
+public class MapStageImpl<X> implements MapStage<X> {
 
-    private final List<MapElement> ceiling;
-    private final List<MapElement> floor;
-    private final TerrainType terrainType;
+    private final List<X> columns;
 
     /**
      * Constructor for MapStageImpl.
-     * 
-     * @param terrainType the terrain type of the stage
      */
-    public MapStageImpl(final TerrainType terrainType) {
-        this.terrainType = terrainType;
-        this.ceiling = new ArrayList<>();
-        this.floor = new ArrayList<>();
+    public MapStageImpl() {
+        this.columns = new ArrayList<>();
     }
 
     /**
@@ -36,76 +30,22 @@ public class MapStageImpl implements MapStage {
      */
     @Override
     public int size() {
-        return this.ceiling.size();
+        return this.columns.size();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addColumn(final Pair<MapElement, MapElement> column) {
-        this.ceiling.add(column.getFirstElement());
-        this.floor.add(column.getSecondElement());
+    public X getColumn(final int index) {
+        return this.columns.get(index);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Pair<MapElement, MapElement> getColumn(final int index) {
-        return new PairImpl<MapElement, MapElement>(this.ceiling.get(index), this.floor.get(index));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MapElement getCloumnCeiling(final int index) {
-        return this.ceiling.get(index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MapElement getCloumnFloor(final int index) {
-        return floor.get(index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<MapElement> getCeiling() {
-        return new ArrayList<>(this.ceiling);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<MapElement> getFloor() {
-        return new ArrayList<>(this.floor);
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setCeiling(final List<MapElement> ceiling) {
-        this.ceiling.addAll(ceiling);
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setFloor(final List<MapElement> floor) {
-        this.floor.addAll(floor);
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TerrainType getTerrainType() {
-        return this.terrainType;
+    public void addColumn(final X column) {
+        this.columns.add(column);
     }
 }

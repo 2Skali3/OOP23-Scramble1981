@@ -80,8 +80,12 @@ public final class Constants {
     /**
      * Map created to save sizes of each bullet type. Used in model/bullets/Bullet.
      */
-    public static final Map<BulletType, PairImpl<Integer, Integer>> BULLETS_SIZE_MAP = Map
-            .of(BulletType.TYPE_HORIZONTAL, new PairImpl<>(3, 3), BulletType.TYPE_BOMB, new PairImpl<>(42, 52));
+    public static final Map<BulletType, PairImpl<Integer, Integer>> BULLETS_SIZE_MAP = Map.of(
+            BulletType.TYPE_HORIZONTAL, new PairImpl<>(5, 5),
+            BulletType.TYPE_BOMB, new PairImpl<>(42, 52));
+
+    /** Rocket enemy speed. Used in RocketImpl.java . */
+    public static final float ROCKET_SPEED = 3.5f;
 
     /** File path for the scores .json saved list. Used in model/scores/Scores. */
     public static final String SCORES_FILE_PATH = "/scores/scores.json";
@@ -93,7 +97,7 @@ public final class Constants {
     /** Max amount of fuel. Used in model/spaceship/FuelBar. */
     public static final int MAX_FUEL = 100;
     /** Amount of fuel consumed every tick. Used in model/spaceship/FuelBar. */
-    public static final int FUEL_DECREASE_AMOUNT = 2;
+    public static final int FUEL_DECREASE_AMOUNT = 1;
     /** Number of Spaceship sprites. Used in model/spaceship/SpaceShip. */
     public static final int SPRITE_SPACESHIP = 8;
     /** Number of Spaceship Explosion sprites. Used in model/spaceship/SpaceShip. */
@@ -149,6 +153,16 @@ public final class Constants {
 
     /** The original scramble font. Used in view/font/ScrambleFontUtil */
     public static final String FONT_PATH = "/font/PressStart2P-vaV7.ttf";
+
+    // LandscapeUtils
+    /** Number of sprites per stage per column. */
+    public static final int SPRITE_PER_STAGE_HEIGHT = 40;
+    /** Number of sprites per stage per row. */
+    public static final int SPRITE_PER_STAGE_WIDTH = 350;
+
+    // Stages
+    /** Number of sprites per prestage per column. */
+    public static final int SPRITE_PER_PRESTAGE_WIDTH = 70;
 
     private Constants() {
     }

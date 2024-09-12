@@ -3,15 +3,12 @@ package scramble.controller.map;
 import java.util.List;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.api.MapStage;
 import scramble.model.map.api.MapStageFactory;
-import scramble.model.map.impl.MapColumnImpl;
-import scramble.model.map.impl.MapElement;
 import scramble.model.map.impl.MapStageFactoryImpl;
 import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.enums.LandBehaviour;
@@ -31,26 +28,29 @@ import scramble.view.compact.LandscapePanel;
  * @see MapStageFactory
  */
 public class MapController {
-    private static final MapStageFactory STAGE_FACTORY = new MapStageFactoryImpl();
+    private static final MapStageFactory<MapColumn> STAGE_FACTORY = new MapStageFactoryImpl();
     private static List<Integer> stageStartingX = new ArrayList<>();
+    private static List<Pair<Integer, Integer>> flatPositions = new ArrayList<>();
 
     private final List<MapColumn> columns;
-    private static List<Pair<Integer, Integer>> flatPositions;
     private int columnIndex;
+    private int currentX;
+
+    private static int endOfMapX;
 
     /**
      * Controller for the class {@link MapController}.
      */
     public MapController() {
-        final List<MapStage> stages = this.fillMapStage();
+        final List<MapStage<MapColumn>> stages = this.fillMapStage();
         this.columnIndex = 0;
-        flatPositions = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
+        this.currentX = 0;
     }
 
-    private List<MapStage> fillMapStage() {
-        final List<MapStage> stages = new ArrayList<>();
+    private List<MapStage<MapColumn>> fillMapStage() {
+        final List<MapStage<MapColumn>> stages = new ArrayList<>();
         stages.add(STAGE_FACTORY.prestage());
         stages.add(STAGE_FACTORY.stage1());
         stages.add(STAGE_FACTORY.stage2());
@@ -60,28 +60,24 @@ public class MapController {
         return stages;
     }
 
-    private void fillColumns(final List<MapStage> stages) {
+    private void fillColumns(final List<MapStage<MapColumn>> stages) {
         int x = 0;
-        int set = 0;
-        for (final MapStage mapStage : stages) {
+        for (final MapStage<MapColumn> mapStage : stages) {
             stageStartingX.add(x);
             for (int i = 0; i < mapStage.size(); i++) {
-                final MapElement ceilingColumn = mapStage.getCloumnCeiling(i);
-                final MapElement floorColumn = mapStage.getCloumnFloor(i);
-                ceilingColumn.updatePosition(
-                        new PairImpl<Integer, Integer>(x * ceilingColumn.getWidth(), ceilingColumn.getY()));
-                floorColumn.updatePosition(
-                        new PairImpl<Integer, Integer>(x * floorColumn.getWidth(), floorColumn.getY()));
-
-                this.columns.add(new MapColumnImpl(new ArrayList<>(Arrays.asList(ceilingColumn)),
-                        new ArrayList<>(Arrays.asList(floorColumn)), ceilingColumn.getY(), floorColumn.getY()));
-                if (floorColumn.getBehaviour() == LandBehaviour.FLAT && set != 0) {
-                    flatPositions.add(floorColumn.getPosition());
+                final MapColumn column = mapStage.getColumn(i);
+                column.updateX(x * column.gettWidth());
+                this.columns.add(column);
+                if (column.getFloorBehaviour() == LandBehaviour.FLAT && stageStartingX.size() > 1) {
+                    flatPositions.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
+                            column.getFloorPosition().getSecondElement()));
+                    // System.out.println("FlatFloor:\t" +
+                    // column.getFloorPosition().getFirstElement());
                 }
                 x++;
             }
-            set++;
         }
+        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -107,10 +103,12 @@ public class MapController {
     public List<MapColumn> getColumnsToDisplay() {
         final List<MapColumn> columnsToDisplay = new ArrayList<>();
         for (int i = 0; i < LandscapePanel.TOTAL_COLUMNS_LOADED; i++) {
+            // System.out.println(this.columnIndex);
             columnsToDisplay.add(columns.get(this.columnIndex + i));
         }
+        this.currentX = columns.get(columnIndex).getX();
         this.columnIndex += LandscapePanel.EXTRA_COLUMNS_LOADED;
-        if (this.columnIndex + (GameView.WINDOW_WIDTH / LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE)
+        if (this.columnIndex + (LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH))
                 + 4 > this.columns
                         .size()) {
             this.columnIndex = 0;
@@ -124,7 +122,7 @@ public class MapController {
      * @param x position to reset the Landscape
      */
     public void resetToX(final int x) {
-        this.columnIndex = x;
+        this.columnIndex = x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -139,6 +137,7 @@ public class MapController {
 
     /**
      * Getter for the flat floor Position of the stages.
+     * 
      * @return the flat floor position
      */
     public List<Pair<Integer, Integer>> getFlatFloorPositions() {
@@ -147,10 +146,20 @@ public class MapController {
 
     /**
      * Getter for current X position.
+     * 
      * @return the current x position
      */
     public int getCurrentMapX() {
-        return columns.get(columnIndex).getX();
+        return currentX;
+    }
+
+    /**
+     * Getter for the x coordinate of the end of the map.
+     * 
+     * @return x coordinate of the end of the map
+     */
+    public static int getEndOfMapX() {
+        return endOfMapX - GameView.WINDOW_WIDTH / 2;
     }
 
 }

@@ -7,6 +7,8 @@ import java.awt.Rectangle;
  * Implementation of the interface HitBox.
  * 
  * @see HitBox
+ * 
+ *      Pattern Wrapper
  */
 public class HitBoxImpl implements HitBox {
 

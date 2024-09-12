@@ -17,11 +17,15 @@ public abstract class GamePanel extends JPanel {
      * Method for the update of the panel.
      * 
      * @param g
+     * 
+     *          Pattern Adapter
      */
     protected abstract void drawPanel(Graphics g);
 
     /**
      * {@inheritDoc}
+     * 
+     * Pattern Decorator
      */
     @Override
     public void paintComponent(final Graphics g) {

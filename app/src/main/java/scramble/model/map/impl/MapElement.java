@@ -1,6 +1,5 @@
 package scramble.model.map.impl;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import scramble.model.common.api.GameElement;
@@ -8,13 +7,14 @@ import scramble.model.common.api.HitBox;
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.HitBoxImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.TerrainType;
 
 /**
  * Class {@code MapElement} is an implementation of the interface
  * {@link GameElement}.
- * 
+ *
  * <p>
  * A {@code MapElement} has:
  * <ul>
@@ -24,11 +24,11 @@ import scramble.model.map.util.enums.TerrainType;
  * <li>a sprite</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>
  * All the method of the {@link GameElement} interface has been implemented.
  * </p>
- * 
+ *
  * @see GameElement
  */
 public class MapElement extends HitBoxImpl implements GameElement {
@@ -40,9 +40,11 @@ public class MapElement extends HitBoxImpl implements GameElement {
     private final TerrainType terrainType;
     private final LandBehaviour behaviour;
 
+    private static int toAddAtHitboxHeight = 10;
+
     /**
      * Constructor of the class {@code MapElement}.
-     * 
+     *
      * @param x           coordinate in the x-axis
      * @param y           coordinate in the y-axis
      * @param width       in the space
@@ -53,11 +55,11 @@ public class MapElement extends HitBoxImpl implements GameElement {
      */
     public MapElement(final int x, final int y, final int width, final int height, final BufferedImage sprite,
             final TerrainType terrainType, final LandBehaviour behaviour) {
-        super(x, y, width, height);
+        super(x, y, width, height + toAddAtHitboxHeight);
         this.width = width;
         this.height = height;
         this.position = new PairImpl<>(x, y);
-        this.sprite = this.cloneBufferedImage(sprite);
+        this.sprite = BufferedImageManager.cloneBufferedImage(sprite);
         this.behaviour = behaviour;
         if (terrainType == TerrainType.BRICK_COLUMN) {
             this.terrainType = TerrainType.BRICK_COLUMN;
@@ -81,7 +83,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
 
     /**
      * Getter for the {@link TerrainType} of the {@code MapElement}.
-     * 
+     *
      * @return the {@link TerrainType} of the {@code MapElement}
      */
     public TerrainType getTerrainType() {
@@ -90,7 +92,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
 
     /**
      * Get the position of the {@code MapElement} in the x-axis.
-     * 
+     *
      * @return the position of the {@code MapElement} in the x-axis
      */
     public int getX() {
@@ -99,7 +101,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
 
     /**
      * Get the position of the {@code MapElement} in the y-axis.
-     * 
+     *
      * @return the position of the {@code MapElement} in the y-axis
      */
     public int getY() {
@@ -109,21 +111,12 @@ public class MapElement extends HitBoxImpl implements GameElement {
     /** {@inheritDoc} */
     @Override
     public BufferedImage getSprite() {
-        return this.cloneBufferedImage(this.sprite);
-    }
-
-    private BufferedImage cloneBufferedImage(final BufferedImage sourceBufferedImage) {
-        final BufferedImage clone = new BufferedImage(sourceBufferedImage.getWidth(), sourceBufferedImage.getHeight(),
-                sourceBufferedImage.getType());
-        final Graphics2D g2d = clone.createGraphics();
-        g2d.drawImage(sourceBufferedImage, 0, 0, null);
-        g2d.dispose();
-        return clone;
+        return BufferedImageManager.cloneBufferedImage(this.sprite);
     }
 
     /**
      * Get the height of the {@code MapElement}.
-     * 
+     *
      * @return the height of the {@code MapElement}
      */
     public int getHeight() {
@@ -132,7 +125,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
 
     /**
      * Get the width of the {@code MapElement}.
-     * 
+     *
      * @return the width of the {@code MapElement}
      */
     public int getWidth() {
@@ -142,7 +135,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
     /**
      * Update the {@link HitBox} of the {@code MapElement}, and specify the
      * coordinate of it.
-     * 
+     *
      * @param x coordinate in the x-axis
      * @param y coordinate in the y-axis
      */
@@ -152,7 +145,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
 
     /**
      * Getter for the {@code MapElement} {@link LandBehaviour}.
-     * 
+     *
      * @return the map element behaviour
      */
     public LandBehaviour getBehaviour() {

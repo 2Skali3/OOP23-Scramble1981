@@ -28,6 +28,8 @@ public final class HUDPanel extends GamePanel {
 
     private static final long serialVersionUID = 1L;
     private static final float FONT_SIZE = 16f;
+    private static final int GAP_Y = 30;
+    private static final int LIVES_DIM = 5;
 
     private final Font retroFont;
     private transient BufferedImage fuelBarFull;
@@ -77,7 +79,7 @@ public final class HUDPanel extends GamePanel {
 
     /**
      * Draws both fuel bars images on top of each other.
-     * 
+     *
      * @param g graphic component
      */
     private void paintFuelBar(final Graphics g) {
@@ -131,20 +133,20 @@ public final class HUDPanel extends GamePanel {
         g.setColor(Color.WHITE);
         g.setFont(retroFont.deriveFont(FONT_SIZE));
 
-        int currentScore = Scores.getCurrentScore();
+        final int currentScore = Scores.getCurrentScore();
 
-        String scoreText = "Score: " + currentScore;
-        g.drawString(scoreText, 10, 30);
+        final String scoreText = "Score: " + currentScore;
+        g.drawString(scoreText, 10, GAP_Y);
     }
 
-    private void paintLives(Graphics g) {
+    private void paintLives(final Graphics g) {
         g.setColor(Color.WHITE);
         g.setFont(retroFont.deriveFont(FONT_SIZE));
 
-        int currentLives = LogicControllerImpl.getLives() + 1;
+        final int currentLives = LogicControllerImpl.getLives() + 1;
 
-        String scoreText = "UP: " + currentLives;
-        g.drawString(scoreText, getWidth() - (getWidth() / 5), 30);
+        final String scoreText = "UP: " + currentLives;
+        g.drawString(scoreText, getWidth() - (getWidth() / LIVES_DIM), GAP_Y);
     }
 
     /**
@@ -163,7 +165,7 @@ public final class HUDPanel extends GamePanel {
 
     /**
      * Getter for the fuel bar.
-     * 
+     *
      * @return the fuel bar
      */
     public FuelBar getFuelBar() {
@@ -171,11 +173,11 @@ public final class HUDPanel extends GamePanel {
     }
 
     /**
-     * 
+     *
      */
     public void changeStage() {
         final int pos = LandscapePanel.getMapController().getCurrentMapX();
-        final int scale = LandUtils.NUMBER_OF_PX_IN_MAP_PER_SPRITE;
+        final int scale = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
 
         if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement() * scale
                 && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement() * scale) {
