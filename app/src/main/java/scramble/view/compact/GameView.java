@@ -314,15 +314,15 @@ public class GameView extends JFrame {
         this.startAllPanelTimers();
 
         // TODO delete
-        /*
-         * this.landscapePanel.reset(22_400);
-         * this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-         * this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-         * this.rocketPanel.resetRockets();
-         * this.fuelTankPanel.resetTanks();
-         */
+        
+        this.landscapePanel.reset(22_400);
+        this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+        this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+        this.rocketPanel.resetRockets();
+        this.fuelTankPanel.resetTanks();
+        
     }
-
+    
     /** Resets to start menu. */
     public final void setStart() {
         this.stopAllPanelTimers();

@@ -31,6 +31,7 @@ public class MapController {
     private static final MapStageFactory<MapColumn> STAGE_FACTORY = new MapStageFactoryImpl();
     private static List<Integer> stageStartingX = new ArrayList<>();
     private static List<Pair<Integer, Integer>> flatPositions = new ArrayList<>();
+    private static List<Pair<Integer, Integer>> brickWallPosition = new ArrayList<>();
 
     private final List<MapColumn> columns;
     private int columnIndex;
@@ -71,8 +72,10 @@ public class MapController {
                 if (column.getFloorBehaviour() == LandBehaviour.FLAT && stageStartingX.size() > 1) {
                     flatPositions.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
                             column.getFloorPosition().getSecondElement()));
-                    // System.out.println("FlatFloor:\t" +
-                    // column.getFloorPosition().getFirstElement());
+                }
+                if (column.getFloorBehaviour() == LandBehaviour.BRICK) {
+                    brickWallPosition.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
+                            column.getFloorPosition().getSecondElement()));
                 }
                 x++;
             }
@@ -142,6 +145,15 @@ public class MapController {
      */
     public List<Pair<Integer, Integer>> getFlatFloorPositions() {
         return new ArrayList<>(flatPositions);
+    }
+
+    /**
+     * Getter for the flat floor Position of the stages.
+     * 
+     * @return the flat floor position
+     */
+    public List<Pair<Integer, Integer>> getBrikFloorPosition() {
+        return new ArrayList<>(brickWallPosition);
     }
 
     /**
