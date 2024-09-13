@@ -34,6 +34,7 @@ public class RocketImpl extends GameElementImpl {
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
+    private boolean crashed; // In the sense it hit the celing
     private int counterForExplosion;
     private final Timer startTimer;
     private final TimerTask task;
@@ -55,6 +56,7 @@ public class RocketImpl extends GameElementImpl {
         loadSprites();
         this.currentSprite = 0;
         this.hit = false;
+        this.crashed = false;
         this.speedY = Constants.ROCKET_SPEED;
         this.state = RocketState.PREMOVE;
         startTimer = new Timer();
@@ -201,6 +203,24 @@ public class RocketImpl extends GameElementImpl {
      */
     public static int getExplosionDuration() {
         return Constants.ROCKET_EXPLOSION_DURATION;
+    }
+
+    /**
+     * Getter for crashed.
+     * 
+     * @return true if hit ceiling
+     */
+    public boolean isCrashed() {
+        return crashed;
+    }
+
+    /**
+     * Setter for crashed.
+     * 
+     * @param crashed the new value
+     */
+    public void setCrashed(final boolean crashed) {
+        this.crashed = crashed;
     }
 
     private void loadSprites() {

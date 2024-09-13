@@ -64,7 +64,7 @@ public class MapController {
     private void fillColumns(final List<MapStage<MapColumn>> stages) {
         int x = 0;
         for (final MapStage<MapColumn> mapStage : stages) {
-            stageStartingX.add(x);
+            stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE);
             for (int i = 0; i < mapStage.size(); i++) {
                 final MapColumn column = mapStage.getColumn(i);
                 column.updateX(x * column.gettWidth());
@@ -157,7 +157,7 @@ public class MapController {
      * 
      * @return the flat floor position
      */
-    public List<Pair<Integer, Integer>> getBrikFloorPosition() {
+    public List<Pair<Integer, Integer>> getBrickFloorPosition() {
         return new ArrayList<>(brickWallPosition);
     }
 

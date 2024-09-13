@@ -59,7 +59,7 @@ public class RocketPanel extends GamePanel {
     private void fillRockets() {
         int counter = 0;
         final List<Pair<Integer, Integer>> spawnPosition = new ArrayList<>();
-        spawnPosition.addAll(LandscapePanel.getMapController().getBrikFloorPosition());
+        spawnPosition.addAll(LandscapePanel.getMapController().getBrickFloorPosition());
         spawnPosition.addAll(LandscapePanel.getMapController().getFlatFloorPositions());
         for (final Pair<Integer, Integer> pos : spawnPosition) {
             if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() >= this.mapX + GameView.WINDOW_WIDTH
@@ -172,7 +172,7 @@ public class RocketPanel extends GamePanel {
             if (r.isExploded()) {
                 count = r.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
-                    if (r.isHit()) {
+                    if (r.isHit() && !r.isCrashed()) {
                         Scores.incrementCurrentScore(Constants.ROCKET_POINTS);
                     }
                     iterator.remove();

@@ -66,7 +66,6 @@ public class LogicControllerImpl implements LogicController {
                 checkHorizontalBulletCollisions();
                 checkBombBulletCollisions();
                 touchedEnemy();
-                checkBulletTankCollision();
                 checkEnemyCeilingCollision();
 
             }
@@ -173,19 +172,22 @@ public class LogicControllerImpl implements LogicController {
         for (final RocketImpl rocket : rockets) {
             if (rocket.checkCollisionCeiling(gameView.getLandscapePanel().getCeilingElements())) {
                 rocket.setHit(true);
+                rocket.setCrashed(true);
                 return true;
             }
         }
         return false;
     }
 
-    private void checkBulletTankCollision() {
+    private boolean checkBulletTankCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
         for (final FuelTank tank : fuelTankPanel.getFuelTanks()) {
             if (tank.checkCollisionBullet(bullets)) {
                 tank.setDestroyed(true);
+                return true;
             }
         }
+        return false;
     }
 
     private void checkBombBulletCollisions() {
@@ -194,7 +196,7 @@ public class LogicControllerImpl implements LogicController {
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
                         && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
-                                || checkBulletEnemyCollision()))
+                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
                 .toList();
         bullets.removeBullets(bulletsExploding);
         bullets.addExplodingBullets(bulletsExploding);
@@ -206,7 +208,7 @@ public class LogicControllerImpl implements LogicController {
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
                         && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
-                                || checkBulletEnemyCollision()))
+                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
                 .toList();
         bullets.removeBullets(bulletsToRemove);
     }

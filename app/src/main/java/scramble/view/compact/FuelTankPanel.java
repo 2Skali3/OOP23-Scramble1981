@@ -130,7 +130,7 @@ public class FuelTankPanel extends GamePanel {
     private void fillTanks() {
         int counter = 0;
         final List<Pair<Integer, Integer>> spawnPosition = new ArrayList<>();
-        spawnPosition.addAll(LandscapePanel.getMapController().getBrikFloorPosition());
+        spawnPosition.addAll(LandscapePanel.getMapController().getBrickFloorPosition());
         spawnPosition.addAll(LandscapePanel.getMapController().getFlatFloorPositions());
         for (final Pair<Integer, Integer> pos : spawnPosition) {
             if (counter % SPAWN == 0 && counter % AVOID != 0
