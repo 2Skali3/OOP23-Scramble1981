@@ -21,18 +21,11 @@ import scramble.model.map.util.enums.LandPart;
 import scramble.model.map.util.enums.TerrainType;
 import scramble.utility.Constants;
 
-/**
- * Tests for the {@link Bullet} class.
- */
 class BulletTest {
     private static final int X_MAP = -20;
     private static final int X_BULLET = 50;
     private static final int Y_BULLET = 60;
 
-
-    /**
-     * Tests the movement of a {@link Bullet} based on its type.
-     */
     @Test
     void testBulletMovementBasedOnType() {
         // Setup
@@ -59,12 +52,6 @@ class BulletTest {
         assertEquals(y + Constants.YSPEED_BOMB, bullet.getPosition().getSecondElement());
     }
 
-    /**
-     * Tests the collision detection of a {@link Bullet} with a {@link MapElement}.
-     * 
-     * This test ensures that the bullet detects collisions with map elements
-     * correctly.
-     */
     @Test
     void testBulletCollisionWithMap() {
         // Setup
@@ -86,15 +73,6 @@ class BulletTest {
         assertTrue(bullet.checkGroundCollision(map));
     }
 
-    /**
-     * Tests the retrieval of the explosion sprite for a {@link Bullet}.
-     * 
-     * This test ensures that the explosion sprite for a bomb type bullet is not
-     * null,
-     * indicating that the sprite is correctly retrieved and associated with the
-     * bullet.
-     * 
-     */
     @Test
     void testExplosionSpriteRsetrieval() {
         final Bullet bullet = new Bullet(0, 0, BulletType.TYPE_BOMB);

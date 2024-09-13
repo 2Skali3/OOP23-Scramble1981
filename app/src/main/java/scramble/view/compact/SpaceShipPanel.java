@@ -169,4 +169,10 @@ public class SpaceShipPanel extends GamePanel {
     public void stopTimer() {
         this.updateTimer.stop();
     }
+
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        updateTimer.restart();
+    }
 }

@@ -42,4 +42,9 @@ public abstract class GamePanel extends JPanel {
      * Stops timer of the singular panel.
      */
     public abstract void stopTimer();
+
+    /**
+     * Restarts timer of the simgular panel.
+     */
+    public abstract void restartTimer();
 }

@@ -63,7 +63,7 @@ public class RocketPanel extends GamePanel {
         spawnPosition.addAll(LandscapePanel.getMapController().getFlatFloorPositions());
         for (final Pair<Integer, Integer> pos : spawnPosition) {
             if (counter % ROCKET_OFFSET == 0 && pos.getFirstElement() >= this.mapX + GameView.WINDOW_WIDTH
-                    && pos.getFirstElement() < Constants.END_OF_SPAWNING) {
+                    && pos.getFirstElement() < Constants.END_OF_ROCKET_SPAWN) {
                 this.rockets
                         .add(new RocketImpl(pos.getFirstElement(), pos.getSecondElement(), Constants.ROCKET_WIDTH,
                                 Constants.ROCKET_HEIGHT));
@@ -132,6 +132,13 @@ public class RocketPanel extends GamePanel {
         this.updateTimer.stop();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void restartTimer() {
+        this.rocketSpawn.restart();
+        this.updateTimer.restart();
+    }
+
     /**
      * Setter for MapX.
      *
@@ -173,4 +180,5 @@ public class RocketPanel extends GamePanel {
             }
         }
     }
+
 }

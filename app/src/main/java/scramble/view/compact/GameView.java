@@ -313,13 +313,11 @@ public class GameView extends JFrame {
         this.startAllPanelTimers();
 
         // TODO delete
-        /*
-         * this.landscapePanel.reset(25_000);
-         * this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-         * this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-         * this.rocketPanel.resetRockets();
-         * this.fuelTankPanel.resetTanks();
-         */
+        // this.landscapePanel.reset(22_500);
+        // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.rocketPanel.resetRockets();
+        // this.fuelTankPanel.resetTanks();
 
     }
 
@@ -362,7 +360,7 @@ public class GameView extends JFrame {
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION,
                                 Constants.SPACESHIP_STARTER_POSITION));
         hudPanel.getFuelBar().fillFuel();
-        spaceShipPanel.startTimer();
+        // spaceShipPanel.restartTimer();
         this.rocketPanel.setMapX(0);
         this.rocketPanel.resetRockets();
         this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());
@@ -405,6 +403,16 @@ public class GameView extends JFrame {
         this.hudPanel.startTimer();
         this.rocketPanel.startTimer();
         this.fuelTankPanel.startTimer();
+    }
+
+    /** Restarts all the timers of the singular panels inside game view. */
+    public void restartAllPanelTimers() {
+        this.landscapePanel.restartTimer();
+        this.bulletsPanel.restartTimer();
+        this.spaceShipPanel.restartTimer();
+        this.hudPanel.startTimer();
+        this.rocketPanel.restartTimer();
+        this.fuelTankPanel.restartTimer();
     }
 
     /** Starts repaint timer. */

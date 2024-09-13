@@ -199,4 +199,10 @@ public class BulletsPanel extends GamePanel {
         bulletTimer.stop();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void restartTimer() {
+        bulletTimer.restart();
+    }
+
 }

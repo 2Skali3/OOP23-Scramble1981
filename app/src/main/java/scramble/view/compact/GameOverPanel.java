@@ -72,6 +72,12 @@ public class GameOverPanel extends GamePanel {
         this.gameOver = true;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public final void restartTimer() {
+        gameOverTimer.restart();
+    }
+
     /**
      * Getter for game over.
      * 

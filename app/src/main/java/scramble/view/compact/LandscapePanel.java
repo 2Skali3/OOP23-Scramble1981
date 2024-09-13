@@ -137,13 +137,14 @@ public class LandscapePanel extends GamePanel {
         return MAP_CONTROLLER;
     }
 
-    /** Getter for MapX.
+    /**
+     * Getter for MapX.
      *
      * @return MapX with added the column counter
      */
     public int getCurrentMapX() {
         // System.out.println(MAP_CONTROLLER.getCurrentMapX() + this.counter);
-        return MAP_CONTROLLER.getCurrentMapX() + this.counter - 1;
+        return MAP_CONTROLLER.getCurrentMapX() + this.counter;
     }
 
     /** @inheritDoc */
@@ -156,6 +157,25 @@ public class LandscapePanel extends GamePanel {
     @Override
     public void stopTimer() {
         this.landscapeTimer.stop();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        this.landscapeTimer.restart();
+    }
+
+    /**
+     * Getter for all the {@link MapElement} of the ceiling drawed.
+     * 
+     * @return the {@link List} of {@link MapElement} of the ceiling
+     */
+    public List<MapElement> getCeilingElements() {
+        final List<MapElement> ceilingElements = new ArrayList<>();
+        for (final MapColumn c : this.columns) {
+            ceilingElements.addAll(c.getCeilingElements());
+        }
+        return ceilingElements;
     }
 
 }

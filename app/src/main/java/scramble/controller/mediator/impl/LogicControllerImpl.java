@@ -67,6 +67,7 @@ public class LogicControllerImpl implements LogicController {
                 checkBombBulletCollisions();
                 touchedEnemy();
                 checkBulletTankCollision();
+                checkEnemyCeilingCollision();
 
             }
         });
@@ -167,6 +168,17 @@ public class LogicControllerImpl implements LogicController {
         return false;
     }
 
+    private boolean checkEnemyCeilingCollision() {
+        final var rockets = gameView.getRocketPanel().getRockets();
+        for (final RocketImpl rocket : rockets) {
+            if (rocket.checkCollisionCeiling(gameView.getLandscapePanel().getCeilingElements())) {
+                rocket.setHit(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void checkBulletTankCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
         for (final FuelTank tank : fuelTankPanel.getFuelTanks()) {
@@ -231,7 +243,7 @@ public class LogicControllerImpl implements LogicController {
                     gameView.setStart();
                     resetLives();
                 } else {
-                    gameView.startAllPanelTimers();
+                    gameView.restartAllPanelTimers();
                     lostLife();
                     gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
                 }

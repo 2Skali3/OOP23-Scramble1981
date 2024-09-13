@@ -2,6 +2,8 @@ package scramble.utility;
 
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.util.LandUtils;
+import scramble.model.tank.FuelTank;
 
 import java.util.Map;
 
@@ -98,6 +100,8 @@ public final class Constants {
     public static final int MAX_FUEL = 100;
     /** Amount of fuel consumed every tick. Used in model/spaceship/FuelBar. */
     public static final int FUEL_DECREASE_AMOUNT = 1;
+    /** Ammount of fuel refilled by {@link FuelTank}. */
+    public static final int FUEL_REFILL = 15;
     /** Number of Spaceship sprites. Used in model/spaceship/SpaceShip. */
     public static final int SPRITE_SPACESHIP = 8;
     /** Number of Spaceship Explosion sprites. Used in model/spaceship/SpaceShip. */
@@ -166,6 +170,9 @@ public final class Constants {
 
     /** The end of the map for the {@link Rocket} and {@link FuelTank} spawning. */
     public static final int END_OF_SPAWNING = 27_000;
+    /** The end of {@link ROcket} spawn. */
+    public static final int END_OF_ROCKET_SPAWN = (SPRITE_PER_STAGE_WIDTH * 4 + SPRITE_PER_PRESTAGE_WIDTH)
+            * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
 
     private Constants() {
     }

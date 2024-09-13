@@ -69,4 +69,10 @@ public interface MapColumn {
      * @return the position of the {@code MapColumn} floor component
      */
     Pair<Integer, Integer> getFloorPosition();
+
+    /**
+     * Getter for the {@link List} of the {@link MapElement} of the ceiling.
+     * @return the {@link List} of the {@link MapElement} of the ceiling
+     */
+    List<MapElement> getCeilingElements();
 }

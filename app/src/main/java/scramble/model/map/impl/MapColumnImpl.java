@@ -22,7 +22,8 @@ public class MapColumnImpl implements MapColumn {
 
     private final TerrainType terrainType;
     private final List<BufferedImage> bufferedImages;
-    private final List<MapElement> elements;
+    private final List<MapElement> floorElements;
+    private final List<MapElement> ceilingElements;
 
     private final LandBehaviour floorBehaviour;
     private final Pair<Integer, Integer> floorPosition;
@@ -49,7 +50,8 @@ public class MapColumnImpl implements MapColumn {
         this.biWidth = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
         this.terrainType = terrainType;
         this.bufferedImages = new ArrayList<>();
-        this.elements = new ArrayList<>();
+        this.ceilingElements = new ArrayList<>();
+        this.floorElements = new ArrayList<>();
 
         this.fillBufferedImages(ceiling.getY(), floor.getY(), ceiling.getSprite(), floor.getSprite());
         this.fillElements(ceiling, floor);
@@ -103,18 +105,18 @@ public class MapColumnImpl implements MapColumn {
 
     private void fillElements(final MapElement ceiling, final MapElement floor) {
         if (ceiling.getY() >= 0) {
-            this.elements.add(ceiling);
+            this.ceilingElements.add(ceiling);
         }
-        this.elements.add(new MapElement(floor.getX(), floor.getY(), floor.getWidth(), floor.getHeight() + 10,
+        this.floorElements.add(new MapElement(floor.getX(), floor.getY(), floor.getWidth(), floor.getHeight() + 10,
                 floor.getSprite(), floor.getTerrainType(), floor.getBehaviour()));
         if (this.terrainType == TerrainType.BRICK_COLUMN) {
             if (ceiling.getY() > 0) {
-                this.elements.add(new MapElement(x, 0, ceiling.getWidth(), ceiling.getY(),
+                this.ceilingElements.add(new MapElement(x, 0, ceiling.getWidth(), ceiling.getY(),
                         BufferedImageManager.transparentBufferedImage(ceiling.getWidth(), ceiling.getY()),
                         this.terrainType, LandBehaviour.EMPTY));
             }
             if (floor.getY() < LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)) {
-                this.elements.add(new MapElement(x, LandUtils.addPixelPerSprite(floor.getY()), floor.getWidth(),
+                this.floorElements.add(new MapElement(x, LandUtils.addPixelPerSprite(floor.getY()), floor.getWidth(),
                         LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)
                                 - LandUtils.subPixelPerSprite(floor.getY()),
                         BufferedImageManager.transparentBufferedImage(floor.getWidth(), floor.getY()),
@@ -127,7 +129,10 @@ public class MapColumnImpl implements MapColumn {
     /** @inheritDoc */
     @Override
     public List<MapElement> getElements() {
-        return new ArrayList<>(this.elements);
+        final List<MapElement> elements = new ArrayList<>();
+        elements.addAll(this.floorElements);
+        elements.addAll(this.ceilingElements);
+        return new ArrayList<>(elements);
     }
 
     /** @inheritDoc */
@@ -153,6 +158,9 @@ public class MapColumnImpl implements MapColumn {
     @Override
     public void updateHitBox(final int x) {
         this.floorPosition.setFirstElement(x);
+        final List<MapElement> elements = new ArrayList<>();
+        elements.addAll(this.floorElements);
+        elements.addAll(this.ceilingElements);
         for (final MapElement me : elements) {
             me.updateHitBox(x, me.getY());
         }
@@ -181,5 +189,11 @@ public class MapColumnImpl implements MapColumn {
     public Pair<Integer, Integer> getFloorPosition() {
         return new PairImpl<Integer, Integer>(this.floorPosition.getFirstElement(),
                 this.floorPosition.getSecondElement());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<MapElement> getCeilingElements() {
+        return new ArrayList<>(this.ceilingElements);
     }
 }

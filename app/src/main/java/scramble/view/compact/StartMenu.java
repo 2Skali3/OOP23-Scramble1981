@@ -124,13 +124,19 @@ public final class StartMenu extends GamePanel {
 
     @Override
     public void startTimer() {
-                scoreSequenceTimer.start();
+        scoreSequenceTimer.start();
 
     }
 
     @Override
     public void stopTimer() {
-                scoreSequenceTimer.stop();
+        scoreSequenceTimer.stop();
+
+    }
+
+    @Override
+    public void restartTimer() {
+        scoreSequenceTimer.restart();
 
     }
 

@@ -14,14 +14,12 @@ import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Test class for {@link RocketImpl} class. */
 class RocketImplTest {
 
     private RocketImpl makeRocketImpl(final int x, final int y, final int width, final int height) {
         return new RocketImpl(x, y, width, height);
     }
 
-    /** Test for correct position update. */
     @Test
     void moveRocketStateAndSpeedUpdatesPosition() {
         final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);
@@ -36,7 +34,6 @@ class RocketImplTest {
         assertEquals(100, position.getSecondElement());
     }
 
-    /** Test for correct sprites cycle. */
     @Test
     void checkSpriteCyclesThroughSprites() {
         final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);
@@ -49,7 +46,6 @@ class RocketImplTest {
         assertNotEquals(sprite1, sprite2);
     }
 
-    /** Test for collision with bullets. */
     @Test
     void checkCollisionBulletWithCollidingRockets() {
         final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);

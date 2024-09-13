@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import scramble.model.bullets.Bullet;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.map.impl.MapElement;
 import scramble.utility.Constants;
 
 import java.io.IOException;
@@ -102,7 +103,8 @@ public class RocketImpl extends GameElementImpl {
         return sprites.get(currentSprite);
     }
 
-    /** Getter for exploding sprite.
+    /**
+     * Getter for exploding sprite.
      * 
      * @return a random sprite
      */
@@ -112,13 +114,24 @@ public class RocketImpl extends GameElementImpl {
         return explosionSprites.get(currentExpSprite);
     }
 
-    /** Checks for collision with bullets.
+    /**
+     * Checks for collision with bullets.
      * 
      * @param bullets the list of on screen bullets
      * @return true if collided
      */
     public boolean checkCollisionBullet(final Set<Bullet> bullets) {
         return bullets.stream().anyMatch(this::hasCollided);
+    }
+
+    /**
+     * Method that check if the {@code RocketImpl} has collided with the ceiling.
+     * 
+     * @param ceiling the {@link List} of {@link MapElement} of the ceiling
+     * @return if the {@code RocketImpl} has collided or not
+     */
+    public boolean checkCollisionCeiling(final List<MapElement> ceiling) {
+        return ceiling.stream().anyMatch(this::hasCollided);
     }
 
     /**
@@ -182,7 +195,7 @@ public class RocketImpl extends GameElementImpl {
     }
 
     /**
-     *  Getter for Rocket Explosion duration.
+     * Getter for Rocket Explosion duration.
      * 
      * @return the rocket explosion duration
      */
@@ -203,7 +216,8 @@ public class RocketImpl extends GameElementImpl {
         for (int i = 1; i <= Constants.SPRITE_ROCKET_EXPLOSION; i++) {
             try {
                 explosionSprites
-                        .add(ImageIO.read(RocketImpl.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+                        .add(ImageIO
+                                .read(RocketImpl.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
             } catch (IOException e) {
                 LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
                 LOG.severe(e.toString());

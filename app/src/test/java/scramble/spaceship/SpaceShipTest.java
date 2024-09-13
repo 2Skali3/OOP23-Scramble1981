@@ -14,14 +14,8 @@ import scramble.model.enemy.RocketImpl;
 import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
 
-/**
- * Test for {@link SpaceShip} class.
- */
 class SpaceShipTest {
 
-    /**
-     * Test for the {@link SpaceShip} sprites to see if are all loaded correctly.
-     */
     @Test
     void testLoadAllSpritesWithoutErrors() {
         final SpaceShip spaceShip = new SpaceShip(0, 0, Constants.SPACESHIP_WIDTH, Constants.SPACESHIP_HEIGHT);
@@ -34,10 +28,6 @@ class SpaceShipTest {
         assertFalse(spaceShip.checkEnemyCollision(new ArrayList<>()));
     }
 
-    /**
-     * Test for the {@link SpaceShip} class to see if the collision between the
-     * {@link RocketImpl} are currectly detected.
-     */
     @Test
     void testDetectsEnemyCollisionAccurately() {
         // Create a SpaceShip instance
@@ -58,9 +48,6 @@ class SpaceShipTest {
         assertTrue(spaceShip.isHit());
     }
 
-    /**
-     * Test for the movment of the {@link SpaceShip} based on the key pressed.
-     */
     @Test
     void testSpaceshipMovementBasedOnDirection() {
         final SpaceShip spaceShip = new SpaceShip(0, 0, Constants.SPACESHIP_WIDTH, Constants.SPACESHIP_HEIGHT);

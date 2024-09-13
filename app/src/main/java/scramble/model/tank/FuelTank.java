@@ -24,7 +24,6 @@ public class FuelTank extends GameElementImpl {
     private static final Logger LOG = Logger.getLogger(FuelTank.class.getName());
     private static final int EXP_SPRITES = 4;
     private static final int EXPLOSION_DURATION = 15;
-    private static final int FUEL_REFILL = 15;
 
     private final List<BufferedImage> sprite;
     private final List<BufferedImage> explosionSprites;
@@ -168,12 +167,4 @@ public class FuelTank extends GameElementImpl {
         return EXPLOSION_DURATION;
     }
 
-    /**
-     * Getter for the ammount of fuel refilled by the tank.
-     *
-     * @return the ammount of fuel refilled by the tank
-     */
-    public static int getFuelRefill() {
-        return FUEL_REFILL;
-    }
 }

@@ -79,4 +79,10 @@ public class BackgroundPanel extends GamePanel {
     public void stopTimer() {
         this.backgroundTimer.stop();
     }
+
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        this.backgroundTimer.restart();
+    }
 }

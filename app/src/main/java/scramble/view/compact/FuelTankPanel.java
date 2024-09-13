@@ -93,6 +93,13 @@ public class FuelTankPanel extends GamePanel {
         refuelTimer.stop();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void restartTimer() {
+        updateTimer.restart();
+        refuelTimer.restart();
+    }
+
     /**
      * Method for resetting the {@link FuelTank} position.
      */
@@ -168,7 +175,7 @@ public class FuelTankPanel extends GamePanel {
             if (ft.isExploded()) {
                 count = ft.incrementCounterForExplosion();
                 if (count == RocketImpl.getExplosionDuration()) {
-                    fuelBar.increaseFuel(FuelTank.getFuelRefill());
+                    fuelBar.increaseFuel(Constants.FUEL_REFILL);
                     iterator.remove();
                 }
             }

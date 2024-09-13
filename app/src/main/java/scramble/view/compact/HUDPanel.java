@@ -209,6 +209,12 @@ public final class HUDPanel extends GamePanel {
         fuelTimer.stop();
     }
 
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        fuelTimer.restart();
+    }
+
     /**
      * Reset the number of stages to the starting stage.
      */
