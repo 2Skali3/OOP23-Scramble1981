@@ -39,7 +39,7 @@ class MapColumnTest {
         assertEquals(LandBehaviour.FLAT, mapColumn.getFloorBehaviour());
         assertEquals(POS, mapColumn.getFloorPosition().getSecondElement());
         assertEquals(LandUtils.PIXEL_PER_LAND_SPRITE_SIDE, mapColumn.gettWidth());
-        assertEquals(LandUtils.PIXEL_PER_LAND_SPRITE_SIDE, mapColumn.getBIstHeight());
+        assertEquals(LandUtils.PIXEL_PER_LAND_SPRITE_SIDE, mapColumn.getBIsHeight());
         assertFalse(mapColumn.getElements().isEmpty());
         assertFalse(mapColumn.getBIs().isEmpty());
     }

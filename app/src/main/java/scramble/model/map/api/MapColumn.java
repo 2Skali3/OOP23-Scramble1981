@@ -56,7 +56,7 @@ public interface MapColumn {
      * Getter for the height of the BufferedImage element of the column.
      * @return the height of the BufferedImage of the column
      */
-    int getBIstHeight();
+    int getBIsHeight();
 
     /**
      * Getter for the {@link LandBehaviour} of the {@code MapColumn} floor.

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import scramble.controller.input.impl.InputControlImpl;
+import scramble.controller.input.impl.InputControl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
 import scramble.model.bullets.Bullet;
@@ -233,13 +233,13 @@ public class LogicControllerImpl implements LogicController {
 
     private void timerLogic() {
         gameView.stopAllPanelTimers();
-        InputControlImpl.setPaused(true);
+        InputControl.setPaused(true);
         final Timer delayTimer = new Timer(3500, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 startFuelCheckTimer();
                 startCollisionTimer();
-                InputControlImpl.setPaused(false);
+                InputControl.setPaused(false);
                 spaceShipPanel.getSpaceship().setHit(false);
                 if (isGameOver()) {
                     gameView.setStart();

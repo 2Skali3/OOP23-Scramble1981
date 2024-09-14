@@ -174,7 +174,7 @@ public class MapColumnImpl implements MapColumn {
 
     /** @inheritDoc */
     @Override
-    public int getBIstHeight() {
+    public int getBIsHeight() {
         return this.biHeight;
     }
 

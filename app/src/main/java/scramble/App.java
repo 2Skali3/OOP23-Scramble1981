@@ -3,7 +3,7 @@
  */
 package scramble;
 
-import scramble.controller.input.impl.InputControlImpl;
+import scramble.controller.input.impl.InputControl;
 import scramble.view.compact.GameView;
 
 /**
@@ -29,7 +29,7 @@ public class App {
     public static void main(final String[] args) {
 
         final GameView gameView = new GameView();
-        final InputControlImpl controller = new InputControlImpl(gameView);
+        final InputControl controller = new InputControl(gameView);
         gameView.addKeyListener(controller);
     }
 }

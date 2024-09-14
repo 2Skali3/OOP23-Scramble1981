@@ -3,7 +3,6 @@ package scramble.controller.input.impl;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import scramble.controller.input.api.InputControl;
 import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.spaceship.Directions;
 import scramble.model.bullets.BulletType;
@@ -15,7 +14,7 @@ import scramble.view.compact.GameView;
  * Implementation of InputControl. Extends KeyAdapter in order to get the
  * necessary key bindings.
  */
-public class InputControlImpl extends KeyAdapter implements InputControl {
+public class InputControl extends KeyAdapter {
 
     private final GameView gv;
     private static boolean explPause;
@@ -25,7 +24,7 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
      *
      * @param gv the game view to control
      */
-    public InputControlImpl(final GameView gv) {
+    public InputControl(final GameView gv) {
         this.gv = new GameView(gv);
     }
 
@@ -83,12 +82,6 @@ public class InputControlImpl extends KeyAdapter implements InputControl {
                 break;
             default:
         }
-    }
-
-    @Override
-    public void keyMapping() {
-        // TODO Auto-generated method stub
-
     }
 
     /**

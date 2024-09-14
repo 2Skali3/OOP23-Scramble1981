@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import scramble.controller.input.impl.InputControlImpl;
+import scramble.controller.input.impl.InputControl;
 import scramble.controller.map.MapController;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
@@ -47,7 +47,7 @@ public class LandscapePanel extends GamePanel {
 
     private void updateLandscape() {
 
-        if (!InputControlImpl.isExplPause()) {
+        if (!InputControl.isExplPause()) {
             this.landscapeX += Constants.LANDSCAPEX_SPEED;
             this.counter += Constants.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
@@ -96,8 +96,8 @@ public class LandscapePanel extends GamePanel {
             column.updateHitBox(column.getX() - this.landscapeX);
             for (final BufferedImage bi : column.getBIs()) {
                 g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.gettWidth(),
-                        column.getBIstHeight(), null);
-                tempY += column.getBIstHeight();
+                        column.getBIsHeight(), null);
+                tempY += column.getBIsHeight();
             }
         }
         drawHitBox(g);
