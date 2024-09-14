@@ -22,7 +22,7 @@ import scramble.utility.Constants;
  * @see GamePanel
  * @see JPanel
  */
-public class SpaceShipPanel extends GamePanel {
+public class SpaceShipPanel extends GamePanel implements Cloneable {
 
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
     private static final long serialVersionUID = 1L;
@@ -123,6 +123,12 @@ public class SpaceShipPanel extends GamePanel {
     @Override
     public void restartTimer() {
         updateTimer.restart();
+    }
+
+    /** @inheritdoc */
+    @Override
+    public SpaceShipPanel clone() throws CloneNotSupportedException {
+        return (SpaceShipPanel) super.clone();
     }
 
     /** {@inheritDoc} */

@@ -1,6 +1,7 @@
 package scramble.controller.command.impl;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.logging.Logger;
+
 import scramble.controller.command.api.Command;
 import scramble.model.spaceship.Directions;
 import scramble.view.compact.SpaceShipPanel;
@@ -12,7 +13,9 @@ import scramble.view.compact.SpaceShipPanel;
  */
 public final class SpaceShipCommand implements Command {
 
-    private final SpaceShipPanel spaceShipPanel;
+    private static final Logger LOG = Logger.getLogger(SpaceShipPanel.class.getName());
+
+    private SpaceShipPanel spaceShipPanel;
     private final Directions direction;
 
     /**
@@ -21,9 +24,16 @@ public final class SpaceShipCommand implements Command {
      * @param spaceShipPanel the game panel to update
      * @param direction      the spaceship direction
      */
-    @SuppressFBWarnings
     public SpaceShipCommand(final SpaceShipPanel spaceShipPanel, final Directions direction) {
-        this.spaceShipPanel = spaceShipPanel;
+        final SpaceShipPanel tmp;
+        try {
+            tmp = spaceShipPanel.clone();
+            this.spaceShipPanel = tmp;
+
+        } catch (CloneNotSupportedException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
+        }
         this.direction = direction;
     }
 
