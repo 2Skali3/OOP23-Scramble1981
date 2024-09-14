@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import scramble.model.command.impl.BulletCommand;
-import scramble.model.command.impl.SpaceShipCommand;
+import scramble.controller.command.impl.BulletCommand;
+import scramble.controller.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.Directions;
 import scramble.model.spaceship.SpaceShip;
@@ -27,8 +27,9 @@ public class SpaceShipPanel extends GamePanel {
     private static final Logger LOG = Logger.getLogger(SpaceShip.class.getName());
     private static final long serialVersionUID = 1L;
 
-    private transient SpaceShip spaceship;
     private final Timer updateTimer;
+
+    private transient SpaceShip spaceship;
 
     /** Constructor for the SpaceshipPanel class. */
     public SpaceShipPanel() {
@@ -43,23 +44,6 @@ public class SpaceShipPanel extends GamePanel {
             }
         });
         updateTimer.start();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void drawPanel(final Graphics g) {
-
-        if (spaceship.getSprite() != null) {
-            if (spaceship.isHit()) {
-                g.drawImage(spaceship.getExpSprite(), spaceship.getPosition().getFirstElement(),
-                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
-            } else {
-                g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
-                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
-            }
-        }
-
-        spaceship.drawHitBox(g);
     }
 
     /**
@@ -114,6 +98,50 @@ public class SpaceShipPanel extends GamePanel {
         // repaint();
     }
 
+    /**
+     * Method that executes the command sent to the spaceship.
+     *
+     * @param command the command
+     */
+    public void sendCommandBullet(final BulletCommand command) {
+        command.execute();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void startTimer() {
+        this.updateTimer.start();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void stopTimer() {
+        this.updateTimer.stop();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        updateTimer.restart();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void drawPanel(final Graphics g) {
+
+        if (spaceship.getSprite() != null) {
+            if (spaceship.isHit()) {
+                g.drawImage(spaceship.getExpSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            } else {
+                g.drawImage(spaceship.getSprite(), spaceship.getPosition().getFirstElement(),
+                        spaceship.getPosition().getSecondElement(), spaceship.getWidth(), spaceship.getHeight(), null);
+            }
+        }
+
+        spaceship.drawHitBox(g);
+    }
+
     /* Checks continuosly with a timer for spaceship movement. */
     private void update() {
         final PairImpl<Integer, Integer> location = spaceship.getPosition();
@@ -147,32 +175,5 @@ public class SpaceShipPanel extends GamePanel {
             spaceship.resetSpeedY();
             spaceship.updatePosition(new PairImpl<>(shipX, maxY));
         }
-    }
-
-    /**
-     * Method that executes the command sent to the spaceship.
-     *
-     * @param command the command
-     */
-    public void sendCommandBullet(final BulletCommand command) {
-        command.execute();
-    }
-
-    /** @inheritDoc */
-    @Override
-    public void startTimer() {
-        this.updateTimer.start();
-    }
-
-    /** @inheritDoc */
-    @Override
-    public void stopTimer() {
-        this.updateTimer.stop();
-    }
-
-    /** @inheritDoc */
-    @Override
-    public void restartTimer() {
-        updateTimer.restart();
     }
 }

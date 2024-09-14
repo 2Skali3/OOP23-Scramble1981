@@ -57,75 +57,6 @@ public class MapColumnImpl implements MapColumn {
         this.fillElements(ceiling, floor);
     }
 
-    private BufferedImage selectBI(final StagePart stagePart) {
-        if (this.terrainType == TerrainType.GREENLAND) {
-            return LandUtils.getSprite(LandPart.GREEN_SQUARE);
-        }
-        if (LandUtils.dividePixelPerSprite(x) % 2 == 0) {
-            if (stagePart == StagePart.CEILING) {
-                return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
-            }
-            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
-        }
-
-        if (stagePart == StagePart.CEILING) {
-            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
-        }
-        return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
-    }
-
-    private void fillBufferedImages(final int yCeiling, final int yFloor, final BufferedImage ceiling,
-            final BufferedImage floor) {
-
-        final BufferedImage biCeiling = this.selectBI(StagePart.CEILING);
-        final BufferedImage biFloor = this.selectBI(StagePart.FLOOR);
-        final BufferedImage transparent = BufferedImageManager.transparentBufferedImage(biCeiling.getWidth(),
-                biCeiling.getHeight());
-        BufferedImage currentBI;
-
-        if (yCeiling < 0) {
-            currentBI = transparent;
-        } else {
-            currentBI = biCeiling;
-        }
-
-        for (int y = 0; y < LandUtils.multiplyPixelPerSprite(
-                Constants.SPRITE_PER_STAGE_HEIGHT); y = LandUtils.addPixelPerSprite(y)) {
-            if (y == yCeiling) {
-                this.bufferedImages.add(BufferedImageManager.cloneBufferedImage(ceiling));
-                currentBI = transparent;
-            } else if (y == yFloor) {
-                this.bufferedImages.add(BufferedImageManager.cloneBufferedImage(floor));
-                currentBI = biFloor;
-            } else {
-                this.bufferedImages.add(currentBI);
-            }
-        }
-    }
-
-    private void fillElements(final MapElement ceiling, final MapElement floor) {
-        if (ceiling.getY() >= 0) {
-            this.ceilingElements.add(ceiling);
-        }
-        this.floorElements.add(new MapElement(floor.getX(), floor.getY(), floor.getWidth(), floor.getHeight() + 10,
-                floor.getSprite(), floor.getTerrainType(), floor.getBehaviour()));
-        if (this.terrainType == TerrainType.BRICK_COLUMN) {
-            if (ceiling.getY() > 0) {
-                this.ceilingElements.add(new MapElement(x, 0, ceiling.getWidth(), ceiling.getY(),
-                        BufferedImageManager.transparentBufferedImage(ceiling.getWidth(), ceiling.getY()),
-                        this.terrainType, LandBehaviour.EMPTY));
-            }
-            if (floor.getY() < LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)) {
-                this.floorElements.add(new MapElement(x, LandUtils.addPixelPerSprite(floor.getY()), floor.getWidth(),
-                        LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)
-                                - LandUtils.subPixelPerSprite(floor.getY()),
-                        BufferedImageManager.transparentBufferedImage(floor.getWidth(), floor.getY()),
-                        this.terrainType, LandBehaviour.EMPTY));
-
-            }
-        }
-    }
-
     /** @inheritDoc */
     @Override
     public List<MapElement> getElements() {
@@ -196,4 +127,74 @@ public class MapColumnImpl implements MapColumn {
     public List<MapElement> getCeilingElements() {
         return new ArrayList<>(this.ceilingElements);
     }
+
+    private BufferedImage selectBI(final StagePart stagePart) {
+        if (this.terrainType == TerrainType.GREENLAND) {
+            return LandUtils.getSprite(LandPart.GREEN_SQUARE);
+        }
+        if (LandUtils.dividePixelPerSprite(x) % 2 == 0) {
+            if (stagePart == StagePart.CEILING) {
+                return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
+            }
+            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
+        }
+
+        if (stagePart == StagePart.CEILING) {
+            return BufferedImageManager.changeColorCounterClockwise(LandUtils.getSprite(LandPart.WHITE_SQUARE), 2);
+        }
+        return BufferedImageManager.changeColorClockwise(LandUtils.getSprite(LandPart.DARK_BRICK_WALL), 0);
+    }
+
+    private void fillBufferedImages(final int yCeiling, final int yFloor, final BufferedImage ceiling,
+            final BufferedImage floor) {
+
+        final BufferedImage biCeiling = this.selectBI(StagePart.CEILING);
+        final BufferedImage biFloor = this.selectBI(StagePart.FLOOR);
+        final BufferedImage transparent = BufferedImageManager.transparentBufferedImage(biCeiling.getWidth(),
+                biCeiling.getHeight());
+        BufferedImage currentBI;
+
+        if (yCeiling < 0) {
+            currentBI = transparent;
+        } else {
+            currentBI = biCeiling;
+        }
+
+        for (int y = 0; y < LandUtils.multiplyPixelPerSprite(
+                Constants.SPRITE_PER_STAGE_HEIGHT); y = LandUtils.addPixelPerSprite(y)) {
+            if (y == yCeiling) {
+                this.bufferedImages.add(BufferedImageManager.cloneBufferedImage(ceiling));
+                currentBI = transparent;
+            } else if (y == yFloor) {
+                this.bufferedImages.add(BufferedImageManager.cloneBufferedImage(floor));
+                currentBI = biFloor;
+            } else {
+                this.bufferedImages.add(currentBI);
+            }
+        }
+    }
+
+    private void fillElements(final MapElement ceiling, final MapElement floor) {
+        if (ceiling.getY() >= 0) {
+            this.ceilingElements.add(ceiling);
+        }
+        this.floorElements.add(new MapElement(floor.getX(), floor.getY(), floor.getWidth(), floor.getHeight() + 10,
+                floor.getSprite(), floor.getTerrainType(), floor.getBehaviour()));
+        if (this.terrainType == TerrainType.BRICK_COLUMN) {
+            if (ceiling.getY() > 0) {
+                this.ceilingElements.add(new MapElement(x, 0, ceiling.getWidth(), ceiling.getY(),
+                        BufferedImageManager.transparentBufferedImage(ceiling.getWidth(), ceiling.getY()),
+                        this.terrainType, LandBehaviour.EMPTY));
+            }
+            if (floor.getY() < LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)) {
+                this.floorElements.add(new MapElement(x, LandUtils.addPixelPerSprite(floor.getY()), floor.getWidth(),
+                        LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT)
+                                - LandUtils.subPixelPerSprite(floor.getY()),
+                        BufferedImageManager.transparentBufferedImage(floor.getWidth(), floor.getY()),
+                        this.terrainType, LandBehaviour.EMPTY));
+
+            }
+        }
+    }
+
 }

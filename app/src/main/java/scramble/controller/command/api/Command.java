@@ -1,4 +1,4 @@
-package scramble.model.command.api;
+package scramble.controller.command.api;
 
 /**
  * Interface created for the command pattern.

@@ -23,10 +23,12 @@ public final class StartMenu extends GamePanel {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(StartMenu.class.getName());
 
-    private int sequenceStep;
-    private final Font retroFont;
     private final transient Scores scores;
+
+    private final Font retroFont;
     private final Timer scoreSequenceTimer;
+
+    private int sequenceStep;
 
     private static final class FixedConstants {
 
@@ -66,6 +68,31 @@ public final class StartMenu extends GamePanel {
                 }
             }
         });
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+        drawPanel(g);
+    }
+
+    @Override
+    public void startTimer() {
+        scoreSequenceTimer.start();
+
+    }
+
+    @Override
+    public void stopTimer() {
+        scoreSequenceTimer.stop();
+
+    }
+
+    @Override
+    public void restartTimer() {
+        scoreSequenceTimer.restart();
 
     }
 
@@ -113,31 +140,6 @@ public final class StartMenu extends GamePanel {
             g.drawString("   50 PTS", getWidth() / 2 - FixedConstants.POINTS_WIDTH,
                     getHeight() / 2 + FixedConstants.GAP30);
         }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-        drawPanel(g);
-    }
-
-    @Override
-    public void startTimer() {
-        scoreSequenceTimer.start();
-
-    }
-
-    @Override
-    public void stopTimer() {
-        scoreSequenceTimer.stop();
-
-    }
-
-    @Override
-    public void restartTimer() {
-        scoreSequenceTimer.restart();
-
     }
 
 }

@@ -1,6 +1,5 @@
 package scramble.model.bullets;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -22,16 +21,18 @@ import scramble.utility.Constants;
 public class Bullet extends GameElementImpl {
 
     private static final Logger LOG = Logger.getLogger(Bullet.class.getName());
-    private int xSpeed;
-    private int ySpeed;
+
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
-    private BufferedImage sprite;
     private final BulletType type;
+    private final Random random = new Random();
+
+    private BufferedImage sprite;
     private boolean animationComplete;
     private int currentSpriteIndex;
     private boolean hit;
-    private final Random random = new Random();
+    private int xSpeed;
+    private int ySpeed;
 
     /**
      * Class construnctor.
@@ -46,7 +47,6 @@ public class Bullet extends GameElementImpl {
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         this.type = type;
-
 
         switch (type) {
             case TYPE_HORIZONTAL:
@@ -70,14 +70,15 @@ public class Bullet extends GameElementImpl {
                 }
 
                 for (int i = 1; i <= Constants.SPRITE_NUMBER_BOMB_EXPLOSION; i++) {
-                try {
-                    explosionSprites
-                            .add(ImageIO.read(Bullet.class.getResource("/bomb/explosion/bomb_explodes" + i + ".png")));
-                } catch (IOException e) {
-                    LOG.severe("Ops!");
-                    LOG.severe(e.toString());
+                    try {
+                        explosionSprites
+                                .add(ImageIO
+                                        .read(Bullet.class.getResource("/bomb/explosion/bomb_explodes" + i + ".png")));
+                    } catch (IOException e) {
+                        LOG.severe("Ops!");
+                        LOG.severe(e.toString());
+                    }
                 }
-            }
 
                 break;
 
@@ -115,17 +116,13 @@ public class Bullet extends GameElementImpl {
 
     /**
      * Controls the movement of the bomb explosion.
+     * 
      * @param explosionSpeedX
      */
     public void moveExplosion(final int explosionSpeedX) {
         ySpeed = 0;
         xSpeed = explosionSpeedX;
         move();
-    }
-
-    private void move() {
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
-                getPosition().getSecondElement() + ySpeed));
     }
 
     /** {@inheritDoc} */
@@ -146,24 +143,6 @@ public class Bullet extends GameElementImpl {
         }
     }
 
-
-    private BufferedImage getNextBombSprite() {
-        if (animationComplete) {
-            return sprites.get(Constants.SPRITE_NUMBER_BOMB - 1); // Return the last sprite when the animation is complete
-        }
-
-        final BufferedImage currentSprite = sprites.get(currentSpriteIndex);
-
-        // Update the current sprite index
-        if (currentSpriteIndex < Constants.SPRITE_NUMBER_BOMB - 1) {
-            currentSpriteIndex = currentSpriteIndex + 1;
-        } else {
-            animationComplete = true;
-        }
-
-        return currentSprite;
-    }
-
     /**
      * Check if the bullet is colliding with the map.
      *
@@ -181,16 +160,15 @@ public class Bullet extends GameElementImpl {
     }
 
     /**
-    * Returns randomised image for explosion animation.
-    *
-    * @return a sprite
-    */
-   public BufferedImage getExpSprite() {
-       final int num = random.nextInt(Constants.SPRITE_NUMBER_BOMB_EXPLOSION);
-       // hit = false;
-       return explosionSprites.get(num);
-   }
-
+     * Returns randomised image for explosion animation.
+     *
+     * @return a sprite
+     */
+    public BufferedImage getExpSprite() {
+        final int num = random.nextInt(Constants.SPRITE_NUMBER_BOMB_EXPLOSION);
+        // hit = false;
+        return explosionSprites.get(num);
+    }
 
     /**
      * Getter for hit.
@@ -212,10 +190,34 @@ public class Bullet extends GameElementImpl {
 
     /**
      * Getter for the type of bullet.
+     * 
      * @return type
-    **/
+     **/
     public BulletType getType() {
         return this.type;
+    }
+
+    private void move() {
+        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
+                getPosition().getSecondElement() + ySpeed));
+    }
+
+    private BufferedImage getNextBombSprite() {
+        if (animationComplete) {
+            return sprites.get(Constants.SPRITE_NUMBER_BOMB - 1); // Return the last sprite when the animation is
+                                                                  // complete
+        }
+
+        final BufferedImage currentSprite = sprites.get(currentSpriteIndex);
+
+        // Update the current sprite index
+        if (currentSpriteIndex < Constants.SPRITE_NUMBER_BOMB - 1) {
+            currentSpriteIndex = currentSpriteIndex + 1;
+        } else {
+            animationComplete = true;
+        }
+
+        return currentSprite;
     }
 
 }

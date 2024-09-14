@@ -54,22 +54,27 @@ public class Scores {
         }
     }
 
-    private void loadDefaultScores() {
-        try (Reader reader = new InputStreamReader(
-                Scores.class.getResourceAsStream(Constants.SCORES_FILE_PATH), "UTF-8");) {
+    /**
+     * Getter for current score.
+     *
+     * @return an int
+     */
+    public static int getCurrentScore() {
+        return currentScore;
+    }
 
-            final Gson gson = new Gson();
-            final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
-            if (loadedScores != null) {
-                for (final int i : loadedScores.getScores()) {
-                    scoresList.add(i);
-                }
-            }
-            reader.close();
-        } catch (IOException e) {
-            LOG.severe("Ops!");
-            LOG.severe(e.toString());
-        }
+    /**
+     * Increments the current score.
+     *
+     * @param enemyPoints the amount of point to add
+     */
+    public static void incrementCurrentScore(final int enemyPoints) {
+        currentScore += enemyPoints;
+    }
+
+    /** Resets current score. */
+    public static void resetCurrentScore() {
+        currentScore = 0;
     }
 
     /**
@@ -129,27 +134,22 @@ public class Scores {
         }
     }
 
-    /**
-     * Getter for current score.
-     *
-     * @return an int
-     */
-    public static int getCurrentScore() {
-        return currentScore;
-    }
+    private void loadDefaultScores() {
+        try (Reader reader = new InputStreamReader(
+                Scores.class.getResourceAsStream(Constants.SCORES_FILE_PATH), "UTF-8");) {
 
-    /**
-     * Increments the current score.
-     *
-     * @param enemyPoints the amount of point to add
-     */
-    public static void incrementCurrentScore(final int enemyPoints) {
-        currentScore += enemyPoints;
-    }
-
-    /** Resets current score. */
-    public static void resetCurrentScore() {
-        currentScore = 0;
+            final Gson gson = new Gson();
+            final ScoreData loadedScores = gson.fromJson(reader, ScoreData.class);
+            if (loadedScores != null) {
+                for (final int i : loadedScores.getScores()) {
+                    scoresList.add(i);
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            LOG.severe("Ops!");
+            LOG.severe(e.toString());
+        }
     }
 
 }

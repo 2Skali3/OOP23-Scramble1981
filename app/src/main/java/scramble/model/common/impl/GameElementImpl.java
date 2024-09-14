@@ -45,10 +45,6 @@ public abstract class GameElementImpl extends HitBoxImpl implements GameElement 
         return new PairImpl<Integer, Integer>(position.getFirstElement(), position.getSecondElement());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public abstract BufferedImage getSprite();
-
     /**
      * Getter for the game element width.
      *
@@ -74,6 +70,11 @@ public abstract class GameElementImpl extends HitBoxImpl implements GameElement 
      */
     public void drawHitBox(final Graphics g) {
         g.setColor(Color.red);
-        //g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width, getHitBox().height);
+        // g.drawRect(getHitBox().x, getHitBox().y, getHitBox().width,
+        // getHitBox().height);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public abstract BufferedImage getSprite();
 }

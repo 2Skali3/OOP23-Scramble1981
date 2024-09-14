@@ -24,9 +24,9 @@ public class BackgroundPanel extends GamePanel {
     private static final long serialVersionUID = 1L;
 
     private final Random rand;
-    private transient List<Pair<Integer, Integer>> starPositionXY;
-
     private final Timer backgroundTimer;
+
+    private transient List<Pair<Integer, Integer>> starPositionXY;
 
     /** Costructor of the BackgroundPanel class. */
     public BackgroundPanel() {
@@ -35,8 +35,22 @@ public class BackgroundPanel extends GamePanel {
         this.backgroundTimer = new Timer(1000, e -> this.randomizeStarsPositionXY());
     }
 
-    private void newStartPositionXY() {
-        this.starPositionXY = new ArrayList<>();
+    /** @inheritDoc */
+    @Override
+    public void startTimer() {
+        this.backgroundTimer.start();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void stopTimer() {
+        this.backgroundTimer.stop();
+    }
+
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        this.backgroundTimer.restart();
     }
 
     /**
@@ -68,21 +82,7 @@ public class BackgroundPanel extends GamePanel {
         }
     }
 
-    /** @inheritDoc */
-    @Override
-    public void startTimer() {
-        this.backgroundTimer.start();
-    }
-
-    /** @inheritDoc */
-    @Override
-    public void stopTimer() {
-        this.backgroundTimer.stop();
-    }
-
-    /** @inheritDoc */
-    @Override
-    public void restartTimer() {
-        this.backgroundTimer.restart();
+    private void newStartPositionXY() {
+        this.starPositionXY = new ArrayList<>();
     }
 }

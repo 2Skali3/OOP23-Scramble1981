@@ -1,6 +1,6 @@
 package scramble.enemy;
 
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.bullets.Bullet;
 import scramble.utility.Constants;
 import scramble.model.common.impl.PairImpl;
@@ -16,13 +16,13 @@ import java.util.Set;
 
 class RocketImplTest {
 
-    private RocketImpl makeRocketImpl(final int x, final int y, final int width, final int height) {
-        return new RocketImpl(x, y, width, height);
+    private Rocket makeRocketImpl(final int x, final int y, final int width, final int height) {
+        return new Rocket(x, y, width, height);
     }
 
     @Test
     void moveRocketStateAndSpeedUpdatesPosition() {
-        final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);
+        final Rocket rocket = makeRocketImpl(100, 100, 10, 10);
 
         // Arrange: setting initial state and invoking the entry point
         rocket.turnOnMove();
@@ -36,7 +36,7 @@ class RocketImplTest {
 
     @Test
     void checkSpriteCyclesThroughSprites() {
-        final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);
+        final Rocket rocket = makeRocketImpl(100, 100, 10, 10);
 
         // Act: invoking the entry point
         final BufferedImage sprite1 = rocket.getSprite();
@@ -48,7 +48,7 @@ class RocketImplTest {
 
     @Test
     void checkCollisionBulletWithCollidingRockets() {
-        final RocketImpl rocket = makeRocketImpl(100, 100, 10, 10);
+        final Rocket rocket = makeRocketImpl(100, 100, 10, 10);
         final Set<Bullet> bullets = new HashSet<>();
         final Bullet bullet = new Bullet(100, 100, BulletType.TYPE_BOMB); // Assuming Bullet has a constructor with
                                                                           // these parameters

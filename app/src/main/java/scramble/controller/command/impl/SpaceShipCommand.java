@@ -1,7 +1,7 @@
-package scramble.model.command.impl;
+package scramble.controller.command.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import scramble.model.command.api.Command;
+import scramble.controller.command.api.Command;
 import scramble.model.spaceship.Directions;
 import scramble.view.compact.SpaceShipPanel;
 

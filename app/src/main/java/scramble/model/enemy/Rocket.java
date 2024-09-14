@@ -24,9 +24,9 @@ import java.util.random.RandomGenerator;
 /**
  * Implementation of the Enemy interface. Used for the simple rocket NPC.
  */
-public class RocketImpl extends GameElementImpl {
+public class Rocket extends GameElementImpl {
 
-    private static final Logger LOG = Logger.getLogger(RocketImpl.class.getName());
+    private static final Logger LOG = Logger.getLogger(Rocket.class.getName());
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
@@ -49,7 +49,7 @@ public class RocketImpl extends GameElementImpl {
      * @param width  Rocket width
      * @param height Rocket height
      */
-    public RocketImpl(final int x, final int y, final int width, final int height) {
+    public Rocket(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
         this.sprites = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
@@ -70,10 +70,6 @@ public class RocketImpl extends GameElementImpl {
         };
         randomDelay = 1000 + randomStartDelay.nextInt(Constants.MAXDELAY);
 
-    }
-
-    private void updateRocketPosition(final int x, final int y) {
-        updatePosition(new PairImpl<Integer, Integer>(x, y));
     }
 
     /** Handles rocket movement. */
@@ -225,7 +221,7 @@ public class RocketImpl extends GameElementImpl {
 
     private void loadSprites() {
         for (int i = 1; i <= Constants.SPRITE_ROCKET; i++) {
-            try (InputStream inputStream = RocketImpl.class
+            try (InputStream inputStream = Rocket.class
                     .getResourceAsStream("/rocket/rocket_frame" + i + "_shader.png")) {
                 sprites.add(ImageIO.read(inputStream));
             } catch (IOException e) {
@@ -237,12 +233,16 @@ public class RocketImpl extends GameElementImpl {
             try {
                 explosionSprites
                         .add(ImageIO
-                                .read(RocketImpl.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
+                                .read(Rocket.class.getResource("/rocket/rocket_explosion" + i + "_sprite.png")));
             } catch (IOException e) {
                 LOG.severe("Ops! couldn't load enemy_rocket_explosion_sprites");
                 LOG.severe(e.toString());
             }
         }
+    }
+
+    private void updateRocketPosition(final int x, final int y) {
+        updatePosition(new PairImpl<Integer, Integer>(x, y));
     }
 
 }

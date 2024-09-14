@@ -3,7 +3,7 @@
  */
 package scramble;
 
-import scramble.controller.input.impl.InputControl;
+import scramble.controller.input.InputControl;
 import scramble.view.compact.GameView;
 
 /**

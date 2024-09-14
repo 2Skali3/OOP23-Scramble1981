@@ -2,7 +2,7 @@ package scramble.model.spaceship;
 
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.map.impl.MapElement;
 import scramble.utility.Constants;
 
@@ -30,6 +30,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
     private final Random random;
+
     private boolean hit;
     private boolean left, up, right, down;
     private int xSpeed, ySpeed;
@@ -236,8 +237,8 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
      * @return {@code true} if the {@code SpaceShip} has collided, {@code fales}
      *         otherwise
      */
-    public boolean checkEnemyCollision(final List<RocketImpl> rockets) {
-        for (final RocketImpl rocket : rockets) {
+    public boolean checkEnemyCollision(final List<Rocket> rockets) {
+        for (final Rocket rocket : rockets) {
             if (rocket.hasCollided(this)) {
                 this.hit = true;
                 setHit(true);

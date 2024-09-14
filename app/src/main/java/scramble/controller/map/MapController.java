@@ -32,12 +32,11 @@ public class MapController {
     private static List<Integer> stageStartingX = new ArrayList<>();
     private static List<Pair<Integer, Integer>> flatPositions = new ArrayList<>();
     private static List<Pair<Integer, Integer>> brickWallPosition = new ArrayList<>();
+    private static int endOfMapX;
 
     private final List<MapColumn> columns;
     private int columnIndex;
     private int currentX;
-
-    private static int endOfMapX;
 
     /**
      * Controller for the class {@link MapController}.
@@ -48,48 +47,6 @@ public class MapController {
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
         this.currentX = 0;
-    }
-
-    private List<MapStage<MapColumn>> fillMapStage() {
-        final List<MapStage<MapColumn>> stages = new ArrayList<>();
-        stages.add(STAGE_FACTORY.prestage());
-        stages.add(STAGE_FACTORY.stage1());
-        stages.add(STAGE_FACTORY.stage2());
-        stages.add(STAGE_FACTORY.stage3());
-        stages.add(STAGE_FACTORY.stage4());
-        stages.add(STAGE_FACTORY.stage5());
-        return stages;
-    }
-
-    private void fillColumns(final List<MapStage<MapColumn>> stages) {
-        int x = 0;
-        for (final MapStage<MapColumn> mapStage : stages) {
-            stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE);
-            for (int i = 0; i < mapStage.size(); i++) {
-                final MapColumn column = mapStage.getColumn(i);
-                column.updateX(x * column.gettWidth());
-                this.columns.add(column);
-                if (column.getFloorBehaviour() == LandBehaviour.FLAT && stageStartingX.size() > 1) {
-                    flatPositions.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
-                            column.getFloorPosition().getSecondElement()));
-                }
-                if (column.getFloorBehaviour() == LandBehaviour.BRICK) {
-                    brickWallPosition.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
-                            column.getFloorPosition().getSecondElement()));
-                }
-                x++;
-            }
-        }
-        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - GameView.WINDOW_WIDTH / 2;
-    }
-
-    /**
-     * Return the number of columns in this controller.
-     *
-     * @return the number of columns in this controller
-     */
-    public int getMapSize() {
-        return this.columns.size();
     }
 
     // to-do: creazione classe Column
@@ -177,6 +134,48 @@ public class MapController {
      */
     public static int getEndOfMapX() {
         return endOfMapX - GameView.WINDOW_WIDTH / 2;
+    }
+
+    /**
+     * Return the number of columns in this controller.
+     *
+     * @return the number of columns in this controller
+     */
+    public int getMapSize() {
+        return this.columns.size();
+    }
+
+    private List<MapStage<MapColumn>> fillMapStage() {
+        final List<MapStage<MapColumn>> stages = new ArrayList<>();
+        stages.add(STAGE_FACTORY.prestage());
+        stages.add(STAGE_FACTORY.stage1());
+        stages.add(STAGE_FACTORY.stage2());
+        stages.add(STAGE_FACTORY.stage3());
+        stages.add(STAGE_FACTORY.stage4());
+        stages.add(STAGE_FACTORY.stage5());
+        return stages;
+    }
+
+    private void fillColumns(final List<MapStage<MapColumn>> stages) {
+        int x = 0;
+        for (final MapStage<MapColumn> mapStage : stages) {
+            stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE);
+            for (int i = 0; i < mapStage.size(); i++) {
+                final MapColumn column = mapStage.getColumn(i);
+                column.updateX(x * column.gettWidth());
+                this.columns.add(column);
+                if (column.getFloorBehaviour() == LandBehaviour.FLAT && stageStartingX.size() > 1) {
+                    flatPositions.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
+                            column.getFloorPosition().getSecondElement()));
+                }
+                if (column.getFloorBehaviour() == LandBehaviour.BRICK) {
+                    brickWallPosition.add(new PairImpl<>(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE,
+                            column.getFloorPosition().getSecondElement()));
+                }
+                x++;
+            }
+        }
+        endOfMapX = x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - GameView.WINDOW_WIDTH / 2;
     }
 
 }

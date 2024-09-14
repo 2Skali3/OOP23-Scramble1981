@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.spaceship.SpaceShip;
 import scramble.utility.Constants;
 
@@ -34,9 +34,9 @@ class SpaceShipTest {
         final SpaceShip spaceShip = new SpaceShip(0, 0, Constants.SPACESHIP_WIDTH, Constants.SPACESHIP_HEIGHT);
 
         // Create a list of RocketImpl instances (mocked)
-        final List<RocketImpl> rockets = new ArrayList<>();
-        final RocketImpl rocket1 = new RocketImpl(0, 0, Constants.ROCKET_WIDTH, Constants.ROCKET_HEIGHT);
-        final RocketImpl rocket2 = new RocketImpl(100, 0, Constants.ROCKET_WIDTH, Constants.ROCKET_HEIGHT);
+        final List<Rocket> rockets = new ArrayList<>();
+        final Rocket rocket1 = new Rocket(0, 0, Constants.ROCKET_WIDTH, Constants.ROCKET_HEIGHT);
+        final Rocket rocket2 = new Rocket(100, 0, Constants.ROCKET_WIDTH, Constants.ROCKET_HEIGHT);
         rockets.add(rocket1);
         rockets.add(rocket2);
 

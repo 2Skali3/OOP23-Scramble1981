@@ -33,12 +33,12 @@ import scramble.model.map.util.enums.TerrainType;
  */
 public class MapElement extends HitBoxImpl implements GameElement {
 
-    private Pair<Integer, Integer> position;
     private final int width;
     private final int height;
     private final BufferedImage sprite;
     private final TerrainType terrainType;
     private final LandBehaviour behaviour;
+    private Pair<Integer, Integer> position;
 
     /**
      * Constructor of the class {@code MapElement}.

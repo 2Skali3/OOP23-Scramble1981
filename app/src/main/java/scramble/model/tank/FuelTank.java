@@ -30,7 +30,6 @@ public class FuelTank extends GameElementImpl {
 
     private boolean destroyed;
     private boolean exploded;
-
     private int counterForExplosion;
 
     /**

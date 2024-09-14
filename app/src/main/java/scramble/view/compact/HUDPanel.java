@@ -29,27 +29,23 @@ public final class HUDPanel extends GamePanel {
     private static final float FONT_SIZE = 16f;
     private static final int GAP_Y = 30;
     private static final int LIVES_DIM = 5;
+    private static final List<Float> STAGE_BAR_PAR = new ArrayList<>(
+            Arrays.asList(new Float[] { 0.16f, 0.33f, 0.5f, 0.66f, 0.83f }));
+    private static final List<Integer> STAGES = new ArrayList<>(
+            Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+    private static final int INDEX_FIVE = 5;
+    private static final Logger LOG = Logger.getLogger(FuelBar.class.getName());
+    private final transient FuelBar fuelBar;
+    private static final int SEC = 800;
 
-    private final Font retroFont;
     private transient BufferedImage fuelBarFull;
     private transient BufferedImage fuelBarEmpty;
     private transient BufferedImage stageHud;
-    private int stage;
+
     private final Timer fuelTimer;
+    private final Font retroFont;
 
-    private static final List<Float> STAGE_BAR_PAR = new ArrayList<>(
-            Arrays.asList(new Float[] { 0.16f, 0.33f, 0.5f, 0.66f, 0.83f }));
-
-    private static final List<Integer> STAGES = new ArrayList<>(
-            Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
-
-    private static final int INDEX_FIVE = 5;
-
-    private static final Logger LOG = Logger.getLogger(FuelBar.class.getName());
-
-    private final transient FuelBar fuelBar;
-
-    private static final int SEC = 800;
+    private int stage;
 
     /** Class constructor. */
     public HUDPanel() {
@@ -77,31 +73,61 @@ public final class HUDPanel extends GamePanel {
     }
 
     /**
-     * Draws both fuel bars images on top of each other.
+     * Getter for the fuel bar.
      *
-     * @param g graphic component
+     * @return the fuel bar
      */
-    private void paintFuelBar(final Graphics g) {
+    public FuelBar getFuelBar() {
+        return fuelBar;
+    }
 
-        final int width = fuelBarFull.getWidth() * Constants.FUELBAR_SCALE_FACTOR;
-        final int height = fuelBarFull.getHeight() * Constants.FUELBAR_SCALE_FACTOR;
+    /**
+     *
+     */
+    public void changeStage() {
+        final int pos = LandscapePanel.getMapController().getCurrentMapX();
 
-        // Calculates the amount of empty to draw over the full bar
-        final int fullWidth = (int) (fuelBar.getFuelLevel() / 100.0 * width);
+        if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement()
+                && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement()) {
+            stage = STAGES.get(0);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement()
+                && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement()) {
+            stage = STAGES.get(1);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement()
+                && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement()) {
+            stage = STAGES.get(2);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement()
+                && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
+            stage = STAGES.get(3);
+        } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
+            stage = STAGES.get(4);
+        }
 
-        // Coordinates of starting draw point
-        final int x = (getWidth() - width) / 2;
-        final int y = getHeight() - 64;
+    }
 
-        // Draws the empty bar
-        g.drawImage(fuelBarEmpty, x, y, x + width, y + height, 0, 0, fuelBarEmpty.getWidth(), fuelBarEmpty.getHeight(),
-                null);
+    /** @inheritDoc */
+    @Override
+    public void startTimer() {
+        fuelTimer.start();
+    }
 
-        // Draws the full bar from right to left
-        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height,
-                fuelBarFull.getWidth() - (fullWidth / Constants.FUELBAR_SCALE_FACTOR),
-                0, fuelBarFull.getWidth(), fuelBarFull.getHeight(), null);
+    /** @inheritDoc */
+    @Override
+    public void stopTimer() {
+        fuelTimer.stop();
+    }
 
+    /** @inheritDoc */
+    @Override
+    public void restartTimer() {
+        fuelTimer.restart();
+    }
+
+    /**
+     * Reset the number of stages to the starting stage.
+     */
+    public void resetStage() {
+        this.stage = 0;
     }
 
     private void paintStageHud(final Graphics g) {
@@ -163,61 +189,31 @@ public final class HUDPanel extends GamePanel {
     }
 
     /**
-     * Getter for the fuel bar.
+     * Draws both fuel bars images on top of each other.
      *
-     * @return the fuel bar
+     * @param g graphic component
      */
-    public FuelBar getFuelBar() {
-        return fuelBar;
-    }
+    private void paintFuelBar(final Graphics g) {
 
-    /**
-     *
-     */
-    public void changeStage() {
-        final int pos = LandscapePanel.getMapController().getCurrentMapX();
+        final int width = fuelBarFull.getWidth() * Constants.FUELBAR_SCALE_FACTOR;
+        final int height = fuelBarFull.getHeight() * Constants.FUELBAR_SCALE_FACTOR;
 
-        if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement()) {
-            stage = STAGES.get(0);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement()) {
-            stage = STAGES.get(1);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement()) {
-            stage = STAGES.get(2);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
-            stage = STAGES.get(3);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
-            stage = STAGES.get(4);
-        }
+        // Calculates the amount of empty to draw over the full bar
+        final int fullWidth = (int) (fuelBar.getFuelLevel() / 100.0 * width);
 
-    }
+        // Coordinates of starting draw point
+        final int x = (getWidth() - width) / 2;
+        final int y = getHeight() - 64;
 
-    /** @inheritDoc */
-    @Override
-    public void startTimer() {
-        fuelTimer.start();
-    }
+        // Draws the empty bar
+        g.drawImage(fuelBarEmpty, x, y, x + width, y + height, 0, 0, fuelBarEmpty.getWidth(), fuelBarEmpty.getHeight(),
+                null);
 
-    /** @inheritDoc */
-    @Override
-    public void stopTimer() {
-        fuelTimer.stop();
-    }
+        // Draws the full bar from right to left
+        g.drawImage(fuelBarFull, x, y, x + fullWidth, y + height,
+                fuelBarFull.getWidth() - (fullWidth / Constants.FUELBAR_SCALE_FACTOR),
+                0, fuelBarFull.getWidth(), fuelBarFull.getHeight(), null);
 
-    /** @inheritDoc */
-    @Override
-    public void restartTimer() {
-        fuelTimer.restart();
-    }
-
-    /**
-     * Reset the number of stages to the starting stage.
-     */
-    public void resetStage() {
-        this.stage = 0;
     }
 
 }

@@ -9,7 +9,7 @@ import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.spaceship.SpaceShip;
 import scramble.model.tank.FuelTank;
 
@@ -67,7 +67,7 @@ class GameElementImplTest {
         final GameElementImpl spaceShip = new SpaceShip(0, 0, 100, 100);
         final GameElementImpl bullet = new Bullet(0, 0, BulletType.TYPE_BOMB);
         final GameElementImpl fuelTank = new FuelTank(0, 0, 100, 100);
-        final GameElementImpl rocket = new RocketImpl(0, 0, 100, 100);
+        final GameElementImpl rocket = new Rocket(0, 0, 100, 100);
         assertNotNull(spaceShip.getSprite());
         assertNotNull(bullet.getSprite());
         assertNotNull(fuelTank.getSprite());

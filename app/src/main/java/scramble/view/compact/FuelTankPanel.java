@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.spaceship.FuelBar;
 import scramble.model.tank.FuelTank;
 import scramble.utility.Constants;
@@ -54,29 +54,6 @@ public class FuelTankPanel extends GamePanel {
         updateTimer = new Timer(32, e -> update());
         this.refuelTimer = new Timer(64, e -> loadTanks());
 
-    }
-
-    private void initializeTank() {
-        this.fuelTanks = new ArrayList<>();
-        this.tanksOnScreen = new ArrayList<>();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void drawPanel(final Graphics g) {
-        for (final FuelTank tank : tanksOnScreen) {
-            if (tank.getSprite() != null) {
-                if (tank.isDestroyed()) {
-                    g.drawImage(tank.getExplosionSprite(), tank.getPosition().getFirstElement(),
-                            tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
-                    tank.setExploded(true);
-                } else {
-                    g.drawImage(tank.getSprite(), tank.getPosition().getFirstElement(),
-                            tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
-                }
-            }
-            tank.drawHitBox(g);
-        }
     }
 
     /** {@inheritDoc} */
@@ -127,6 +104,24 @@ public class FuelTankPanel extends GamePanel {
         this.mapX = x;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void drawPanel(final Graphics g) {
+        for (final FuelTank tank : tanksOnScreen) {
+            if (tank.getSprite() != null) {
+                if (tank.isDestroyed()) {
+                    g.drawImage(tank.getExplosionSprite(), tank.getPosition().getFirstElement(),
+                            tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
+                    tank.setExploded(true);
+                } else {
+                    g.drawImage(tank.getSprite(), tank.getPosition().getFirstElement(),
+                            tank.getPosition().getSecondElement(), tank.getWidth(), tank.getHeight(), null);
+                }
+            }
+            tank.drawHitBox(g);
+        }
+    }
+
     private void fillTanks() {
         int counter = 0;
         final List<Pair<Integer, Integer>> spawnPosition = new ArrayList<>();
@@ -142,6 +137,11 @@ public class FuelTankPanel extends GamePanel {
             }
             counter++;
         }
+    }
+
+    private void initializeTank() {
+        this.fuelTanks = new ArrayList<>();
+        this.tanksOnScreen = new ArrayList<>();
     }
 
     private void update() {
@@ -174,7 +174,7 @@ public class FuelTankPanel extends GamePanel {
             final FuelTank ft = iterator.next();
             if (ft.isExploded()) {
                 count = ft.incrementCounterForExplosion();
-                if (count == RocketImpl.getExplosionDuration()) {
+                if (count == Rocket.getExplosionDuration()) {
                     fuelBar.increaseFuel(Constants.FUEL_REFILL);
                     iterator.remove();
                 }

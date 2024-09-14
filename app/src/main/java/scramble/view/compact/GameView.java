@@ -25,16 +25,15 @@ import javax.swing.Timer;
  */
 public class GameView extends JFrame {
 
-    private static final long serialVersionUID = 1L;
     /** Width of the window. */
     public static final int WINDOW_WIDTH = 800;
     /** Height of the window. */
     public static final int WINDOW_HEIGHT = LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT);
 
+    private static final long serialVersionUID = 1L;
     private static final int CHECKPOINT_OFFSET_X = WINDOW_WIDTH / 2;
 
     private final JLayeredPane mainPanel;
-
     private final BackgroundPanel backgroundPanel;
     private final LandscapePanel landscapePanel;
     private final SpaceShipPanel spaceShipPanel;
@@ -45,7 +44,6 @@ public class GameView extends JFrame {
     private final FuelTankPanel fuelTankPanel;
     private final LogicControllerImpl logicController;
     private final GameOverPanel gameOverPanel;
-
     private final Timer repaintTimer;
 
     /** Costructor of the class GameVew. */
@@ -139,51 +137,6 @@ public class GameView extends JFrame {
         this.setDefaultCloseOperation(view.getDefaultCloseOperation());
         this.setLocationRelativeTo(null);
 
-    }
-
-    private void showGameOverScreen() {
-        stopAllPanelTimers(); // Stop all ongoing game processes
-        this.mainPanel.removeAll(); // Clear current game view
-
-        // Add the background panel to retain the starry background
-        this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
-        backgroundPanel.startTimer(); // Continue moving the starry background
-
-        // Add the GameOverPanel on top
-        this.mainPanel.add(gameOverPanel, JLayeredPane.PALETTE_LAYER);
-        gameOverPanel.startTimer();
-
-        this.mainPanel.repaint(); // Ensure the panel is rendered
-
-        final Timer endGameTimer = new Timer(32, e -> {
-            if (gameOverPanel.isGameOver()) {
-                setStart();
-                gameOverPanel.newGame();
-            }
-        });
-        endGameTimer.start();
-    }
-
-    private GameOverPanel getGameOverPanel() {
-        return this.gameOverPanel;
-    }
-
-    /**
-     * Getter for the repaint timer.
-     *
-     * @return the timer
-     */
-    private Timer getRepaintTimer() {
-        return this.repaintTimer;
-    }
-
-    /**
-     * Getter for the logic controller implementation.
-     *
-     * @return the logic controller
-     */
-    private LogicControllerImpl getLogicController() {
-        return this.logicController;
     }
 
     /**
@@ -425,4 +378,48 @@ public class GameView extends JFrame {
         this.repaintTimer.stop();
     }
 
+    private void showGameOverScreen() {
+        stopAllPanelTimers(); // Stop all ongoing game processes
+        this.mainPanel.removeAll(); // Clear current game view
+
+        // Add the background panel to retain the starry background
+        this.mainPanel.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
+        backgroundPanel.startTimer(); // Continue moving the starry background
+
+        // Add the GameOverPanel on top
+        this.mainPanel.add(gameOverPanel, JLayeredPane.PALETTE_LAYER);
+        gameOverPanel.startTimer();
+
+        this.mainPanel.repaint(); // Ensure the panel is rendered
+
+        final Timer endGameTimer = new Timer(32, e -> {
+            if (gameOverPanel.isGameOver()) {
+                setStart();
+                gameOverPanel.newGame();
+            }
+        });
+        endGameTimer.start();
+    }
+
+    private GameOverPanel getGameOverPanel() {
+        return this.gameOverPanel;
+    }
+
+    /**
+     * Getter for the repaint timer.
+     *
+     * @return the timer
+     */
+    private Timer getRepaintTimer() {
+        return this.repaintTimer;
+    }
+
+    /**
+     * Getter for the logic controller implementation.
+     *
+     * @return the logic controller
+     */
+    private LogicControllerImpl getLogicController() {
+        return this.logicController;
+    }
 }

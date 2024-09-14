@@ -9,10 +9,11 @@ import java.util.HashSet;
 import javax.swing.Timer;
 
 import javax.swing.JPanel;
+
+import scramble.controller.command.impl.BulletCommand;
+import scramble.controller.command.impl.SpaceShipCommand;
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
-import scramble.model.command.impl.BulletCommand;
-import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.impl.TimedLinkedListImpl;
 import scramble.model.spaceship.SpaceShip;
@@ -38,18 +39,6 @@ public class BulletsPanel extends GamePanel {
         this.setOpaque(false);
         this.bulletTimer = new Timer(32, e -> this.updateBullets());
 
-    }
-
-    private void updateBullets() {
-        for (final Bullet b : bullets) {
-            b.moveByType();
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void drawPanel(final Graphics g) {
-        drawBullets(g);
     }
 
     /**
@@ -111,30 +100,6 @@ public class BulletsPanel extends GamePanel {
         // repaint();
     }
 
-    private void drawBullet(final Graphics g, final Bullet bullet) {
-        final BufferedImage bulletSprite = bullet.getSprite();
-        if (bulletSprite != null) {
-            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
-                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
-        }
-
-    }
-
-    private void drawExplodingBullet(final Graphics g, final Bullet bullet) {
-        final BufferedImage bulletSprite = bullet.getExpSprite();
-        if (bulletSprite != null) {
-            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
-                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
-        }
-    }
-
-    private void drawBullets(final Graphics g) {
-        // for each bullet in bullet list, call drawBullet()
-        bullets.stream().forEach(b -> drawBullet(g, b));
-        final List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
-        bulletsCopy.stream().forEach(b -> drawExplodingBullet(g, b));
-    }
-
     /**
      * Shoots a bullet from the spaceship's current position.
      *
@@ -182,11 +147,6 @@ public class BulletsPanel extends GamePanel {
         command.execute();
     }
 
-    private void bulletsInit() {
-        this.bullets = new HashSet<>();
-        this.explodingBullets = new TimedLinkedListImpl<>();
-    }
-
     /** {@inheritDoc} */
     @Override
     public void startTimer() {
@@ -205,4 +165,44 @@ public class BulletsPanel extends GamePanel {
         bulletTimer.restart();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void drawPanel(final Graphics g) {
+        drawBullets(g);
+    }
+
+    private void bulletsInit() {
+        this.bullets = new HashSet<>();
+        this.explodingBullets = new TimedLinkedListImpl<>();
+    }
+
+    private void drawBullet(final Graphics g, final Bullet bullet) {
+        final BufferedImage bulletSprite = bullet.getSprite();
+        if (bulletSprite != null) {
+            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
+                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
+        }
+
+    }
+
+    private void drawExplodingBullet(final Graphics g, final Bullet bullet) {
+        final BufferedImage bulletSprite = bullet.getExpSprite();
+        if (bulletSprite != null) {
+            g.drawImage(bulletSprite, bullet.getPosition().getFirstElement(),
+                    bullet.getPosition().getSecondElement(), bullet.getWidth(), bullet.getHeight(), null);
+        }
+    }
+
+    private void drawBullets(final Graphics g) {
+        // for each bullet in bullet list, call drawBullet()
+        bullets.stream().forEach(b -> drawBullet(g, b));
+        final List<Bullet> bulletsCopy = new ArrayList<>(explodingBullets.getList());
+        bulletsCopy.stream().forEach(b -> drawExplodingBullet(g, b));
+    }
+
+    private void updateBullets() {
+        for (final Bullet b : bullets) {
+            b.moveByType();
+        }
+    }
 }

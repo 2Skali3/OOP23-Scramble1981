@@ -1,13 +1,12 @@
-package scramble.controller.input.impl;
+package scramble.controller.input;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import scramble.model.command.impl.SpaceShipCommand;
 import scramble.model.spaceship.Directions;
+import scramble.controller.command.impl.BulletCommand;
+import scramble.controller.command.impl.SpaceShipCommand;
 import scramble.model.bullets.BulletType;
-import scramble.model.command.impl.BulletCommand;
-
 import scramble.view.compact.GameView;
 
 /**
@@ -16,8 +15,8 @@ import scramble.view.compact.GameView;
  */
 public class InputControl extends KeyAdapter {
 
-    private final GameView gv;
     private static boolean explPause;
+    private final GameView gv;
 
     /**
      * Class constructor.
@@ -85,21 +84,21 @@ public class InputControl extends KeyAdapter {
     }
 
     /**
-     * Setter for the boolean describing pause state.
-     *
-     * @param bool the new value
-     */
-    public static void setPaused(final boolean bool) {
-        explPause = bool;
-    }
-
-    /**
      * Getter for explosion pause state.
      *
      * @return true if paused
      */
     public static boolean isExplPause() {
         return explPause;
+    }
+
+    /**
+     * Setter for the boolean describing pause state.
+     *
+     * @param bool the new value
+     */
+    public static void setPaused(final boolean bool) {
+        explPause = bool;
     }
 
 }

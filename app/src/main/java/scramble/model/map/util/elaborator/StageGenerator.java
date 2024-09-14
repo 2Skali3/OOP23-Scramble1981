@@ -28,8 +28,6 @@ import java.awt.image.BufferedImage;
  */
 public class StageGenerator {
 
-    private final Pair<Integer, Integer> currentYCeilingAndFloor;
-
     private static final LandPart[] FLAT = { LandPart.TOP_FLAT_FLOOR,
             LandPart.GORGE_FLOOR };
     private static final LandPart[] DOWN = { LandPart.CROWN_CLIMB, LandPart.STANDARD_CLIMB,
@@ -41,6 +39,7 @@ public class StageGenerator {
     private static final LandPart BRICKWALL = LandPart.LIGHT_BRICK_WALL;
 
     private final Random rand;
+    private final Pair<Integer, Integer> currentYCeilingAndFloor;
 
     private final int[] thresholdsFlat = { 95, 100 };
     private final int[] thresholdsUpDw = { 50, 60, 90, 100 };
@@ -58,6 +57,47 @@ public class StageGenerator {
         this.currentYCeilingAndFloor = new PairImpl<>(heightCeilingAndFloor.getFirstElement(),
                 heightCeilingAndFloor.getSecondElement());
         this.rand = new Random();
+    }
+
+    /**
+     * Method that takes raw data relative to a specific map stage and elaborates
+     * them.
+     * 
+     * @param rawData     the raw data relative to the map stage
+     * @param stageLength the length of the stage
+     * 
+     * @return the elaborated data as a {@link MapStage}
+     * 
+     * @see MapStage
+     * @see RawData
+     */
+    public MapStage<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
+
+        Pair<List<MapElement>, Integer> elaboratedDataCeiling;
+        Pair<List<MapElement>, Integer> elaboratedDataFloor;
+
+        elaboratedDataCeiling = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
+                rawData.getTerrainType());
+        currentYCeilingAndFloor.setFirstElement(elaboratedDataCeiling.getSecondElement());
+
+        elaboratedDataFloor = this.elaborateRawData(StagePart.FLOOR, rawData.getFloor(), stageLength,
+                rawData.getTerrainType());
+        currentYCeilingAndFloor.setSecondElement(elaboratedDataFloor.getSecondElement());
+
+        if (elaboratedDataCeiling.getFirstElement().size() != elaboratedDataFloor.getFirstElement().size()) {
+            return null;
+        }
+        final MapStage<MapColumn> elaboratedStage = new MapStageImpl<>();
+        final List<MapElement> elaborateCeiling = elaboratedDataCeiling.getFirstElement();
+        final List<MapElement> elaborateFloor = elaboratedDataFloor.getFirstElement();
+
+        for (int i = 0; i < elaboratedDataCeiling.getFirstElement().size(); i++) {
+            elaboratedStage.addColumn(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
+                    LandUtils.multiplyPixelPerSprite(i), rawData.getTerrainType()));
+
+        }
+
+        return elaboratedStage;
     }
 
     private LandPart getSprite(final LandBehaviour behavior) {
@@ -207,44 +247,4 @@ public class StageGenerator {
         return new PairImpl<>(elaboratedData, currentY);
     }
 
-    /**
-     * Method that takes raw data relative to a specific map stage and elaborates
-     * them.
-     * 
-     * @param rawData     the raw data relative to the map stage
-     * @param stageLength the length of the stage
-     * 
-     * @return the elaborated data as a {@link MapStage}
-     * 
-     * @see MapStage
-     * @see RawData
-     */
-    public MapStage<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
-
-        Pair<List<MapElement>, Integer> elaboratedDataCeiling;
-        Pair<List<MapElement>, Integer> elaboratedDataFloor;
-
-        elaboratedDataCeiling = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
-                rawData.getTerrainType());
-        currentYCeilingAndFloor.setFirstElement(elaboratedDataCeiling.getSecondElement());
-
-        elaboratedDataFloor = this.elaborateRawData(StagePart.FLOOR, rawData.getFloor(), stageLength,
-                rawData.getTerrainType());
-        currentYCeilingAndFloor.setSecondElement(elaboratedDataFloor.getSecondElement());
-
-        if (elaboratedDataCeiling.getFirstElement().size() != elaboratedDataFloor.getFirstElement().size()) {
-            return null;
-        }
-        final MapStage<MapColumn> elaboratedStage = new MapStageImpl<>();
-        final List<MapElement> elaborateCeiling = elaboratedDataCeiling.getFirstElement();
-        final List<MapElement> elaborateFloor = elaboratedDataFloor.getFirstElement();
-
-        for (int i = 0; i < elaboratedDataCeiling.getFirstElement().size(); i++) {
-            elaboratedStage.addColumn(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
-                    LandUtils.multiplyPixelPerSprite(i), rawData.getTerrainType()));
-
-        }
-
-        return elaboratedStage;
-    }
 }

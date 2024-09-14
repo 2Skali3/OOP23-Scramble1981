@@ -43,6 +43,68 @@ public final class LandUtils {
     private LandUtils() {
     }
 
+    /**
+     * Multiply a number for the number of pixel per sprite's side.
+     * 
+     * @param x the number that needs to be multiply
+     * @return the number multiplied by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
+     */
+    public static int multiplyPixelPerSprite(final int x) {
+        return x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Divide a number for the number of pixel per sprite's side.
+     * 
+     * @param x the number that needs to be divided
+     * @return the number divided by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
+     */
+    public static int dividePixelPerSprite(final int x) {
+        return x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Add to a number the number of pixel per sprite's side.
+     * 
+     * @param x the number that needs to add the number of pixel per sprite's side
+     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} added to
+     *         him
+     */
+    public static int addPixelPerSprite(final int x) {
+        return x + LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Subtract to a number the number of pixel per sprite's side.
+     * 
+     * @param x the number that needs to subtract the number of pixel per sprite's
+     *          side
+     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
+     *         subtracted to him
+     */
+    public static int subPixelPerSprite(final int x) {
+        return x - LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+    }
+
+    /**
+     * Method for the conversion of LandscapeSprite to the relative BufferedImage.
+     * 
+     * @param landScapeSprite
+     * @return relative BufferedImage
+     */
+    public static BufferedImage getSprite(final LandPart landScapeSprite) {
+        return SPRITE_MAP.get(landScapeSprite);
+    }
+
+    /**
+     * Method that insert all of the enum LandscapeSprite data into a List.
+     * 
+     * @return the list of all the enum LandscapeSprite
+     */
+    public static List<LandPart> getImageParts() {
+        return Arrays.asList(LandPart.values());
+    }
+
     private static Map<LandPart, BufferedImage> fillMap() {
         final Map<LandPart, BufferedImage> ret = new HashMap<>();
         try {
@@ -69,58 +131,4 @@ public final class LandUtils {
         return ret;
     }
 
-    /**
-     * Multiply a number for the number of pixel per sprite's side.
-     * @param x the number that needs to be multiply
-     * @return the number multiplied by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
-     */
-    public static int multiplyPixelPerSprite(final int x) {
-        return x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
-    }
-
-    /**
-     * Divide a number for the number of pixel per sprite's side.
-     * @param x the number that needs to be divided
-     * @return the number divided by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
-     */
-    public static int dividePixelPerSprite(final int x) {
-        return x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
-    }
-
-    /**
-     * Add to a number the number of pixel per sprite's side.
-     * @param x the number that needs to add the number of pixel per sprite's side
-     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} added to him
-     */
-    public static int addPixelPerSprite(final int x) {
-        return x + LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
-    }
-
-    /**
-     * Subtract to a number the number of pixel per sprite's side.
-     * @param x the number that needs to subtract the number of pixel per sprite's side
-     * @return the number with {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE} subtracted to him
-     */
-    public static int subPixelPerSprite(final int x) {
-        return x - LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
-    }
-
-    /**
-     * Method for the conversion of LandscapeSprite to the relative BufferedImage.
-     * 
-     * @param landScapeSprite
-     * @return relative BufferedImage
-     */
-    public static BufferedImage getSprite(final LandPart landScapeSprite) {
-        return SPRITE_MAP.get(landScapeSprite);
-    }
-
-    /**
-     * Method that insert all of the enum LandscapeSprite data into a List.
-     * 
-     * @return the list of all the enum LandscapeSprite
-     */
-    public static List<LandPart> getImageParts() {
-        return Arrays.asList(LandPart.values());
-    }
 }

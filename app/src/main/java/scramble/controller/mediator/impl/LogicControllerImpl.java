@@ -7,13 +7,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import scramble.controller.input.impl.InputControl;
+import scramble.controller.input.InputControl;
 import scramble.controller.map.MapController;
 import scramble.controller.mediator.api.LogicController;
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
-import scramble.model.enemy.RocketImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.spaceship.FuelBar;
 import scramble.model.tank.FuelTank;
 import scramble.view.compact.FuelTankPanel;
@@ -75,28 +75,6 @@ public class LogicControllerImpl implements LogicController {
         collisionTimer.start();
     }
 
-    /** Decrement lives counter. */
-    private void lostLife() {
-        lives--;
-    }
-
-    /**
-     * Checks if game is over.
-     *
-     * @return true if lives are over
-     */
-    private boolean isGameOver() {
-        return lives == 0;
-    }
-
-    /** Adds checkpoints. */
-    private void addCheckPoints() {
-        for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
-            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i),
-                    Constants.CHECKPOINT_Y_POSITION));
-        }
-    }
-
     /**
      * Getter for lives.
      *
@@ -156,9 +134,78 @@ public class LogicControllerImpl implements LogicController {
         }
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void finishedFuel(final FuelBar fuelBar) {
+        if (fuelBar.checkFuelZero()) {
+            iteraction();
+        }
+    }
+
+    private void timerLogic() {
+        gameView.stopAllPanelTimers();
+        InputControl.setPaused(true);
+        final Timer delayTimer = new Timer(3500, new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                startFuelCheckTimer();
+                startCollisionTimer();
+                InputControl.setPaused(false);
+                spaceShipPanel.getSpaceship().setHit(false);
+                if (isGameOver()) {
+                    gameView.setStart();
+                    resetLives();
+                } else {
+                    gameView.restartAllPanelTimers();
+                    lostLife();
+                    gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
+                }
+                gameView.getRocketPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
+                gameView.getRocketPanel().resetRockets();
+                gameView.getFuelTankPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
+                gameView.getFuelTankPanel().resetTanks();
+            }
+        });
+        delayTimer.setRepeats(false);
+        delayTimer.start();
+    }
+
+    /** Decrement lives counter. */
+    private void lostLife() {
+        lives--;
+    }
+
+    /**
+     * Checks if game is over.
+     *
+     * @return true if lives are over
+     */
+    private boolean isGameOver() {
+        return lives == 0;
+    }
+
+    /** Adds checkpoints. */
+    private void addCheckPoints() {
+        for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
+            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i),
+                    Constants.CHECKPOINT_Y_POSITION));
+        }
+    }
+
+    private void checkHorizontalBulletCollisions() {
+        final var bullets = gameView.getBulletsPanel();
+        final List<Bullet> bulletsToRemove = bullets.getBullets()
+                .stream()
+                .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
+                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
+                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
+                .toList();
+        bullets.removeBullets(bulletsToRemove);
+    }
+
     private boolean checkBulletEnemyCollision() {
         final var bullets = gameView.getBulletsPanel().getBullets();
-        for (final RocketImpl rocket : rocketPanel.getRockets()) {
+        for (final Rocket rocket : rocketPanel.getRockets()) {
             if (rocket.checkCollisionBullet(bullets)) {
                 rocket.setHit(true);
                 return true;
@@ -169,7 +216,7 @@ public class LogicControllerImpl implements LogicController {
 
     private boolean checkEnemyCeilingCollision() {
         final var rockets = gameView.getRocketPanel().getRockets();
-        for (final RocketImpl rocket : rockets) {
+        for (final Rocket rocket : rockets) {
             if (rocket.checkCollisionCeiling(gameView.getLandscapePanel().getCeilingElements())) {
                 rocket.setHit(true);
                 rocket.setCrashed(true);
@@ -202,25 +249,6 @@ public class LogicControllerImpl implements LogicController {
         bullets.addExplodingBullets(bulletsExploding);
     }
 
-    private void checkHorizontalBulletCollisions() {
-        final var bullets = gameView.getBulletsPanel();
-        final List<Bullet> bulletsToRemove = bullets.getBullets()
-                .stream()
-                .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
-                        && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
-                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
-                .toList();
-        bullets.removeBullets(bulletsToRemove);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void finishedFuel(final FuelBar fuelBar) {
-        if (fuelBar.checkFuelZero()) {
-            iteraction();
-        }
-    }
-
     private void iteraction() {
 
         gameView.stopAllPanelTimers();
@@ -230,33 +258,4 @@ public class LogicControllerImpl implements LogicController {
         timerLogic();
 
     }
-
-    private void timerLogic() {
-        gameView.stopAllPanelTimers();
-        InputControl.setPaused(true);
-        final Timer delayTimer = new Timer(3500, new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                startFuelCheckTimer();
-                startCollisionTimer();
-                InputControl.setPaused(false);
-                spaceShipPanel.getSpaceship().setHit(false);
-                if (isGameOver()) {
-                    gameView.setStart();
-                    resetLives();
-                } else {
-                    gameView.restartAllPanelTimers();
-                    lostLife();
-                    gameView.restartFromCheckPoint(gameView.returnToCheckPoint());
-                }
-                gameView.getRocketPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
-                gameView.getRocketPanel().resetRockets();
-                gameView.getFuelTankPanel().setMapX(gameView.getLandscapePanel().getCurrentMapX());
-                gameView.getFuelTankPanel().resetTanks();
-            }
-        });
-        delayTimer.setRepeats(false);
-        delayTimer.start();
-    }
-
 }

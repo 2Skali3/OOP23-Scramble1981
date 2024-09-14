@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import scramble.controller.input.impl.InputControl;
+import scramble.controller.input.InputControl;
 import scramble.controller.map.MapController;
 import scramble.model.map.api.MapColumn;
 import scramble.model.map.impl.MapElement;
@@ -34,30 +34,25 @@ public class LandscapePanel extends GamePanel {
 
     private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
             * LandscapePanel.EXTRA_COLUMNS_LOADED;
-
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
+
+    private final Timer landscapeTimer;
+
+    private transient List<MapColumn> columns;
 
     private int landscapeX;
     private int counter;
     private int starterX;
-    private transient List<MapColumn> columns;
 
-    private final Timer landscapeTimer;
-
-    private void updateLandscape() {
-
-        if (!InputControl.isExplPause()) {
-            this.landscapeX += Constants.LANDSCAPEX_SPEED;
-            this.counter += Constants.LANDSCAPEX_SPEED;
-            if (this.landscapeX / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
-                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
-                this.landscapeX = 0;
-            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
-                this.fillColumns();
-                this.counter = 0;
-            }
-        }
+    /** Costructor of the class LandscapePanel. */
+    public LandscapePanel() {
+        this.counter = 0;
+        this.fillColumns();
+        this.landscapeX = 0;
+        this.starterX = 0;
+        this.setOpaque(false);
+        this.landscapeTimer = new Timer(32, e -> updateLandscape());
     }
 
     /**
@@ -72,45 +67,6 @@ public class LandscapePanel extends GamePanel {
         }
 
         return mapElementsColumns;
-    }
-
-    /** Costructor of the class LandscapePanel. */
-    public LandscapePanel() {
-        this.counter = 0;
-        this.fillColumns();
-        this.landscapeX = 0;
-        this.starterX = 0;
-        this.setOpaque(false);
-        this.landscapeTimer = new Timer(32, e -> updateLandscape());
-    }
-
-    private void fillColumns() {
-        this.columns = MAP_CONTROLLER.getColumnsToDisplay();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void drawPanel(final Graphics g) {
-        for (final MapColumn column : this.columns) {
-            int tempY = 0;
-            column.updateHitBox(column.getX() - this.landscapeX);
-            for (final BufferedImage bi : column.getBIs()) {
-                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.gettWidth(),
-                        column.getBIsHeight(), null);
-                tempY += column.getBIsHeight();
-            }
-        }
-        drawHitBox(g);
-    }
-
-    private void drawHitBox(final Graphics g) {
-        g.setColor(Color.red);
-        for (final MapColumn c : columns) {
-            for (final MapElement me : c.getElements()) {
-                final Rectangle temp = me.getHitBox();
-                g.drawRect(temp.x, temp.y, temp.width, temp.height);
-            }
-        }
     }
 
     /**
@@ -176,6 +132,50 @@ public class LandscapePanel extends GamePanel {
             ceilingElements.addAll(c.getCeilingElements());
         }
         return ceilingElements;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void drawPanel(final Graphics g) {
+        for (final MapColumn column : this.columns) {
+            int tempY = 0;
+            column.updateHitBox(column.getX() - this.landscapeX);
+            for (final BufferedImage bi : column.getBIs()) {
+                g.drawImage(bi, column.getX() - this.landscapeX, tempY, column.gettWidth(),
+                        column.getBIsHeight(), null);
+                tempY += column.getBIsHeight();
+            }
+        }
+        drawHitBox(g);
+    }
+
+    private void drawHitBox(final Graphics g) {
+        g.setColor(Color.red);
+        for (final MapColumn c : columns) {
+            for (final MapElement me : c.getElements()) {
+                final Rectangle temp = me.getHitBox();
+                g.drawRect(temp.x, temp.y, temp.width, temp.height);
+            }
+        }
+    }
+
+    private void fillColumns() {
+        this.columns = MAP_CONTROLLER.getColumnsToDisplay();
+    }
+
+    private void updateLandscape() {
+
+        if (!InputControl.isExplPause()) {
+            this.landscapeX += Constants.LANDSCAPEX_SPEED;
+            this.counter += Constants.LANDSCAPEX_SPEED;
+            if (this.landscapeX / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
+                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
+                this.landscapeX = 0;
+            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
+                this.fillColumns();
+                this.counter = 0;
+            }
+        }
     }
 
 }
