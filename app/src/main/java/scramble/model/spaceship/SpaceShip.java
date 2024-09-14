@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -104,8 +103,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     }
 
     /** {@inheritDoc} */
-    // Warning suppressed since returning a javadoc class
-    @SuppressFBWarnings
     @Override
     public BufferedImage getSprite() {
         final int num = random.nextInt(Constants.SPRITE_SPACESHIP);
