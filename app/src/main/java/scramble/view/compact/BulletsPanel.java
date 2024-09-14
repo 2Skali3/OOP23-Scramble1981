@@ -25,7 +25,7 @@ import scramble.utility.Constants;
  * @see GamePanel
  * @see JPanel
  */
-public class BulletsPanel extends GamePanel {
+public class BulletsPanel extends GamePanel implements Cloneable {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_BOMB = 2;
@@ -163,6 +163,12 @@ public class BulletsPanel extends GamePanel {
     @Override
     public void restartTimer() {
         bulletTimer.restart();
+    }
+
+    /** @inheritdoc */
+    @Override
+    public BulletsPanel clone() throws CloneNotSupportedException {
+        return (BulletsPanel) super.clone();
     }
 
     /** {@inheritDoc} */
