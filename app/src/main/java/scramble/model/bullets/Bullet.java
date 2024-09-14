@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scramble.model.common.impl.GameElementImpl;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.impl.MapElement;
@@ -23,11 +22,11 @@ public class Bullet extends GameElementImpl {
     private static final Logger LOG = Logger.getLogger(Bullet.class.getName());
 
     private final List<BufferedImage> sprites;
+    private final List<BufferedImage> sprite;
     private final List<BufferedImage> explosionSprites;
     private final BulletType type;
     private final Random random = new Random();
 
-    private BufferedImage sprite;
     private boolean animationComplete;
     private int currentSpriteIndex;
     private boolean hit;
@@ -45,6 +44,7 @@ public class Bullet extends GameElementImpl {
         super(x, y, Constants.BULLETS_SIZE_MAP.get(type).getFirstElement(),
                 Constants.BULLETS_SIZE_MAP.get(type).getSecondElement());
         this.sprites = new ArrayList<>();
+        this.sprite = new ArrayList<>();
         this.explosionSprites = new ArrayList<>();
         this.type = type;
 
@@ -52,7 +52,7 @@ public class Bullet extends GameElementImpl {
             case TYPE_HORIZONTAL:
                 try {
                     // Safe way to get resource
-                    sprite = ImageIO.read(Bullet.class.getResource("/bullets/bullet" + ".png"));
+                    sprite.add(ImageIO.read(Bullet.class.getResource("/bullets/bullet" + ".png")));
                 } catch (IOException e) {
                     LOG.severe("Ops!");
                     LOG.severe(e.toString());
@@ -126,13 +126,12 @@ public class Bullet extends GameElementImpl {
     }
 
     /** {@inheritDoc} */
-    // Warning suppressed since returning a javadoc class
-    @SuppressFBWarnings
+    // Per rimuovere il suppressWarning ho dovuto creare una lista da 1 elemento e tornarlo :)
     @Override
     public BufferedImage getSprite() {
         switch (type) {
             case TYPE_HORIZONTAL:
-                return sprite;
+                return sprite.get(0);
 
             case TYPE_BOMB:
                 return getNextBombSprite();

@@ -11,7 +11,6 @@ import javax.swing.Timer;
 import javax.swing.JPanel;
 
 import scramble.controller.command.impl.BulletCommand;
-import scramble.controller.command.impl.SpaceShipCommand;
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
@@ -48,15 +47,6 @@ public class BulletsPanel extends GamePanel implements Cloneable {
      */
     public Set<Bullet> getBullets() {
         return new HashSet<>(bullets);
-    }
-
-    /**
-     * Method that executes the command sent to the spaceship.
-     *
-     * @param command the command
-     */
-    public void sendCommand(final SpaceShipCommand command) {
-        command.execute();
     }
 
     /**

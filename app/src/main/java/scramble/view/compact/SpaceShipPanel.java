@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import scramble.controller.command.impl.BulletCommand;
 import scramble.controller.command.impl.SpaceShipCommand;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.spaceship.Directions;
@@ -96,15 +95,6 @@ public class SpaceShipPanel extends GamePanel implements Cloneable {
             default:
         }
         // repaint();
-    }
-
-    /**
-     * Method that executes the command sent to the spaceship.
-     *
-     * @param command the command
-     */
-    public void sendCommandBullet(final BulletCommand command) {
-        command.execute();
     }
 
     /** @inheritDoc */

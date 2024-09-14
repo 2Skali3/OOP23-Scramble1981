@@ -106,7 +106,6 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
     @Override
     public BufferedImage getSprite() {
         final int num = random.nextInt(Constants.SPRITE_SPACESHIP);
-
         return sprites.get(num);
     }
 
