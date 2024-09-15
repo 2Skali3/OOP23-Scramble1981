@@ -14,9 +14,7 @@ import scramble.model.map.impl.MapElement;
 import scramble.model.map.util.LandUtils;
 import scramble.utility.Constants;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
 
 /**
  * Class for the rappresentation of the Landscape Panel.
@@ -148,6 +146,7 @@ public class LandscapePanel extends GamePanel {
         // drawHitBox(g);
     }
 
+    /* 
     private void drawHitBox(final Graphics g) {
         g.setColor(Color.red);
         for (final MapColumn c : columns) {
@@ -157,6 +156,7 @@ public class LandscapePanel extends GamePanel {
             }
         }
     }
+    */
 
     private void fillColumns() {
         this.columns = MAP_CONTROLLER.getColumnsToDisplay();
