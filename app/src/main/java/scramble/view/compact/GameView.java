@@ -13,7 +13,7 @@ import scramble.model.map.util.LandUtils;
 import scramble.model.scores.Scores;
 import scramble.utility.Constants;
 import scramble.controller.map.MapController;
-import scramble.controller.mediator.impl.LogicControllerImpl;
+import scramble.controller.mediator.LogicController;
 
 import javax.swing.Timer;
 
@@ -42,7 +42,7 @@ public class GameView extends JFrame {
     private final StartMenu startMenu;
     private final HUDPanel hudPanel;
     private final FuelTankPanel fuelTankPanel;
-    private final LogicControllerImpl logicController;
+    private final LogicController logicController;
     private final GameOverPanel gameOverPanel;
     private final Timer repaintTimer;
 
@@ -88,7 +88,7 @@ public class GameView extends JFrame {
         this.fuelTankPanel = new FuelTankPanel(hudPanel.getFuelBar());
         fuelTankPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        this.logicController = new LogicControllerImpl(this);
+        this.logicController = new LogicController(this);
 
         this.gameOverPanel = new GameOverPanel();
         gameOverPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -419,7 +419,7 @@ public class GameView extends JFrame {
      *
      * @return the logic controller
      */
-    private LogicControllerImpl getLogicController() {
+    private LogicController getLogicController() {
         return this.logicController;
     }
 }

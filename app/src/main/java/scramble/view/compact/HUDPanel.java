@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import scramble.controller.mediator.impl.LogicControllerImpl;
+import scramble.controller.mediator.LogicController;
 import scramble.model.common.util.BufferedImageManager;
 import scramble.model.scores.Scores;
 import scramble.model.spaceship.FuelBar;
@@ -87,19 +87,19 @@ public final class HUDPanel extends GamePanel {
     public void changeStage() {
         final int pos = LandscapePanel.getMapController().getCurrentMapX();
 
-        if (pos > LogicControllerImpl.getCheckPoints().get(1).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(2).getFirstElement()) {
+        if (pos > LogicController.getCheckPoints().get(1).getFirstElement()
+                && pos < LogicController.getCheckPoints().get(2).getFirstElement()) {
             stage = STAGES.get(0);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(2).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(3).getFirstElement()) {
+        } else if (pos > LogicController.getCheckPoints().get(2).getFirstElement()
+                && pos < LogicController.getCheckPoints().get(3).getFirstElement()) {
             stage = STAGES.get(1);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(3).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(4).getFirstElement()) {
+        } else if (pos > LogicController.getCheckPoints().get(3).getFirstElement()
+                && pos < LogicController.getCheckPoints().get(4).getFirstElement()) {
             stage = STAGES.get(2);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(4).getFirstElement()
-                && pos < LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
+        } else if (pos > LogicController.getCheckPoints().get(4).getFirstElement()
+                && pos < LogicController.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
             stage = STAGES.get(3);
-        } else if (pos > LogicControllerImpl.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
+        } else if (pos > LogicController.getCheckPoints().get(INDEX_FIVE).getFirstElement()) {
             stage = STAGES.get(4);
         }
 
@@ -168,7 +168,7 @@ public final class HUDPanel extends GamePanel {
         g.setColor(Color.WHITE);
         g.setFont(retroFont.deriveFont(FONT_SIZE));
 
-        final int currentLives = LogicControllerImpl.getLives() + 1;
+        final int currentLives = LogicController.getLives() + 1;
 
         final String scoreText = "UP: " + currentLives;
         g.drawString(scoreText, getWidth() - (getWidth() / LIVES_DIM), GAP_Y);

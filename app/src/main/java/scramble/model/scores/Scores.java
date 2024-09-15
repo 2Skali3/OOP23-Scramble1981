@@ -105,8 +105,7 @@ public class Scores {
     }
 
     /**
-     * Getter for the score's list. SpotBgs warning suppressed since it returns a
-     * std class.
+     * Getter for the score's list.
      *
      * @return the score's list
      */
