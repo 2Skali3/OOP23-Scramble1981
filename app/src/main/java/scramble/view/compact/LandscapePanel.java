@@ -145,7 +145,7 @@ public class LandscapePanel extends GamePanel {
                 tempY += column.getBIsHeight();
             }
         }
-        drawHitBox(g);
+        // drawHitBox(g);
     }
 
     private void drawHitBox(final Graphics g) {
