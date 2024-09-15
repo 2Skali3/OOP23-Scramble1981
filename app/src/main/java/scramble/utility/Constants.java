@@ -2,6 +2,7 @@ package scramble.utility;
 
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.enemy.Rocket;
 import scramble.model.map.util.LandUtils;
 import scramble.model.tank.FuelTank;
 
@@ -89,6 +90,12 @@ public final class Constants {
         public static final int SPRITE_ROCKET_EXPLOSION = 4;
         /** Duration of a RocketExplosion before being deleted. */
         public static final int ROCKET_EXPLOSION_DURATION = 15;
+        /** Number of Boss Explosion sprites. */
+        public static final int SPRITE_BOSS_EXPLOSION = 4;
+        /** Points for final Boss. */
+        public static final int BOSS_POINTS = 1000;
+        /** Spawn point for Boss. */
+        public static final int BOSS_SPAWN_POINT = 26_500;
 
         // view
         /**

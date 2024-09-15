@@ -126,7 +126,8 @@ public class Bullet extends GameElementImpl {
     }
 
     /** {@inheritDoc} */
-    // Per rimuovere il suppressWarning ho dovuto creare una lista da 1 elemento e tornarlo :)
+    // Per rimuovere il suppressWarning ho dovuto creare una lista da 1 elemento e
+    // tornarlo :)
     @Override
     public BufferedImage getSprite() {
         switch (type) {
@@ -165,7 +166,6 @@ public class Bullet extends GameElementImpl {
      */
     public BufferedImage getExpSprite() {
         final int num = random.nextInt(Constants.SPRITE_NUMBER_BOMB_EXPLOSION);
-        // hit = false;
         return explosionSprites.get(num);
     }
 

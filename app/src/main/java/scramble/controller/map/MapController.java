@@ -1,13 +1,11 @@
 package scramble.controller.map;
 
 import java.util.List;
-
 import java.util.ArrayList;
 
 import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.map.api.MapColumn;
-import scramble.model.map.api.MapStage;
 import scramble.model.map.api.MapStageFactory;
 import scramble.model.map.impl.MapStageFactoryImpl;
 import scramble.model.map.util.LandUtils;
@@ -17,7 +15,7 @@ import scramble.view.compact.LandscapePanel;
 
 /**
  * The {@code MapController} class is responsible for the preparation of data
- * related to {@link MapStage} model
+ * related to {@link List} model
  * for presentation in the view layer.
  *
  * <p>
@@ -42,14 +40,13 @@ public class MapController {
      * Controller for the class {@link MapController}.
      */
     public MapController() {
-        final List<MapStage<MapColumn>> stages = this.fillMapStage();
+        final List<List<MapColumn>> stages = this.fillStage();
         this.columnIndex = 0;
         this.columns = new ArrayList<>();
         this.fillColumns(stages);
         this.currentX = 0;
     }
 
-    // to-do: creazione classe Column
     /**
      * Return the columns that have to be displayed. For optimization purpose, only
      * a fiew columns will be returned.
@@ -145,23 +142,23 @@ public class MapController {
         return this.columns.size();
     }
 
-    private List<MapStage<MapColumn>> fillMapStage() {
-        final List<MapStage<MapColumn>> stages = new ArrayList<>();
+    private List<List<MapColumn>> fillStage() {
+        final List<List<MapColumn>> stages = new ArrayList<>();
         stages.add(STAGE_FACTORY.prestage());
         stages.add(STAGE_FACTORY.stage1());
         stages.add(STAGE_FACTORY.stage2());
         stages.add(STAGE_FACTORY.stage3());
         stages.add(STAGE_FACTORY.stage4());
         stages.add(STAGE_FACTORY.stage5());
+        stages.add(STAGE_FACTORY.stage6());
         return stages;
     }
 
-    private void fillColumns(final List<MapStage<MapColumn>> stages) {
+    private void fillColumns(final List<List<MapColumn>> stages) {
         int x = 0;
-        for (final MapStage<MapColumn> mapStage : stages) {
+        for (final List<MapColumn> mapStage : stages) {
             stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE);
-            for (int i = 0; i < mapStage.size(); i++) {
-                final MapColumn column = mapStage.getColumn(i);
+            for (final MapColumn column : mapStage) {
                 column.updateX(x * column.gettWidth());
                 this.columns.add(column);
                 if (column.getFloorBehaviour() == LandBehaviour.FLAT && stageStartingX.size() > 1) {

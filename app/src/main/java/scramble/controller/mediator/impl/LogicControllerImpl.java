@@ -6,6 +6,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import scramble.controller.input.InputControl;
 import scramble.controller.map.MapController;
@@ -210,6 +211,11 @@ public class LogicControllerImpl implements LogicController {
                 rocket.setHit(true);
                 return true;
             }
+        }
+        final var boss = rocketPanel.getBoss();
+        if (Objects.nonNull(boss) && boss.checkCollisionBullet(bullets)) {
+            boss.setHit(true);
+            return true;
         }
         return false;
     }

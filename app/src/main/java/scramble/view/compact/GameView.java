@@ -102,7 +102,7 @@ public class GameView extends JFrame {
             mainPanel.repaint();
             this.rocketPanel.setMapX(this.landscapePanel.getCurrentMapX());
             this.bulletsPanel.moveBullets();
-            if (landscapePanel.getCurrentMapX() >= MapController.getEndOfMapX()) {
+            if (rocketPanel.isBossOutOfScreen()) {
                 showGameOverScreen();
             }
         });
@@ -265,8 +265,10 @@ public class GameView extends JFrame {
         this.startMenu.stopTimer();
         this.startAllPanelTimers();
 
-        // TODO delete
-        // this.landscapePanel.reset(22_500);
+        // Change the magic number and uncomment below
+        // in order to start further on the map then the beginning
+
+        // this.landscapePanel.reset(26800);
         // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
         // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
         // this.rocketPanel.resetRockets();
@@ -313,7 +315,6 @@ public class GameView extends JFrame {
                         new PairImpl<>(Constants.SPACESHIP_STARTER_POSITION,
                                 Constants.SPACESHIP_STARTER_POSITION));
         hudPanel.getFuelBar().fillFuel();
-        // spaceShipPanel.restartTimer();
         this.rocketPanel.setMapX(0);
         this.rocketPanel.resetRockets();
         this.fuelTankPanel.setMapX(this.landscapePanel.getCurrentMapX());

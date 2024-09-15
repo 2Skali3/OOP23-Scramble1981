@@ -17,7 +17,7 @@ import scramble.utility.Constants;
 class SpaceShipTest {
 
     @Test
-    void testLoadAllSpritesWithoutErrors() {
+    void testCreateSpaceship() {
         final SpaceShip spaceShip = new SpaceShip(0, 0, Constants.SPACESHIP_WIDTH, Constants.SPACESHIP_HEIGHT);
 
         assertNotNull(spaceShip);

@@ -5,6 +5,7 @@ import javax.swing.Timer;
 
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.api.Pair;
+import scramble.model.enemy.Boss;
 import scramble.model.enemy.Rocket;
 import scramble.model.scores.Scores;
 import scramble.utility.Constants;
@@ -22,6 +23,7 @@ import java.util.Iterator;
  */
 public class RocketPanel extends GamePanel {
 
+    private static final int BOSS_DIM = 48;
     private static final long serialVersionUID = 1L;
     private static final int ROCKET_OFFSET = 5;
 
@@ -30,6 +32,7 @@ public class RocketPanel extends GamePanel {
 
     private transient List<Rocket> rockets;
     private transient List<Rocket> rocketsOnScreen;
+    private transient List<Boss> bosses;
 
     private int mapX;
 
@@ -38,26 +41,28 @@ public class RocketPanel extends GamePanel {
      */
     public RocketPanel() {
 
-        initializeRockets();
+        this.initializeRockets();
         this.fillRockets();
+        this.initializeBosses();
 
         this.setOpaque(false);
 
-        updateTimer = new Timer(32, e -> update());
-        // updateTimer.start();
+        this.updateTimer = new Timer(32, e -> update());
 
-        this.rocketSpawn = new Timer(64, e -> loadRockets());
-        // this.rocketSpawn.start();
+        this.rocketSpawn = new Timer(64, e -> {
+            this.loadRockets();
+        });
     }
 
     /** Resets all rockets and refill the list anew. */
     public void resetRockets() {
 
-        // System.out.println("RocketPanel:\t" + mapX);
         this.rocketsOnScreen.clear();
         this.rockets.clear();
         this.fillRockets();
         this.loadRockets();
+        this.bosses = new ArrayList<>();
+
     }
 
     /**
@@ -99,6 +104,15 @@ public class RocketPanel extends GamePanel {
         this.mapX = x;
     }
 
+    /**
+     * Getter for boss.
+     * 
+     * @return a single boss
+     */
+    public Boss getBoss() {
+        return this.bosses.isEmpty() ? null : this.bosses.get(0);
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void drawPanel(final Graphics g) {
@@ -115,6 +129,43 @@ public class RocketPanel extends GamePanel {
             }
             rocket.drawHitBox(g);
         }
+
+        if (!bosses.isEmpty()) {
+            final Boss boss = bosses.get(0);
+            if (boss.isHit()) {
+                g.drawImage(bosses.get(0).getExplosionSprite(), boss.getPosition().getFirstElement(),
+                        boss.getPosition().getSecondElement(),
+                        boss.getWidth(), boss.getHeight(), null);
+                if (!boss.isExploded()) {
+                    boss.setExploded(true);
+                }
+
+            } else {
+                g.drawImage(boss.getSprite(), boss.getPosition().getFirstElement(),
+                        boss.getPosition().getSecondElement(),
+                        boss.getWidth(), boss.getHeight(), null);
+            }
+        }
+
+    }
+
+    /**
+     * Check if the boss is out of the screen.
+     * 
+     * @return {@code true} if is out of screen, {@code false} if is not spawned yet
+     *         or is still on the screen
+     */
+    public boolean isBossOutOfScreen() {
+        return !this.bosses.isEmpty() && this.bosses.get(0).getPosition().getFirstElement() < 0;
+    }
+
+    /** Initiliases boss list. */
+    private void setUpBoss() {
+        this.bosses.add(new Boss(GameView.WINDOW_WIDTH, GameView.WINDOW_HEIGHT / 2, BOSS_DIM, BOSS_DIM));
+    }
+
+    private void initializeBosses() {
+        this.bosses = new ArrayList<>();
     }
 
     private void loadRockets() {
@@ -130,7 +181,12 @@ public class RocketPanel extends GamePanel {
                 iterator.remove();
 
             }
+
         }
+        if (mapX >= Constants.BOSS_SPAWN_POINT && this.bosses.isEmpty()) {
+            this.setUpBoss();
+        }
+
     }
 
     private void checkForExplosion() {
@@ -155,6 +211,11 @@ public class RocketPanel extends GamePanel {
             for (final Rocket rocket : rocketsOnScreen) {
                 rocket.move();
             }
+        }
+        if (!bosses.isEmpty()) {
+            final Boss boss = bosses.get(0);
+            boss.updatePosition(new PairImpl<>(boss.getPosition().getFirstElement() - 1,
+                    boss.getPosition().getSecondElement()));
         }
         checkForExplosion();
     }
