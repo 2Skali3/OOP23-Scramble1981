@@ -18,7 +18,6 @@ import scramble.model.map.util.land.brickcolumn.impl.CSVReaderBrickColumn;
  */
 public abstract class CSVReader<X> {
 
-
     private static final Logger LOG = Logger.getLogger(CSVReader.class.getName());
 
     /**
@@ -49,7 +48,7 @@ public abstract class CSVReader<X> {
 
             }
         } catch (IOException e) {
-            /* to-do: creazione messaggio di errore */
+            /* creazione messaggio di errore */
             LOG.severe("Ops!");
             LOG.severe(e.toString());
         }

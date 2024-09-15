@@ -7,10 +7,8 @@ import scramble.model.common.api.Pair;
 import scramble.model.common.impl.PairImpl;
 import scramble.model.common.util.BufferedImageManager;
 import scramble.model.map.api.MapColumn;
-import scramble.model.map.api.MapStage;
 import scramble.model.map.impl.MapColumnImpl;
 import scramble.model.map.impl.MapElement;
-import scramble.model.map.impl.MapStageImpl;
 import scramble.model.map.util.LandUtils;
 import scramble.model.map.util.enums.LandBehaviour;
 import scramble.model.map.util.enums.LandPart;
@@ -66,12 +64,12 @@ public class StageGenerator {
      * @param rawData     the raw data relative to the map stage
      * @param stageLength the length of the stage
      * 
-     * @return the elaborated data as a {@link MapStage}
+     * @return the elaborated data as a {@link List}
      * 
-     * @see MapStage
+     * @see List
      * @see RawData
      */
-    public MapStage<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
+    public List<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
 
         Pair<List<MapElement>, Integer> elaboratedDataCeiling;
         Pair<List<MapElement>, Integer> elaboratedDataFloor;
@@ -85,14 +83,14 @@ public class StageGenerator {
         currentYCeilingAndFloor.setSecondElement(elaboratedDataFloor.getSecondElement());
 
         if (elaboratedDataCeiling.getFirstElement().size() != elaboratedDataFloor.getFirstElement().size()) {
-            return null;
+            return new ArrayList<>();
         }
-        final MapStage<MapColumn> elaboratedStage = new MapStageImpl<>();
+        final List<MapColumn> elaboratedStage = new ArrayList<>();
         final List<MapElement> elaborateCeiling = elaboratedDataCeiling.getFirstElement();
         final List<MapElement> elaborateFloor = elaboratedDataFloor.getFirstElement();
 
         for (int i = 0; i < elaboratedDataCeiling.getFirstElement().size(); i++) {
-            elaboratedStage.addColumn(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
+            elaboratedStage.add(new MapColumnImpl(elaborateCeiling.get(i), elaborateFloor.get(i),
                     LandUtils.multiplyPixelPerSprite(i), rawData.getTerrainType()));
 
         }
@@ -205,8 +203,6 @@ public class StageGenerator {
         if (terrainType == TerrainType.GREENLAND) {
             currentY = this.getDesiredY(stagePart);
         } else {
-            // to-do; in segmentrawdata creare una gestione della richiesta dell'altezza in
-            // caso non sia presente
             currentY = rawData.get(index).getHeight();
         }
 

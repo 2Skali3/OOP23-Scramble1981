@@ -110,7 +110,6 @@ public class BulletsPanel extends GamePanel implements Cloneable {
                     .count();
 
             if (activeBombCount >= MAX_BOMB) {
-                // System.out.println("Cannot shoot more bombs. Maximum limit reached.");
                 return; // Don't add new bomb if limit is reached
             }
         }

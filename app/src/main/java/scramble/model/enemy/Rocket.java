@@ -30,15 +30,16 @@ public class Rocket extends GameElementImpl {
 
     private final List<BufferedImage> sprites;
     private final List<BufferedImage> explosionSprites;
+    private final Timer startTimer;
+    private final TimerTask task;
+    private final int randomDelay;
     private int currentSprite;
     private int currentExpSprite;
     private float speedY;
     private boolean hit;
     private boolean crashed; // In the sense it hit the celing
     private int counterForExplosion;
-    private final Timer startTimer;
-    private final TimerTask task;
-    private final int randomDelay;
+
     private RocketState state;
 
     /**

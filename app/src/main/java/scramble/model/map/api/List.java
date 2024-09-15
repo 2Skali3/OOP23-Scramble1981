@@ -5,10 +5,11 @@ package scramble.model.map.api;
  * data strucure that contains
  * the columns that form the stage and will store them in a sequential way.
  * 
- * @param <X> the type of element designed to rappresent the data contained into the
- *          {@code MapStage}
+ * @param <X> the type of element designed to rappresent the data contained into
+ *            the
+ *            {@code MapStage}
  */
-public interface MapStage<X> {
+public interface List<X> {
     /**
      * Method to insert a new column in MapStage.
      * This method store columns sequentially.

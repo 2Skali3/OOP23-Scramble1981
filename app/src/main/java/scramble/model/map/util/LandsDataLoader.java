@@ -99,7 +99,8 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage6Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_6_CEILING_FILE_PATH, STAGE_6_FLOOR_FILE_PATH, TerrainType.GREENLAND);
+        return LandsDataLoader.rawDataMaker(STAGE_6_CEILING_FILE_PATH, STAGE_6_FLOOR_FILE_PATH,
+                TerrainType.BRICK_COLUMN);
     }
 
     private static RawData rawDataMaker(final String ceiling, final String floor, final TerrainType terrainType) {

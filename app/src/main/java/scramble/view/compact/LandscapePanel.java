@@ -99,7 +99,6 @@ public class LandscapePanel extends GamePanel {
      * @return MapX with added the column counter
      */
     public int getCurrentMapX() {
-        // System.out.println(MAP_CONTROLLER.getCurrentMapX() + this.counter);
         return MAP_CONTROLLER.getCurrentMapX() + this.counter;
     }
 
@@ -146,7 +145,7 @@ public class LandscapePanel extends GamePanel {
                 tempY += column.getBIsHeight();
             }
         }
-        drawHitBox(g);
+        // drawHitBox(g);
     }
 
     private void drawHitBox(final Graphics g) {
