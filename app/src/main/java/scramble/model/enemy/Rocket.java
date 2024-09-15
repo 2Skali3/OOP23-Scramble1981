@@ -134,6 +134,16 @@ public class Rocket extends GameElementImpl {
     }
 
     /**
+     * Checks for collision with a single bullet.
+     * 
+     * @param bullet the bullet to check
+     * @return true if collided
+     */
+    public boolean checkSingleBullet(final Bullet bullet) {
+        return this.hasCollided(bullet);
+    }
+
+    /**
      * Getter for hit.
      *
      * @return hit

@@ -197,15 +197,14 @@ public class LogicController {
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_HORIZONTAL
                         && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
-                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
+                                || checkBulletEnemyCollision(bullet) || checkBulletTankCollision()))
                 .toList();
         bullets.removeBullets(bulletsToRemove);
     }
 
-    private boolean checkBulletEnemyCollision() {
-        final var bullets = gameView.getBulletsPanel().getBullets();
+    private boolean checkBulletEnemyCollision(Bullet bullet) {
         for (final Rocket rocket : rocketPanel.getRockets()) {
-            if (rocket.checkCollisionBullet(bullets)) {
+            if (rocket.checkSingleBullet(bullet)) {
                 rocket.setHit(true);
                 return true;
             }
@@ -242,7 +241,7 @@ public class LogicController {
                 .stream()
                 .filter(bullet -> bullet.getType() == BulletType.TYPE_BOMB
                         && (bullet.checkGroundCollision(gameView.getLandscapePanel().getColumns())
-                                || checkBulletEnemyCollision() || checkBulletTankCollision()))
+                                || checkBulletEnemyCollision(bullet) || checkBulletTankCollision()))
                 .toList();
         bullets.removeBullets(bulletsExploding);
         bullets.addExplodingBullets(bulletsExploding);
