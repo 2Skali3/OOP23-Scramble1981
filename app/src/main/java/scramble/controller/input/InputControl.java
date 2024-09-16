@@ -75,7 +75,8 @@ public class InputControl extends KeyAdapter {
                 gameView.getSpaceshipPanel().getSpaceship().setLeft(false);
                 break;
             case KeyEvent.VK_ENTER:
-                if (!gameView.getGameOverPanel().isOverlayOn()) {
+                if (!gameView.getGameOverPanel().isOverlayOn() && gameView.getMainPanel().getComponentCount() == 2) {
+                    System.out.println("Enter key pressed, attempting to restart the game");
                     gameView.startRepaintTimer();
                     gameView.startGame();
                     break;
