@@ -234,6 +234,16 @@ public class GameView extends JFrame {
     }
 
     /**
+     * Getter for GameOverPanel.
+     * 
+     * @return the panel
+     */
+    @SuppressFBWarnings
+    public GameOverPanel getGameOverPanel() {
+        return this.gameOverPanel;
+    }
+
+    /**
      * Setup of the mainPanel for the start of the game itself.
      */
     public void startGame() {
@@ -395,13 +405,8 @@ public class GameView extends JFrame {
             gameOverPanel.disableOverlay();
             setStart();
         });
-        System.out.println("Game over screen displayed");
         endGameTimer.setRepeats(false);
         endGameTimer.start();
-    }
-
-    public GameOverPanel getGameOverPanel() {
-        return this.gameOverPanel;
     }
 
     /**

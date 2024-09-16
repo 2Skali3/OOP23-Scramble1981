@@ -93,9 +93,9 @@ public class Boss extends GameElementImpl {
     }
 
     /**
-     * Checks for collision with bullets.
+     * Checks for collision with bullet.
      * 
-     * @param bullets the list of on screen bullets
+     * @param bullet the bullet to check
      * @return true if collided
      */
     public boolean checkCollisionBullet(final Bullet bullet) {
