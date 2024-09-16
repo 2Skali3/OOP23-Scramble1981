@@ -6,12 +6,14 @@ import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import scramble.controller.input.InputControl;
 import scramble.controller.map.MapController;
 import scramble.model.bullets.Bullet;
 import scramble.model.bullets.BulletType;
 import scramble.model.common.impl.PairImpl;
+import scramble.model.enemy.Boss;
 import scramble.model.enemy.Rocket;
 import scramble.model.spaceship.FuelBar;
 import scramble.model.tank.FuelTank;
@@ -124,17 +126,18 @@ public class LogicController {
         }
     }
 
-    /* Check if a collision is happening between enemy and spaceship*/
+    /* Check if a collision is happening between enemy and spaceship */
     private void touchedEnemy() {
         if (spaceShipPanel.getSpaceship().checkEnemyCollision(rocketPanel.getRockets())) {
             iteraction();
         }
     }
 
-    /** Behaviour for case when fuel is depleted. 
+    /**
+     * Behaviour for case when fuel is depleted.
      * 
-     * @param fuelBar the fuel bar. 
-     * */
+     * @param fuelBar the fuel bar.
+     */
     private void finishedFuel(final FuelBar fuelBar) {
         if (fuelBar.checkFuelZero()) {
             iteraction();
@@ -208,6 +211,11 @@ public class LogicController {
                 rocket.setHit(true);
                 return true;
             }
+        }
+        final Boss boss = rocketPanel.getBoss();
+        if (Objects.nonNull(boss) && boss.checkCollisionBullet(bullet)) {
+            boss.setHit(true);
+            return true;
         }
         return false;
     }

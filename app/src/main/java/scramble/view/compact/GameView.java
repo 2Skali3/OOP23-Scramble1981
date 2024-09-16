@@ -268,11 +268,11 @@ public class GameView extends JFrame {
         // Change the magic number and uncomment below
         // in order to start further on the map then the beginning
 
-        // this.landscapePanel.reset(26800);
-        // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-        // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-        // this.rocketPanel.resetRockets();
-        // this.fuelTankPanel.resetTanks();
+        this.landscapePanel.reset(26800);
+        this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+        this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+        this.rocketPanel.resetRockets();
+        this.fuelTankPanel.resetTanks();
 
     }
 
@@ -289,6 +289,7 @@ public class GameView extends JFrame {
         this.fuelTankPanel.setMapX(0);
         this.rocketPanel.resetRockets();
         this.fuelTankPanel.resetTanks();
+        LogicController.resetLives();
 
         this.spaceShipPanel.getSpaceship()
                 .updatePosition(
@@ -394,15 +395,15 @@ public class GameView extends JFrame {
         this.mainPanel.repaint(); // Ensure the panel is rendered
 
         final Timer endGameTimer = new Timer(32, e -> {
-            if (gameOverPanel.isGameOver()) {
+            if (!gameOverPanel.isOverlayOn()) {
+                this.mainPanel.removeAll();
                 setStart();
-                gameOverPanel.newGame();
             }
         });
         endGameTimer.start();
     }
 
-    private GameOverPanel getGameOverPanel() {
+    public GameOverPanel getGameOverPanel() {
         return this.gameOverPanel;
     }
 
