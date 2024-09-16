@@ -31,7 +31,6 @@ public class GameView extends JFrame {
     public static final int WINDOW_HEIGHT = LandUtils.multiplyPixelPerSprite(Constants.SPRITE_PER_STAGE_HEIGHT);
 
     private static final long serialVersionUID = 1L;
-    private static final int CHECKPOINT_OFFSET_X = WINDOW_WIDTH / 2;
 
     private final JLayeredPane mainPanel;
     private final BackgroundPanel backgroundPanel;
@@ -277,7 +276,6 @@ public class GameView extends JFrame {
 
         // Change the magic number and uncomment below
         // in order to start further on the map then the beginning
-
         // this.landscapePanel.reset(26800);
         // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
         // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
@@ -343,13 +341,12 @@ public class GameView extends JFrame {
     public int returnToCheckPoint() {
         final int size = MapController.getStageStartingX().size();
         for (int i = size - 1; i > 1; i--) {
-            if (MapController.getStageStartingX().get(i) < LandscapePanel
-                    .getMapController().getCurrentMapX()) {
-                return MapController.getStageStartingX().get(i)
-                        - CHECKPOINT_OFFSET_X;
+            if (MapController.getStageStartingX().get(i) < this.landscapePanel
+                    .getCurrentMapX()) {
+                return MapController.getStageStartingX().get(i);
             }
         }
-        return MapController.getStageStartingX().get(1) - CHECKPOINT_OFFSET_X;
+        return MapController.getStageStartingX().get(1);
     }
 
     /** Stops all the timers of the singular panels inside game view. */
