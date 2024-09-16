@@ -105,8 +105,6 @@ public class GameView extends JFrame {
             if (rocketPanel.isBossOutOfScreen()) {
                 showGameOverScreen();
             }
-            System.out.println("OO = " + getGameOverPanel().isOverlayOn());
-            System.out.println("CC = " + (getMainPanel().getComponentCount() == 2));
         });
 
         this.backgroundPanel.startTimer();
@@ -270,11 +268,11 @@ public class GameView extends JFrame {
         // Change the magic number and uncomment below
         // in order to start further on the map then the beginning
 
-        this.landscapePanel.reset(26800);
-        this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.rocketPanel.resetRockets();
-        this.fuelTankPanel.resetTanks();
+        // this.landscapePanel.reset(26800);
+        // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.rocketPanel.resetRockets();
+        // this.fuelTankPanel.resetTanks();
 
     }
 
@@ -282,7 +280,6 @@ public class GameView extends JFrame {
     public final void setStart() {
 
         this.stopAllPanelTimers();
-        this.repaintTimer.stop();
         Scores.addScore(Scores.getCurrentScore());
         Scores.resetCurrentScore();
 
