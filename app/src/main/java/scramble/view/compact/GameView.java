@@ -268,16 +268,17 @@ public class GameView extends JFrame {
         // Change the magic number and uncomment below
         // in order to start further on the map then the beginning
 
-        this.landscapePanel.reset(26800);
-        this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
-        this.rocketPanel.resetRockets();
-        this.fuelTankPanel.resetTanks();
+        // this.landscapePanel.reset(26800);
+        // this.rocketPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.fuelTankPanel.setMapX(landscapePanel.getCurrentMapX());
+        // this.rocketPanel.resetRockets();
+        // this.fuelTankPanel.resetTanks();
 
     }
 
     /** Resets to start menu. */
     public final void setStart() {
+
         this.stopAllPanelTimers();
         Scores.addScore(Scores.getCurrentScore());
         Scores.resetCurrentScore();
@@ -301,6 +302,7 @@ public class GameView extends JFrame {
         hudPanel.getFuelBar().fillFuel();
 
         this.startMenu.startTimer();
+
     }
 
     /**
@@ -375,11 +377,6 @@ public class GameView extends JFrame {
         this.repaintTimer.start();
     }
 
-    /** Stops repaint timer. */
-    public void stopRepaintTimer() {
-        this.repaintTimer.stop();
-    }
-
     private void showGameOverScreen() {
         stopAllPanelTimers(); // Stop all ongoing game processes
         this.mainPanel.removeAll(); // Clear current game view
@@ -390,16 +387,16 @@ public class GameView extends JFrame {
 
         // Add the GameOverPanel on top
         this.mainPanel.add(gameOverPanel, JLayeredPane.PALETTE_LAYER);
-        gameOverPanel.startTimer();
+        gameOverPanel.enableOverlay();
 
         this.mainPanel.repaint(); // Ensure the panel is rendered
 
-        final Timer endGameTimer = new Timer(32, e -> {
-            if (!gameOverPanel.isOverlayOn()) {
-                this.mainPanel.removeAll();
-                setStart();
-            }
+        final Timer endGameTimer = new Timer(5000, e -> {
+            gameOverPanel.disableOverlay();
+            setStart();
         });
+        System.out.println("Game over screen displayed");
+        endGameTimer.setRepeats(false);
         endGameTimer.start();
     }
 
