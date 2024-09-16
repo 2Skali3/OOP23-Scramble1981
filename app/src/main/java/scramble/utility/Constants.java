@@ -39,7 +39,7 @@ public final class Constants {
          * Movement speed on the X axis of the horizontal bullet type. Used in
          * model/bullets/Bullet.
          */
-        public static final int XSPEED_HORIZONTAL_BULLET = 20;
+        public static final int XSPEED_HORIZONTAL_BULLET = 12;
         /**
          * Movement speed on the Y axis of the bomb bullet type. Used in
          * model/bullets/Bullet.

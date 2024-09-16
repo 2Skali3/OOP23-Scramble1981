@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -99,8 +98,8 @@ public class Boss extends GameElementImpl {
      * @param bullets the list of on screen bullets
      * @return true if collided
      */
-    public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        return bullets.stream().anyMatch(this::hasCollided);
+    public boolean checkCollisionBullet(final Bullet bullet) {
+        return this.hasCollided(bullet);
     }
 
     /**

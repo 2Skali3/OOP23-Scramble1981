@@ -16,46 +16,41 @@ import scramble.view.compact.GameView;
 public class InputControl extends KeyAdapter {
 
     private static boolean explPause;
-    private final GameView gv;
+    private final GameView gameView;
 
     /**
      * Class constructor.
      *
-     * @param gv the game view to control
+     * @param gameView the game view to control
      */
-    public InputControl(final GameView gv) {
-        this.gv = new GameView(gv);
+    public InputControl(final GameView gameView) {
+        this.gameView = new GameView(gameView);
     }
 
     /** {@inheritDoc} */
     @Override
     public void keyPressed(final KeyEvent e) {
-        if (!gv.getSpaceshipPanel().getSpaceship().isHit()) {
+        if (!gameView.getSpaceshipPanel().getSpaceship().isHit()) {
             final int key = e.getKeyCode();
             switch (key) {
                 case KeyEvent.VK_UP ->
-                    gv.getSpaceshipPanel().sendCommand(
-                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.UP));
+                    gameView.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gameView.getSpaceshipPanel(), Directions.UP));
                 case KeyEvent.VK_DOWN ->
-                    gv.getSpaceshipPanel().sendCommand(
-                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.DOWN));
+                    gameView.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gameView.getSpaceshipPanel(), Directions.DOWN));
                 case KeyEvent.VK_LEFT ->
-                    gv.getSpaceshipPanel().sendCommand(
-                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.LEFT));
+                    gameView.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gameView.getSpaceshipPanel(), Directions.LEFT));
                 case KeyEvent.VK_RIGHT ->
-                    gv.getSpaceshipPanel().sendCommand(
-                            new SpaceShipCommand(gv.getSpaceshipPanel(), Directions.RIGHT));
-                case KeyEvent.VK_SPACE -> gv.getBulletsPanel()
-                        .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
-                                BulletType.TYPE_HORIZONTAL, gv.getSpaceshipPanel().getSpaceship()));
-                case KeyEvent.VK_1 -> gv.getBulletsPanel()
-                        .sendCommandBullet(new BulletCommand(gv.getBulletsPanel(),
-                                BulletType.TYPE_BOMB, gv.getSpaceshipPanel().getSpaceship()));
-                case KeyEvent.VK_ENTER -> {
-                    gv.startRepaintTimer();
-                    gv.getHudPanel().startTimer();
-                    gv.startGame();
-                }
+                    gameView.getSpaceshipPanel().sendCommand(
+                            new SpaceShipCommand(gameView.getSpaceshipPanel(), Directions.RIGHT));
+                case KeyEvent.VK_SPACE -> gameView.getBulletsPanel()
+                        .sendCommandBullet(new BulletCommand(gameView.getBulletsPanel(),
+                                BulletType.TYPE_HORIZONTAL, gameView.getSpaceshipPanel().getSpaceship()));
+                case KeyEvent.VK_1 -> gameView.getBulletsPanel()
+                        .sendCommandBullet(new BulletCommand(gameView.getBulletsPanel(),
+                                BulletType.TYPE_BOMB, gameView.getSpaceshipPanel().getSpaceship()));
                 default -> {
                     break;
                 }
@@ -68,17 +63,23 @@ public class InputControl extends KeyAdapter {
     public void keyReleased(final KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                gv.getSpaceshipPanel().getSpaceship().setAbove(false);
+                gameView.getSpaceshipPanel().getSpaceship().setAbove(false);
                 break;
             case KeyEvent.VK_DOWN:
-                gv.getSpaceshipPanel().getSpaceship().setDown(false);
+                gameView.getSpaceshipPanel().getSpaceship().setDown(false);
                 break;
             case KeyEvent.VK_RIGHT:
-                gv.getSpaceshipPanel().getSpaceship().setRight(false);
+                gameView.getSpaceshipPanel().getSpaceship().setRight(false);
                 break;
             case KeyEvent.VK_LEFT:
-                gv.getSpaceshipPanel().getSpaceship().setLeft(false);
+                gameView.getSpaceshipPanel().getSpaceship().setLeft(false);
                 break;
+            case KeyEvent.VK_ENTER:
+                if (!gameView.getGameOverPanel().isOverlayOn()) {
+                    gameView.startRepaintTimer();
+                    gameView.startGame();
+                    break;
+                }
             default:
         }
     }

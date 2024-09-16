@@ -22,27 +22,30 @@ public class GameOverPanel extends GamePanel {
 
     private final Font retroFont;
     private final Timer gameOverTimer;
-    private boolean gameOver;
+    private boolean overlayOn;
     private int counter;
 
     /** Class constructor. */
     public GameOverPanel() {
         retroFont = ScrambleFontUtil.loadFont(FONT_SIZE);
         this.setOpaque(false); // Ensure background is transparent so stars are visible
-        this.gameOverTimer = new Timer(32, e -> display());
+        this.gameOverTimer = new Timer(32, e -> {
+            display();
+        });
     }
 
     /** {@inheritDoc} */
     @Override
     public void startTimer() {
         gameOverTimer.start();
+        this.overlayOn = true;
     }
 
     /** {@inheritDoc} */
     @Override
     public final void stopTimer() {
         gameOverTimer.stop();
-        this.gameOver = true;
+        this.overlayOn = false;
     }
 
     /** {@inheritDoc} */
@@ -56,13 +59,13 @@ public class GameOverPanel extends GamePanel {
      * 
      * @return a boolean
      */
-    public boolean isGameOver() {
-        return this.gameOver;
+    public boolean isOverlayOn() {
+        return this.overlayOn;
     }
 
     /** Sets Game over to false in case of new game. */
     public void newGame() {
-        this.gameOver = false;
+        this.overlayOn = false;
     }
 
     /** {@inheritDoc} */
@@ -85,7 +88,7 @@ public class GameOverPanel extends GamePanel {
     }
 
     private void display() {
-        if (counter >= OVERLAY_DURATION) {
+        if (counter == OVERLAY_DURATION) {
             stopTimer();
             counter = 0;
         }
