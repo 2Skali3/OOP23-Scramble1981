@@ -35,6 +35,7 @@ public class MapController {
     private final List<MapColumn> columns;
     private int columnIndex;
     private int currentX;
+    private static final int CHECKPOINT_OFFSET_X = GameView.WINDOW_WIDTH / 2;
 
     /**
      * Controller for the class {@link MapController}.
@@ -157,7 +158,7 @@ public class MapController {
     private void fillColumns(final List<List<MapColumn>> stages) {
         int x = 0;
         for (final List<MapColumn> mapStage : stages) {
-            stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE);
+            stageStartingX.add(x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE - CHECKPOINT_OFFSET_X);
             for (final MapColumn column : mapStage) {
                 column.updateX(x * column.gettWidth());
                 this.columns.add(column);
