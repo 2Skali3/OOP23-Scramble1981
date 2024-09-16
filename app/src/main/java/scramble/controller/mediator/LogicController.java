@@ -202,7 +202,7 @@ public class LogicController {
         bullets.removeBullets(bulletsToRemove);
     }
 
-    private boolean checkBulletEnemyCollision(Bullet bullet) {
+    private boolean checkBulletEnemyCollision(final Bullet bullet) {
         for (final Rocket rocket : rocketPanel.getRockets()) {
             if (rocket.checkSingleBullet(bullet)) {
                 rocket.setHit(true);
