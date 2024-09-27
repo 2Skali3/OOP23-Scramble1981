@@ -49,13 +49,11 @@ class RocketImplTest {
     @Test
     void checkCollisionBulletWithCollidingRockets() {
         final Rocket rocket = makeRocketImpl(100, 100, 10, 10);
-        final Set<Bullet> bullets = new HashSet<>();
         final Bullet bullet = new Bullet(100, 100, BulletType.TYPE_BOMB); // Assuming Bullet has a constructor with
                                                                           // these parameters
-        bullets.add(bullet);
 
         // Act: invoking the entry point
-        final boolean result = rocket.checkCollisionBullet(bullets);
+        final boolean result = rocket.checkSingleBullet(bullet);
 
         // Assert: return-value check
         assertTrue(result);

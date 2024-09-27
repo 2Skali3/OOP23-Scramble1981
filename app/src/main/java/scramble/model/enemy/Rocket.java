@@ -114,16 +114,6 @@ public class Rocket extends GameElementImpl {
     }
 
     /**
-     * Checks for collision with bullets.
-     * 
-     * @param bullets the list of on screen bullets
-     * @return true if collided
-     */
-    public boolean checkCollisionBullet(final Set<Bullet> bullets) {
-        return bullets.stream().anyMatch(this::hasCollided);
-    }
-
-    /**
      * Method that check if the {@code RocketImpl} has collided with the ceiling.
      * 
      * @param ceiling the {@link List} of {@link MapElement} of the ceiling
