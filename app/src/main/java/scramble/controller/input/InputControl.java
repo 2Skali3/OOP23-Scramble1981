@@ -25,7 +25,6 @@ public class InputControl extends KeyAdapter {
      */
     public InputControl(final GameView gameView) {
         this.gameView = new GameView(gameView);
-        // this.gameView.setupGameView();
     }
 
     /** {@inheritDoc} */

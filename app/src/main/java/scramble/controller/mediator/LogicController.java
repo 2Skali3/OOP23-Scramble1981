@@ -47,7 +47,6 @@ public class LogicController {
     public LogicController(final GameView gameView) {
         resetLives();
         this.gameView = new GameView(gameView);
-        // this.gameView.setupGameView();
 
         this.spaceShipPanel = this.gameView.getSpaceshipPanel();
         this.rocketPanel = this.gameView.getRocketPanel();
