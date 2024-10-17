@@ -34,8 +34,7 @@ public class BulletsPanel extends GamePanel implements Cloneable {
 
     /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
-        bulletsInit();
-        this.setOpaque(false);
+        bulletsInit(); 
         this.bulletTimer = new Timer(32, e -> this.updateBullets());
 
     }
@@ -79,7 +78,7 @@ public class BulletsPanel extends GamePanel implements Cloneable {
      */
     public void moveBullets() {
         final List<Bullet> bulletsToRemove = bullets.stream()
-                .peek(b -> b.moveByType())
+                .peek(Bullet::moveByType)
                 .filter(b -> b.getPosition().getFirstElement() > getWidth())
                 .toList();
         // removes bullets that have gone off the screen

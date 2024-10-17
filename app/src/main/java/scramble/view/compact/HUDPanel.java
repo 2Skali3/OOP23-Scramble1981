@@ -30,9 +30,9 @@ public final class HUDPanel extends GamePanel {
     private static final int GAP_Y = 30;
     private static final int LIVES_DIM = 5;
     private static final List<Float> STAGE_BAR_PAR = new ArrayList<>(
-            Arrays.asList(new Float[] { 0.16f, 0.33f, 0.5f, 0.66f, 0.83f }));
+            Arrays.asList(0.16f, 0.33f, 0.5f, 0.66f, 0.83f));
     private static final List<Integer> STAGES = new ArrayList<>(
-            Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+            Arrays.asList(1, 2, 3, 4, 5));
     private static final int INDEX_FIVE = 5;
     private static final Logger LOG = Logger.getLogger(FuelBar.class.getName());
     private final transient FuelBar fuelBar;
@@ -51,7 +51,6 @@ public final class HUDPanel extends GamePanel {
     public HUDPanel() {
         loadImages();
         fuelBar = new FuelBar();
-        setOpaque(false);
         retroFont = ScrambleFontUtil.loadFont(FONT_SIZE);
 
         this.fuelTimer = new Timer(SEC, e -> {

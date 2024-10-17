@@ -76,7 +76,7 @@ public class MapElement extends HitBoxImpl implements GameElement {
     /** @inheritDoc */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
-        return new PairImpl<Integer, Integer>(this.position.getFirstElement(), this.position.getSecondElement());
+        return new PairImpl<>(this.position.getFirstElement(), this.position.getSecondElement());
     }
 
     /**

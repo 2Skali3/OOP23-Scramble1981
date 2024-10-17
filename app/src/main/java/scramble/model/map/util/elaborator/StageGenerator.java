@@ -71,8 +71,8 @@ public class StageGenerator {
      */
     public List<MapColumn> convertDataToMapStage(final RawData rawData, final int stageLength) {
 
-        Pair<List<MapElement>, Integer> elaboratedDataCeiling;
-        Pair<List<MapElement>, Integer> elaboratedDataFloor;
+        final Pair<List<MapElement>, Integer> elaboratedDataCeiling;
+        final Pair<List<MapElement>, Integer> elaboratedDataFloor;
 
         elaboratedDataCeiling = this.elaborateRawData(StagePart.CEILING, rawData.getCeiling(), stageLength,
                 rawData.getTerrainType());
@@ -101,21 +101,21 @@ public class StageGenerator {
     private LandPart getSprite(final LandBehaviour behavior) {
 
         if (behavior == LandBehaviour.BRICK) {
-            return StageGenerator.BRICKWALL;
+            return BRICKWALL;
         }
         if (behavior == LandBehaviour.SUMMIT) {
-            return StageGenerator.SUMMIT;
+            return SUMMIT;
         }
 
-        final ArrayList<LandPart> flatSprite;
-        final ArrayList<LandPart> downSprite;
-        final ArrayList<LandPart> upSprite;
+        final List<LandPart> flatSprite;
+        final List<LandPart> downSprite;
+        final List<LandPart> upSprite;
 
-        flatSprite = new ArrayList<>(Arrays.asList(StageGenerator.FLAT));
-        downSprite = new ArrayList<>(Arrays.asList(StageGenerator.DOWN));
-        upSprite = new ArrayList<>(Arrays.asList(StageGenerator.UP));
+        flatSprite = new ArrayList<>(Arrays.asList(FLAT));
+        downSprite = new ArrayList<>(Arrays.asList(DOWN));
+        upSprite = new ArrayList<>(Arrays.asList(UP));
 
-        int selectedItem;
+        final int selectedItem;
         if (behavior == LandBehaviour.FLAT) {
             selectedItem = rand.nextInt(thresholdsFlat[thresholdsFlat.length - 1]);
 

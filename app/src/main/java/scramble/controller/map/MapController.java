@@ -71,7 +71,7 @@ public class MapController {
         }
         this.currentX = columns.get(columnIndex).getX();
         this.columnIndex += LandscapePanel.EXTRA_COLUMNS_LOADED;
-        if (this.columnIndex + (LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH))
+        if (this.columnIndex + LandUtils.dividePixelPerSprite(GameView.WINDOW_WIDTH)
                 + 4 > this.columns
                         .size()) {
             this.columnIndex = 0;

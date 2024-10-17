@@ -74,7 +74,7 @@ class BulletTest {
     }
 
     @Test
-    void testExplosionSpriteRsetrieval() {
+    void testExplosionSpriteRetrieval() {
         final Bullet bullet = new Bullet(0, 0, BulletType.TYPE_BOMB);
         final BufferedImage explosionSprite = bullet.getExpSprite();
         assertNotNull(explosionSprite);

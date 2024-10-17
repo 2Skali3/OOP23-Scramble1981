@@ -98,7 +98,7 @@ public final class SpaceShip extends GameElementImpl implements Cloneable {
             ySpeed *= Math.cos(ANGLE);
         }
 
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
+        updatePosition(new PairImpl<>(getPosition().getFirstElement() + xSpeed,
                 getPosition().getSecondElement() + ySpeed));
     }
 

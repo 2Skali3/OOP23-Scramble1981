@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.random.RandomGenerator;
@@ -80,7 +79,7 @@ public class Rocket extends GameElementImpl {
         }
         if (this.state.equals(RocketState.PREMOVE)) {
             updateRocketPosition(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
-                    (int) (getPosition().getSecondElement()));
+                    (int) getPosition().getSecondElement());
         } else if (this.state.equals(RocketState.MOVING)) {
             updateRocketPosition(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
                     (int) (getPosition().getSecondElement() - speedY));
@@ -243,7 +242,7 @@ public class Rocket extends GameElementImpl {
     }
 
     private void updateRocketPosition(final int x, final int y) {
-        updatePosition(new PairImpl<Integer, Integer>(x, y));
+        updatePosition(new PairImpl<>(x, y));
     }
 
 }

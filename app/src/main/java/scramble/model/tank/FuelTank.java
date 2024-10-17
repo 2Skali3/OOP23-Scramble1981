@@ -66,7 +66,7 @@ public class FuelTank extends GameElementImpl {
 
     /** Method for the movement of the {@code FuelTank}. */
     public void move() {
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
+        updatePosition(new PairImpl<>(getPosition().getFirstElement() - Constants.LANDSCAPEX_SPEED,
                 getPosition().getSecondElement()));
     }
 

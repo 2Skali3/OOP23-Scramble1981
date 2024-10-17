@@ -24,7 +24,6 @@ public class GameOverPanel extends GamePanel {
     /** Class constructor. */
     public GameOverPanel() {
         retroFont = ScrambleFontUtil.loadFont(FONT_SIZE);
-        this.setOpaque(false); // Ensure the background is transparent so the stars are visible
     }
 
     /** Sets overlay on. */
@@ -87,5 +86,4 @@ public class GameOverPanel extends GamePanel {
         // Not needed therefore not implemented
         throw new UnsupportedOperationException("Unimplemented method 'restartTimer'");
     }
-
 }

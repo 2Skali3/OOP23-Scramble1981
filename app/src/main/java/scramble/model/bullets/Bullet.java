@@ -197,7 +197,7 @@ public class Bullet extends GameElementImpl {
     }
 
     private void move() {
-        updatePosition(new PairImpl<Integer, Integer>(getPosition().getFirstElement() + xSpeed,
+        updatePosition(new PairImpl<>(getPosition().getFirstElement() + xSpeed,
                 getPosition().getSecondElement() + ySpeed));
     }
 

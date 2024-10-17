@@ -31,7 +31,7 @@ public class LandscapePanel extends GamePanel {
     public static final int TOTAL_COLUMNS_LOADED = COLUMNS_ON_SCREEN + EXTRA_COLUMNS_LOADED;
 
     private static final int PIXEL_THRESHOLD_FOR_UPDATE = LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
-            * LandscapePanel.EXTRA_COLUMNS_LOADED;
+            * EXTRA_COLUMNS_LOADED;
     private static final long serialVersionUID = 1L;
     private static final MapController MAP_CONTROLLER = new MapController();
 
@@ -49,7 +49,6 @@ public class LandscapePanel extends GamePanel {
         this.fillColumns();
         this.landscapeX = 0;
         this.starterX = 0;
-        this.setOpaque(false);
         this.landscapeTimer = new Timer(32, e -> updateLandscape());
     }
 
@@ -168,9 +167,9 @@ public class LandscapePanel extends GamePanel {
             this.landscapeX += Constants.LANDSCAPEX_SPEED;
             this.counter += Constants.LANDSCAPEX_SPEED;
             if (this.landscapeX / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE
-                    + LandscapePanel.TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
+                    + TOTAL_COLUMNS_LOADED == MAP_CONTROLLER.getMapSize()) {
                 this.landscapeX = 0;
-            } else if (-(this.landscapeX - this.starterX) % LandscapePanel.PIXEL_THRESHOLD_FOR_UPDATE == 0) {
+            } else if (-(this.landscapeX - this.starterX) % PIXEL_THRESHOLD_FOR_UPDATE == 0) {
                 this.fillColumns();
                 this.counter = 0;
             }

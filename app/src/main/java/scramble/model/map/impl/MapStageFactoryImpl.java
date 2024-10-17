@@ -30,8 +30,8 @@ public class MapStageFactoryImpl implements MapStageFactory<MapColumn> {
      * Constructor of the class MapStageFactory.
      */
     public MapStageFactoryImpl() {
-        this.mapStageGenerator = new StageGenerator(new PairImpl<Integer, Integer>(
-                MapStageFactoryImpl.STARTER_CEILING_HEIGHT, MapStageFactoryImpl.STARTER_FLOOR_HEIGHT));
+        this.mapStageGenerator = new StageGenerator(new PairImpl<>(
+            STARTER_CEILING_HEIGHT, STARTER_FLOOR_HEIGHT));
     }
 
     /**

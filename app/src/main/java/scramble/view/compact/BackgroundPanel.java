@@ -78,7 +78,7 @@ public class BackgroundPanel extends GamePanel {
         for (int i = 0; i < Constants.NUMBER_OF_STAR_IN_BACKGROUND; i++) {
             final int x = rand.nextInt(GameView.WINDOW_WIDTH);
             final int y = rand.nextInt(GameView.WINDOW_WIDTH);
-            this.starPositionXY.add(new PairImpl<Integer, Integer>(x, y));
+            this.starPositionXY.add(new PairImpl<>(x, y));
         }
     }
 

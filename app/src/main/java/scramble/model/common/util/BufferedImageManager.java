@@ -67,7 +67,7 @@ public final class BufferedImageManager {
         final int threshold = 200;
         final Color red = new Color(120, 0, 0);
 
-        return changeColor(toSubstitute, pixelWidth, c -> c.getBlue() > threshold, c -> red.getRGB(), c -> c.getRGB());
+        return changeColor(toSubstitute, pixelWidth, c -> c.getBlue() > threshold, c -> red.getRGB(), Color::getRGB);
     }
 
     /**
@@ -107,7 +107,7 @@ public final class BufferedImageManager {
     private static BufferedImage changeColor(final BufferedImage toChange, final float pixelWidth,
             final Predicate<Color> condition, final Function<Color, Integer> funTrue,
             final Function<Color, Integer> funFalse) {
-        final BufferedImage bi = BufferedImageManager.cloneBufferedImage(toChange);
+        final BufferedImage bi = cloneBufferedImage(toChange);
         for (int y = 0; y < bi.getHeight(); y++) {
             for (int x = 0; x < pixelWidth; x++) {
                 final int rgb = bi.getRGB(x, y);

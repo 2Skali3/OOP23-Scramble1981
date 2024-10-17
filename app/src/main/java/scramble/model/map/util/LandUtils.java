@@ -3,7 +3,7 @@ package scramble.model.map.util;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.EnumMap;
 
 import scramble.model.map.util.enums.LandPart;
 import scramble.utility.Constants;
@@ -29,7 +29,7 @@ public final class LandUtils {
     /**
      * Classification of the type of sprite.
      */
-    public static final List<LandPart> NAME_IMAGE_PART = LandUtils.getImageParts();
+    public static final List<LandPart> NAME_IMAGE_PART = getImageParts();
     /**
      * Relative url of the sprites image.
      */
@@ -50,7 +50,7 @@ public final class LandUtils {
      * @return the number multiplied by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
      */
     public static int multiplyPixelPerSprite(final int x) {
-        return x * LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x * PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -60,7 +60,7 @@ public final class LandUtils {
      * @return the number divided by {@link Constants#PIXEL_PER_LAND_SPRITE_SIDE}
      */
     public static int dividePixelPerSprite(final int x) {
-        return x / LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x / PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -71,7 +71,7 @@ public final class LandUtils {
      *         him
      */
     public static int addPixelPerSprite(final int x) {
-        return x + LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x + PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -83,7 +83,7 @@ public final class LandUtils {
      *         subtracted to him
      */
     public static int subPixelPerSprite(final int x) {
-        return x - LandUtils.PIXEL_PER_LAND_SPRITE_SIDE;
+        return x - PIXEL_PER_LAND_SPRITE_SIDE;
     }
 
     /**
@@ -106,22 +106,22 @@ public final class LandUtils {
     }
 
     private static Map<LandPart, BufferedImage> fillMap() {
-        final Map<LandPart, BufferedImage> ret = new HashMap<>();
+        final Map<LandPart, BufferedImage> ret = new EnumMap<>(LandPart.class);
         try {
-            final BufferedImage spritesImage = ImageIO.read(LandUtils.class.getResource(LandUtils.IMAGE_URL));
+            final BufferedImage spritesImage = ImageIO.read(LandUtils.class.getResource(IMAGE_URL));
             int i = 0;
-            for (int y = 0; y < LandUtils.MAX_IMAGE_HEIGHT; y++) {
-                for (int x = 0; x < LandUtils.MAX_IMAGE_WIDTH; x++) {
-                    final LandPart part = LandUtils.NAME_IMAGE_PART.get(i);
+            for (int y = 0; y < MAX_IMAGE_HEIGHT; y++) {
+                for (int x = 0; x < MAX_IMAGE_WIDTH; x++) {
+                    final LandPart part = NAME_IMAGE_PART.get(i);
                     ret.put(part, spritesImage.getSubimage(
-                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x,
-                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y,
-                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE,
-                            LandUtils.NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
+                            NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * x,
+                            NUMBER_OF_PX_IN_IMAGE_PER_SPRITE * y,
+                            NUMBER_OF_PX_IN_IMAGE_PER_SPRITE,
+                            NUMBER_OF_PX_IN_IMAGE_PER_SPRITE));
                     i++;
                 }
             }
-            ret.put(LandUtils.NAME_IMAGE_PART.get(LandUtils.NAME_IMAGE_PART.size() - 1),
+            ret.put(NAME_IMAGE_PART.get(NAME_IMAGE_PART.size() - 1),
                     spritesImage.getSubimage(GREEN_SQUARE_STARTER_LOCATION, 0, 1, 1));
 
         } catch (IOException e) {

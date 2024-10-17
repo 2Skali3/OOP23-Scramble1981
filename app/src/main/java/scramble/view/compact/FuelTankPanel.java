@@ -49,7 +49,6 @@ public class FuelTankPanel extends GamePanel {
         initializeTank();
 
         fillTanks();
-        this.setOpaque(false);
 
         updateTimer = new Timer(32, e -> update());
         this.refuelTimer = new Timer(64, e -> loadTanks());
@@ -159,7 +158,7 @@ public class FuelTankPanel extends GamePanel {
         while (iterator.hasNext()) {
             final FuelTank ft = iterator.next();
             if (ft.getPosition().getFirstElement() <= mapX + GameView.WINDOW_WIDTH) {
-                ft.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
+                ft.updatePosition(new PairImpl<>(GameView.WINDOW_WIDTH,
                         ft.getPosition().getSecondElement() - FUEL_TANK_HEIGHT));
                 tanksOnScreen.add(ft);
                 iterator.remove();
@@ -181,5 +180,4 @@ public class FuelTankPanel extends GamePanel {
             }
         }
     }
-
 }

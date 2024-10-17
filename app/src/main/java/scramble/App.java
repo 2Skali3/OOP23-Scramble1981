@@ -29,6 +29,7 @@ public class App {
     public static void main(final String[] args) {
 
         final GameView gameView = new GameView();
+        gameView.setupGameView();
         final InputControl controller = new InputControl(gameView);
         gameView.addKeyListener(controller);
     }

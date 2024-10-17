@@ -57,3 +57,15 @@ tasks.test {
         showStandardStreams = true
     }
 }
+sourceSets {
+    main {
+        java {
+            setSrcDirs(listOf("app/src/main/java")) // Point to your source directory
+        }
+    }
+    test {
+        java {
+            setSrcDirs(listOf("app/src/test/java")) // Point to your test directory
+        }
+    }
+}

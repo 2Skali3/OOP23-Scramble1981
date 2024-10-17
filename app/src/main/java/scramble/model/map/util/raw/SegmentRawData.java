@@ -36,7 +36,7 @@ public class SegmentRawData {
         this.behaviour = behaviour;
         this.length = length;
         this.terrainType = terrainType;
-        this.height = SegmentRawData.VOID_HEIGHT;
+        this.height = VOID_HEIGHT;
     }
 
     /**
@@ -46,7 +46,7 @@ public class SegmentRawData {
      *         {@code false} otherwise
      */
     public boolean hasSpecificHeight() {
-        return height != SegmentRawData.VOID_HEIGHT;
+        return height != VOID_HEIGHT;
     }
 
     /**

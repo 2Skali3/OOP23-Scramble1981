@@ -45,13 +45,8 @@ public class GameView extends JFrame {
     private final GameOverPanel gameOverPanel;
     private final Timer repaintTimer;
 
-    /** Costructor of the class GameVew. */
+    /** Constructor of the class GameView. */
     public GameView() {
-        this.setTitle("Scramble 1981");
-        this.setResizable(false);
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
 
         this.mainPanel = new JLayeredPane();
         this.mainPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -66,14 +61,17 @@ public class GameView extends JFrame {
 
         this.landscapePanel = new LandscapePanel();
         this.landscapePanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.landscapePanel.setOpaque(false);
 
         // SpaceShip panel setup
         this.spaceShipPanel = new SpaceShipPanel();
-        spaceShipPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.spaceShipPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.spaceShipPanel.setOpaque(false);
 
         // Bullets panel setup
         this.bulletsPanel = new BulletsPanel();
         this.bulletsPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.bulletsPanel.setOpaque(false);
 
         // FuelBar panel setup
         this.hudPanel = new HUDPanel();
@@ -81,19 +79,19 @@ public class GameView extends JFrame {
 
         // Rocket panel setup
         this.rocketPanel = new RocketPanel();
-        rocketPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.rocketPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.rocketPanel.setOpaque(false);
 
         // FuelTank panel setup
         this.fuelTankPanel = new FuelTankPanel(hudPanel.getFuelBar());
-        fuelTankPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.fuelTankPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.fuelTankPanel.setOpaque(false);
 
         this.logicController = new LogicController(this);
 
         this.gameOverPanel = new GameOverPanel();
         gameOverPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        this.add(mainPanel);
-        this.setVisible(true);
+        this.gameOverPanel.setOpaque(false);
 
         this.repaintTimer = new Timer(32, e -> {
 
@@ -108,6 +106,19 @@ public class GameView extends JFrame {
 
         this.backgroundPanel.startTimer();
 
+    }
+
+    /**
+     * Method for the setup of the GameView.
+     */
+    public void setupGameView() {
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle("Scramble 1981");
+        this.setResizable(false);
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setLocationRelativeTo(null);
+        this.add(mainPanel);
+        this.setVisible(true);
     }
 
     /**
@@ -130,11 +141,6 @@ public class GameView extends JFrame {
         this.logicController = view.getLogicController();
         this.repaintTimer = view.getRepaintTimer();
         this.gameOverPanel = view.getGameOverPanel();
-
-        this.setTitle("Scramble");
-        this.setSize(WIDTH, HEIGHT);
-        this.setDefaultCloseOperation(view.getDefaultCloseOperation());
-        this.setLocationRelativeTo(null);
 
     }
 

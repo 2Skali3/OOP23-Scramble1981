@@ -8,9 +8,8 @@ import scramble.utility.Constants;
 
 /**
  * The class {@code CSVReaderBrickColumn} is an impelmentaion of the abstact
- * class
- * {@link CSVReader}.
- * This class is used only for csv that store raw data separated by ','.
+ * class {@link CSVReader}. This class is used only for csv that store raw data
+ * separated by ','.
  * 
  * @see CSVReader
  * @see SegmentRawData
@@ -26,8 +25,7 @@ public class CSVReaderBrickColumn extends CSVReader<SegmentRawData> {
         final String[] data = line.split(",");
         final int length = Integer.parseInt(data[0].trim());
         final int height = Constants.SPRITE_PER_STAGE_HEIGHT - Integer.parseInt(data[1].trim());
-        final SegmentRawData srd = new SegmentRawData(length, CSVReaderBrickColumn.BEHAVIOUR,
-                CSVReaderBrickColumn.LAND_TYPE);
+        final SegmentRawData srd = new SegmentRawData(length, BEHAVIOUR, LAND_TYPE);
         srd.setHeight(height);
         return srd;
     }

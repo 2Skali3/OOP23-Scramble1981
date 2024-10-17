@@ -42,7 +42,7 @@ public abstract class GameElementImpl extends HitBoxImpl implements GameElement 
     /** {@inheritDoc} */
     @Override
     public PairImpl<Integer, Integer> getPosition() {
-        return new PairImpl<Integer, Integer>(position.getFirstElement(), position.getSecondElement());
+        return new PairImpl<>(position.getFirstElement(), position.getSecondElement());
     }
 
     /**

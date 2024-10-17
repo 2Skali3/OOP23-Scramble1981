@@ -118,7 +118,7 @@ public class MapColumnImpl implements MapColumn {
     /** @inheritDoc */
     @Override
     public Pair<Integer, Integer> getFloorPosition() {
-        return new PairImpl<Integer, Integer>(this.floorPosition.getFirstElement(),
+        return new PairImpl<>(this.floorPosition.getFirstElement(),
                 this.floorPosition.getSecondElement());
     }
 

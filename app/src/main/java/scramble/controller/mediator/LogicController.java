@@ -47,6 +47,7 @@ public class LogicController {
     public LogicController(final GameView gameView) {
         resetLives();
         this.gameView = new GameView(gameView);
+        this.gameView.setupGameView();
 
         this.spaceShipPanel = gameView.getSpaceshipPanel();
         this.rocketPanel = gameView.getRocketPanel();
@@ -189,7 +190,7 @@ public class LogicController {
     /** Adds checkpoints. */
     private void addCheckPoints() {
         for (int i = 0; i < Constants.MAX_STAGES + 1; i++) {
-            checkPoints.add(new PairImpl<Integer, Integer>(MapController.getStageStartingX().get(i),
+            checkPoints.add(new PairImpl<>(MapController.getStageStartingX().get(i),
                     Constants.CHECKPOINT_Y_POSITION));
         }
     }

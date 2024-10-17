@@ -35,7 +35,6 @@ public class SpaceShipPanel extends GamePanel implements Cloneable {
         this.spaceship = new SpaceShip(Constants.SPACESHIP_STARTER_POSITION,
                 Constants.SPACESHIP_STARTER_POSITION, Constants.SPACESHIP_WIDTH,
                 Constants.SPACESHIP_HEIGHT);
-        this.setOpaque(false);
         updateTimer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {

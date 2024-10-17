@@ -12,7 +12,7 @@ public enum Directions {
     /** LEFT. */
     LEFT(3);
 
-    private int num;
+    private final int num;
 
     /**
      * Getter for the enum value.

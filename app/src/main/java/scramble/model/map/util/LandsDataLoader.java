@@ -41,7 +41,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getPrestageData() {
-        return LandsDataLoader.rawDataMaker(PRESTAGE_CEILING, PRESTAGE_FLOOR, TerrainType.GREENLAND);
+        return rawDataMaker(PRESTAGE_CEILING, PRESTAGE_FLOOR, TerrainType.GREENLAND);
     }
 
     /**
@@ -50,7 +50,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage1Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_1_CEILING_FILE_PATH, STAGE_1_FLOOR_FILE_PATH, TerrainType.GREENLAND);
+        return rawDataMaker(STAGE_1_CEILING_FILE_PATH, STAGE_1_FLOOR_FILE_PATH, TerrainType.GREENLAND);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage2Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_2_CEILING_FILE_PATH, STAGE_2_FLOOR_FILE_PATH, TerrainType.GREENLAND);
+        return rawDataMaker(STAGE_2_CEILING_FILE_PATH, STAGE_2_FLOOR_FILE_PATH, TerrainType.GREENLAND);
 
     }
 
@@ -69,7 +69,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage3Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_3_CEILING_FILE_PATH, STAGE_3_FLOOR_FILE_PATH, TerrainType.GREENLAND);
+        return rawDataMaker(STAGE_3_CEILING_FILE_PATH, STAGE_3_FLOOR_FILE_PATH, TerrainType.GREENLAND);
 
     }
 
@@ -79,7 +79,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage4Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_4_CEILING_FILE_PATH, STAGE_4_FLOOR_FILE_PATH,
+        return rawDataMaker(STAGE_4_CEILING_FILE_PATH, STAGE_4_FLOOR_FILE_PATH,
                 TerrainType.BRICK_COLUMN);
     }
 
@@ -89,7 +89,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage5Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_5_CEILING_FILE_PATH, STAGE_5_FLOOR_FILE_PATH,
+        return rawDataMaker(STAGE_5_CEILING_FILE_PATH, STAGE_5_FLOOR_FILE_PATH,
                 TerrainType.BRICK_COLUMN);
     }
 
@@ -99,7 +99,7 @@ public final class LandsDataLoader {
      * @return raw data from the csv files for ceiling and floor
      */
     public static RawData getStage6Data() {
-        return LandsDataLoader.rawDataMaker(STAGE_6_CEILING_FILE_PATH, STAGE_6_FLOOR_FILE_PATH,
+        return rawDataMaker(STAGE_6_CEILING_FILE_PATH, STAGE_6_FLOOR_FILE_PATH,
                 TerrainType.BRICK_COLUMN);
     }
 

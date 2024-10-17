@@ -23,7 +23,7 @@ public class CSVReaderGreenland extends CSVReader<SegmentRawData> {
         final String[] data = line.split(",");
         final int length = Integer.parseInt(data[0].trim());
         final LandBehaviour behaviour = LandBehaviour.valueOf(data[1].trim());
-        return new SegmentRawData(length, behaviour, CSVReaderGreenland.LAND_TYPE);
+        return new SegmentRawData(length, behaviour, LAND_TYPE);
     }
 
 }

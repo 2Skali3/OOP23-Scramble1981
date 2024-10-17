@@ -45,8 +45,6 @@ public class RocketPanel extends GamePanel {
         this.fillRockets();
         this.initializeBosses();
 
-        this.setOpaque(false);
-
         this.updateTimer = new Timer(32, e -> update());
 
         this.rocketSpawn = new Timer(64, e -> {
@@ -174,7 +172,7 @@ public class RocketPanel extends GamePanel {
         while (iterator.hasNext()) {
             final Rocket r = iterator.next();
             if (r.getPosition().getFirstElement() <= mapX + GameView.WINDOW_WIDTH) {
-                r.updatePosition(new PairImpl<Integer, Integer>(GameView.WINDOW_WIDTH,
+                r.updatePosition(new PairImpl<>(GameView.WINDOW_WIDTH,
                         r.getPosition().getSecondElement() - Constants.ROCKET_HEIGHT));
                 rocketsOnScreen.add(r);
                 rocketsOnScreen.get(rocketsOnScreen.size() - 1).turnOnMove();

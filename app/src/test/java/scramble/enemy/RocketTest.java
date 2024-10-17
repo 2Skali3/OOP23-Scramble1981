@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
-import java.util.Set;
 
 class RocketImplTest {
 
@@ -49,8 +47,7 @@ class RocketImplTest {
     @Test
     void checkCollisionBulletWithCollidingRockets() {
         final Rocket rocket = makeRocketImpl(100, 100, 10, 10);
-        final Bullet bullet = new Bullet(100, 100, BulletType.TYPE_BOMB); // Assuming Bullet has a constructor with
-                                                                          // these parameters
+        final Bullet bullet = new Bullet(100, 100, BulletType.TYPE_BOMB); 
 
         // Act: invoking the entry point
         final boolean result = rocket.checkSingleBullet(bullet);
