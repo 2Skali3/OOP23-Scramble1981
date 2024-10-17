@@ -76,6 +76,7 @@ public class GameView extends JFrame {
         // FuelBar panel setup
         this.hudPanel = new HUDPanel();
         this.hudPanel.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        this.hudPanel.setOpaque(false);
 
         // Rocket panel setup
         this.rocketPanel = new RocketPanel();

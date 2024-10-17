@@ -34,9 +34,8 @@ public class BulletsPanel extends GamePanel implements Cloneable {
 
     /** Constructor for the SpaceshipPanel class. */
     public BulletsPanel() {
-        bulletsInit(); 
+        bulletsInit();
         this.bulletTimer = new Timer(32, e -> this.updateBullets());
-
     }
 
     /**

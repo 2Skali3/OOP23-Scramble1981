@@ -171,4 +171,5 @@ public class SpaceShipPanel extends GamePanel implements Cloneable {
             spaceship.updatePosition(new PairImpl<>(shipX, maxY));
         }
     }
+
 }

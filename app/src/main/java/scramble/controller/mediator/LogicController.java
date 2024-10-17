@@ -47,11 +47,11 @@ public class LogicController {
     public LogicController(final GameView gameView) {
         resetLives();
         this.gameView = new GameView(gameView);
-        this.gameView.setupGameView();
+        // this.gameView.setupGameView();
 
-        this.spaceShipPanel = gameView.getSpaceshipPanel();
-        this.rocketPanel = gameView.getRocketPanel();
-        this.fuelTankPanel = gameView.getFuelTankPanel();
+        this.spaceShipPanel = this.gameView.getSpaceshipPanel();
+        this.rocketPanel = this.gameView.getRocketPanel();
+        this.fuelTankPanel = this.gameView.getFuelTankPanel();
         addCheckPoints();
         fuelCheckTimer = new Timer(100, new ActionListener() {
             @Override
